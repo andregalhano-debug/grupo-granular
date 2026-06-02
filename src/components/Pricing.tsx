@@ -151,13 +151,13 @@ export function Pricing() {
           </div>
         </FadeIn>
 
-        <div className="grid lg:grid-cols-3 gap-6 max-w-6xl mx-auto items-start mb-24">
+        <div className="grid lg:grid-cols-3 gap-6 max-w-6xl mx-auto items-stretch mb-24">
           {saasPlans.map((plan, i) => (
             <FadeIn key={plan.name} delay={i * 120}>
               <div
                 className={`rounded-2xl p-8 h-full flex flex-col ${
                   plan.popular
-                    ? 'bg-[#5C1A2B] text-white lg:scale-105 shadow-2xl shadow-[#5C1A2B]/20'
+                    ? 'bg-[#5C1A2B] text-white shadow-2xl shadow-[#5C1A2B]/20'
                     : 'bg-[#EAE5D9] border border-[#9C958A]/20'
                 }`}
               >
@@ -223,7 +223,7 @@ export function Pricing() {
           </div>
         </FadeIn>
 
-        <div className="grid lg:grid-cols-3 gap-6 max-w-6xl mx-auto items-start">
+        <div className="grid lg:grid-cols-3 gap-6 max-w-6xl mx-auto items-stretch">
           {consultoriaPlans.map((plan, i) => (
             <FadeIn key={plan.name} delay={i * 120}>
               <div className="rounded-2xl border border-[#9C958A]/20 bg-[#EAE5D9] p-8 h-full flex flex-col">
