@@ -1,4 +1,4 @@
-import { Check } from 'lucide-react'
+import { Check, Monitor, Handshake } from 'lucide-react'
 import { FadeIn } from './FadeIn'
 
 const saasPlans = [
@@ -18,7 +18,6 @@ const saasPlans = [
     ],
     popular: false,
     cta: 'Começar Free Trial',
-    ctaStyle: 'outline' as const,
   },
   {
     name: 'Pacote 2',
@@ -39,7 +38,6 @@ const saasPlans = [
     ],
     popular: true,
     cta: 'Começar Free Trial',
-    ctaStyle: 'outline' as const,
   },
   {
     name: 'Pacote 3',
@@ -63,7 +61,6 @@ const saasPlans = [
     ],
     popular: false,
     cta: 'Falar com Vendas',
-    ctaStyle: 'outline' as const,
   },
 ]
 
@@ -87,7 +84,7 @@ const consultoriaPlans = [
   {
     name: 'Consultoria 3 Meses',
     subtitle: 'Transformação com acompanhamento',
-    price: '10.880',
+    price: '3.626',
     period: '/mês',
     features: [
       'Diagnóstico de gargalos operacionais e comerciais (in loco)',
@@ -106,7 +103,7 @@ const consultoriaPlans = [
   {
     name: 'Consultoria 6 Meses',
     subtitle: 'Evolução completa da operação',
-    price: '19.200',
+    price: '3.200',
     period: '/mês',
     features: [
       'Diagnóstico de gargalos operacionais e comerciais (in loco)',
@@ -138,14 +135,23 @@ export function Pricing() {
           </p>
         </FadeIn>
 
-        {/* PACOTES SaaS */}
+        {/* PACOTES SaaS — Section Header */}
         <FadeIn>
-          <p className="text-center text-xs font-semibold tracking-[0.2em] uppercase text-[#9C958A] mb-8" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
-            Pacotes SaaS
-          </p>
+          <div className="max-w-6xl mx-auto mb-10">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-xl bg-[#5C1A2B] flex items-center justify-center">
+                <Monitor size={22} className="text-[#FAF7F0]" />
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold text-[#0E0E0F]">Sistema</h3>
+                <p className="text-sm text-[#9C958A]">Plataforma SaaS para gestão da sua operação</p>
+              </div>
+              <div className="hidden sm:block flex-1 h-px bg-[#EAE5D9] ml-4" />
+            </div>
+          </div>
         </FadeIn>
 
-        <div className="grid lg:grid-cols-3 gap-6 max-w-6xl mx-auto items-start mb-20">
+        <div className="grid lg:grid-cols-3 gap-6 max-w-6xl mx-auto items-start mb-24">
           {saasPlans.map((plan, i) => (
             <FadeIn key={plan.name} delay={i * 120}>
               <div
@@ -162,7 +168,6 @@ export function Pricing() {
                   {plan.subtitle}
                 </p>
                 <div className="flex items-baseline gap-0.5 mb-6">
-                  <span className={`text-sm ${plan.popular ? 'text-white/60' : 'text-[#9C958A]'}`}>R$</span>
                   <span className={`text-5xl font-bold ${plan.popular ? 'text-white' : 'text-[#0E0E0F]'}`} style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
                     {plan.price}
                   </span>
@@ -202,11 +207,20 @@ export function Pricing() {
           ))}
         </div>
 
-        {/* CONSULTORIA */}
+        {/* CONSULTORIA — Section Header */}
         <FadeIn>
-          <p className="text-center text-xs font-semibold tracking-[0.2em] uppercase text-[#9C958A] mb-8" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
-            Consultoria
-          </p>
+          <div className="max-w-6xl mx-auto mb-10">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-xl bg-[#5C1A2B] flex items-center justify-center">
+                <Handshake size={22} className="text-[#FAF7F0]" />
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold text-[#0E0E0F]">Consultoria</h3>
+                <p className="text-sm text-[#9C958A]">Especialistas in loco transformando sua operação</p>
+              </div>
+              <div className="hidden sm:block flex-1 h-px bg-[#EAE5D9] ml-4" />
+            </div>
+          </div>
         </FadeIn>
 
         <div className="grid lg:grid-cols-3 gap-6 max-w-6xl mx-auto items-start">
@@ -220,7 +234,6 @@ export function Pricing() {
                   {plan.subtitle}
                 </p>
                 <div className="flex items-baseline gap-0.5 mb-6">
-                  <span className="text-sm text-[#9C958A]">R$</span>
                   <span className="text-5xl font-bold text-[#0E0E0F]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
                     {plan.price}
                   </span>
