@@ -1,10 +1,8 @@
 export function SocialProof() {
   const brands = [
-    'Dark Kitchen SP',
-    'Grupo Sabor',
-    'Rede Delivery Norte',
-    'Cloud Kitchen RJ',
-    'Food Hub BH',
+    'Vista Delivery',
+    'Bistrogonoff',
+    'Parmegiana Bistro',
   ]
 
   return (
