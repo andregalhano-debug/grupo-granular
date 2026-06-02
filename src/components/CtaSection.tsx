@@ -14,7 +14,7 @@ export function CtaSection() {
           href="#precos"
           className="inline-flex items-center gap-2 bg-[#EAE5D9] hover:bg-[#FAF7F0] text-[#5C1A2B] font-medium px-8 py-4 rounded-xl text-base transition-colors"
         >
-          Começar Free Trial de 14 dias
+          Começar teste grátis de 14 dias
         </a>
       </FadeIn>
     </section>

@@ -9,7 +9,7 @@ const items = [
   },
   {
     icon: ClipboardList,
-    title: 'Checklists que Substituem o Konklui',
+    title: 'Checklists Operacionais',
     desc: 'Rotinas operacionais digitalizadas com fotos, evidências e assinatura. Economize com ferramentas separadas.',
   },
   {

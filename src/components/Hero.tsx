@@ -30,7 +30,7 @@ export function Hero() {
             href="#precos"
             className="inline-flex items-center gap-2 bg-[#5C1A2B] hover:bg-[#3A1019] text-white font-medium px-8 py-4 rounded-xl text-base transition-colors"
           >
-            Começar Free Trial de 14 dias
+            Começar teste grátis de 14 dias
             <ArrowRight size={18} />
           </a>
           <a
