@@ -5,7 +5,7 @@ const saasPlans = [
   {
     name: 'Pacote 1',
     subtitle: 'Para operações com até 3 IDs',
-    price: '90',
+    price: '89',
     period: '/mês',
     features: [
       'Portal Granular',
@@ -22,7 +22,7 @@ const saasPlans = [
   {
     name: 'Pacote 2',
     subtitle: 'Para operações em crescimento',
-    price: '490',
+    price: '489',
     period: '/mês',
     features: [
       'Portal Granular',
@@ -42,7 +42,7 @@ const saasPlans = [
   {
     name: 'Pacote 3',
     subtitle: 'Para grandes operações',
-    price: '3.950',
+    price: '3.899',
     period: '/mês',
     features: [
       'Portal Granular',
