@@ -14,7 +14,7 @@ const modules = [
 
 const badges = [
   { icon: Smartphone, text: 'App mobile nativo incluso' },
-  { icon: Shield, text: 'Multi-tenant com isolamento total' },
+  { icon: Shield, text: 'Multi-lojas com visões apartadas' },
   { icon: BarChart3, text: 'Benchmark entre unidades' },
 ]
 
