@@ -80,6 +80,7 @@ const consultoriaPlans = [
       'Relatório Semanal',
     ],
     cta: 'Falar com Vendas',
+    popular: false,
   },
   {
     name: 'Consultoria 3 Meses',
@@ -99,6 +100,7 @@ const consultoriaPlans = [
       'Relatório Semanal',
     ],
     cta: 'Falar com Vendas',
+    popular: false,
   },
   {
     name: 'Consultoria 6 Meses',
@@ -119,6 +121,7 @@ const consultoriaPlans = [
       'Relatório Semanal',
     ],
     cta: 'Falar com Vendas',
+    popular: true,
   },
 ]
 
@@ -226,32 +229,42 @@ export function Pricing() {
         <div className="grid lg:grid-cols-3 gap-6 max-w-6xl mx-auto items-stretch">
           {consultoriaPlans.map((plan, i) => (
             <FadeIn key={plan.name} delay={i * 120}>
-              <div className="rounded-2xl border border-[#9C958A]/20 bg-[#EAE5D9] p-8 h-full flex flex-col">
-                <h3 className="text-xl font-bold text-[#0E0E0F] mb-1">
+              <div
+                className={`rounded-2xl p-8 h-full flex flex-col ${
+                  plan.popular
+                    ? 'bg-[#5C1A2B] text-white shadow-2xl shadow-[#5C1A2B]/20'
+                    : 'bg-[#EAE5D9] border border-[#9C958A]/20'
+                }`}
+              >
+                <h3 className={`text-xl font-bold mb-1 ${plan.popular ? 'text-white' : 'text-[#0E0E0F]'}`}>
                   {plan.name}
                 </h3>
-                <p className="text-sm text-[#9C958A] mb-5">
+                <p className={`text-sm mb-5 ${plan.popular ? 'text-white/60' : 'text-[#9C958A]'}`}>
                   {plan.subtitle}
                 </p>
                 <div className="flex items-baseline gap-0.5 mb-6">
-                  <span className="text-5xl font-bold text-[#0E0E0F]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                  <span className={`text-5xl font-bold ${plan.popular ? 'text-white' : 'text-[#0E0E0F]'}`} style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
                     {plan.price}
                   </span>
-                  <span className="text-sm text-[#9C958A]">{plan.period}</span>
+                  <span className={`text-sm ${plan.popular ? 'text-white/60' : 'text-[#9C958A]'}`}>{plan.period}</span>
                 </div>
 
                 <ul className="space-y-3 mb-8 flex-1">
                   {plan.features.map((feature) => (
                     <li key={feature} className="flex items-start gap-3 text-sm">
-                      <Check size={16} className="mt-0.5 flex-shrink-0 text-[#5C1A2B]" />
-                      <span className="text-[#2A2622]">{feature}</span>
+                      <Check size={16} className={`mt-0.5 flex-shrink-0 ${plan.popular ? 'text-[#9B3349]' : 'text-[#5C1A2B]'}`} />
+                      <span className={plan.popular ? 'text-white/80' : 'text-[#2A2622]'}>{feature}</span>
                     </li>
                   ))}
                 </ul>
 
                 <a
                   href="#"
-                  className="block text-center font-medium py-3 px-6 rounded-xl text-sm border border-[#5C1A2B] text-[#5C1A2B] hover:bg-[#5C1A2B] hover:text-white transition-colors"
+                  className={`block text-center font-medium py-3 px-6 rounded-xl text-sm transition-colors ${
+                    plan.popular
+                      ? 'bg-[#EAE5D9] text-[#5C1A2B] hover:bg-[#FAF7F0]'
+                      : 'border border-[#5C1A2B] text-[#5C1A2B] hover:bg-[#5C1A2B] hover:text-white'
+                  }`}
                 >
                   {plan.cta}
                 </a>
