@@ -1,4 +1,3 @@
-import './index.css'
 import { Header } from './components/Header'
 import { Hero } from './components/Hero'
 import { SocialProof } from './components/SocialProof'
@@ -11,7 +10,7 @@ import { Footer } from './components/Footer'
 
 function App() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[#FAF7F0]">
       <Header />
       <Hero />
       <SocialProof />

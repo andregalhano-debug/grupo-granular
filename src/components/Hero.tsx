@@ -6,7 +6,7 @@ export function Hero() {
     <section id="hero" className="pt-32 sm:pt-40 pb-20 sm:pb-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       <FadeIn className="text-center">
         {/* Badge */}
-        <div className="inline-flex items-center gap-2 bg-[#5C1A2B]/8 text-[#5C1A2B] px-4 py-2 rounded-full text-xs font-medium mb-8 tracking-widest uppercase" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+        <div className="inline-flex items-center gap-2 bg-[#5C1A2B]/10 text-[#5C1A2B] px-4 py-2 rounded-full text-xs font-medium mb-8 tracking-widest uppercase" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
           Consultoria e Gestão em Delivery
         </div>
 

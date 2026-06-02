@@ -35,7 +35,7 @@ export function Modules() {
           {modules.map((mod, i) => (
             <FadeIn key={mod.title} delay={i * 80}>
               <div className="group rounded-2xl border border-[#EAE5D9] bg-white p-6 hover:border-[#5C1A2B]/20 hover:shadow-lg hover:shadow-[#5C1A2B]/5 transition-all duration-300 h-full">
-                <div className="w-11 h-11 rounded-xl bg-[#5C1A2B]/8 flex items-center justify-center mb-4">
+                <div className="w-11 h-11 rounded-xl bg-[#5C1A2B]/10 flex items-center justify-center mb-4">
                   <mod.icon size={22} className="text-[#5C1A2B]" />
                 </div>
                 <h3 className="font-semibold text-[#0E0E0F] mb-2">{mod.title}</h3>
