@@ -17,7 +17,7 @@ const saasPlans = [
       '1 Relatório Mensal',
     ],
     popular: false,
-    cta: 'Começar Free Trial',
+    cta: 'Começar teste grátis',
   },
   {
     name: 'Pacote 2',
@@ -37,7 +37,7 @@ const saasPlans = [
       '1 Relatório Semanal',
     ],
     popular: true,
-    cta: 'Começar Free Trial',
+    cta: 'Começar teste grátis',
   },
   {
     name: 'Pacote 3',
