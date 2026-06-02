@@ -124,7 +124,7 @@ const consultoriaPlans = [
 
 export function Pricing() {
   return (
-    <section id="precos" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-[#EAE5D9]/30">
+    <section id="precos" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-[#FAF7F0]">
       <div className="max-w-7xl mx-auto">
         <FadeIn className="text-center mb-16">
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#0E0E0F] mb-4">
@@ -146,7 +146,7 @@ export function Pricing() {
                 <h3 className="text-2xl font-bold text-[#0E0E0F]">Sistema</h3>
                 <p className="text-sm text-[#9C958A]">Plataforma SaaS para gestão da sua operação</p>
               </div>
-              <div className="hidden sm:block flex-1 h-px bg-[#EAE5D9] ml-4" />
+              <div className="hidden sm:block flex-1 h-px bg-[#9C958A]/30 ml-4" />
             </div>
           </div>
         </FadeIn>
@@ -158,7 +158,7 @@ export function Pricing() {
                 className={`rounded-2xl p-8 h-full flex flex-col ${
                   plan.popular
                     ? 'bg-[#5C1A2B] text-white lg:scale-105 shadow-2xl shadow-[#5C1A2B]/20'
-                    : 'bg-white border border-[#EAE5D9]'
+                    : 'bg-[#EAE5D9] border border-[#9C958A]/20'
                 }`}
               >
                 <h3 className={`text-xl font-bold mb-1 ${plan.popular ? 'text-white' : 'text-[#0E0E0F]'}`}>
@@ -196,7 +196,7 @@ export function Pricing() {
                   href="#"
                   className={`block text-center font-medium py-3 px-6 rounded-xl text-sm transition-colors ${
                     plan.popular
-                      ? 'bg-[#FAF7F0] text-[#5C1A2B] hover:bg-white'
+                      ? 'bg-[#EAE5D9] text-[#5C1A2B] hover:bg-[#FAF7F0]'
                       : 'border border-[#5C1A2B] text-[#5C1A2B] hover:bg-[#5C1A2B] hover:text-white'
                   }`}
                 >
@@ -218,7 +218,7 @@ export function Pricing() {
                 <h3 className="text-2xl font-bold text-[#0E0E0F]">Consultoria</h3>
                 <p className="text-sm text-[#9C958A]">Especialistas in loco transformando sua operação</p>
               </div>
-              <div className="hidden sm:block flex-1 h-px bg-[#EAE5D9] ml-4" />
+              <div className="hidden sm:block flex-1 h-px bg-[#9C958A]/30 ml-4" />
             </div>
           </div>
         </FadeIn>
@@ -226,7 +226,7 @@ export function Pricing() {
         <div className="grid lg:grid-cols-3 gap-6 max-w-6xl mx-auto items-start">
           {consultoriaPlans.map((plan, i) => (
             <FadeIn key={plan.name} delay={i * 120}>
-              <div className="rounded-2xl border border-[#EAE5D9] bg-white p-8 h-full flex flex-col">
+              <div className="rounded-2xl border border-[#9C958A]/20 bg-[#EAE5D9] p-8 h-full flex flex-col">
                 <h3 className="text-xl font-bold text-[#0E0E0F] mb-1">
                   {plan.name}
                 </h3>

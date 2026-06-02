@@ -2,7 +2,7 @@ import { GranularLogo } from './GranularLogo'
 
 export function Footer() {
   return (
-    <footer className="bg-[#FAF7F0] border-t border-[#EAE5D9]">
+    <footer className="bg-[#EAE5D9] border-t border-[#9C958A]/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Logo */}
@@ -58,7 +58,7 @@ export function Footer() {
       </div>
 
       {/* Bottom */}
-      <div className="border-t border-[#EAE5D9]">
+      <div className="border-t border-[#9C958A]/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-[#9C958A]">
             © 2026 Granular. Todos os direitos reservados.

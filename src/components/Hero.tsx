@@ -34,7 +34,7 @@ export function Hero() {
           </a>
           <a
             href="#modulos"
-            className="inline-flex items-center gap-2 border border-[#EAE5D9] hover:border-[#5C1A2B]/30 text-[#0E0E0F] font-medium px-8 py-4 rounded-xl text-base transition-colors"
+            className="inline-flex items-center gap-2 border border-[#9C958A]/30 hover:border-[#5C1A2B]/30 text-[#0E0E0F] font-medium px-8 py-4 rounded-xl text-base transition-colors"
           >
             Ver Módulos
           </a>
@@ -46,7 +46,7 @@ export function Hero() {
 
       {/* Dashboard Mockup */}
       <FadeIn delay={200}>
-        <div className="max-w-5xl mx-auto rounded-2xl border border-[#EAE5D9] overflow-hidden shadow-2xl shadow-black/5">
+        <div className="max-w-5xl mx-auto rounded-2xl border border-[#9C958A]/20 overflow-hidden shadow-2xl shadow-black/5">
           {/* Browser Chrome */}
           <div className="bg-[#0E0E0F] border-b border-[#2A2622] px-4 py-3 flex items-center gap-3">
             <div className="flex gap-2">
@@ -60,7 +60,7 @@ export function Hero() {
           </div>
 
           {/* Dashboard Content */}
-          <div className="bg-[#FAF7F0] p-6 sm:p-8">
+          <div className="bg-[#EAE5D9] p-6 sm:p-8">
             {/* KPI Cards */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
               <KpiCard label="Faturamento" value="R$ 1,84M" change="+12,4%" positive />
@@ -88,7 +88,7 @@ export function Hero() {
 
 function KpiCard({ label, value, change, positive }: { label: string; value: string; change: string; positive: boolean }) {
   return (
-    <div className="bg-white rounded-xl p-4 border border-[#EAE5D9]">
+    <div className="bg-[#FAF7F0] rounded-xl p-4 border border-[#9C958A]/20">
       <p className="text-xs text-[#9C958A] mb-1 tracking-widest uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '10px' }}>{label}</p>
       <p className="text-xl sm:text-2xl font-bold text-[#0E0E0F]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{value}</p>
       <p className={`text-xs font-medium mt-1 ${positive ? 'text-[#22895e]' : 'text-[#c82c1e]'}`} style={{ fontFamily: "'JetBrains Mono', monospace" }}>

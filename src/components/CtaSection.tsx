@@ -12,7 +12,7 @@ export function CtaSection() {
         </p>
         <a
           href="#precos"
-          className="inline-flex items-center gap-2 bg-[#FAF7F0] hover:bg-white text-[#5C1A2B] font-medium px-8 py-4 rounded-xl text-base transition-colors"
+          className="inline-flex items-center gap-2 bg-[#EAE5D9] hover:bg-[#FAF7F0] text-[#5C1A2B] font-medium px-8 py-4 rounded-xl text-base transition-colors"
         >
           Começar Free Trial de 14 dias
         </a>

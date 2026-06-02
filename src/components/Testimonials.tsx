@@ -21,7 +21,7 @@ const testimonials = [
 
 export function Testimonials() {
   return (
-    <section id="depoimentos" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-[#FAF7F0]">
+    <section id="depoimentos" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-[#EAE5D9]">
       <div className="max-w-7xl mx-auto">
         <FadeIn className="text-center mb-16">
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#0E0E0F] mb-4">
@@ -35,7 +35,7 @@ export function Testimonials() {
         <div className="grid sm:grid-cols-3 gap-6">
           {testimonials.map((t, i) => (
             <FadeIn key={t.name} delay={i * 120}>
-              <div className="rounded-2xl border border-[#EAE5D9] bg-white p-8 h-full flex flex-col">
+              <div className="rounded-2xl border border-[#9C958A]/20 bg-[#FAF7F0] p-8 h-full flex flex-col">
                 <div className="flex gap-1 mb-4">
                   {[...Array(5)].map((_, j) => (
                     <Star key={j} size={16} className="fill-[#f5a623] text-[#f5a623]" />
