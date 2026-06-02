@@ -1,5 +1,6 @@
 import { ArrowRight } from 'lucide-react'
 import { FadeIn } from './FadeIn'
+import telaSistema from '../assets/Tela Maestro.jpg'
 
 export function Hero() {
   return (
@@ -44,56 +45,29 @@ export function Hero() {
         </p>
       </FadeIn>
 
-      {/* Dashboard Mockup */}
+      {/* Screenshot real do sistema */}
       <FadeIn delay={200}>
-        <div className="max-w-5xl mx-auto rounded-2xl border border-[#9C958A]/20 overflow-hidden shadow-2xl shadow-black/5">
+        <div className="max-w-5xl mx-auto rounded-2xl border border-[#9C958A]/20 overflow-hidden shadow-2xl shadow-black/10">
           {/* Browser Chrome */}
-          <div className="bg-[#0E0E0F] border-b border-[#2A2622] px-4 py-3 flex items-center gap-3">
+          <div className="bg-[#0E0E0F] px-4 py-3 flex items-center gap-3">
             <div className="flex gap-2">
               <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
               <div className="w-3 h-3 rounded-full bg-[#febc2e]" />
               <div className="w-3 h-3 rounded-full bg-[#28c840]" />
             </div>
-            <div className="flex-1 bg-[#2A2622] rounded-lg border border-[#2A2622] px-4 py-1.5 text-xs text-[#9C958A]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+            <div className="flex-1 bg-[#2A2622] rounded-lg px-4 py-1.5 text-xs text-[#9C958A]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
               app.granular.com.br/dashboard
             </div>
           </div>
 
-          {/* Dashboard Content */}
-          <div className="bg-[#EAE5D9] p-6 sm:p-8">
-            {/* KPI Cards */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-              <KpiCard label="Faturamento" value="R$ 1,84M" change="+12,4%" positive />
-              <KpiCard label="Pedidos" value="42.180" change="+8,1%" positive />
-              <KpiCard label="Ticket Médio" value="R$ 43,70" change="+3,9%" positive />
-              <KpiCard label="Tempo Entrega" value="28 min" change="-6 min" positive />
-            </div>
-
-            {/* Chart */}
-            <div className="flex items-end gap-2 sm:gap-3 h-32 sm:h-40">
-              {[65, 45, 78, 55, 88, 42, 72, 60, 85, 50, 92, 70].map((h, i) => (
-                <div
-                  key={i}
-                  className="flex-1 rounded-t-md bg-gradient-to-t from-[#3A1019] to-[#5C1A2B]"
-                  style={{ height: `${h}%` }}
-                />
-              ))}
-            </div>
-          </div>
+          {/* Imagem real */}
+          <img
+            src={telaSistema}
+            alt="Dashboard Granular — Visão geral de faturamento, pedidos, promoções e clientes"
+            className="w-full block"
+          />
         </div>
       </FadeIn>
     </section>
-  )
-}
-
-function KpiCard({ label, value, change, positive }: { label: string; value: string; change: string; positive: boolean }) {
-  return (
-    <div className="bg-[#FAF7F0] rounded-xl p-4 border border-[#9C958A]/20">
-      <p className="text-xs text-[#9C958A] mb-1 tracking-widest uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '10px' }}>{label}</p>
-      <p className="text-xl sm:text-2xl font-bold text-[#0E0E0F]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{value}</p>
-      <p className={`text-xs font-medium mt-1 ${positive ? 'text-[#22895e]' : 'text-[#c82c1e]'}`} style={{ fontFamily: "'JetBrains Mono', monospace" }}>
-        {change}
-      </p>
-    </div>
   )
 }
