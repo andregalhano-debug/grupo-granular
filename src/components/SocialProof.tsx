@@ -8,12 +8,12 @@ export function SocialProof() {
   ]
 
   return (
-    <section className="border-t border-b border-[#e5e5e3] bg-[#faf9f7] py-8">
+    <section className="border-t border-b border-[#EAE5D9] bg-[#EAE5D9]/30 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8">
-        <span className="text-sm text-[#999] whitespace-nowrap">Usado por redes como</span>
+        <span className="text-xs text-[#9C958A] whitespace-nowrap tracking-widest uppercase" style={{ fontFamily: "'JetBrains Mono', monospace" }}>Usado por redes como</span>
         <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-10">
           {brands.map((brand) => (
-            <span key={brand} className="text-sm font-semibold text-[#212121]/40 tracking-wide uppercase">
+            <span key={brand} className="text-sm font-semibold text-[#0E0E0F]/30 tracking-wide uppercase">
               {brand}
             </span>
           ))}

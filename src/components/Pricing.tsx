@@ -62,13 +62,13 @@ const plans = [
 
 export function Pricing() {
   return (
-    <section id="precos" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-[#faf9f7]">
+    <section id="precos" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-[#EAE5D9]/30">
       <div className="max-w-7xl mx-auto">
         <FadeIn className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#212121] mb-4">
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#0E0E0F] mb-4">
             Planos que cabem na sua operação
           </h2>
-          <p className="text-[#666] text-base sm:text-lg max-w-2xl mx-auto">
+          <p className="text-[#9C958A] text-base sm:text-lg max-w-2xl mx-auto">
             Comece grátis por 14 dias. Sem cartão de crédito.
           </p>
         </FadeIn>
@@ -79,27 +79,27 @@ export function Pricing() {
               <div
                 className={`rounded-2xl p-8 h-full ${
                   plan.popular
-                    ? 'bg-[#4D1520] text-white lg:scale-105 shadow-2xl shadow-[#4D1520]/20'
-                    : 'bg-white border border-[#e5e5e3]'
+                    ? 'bg-[#5C1A2B] text-white lg:scale-105 shadow-2xl shadow-[#5C1A2B]/20'
+                    : 'bg-white border border-[#EAE5D9]'
                 }`}
               >
                 {plan.popular && (
-                  <span className="inline-block bg-white/20 text-white text-xs font-semibold px-3 py-1 rounded-full mb-4">
+                  <span className="inline-block bg-white/20 text-white text-xs font-semibold px-3 py-1 rounded-full mb-4" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
                     Mais Popular
                   </span>
                 )}
-                <h3 className={`text-xl font-bold mb-2 ${plan.popular ? 'text-white' : 'text-[#212121]'}`}>
+                <h3 className={`text-xl font-bold mb-2 ${plan.popular ? 'text-white' : 'text-[#0E0E0F]'}`}>
                   {plan.name}
                 </h3>
                 <div className="flex items-baseline gap-1 mb-2">
-                  <span className={`text-4xl font-bold font-['IBM_Plex_Mono'] ${plan.popular ? 'text-white' : 'text-[#212121]'}`}>
+                  <span className={`text-4xl font-bold ${plan.popular ? 'text-white' : 'text-[#0E0E0F]'}`} style={{ fontFamily: "'JetBrains Mono', monospace" }}>
                     {plan.price}
                   </span>
-                  <span className={`text-sm ${plan.popular ? 'text-white/60' : 'text-[#666]'}`}>
+                  <span className={`text-sm ${plan.popular ? 'text-white/60' : 'text-[#9C958A]'}`}>
                     {plan.period}
                   </span>
                 </div>
-                <p className={`text-sm mb-8 ${plan.popular ? 'text-white/60' : 'text-[#666]'}`}>
+                <p className={`text-sm mb-8 ${plan.popular ? 'text-white/60' : 'text-[#9C958A]'}`}>
                   {plan.description}
                 </p>
 
@@ -107,8 +107,8 @@ export function Pricing() {
                   href="#"
                   className={`block text-center font-medium py-3 px-6 rounded-xl text-sm transition-colors mb-8 ${
                     plan.popular
-                      ? 'bg-white text-[#4D1520] hover:bg-white/90'
-                      : 'bg-[#4D1520] text-white hover:bg-[#6b2230]'
+                      ? 'bg-[#FAF7F0] text-[#5C1A2B] hover:bg-white'
+                      : 'bg-[#5C1A2B] text-white hover:bg-[#3A1019]'
                   }`}
                 >
                   {plan.cta}
@@ -120,10 +120,10 @@ export function Pricing() {
                       <Check
                         size={16}
                         className={`mt-0.5 flex-shrink-0 ${
-                          plan.popular ? 'text-[#e8a0b0]' : 'text-[#22895e]'
+                          plan.popular ? 'text-[#9B3349]' : 'text-[#22895e]'
                         }`}
                       />
-                      <span className={plan.popular ? 'text-white/80' : 'text-[#666]'}>
+                      <span className={plan.popular ? 'text-white/80' : 'text-[#9C958A]'}>
                         {feature}
                       </span>
                     </li>

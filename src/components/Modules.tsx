@@ -20,13 +20,13 @@ const badges = [
 
 export function Modules() {
   return (
-    <section id="modulos" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-white">
+    <section id="modulos" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-[#FAF7F0]">
       <div className="max-w-7xl mx-auto">
         <FadeIn className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#212121] mb-4">
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#0E0E0F] mb-4">
             Tudo que sua operação precisa, em um só lugar
           </h2>
-          <p className="text-[#666] text-base sm:text-lg max-w-2xl mx-auto">
+          <p className="text-[#9C958A] text-base sm:text-lg max-w-2xl mx-auto">
             Módulos integrados que eliminam planilhas e unificam sua gestão.
           </p>
         </FadeIn>
@@ -34,12 +34,12 @@ export function Modules() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {modules.map((mod, i) => (
             <FadeIn key={mod.title} delay={i * 80}>
-              <div className="group rounded-2xl border border-[#e5e5e3] p-6 hover:border-[#4D1520]/20 hover:shadow-lg hover:shadow-[#4D1520]/5 transition-all duration-300 h-full">
-                <div className="w-11 h-11 rounded-xl bg-[#4D1520]/5 flex items-center justify-center mb-4">
-                  <mod.icon size={22} className="text-[#4D1520]" />
+              <div className="group rounded-2xl border border-[#EAE5D9] bg-white p-6 hover:border-[#5C1A2B]/20 hover:shadow-lg hover:shadow-[#5C1A2B]/5 transition-all duration-300 h-full">
+                <div className="w-11 h-11 rounded-xl bg-[#5C1A2B]/8 flex items-center justify-center mb-4">
+                  <mod.icon size={22} className="text-[#5C1A2B]" />
                 </div>
-                <h3 className="font-semibold text-[#212121] mb-2">{mod.title}</h3>
-                <p className="text-sm text-[#666] leading-relaxed">{mod.desc}</p>
+                <h3 className="font-semibold text-[#0E0E0F] mb-2">{mod.title}</h3>
+                <p className="text-sm text-[#9C958A] leading-relaxed">{mod.desc}</p>
               </div>
             </FadeIn>
           ))}
@@ -47,8 +47,8 @@ export function Modules() {
 
         <FadeIn delay={400} className="flex flex-wrap items-center justify-center gap-6 mt-12">
           {badges.map((badge) => (
-            <div key={badge.text} className="flex items-center gap-2 text-sm text-[#666]">
-              <badge.icon size={16} className="text-[#4D1520]" />
+            <div key={badge.text} className="flex items-center gap-2 text-sm text-[#9C958A]">
+              <badge.icon size={16} className="text-[#5C1A2B]" />
               {badge.text}
             </div>
           ))}
