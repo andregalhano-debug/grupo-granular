@@ -131,7 +131,7 @@ export function Pricing() {
             Planos que cabem na sua operação
           </h2>
           <p className="text-[#9C958A] text-base sm:text-lg max-w-2xl mx-auto">
-            Comece com free trial de 14 dias. Sem cartão de crédito. Upgrade quando quiser.
+            Comece com teste grátis de 14 dias e faça o upgrade quando quiser.
           </p>
         </FadeIn>
 
