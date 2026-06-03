@@ -1,6 +1,7 @@
-import { Check, Plus, X, ChevronDown } from 'lucide-react'
+import { Check, Plus, X, ChevronDown, CalendarDays, Star } from 'lucide-react'
 import { useState } from 'react'
 import type { Plan } from '../../data/plans'
+import type { Consultant } from '../../data/consultants'
 import { saasPlans, consultoriaPlans, getConsultoriaTotal, getConsultoriaPixTotal, getConsultoriaPixDiscount } from '../../data/plans'
 import { formatCurrency } from '../../utils/formatters'
 import type { PaymentMethod } from '../../hooks/useCheckoutForm'
@@ -10,6 +11,8 @@ interface OrderSummaryProps {
   onAddPlan: (plan: Plan) => void
   onRemovePlan: (planId: string) => void
   paymentMethod: PaymentMethod
+  consultant?: Consultant | null
+  consultantSlot?: string | null
 }
 
 function PlanSelector({ plans, currentPlan, onSelect, label }: {
@@ -53,102 +56,153 @@ function PlanSelector({ plans, currentPlan, onSelect, label }: {
   )
 }
 
-export function OrderSummary({ selectedPlans, onAddPlan, onRemovePlan, paymentMethod }: OrderSummaryProps) {
+function getInitials(name: string): string {
+  return name.split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase()
+}
+
+export function OrderSummary({ selectedPlans, onAddPlan, onRemovePlan, paymentMethod, consultant, consultantSlot }: OrderSummaryProps) {
+  const [consultoriaExpanded, setConsultoriaExpanded] = useState(false)
   const saas = selectedPlans.find((p) => p.type === 'saas')
   const consultoria = selectedPlans.find((p) => p.type === 'consultoria')
   const hasSaas = !!saas
   const hasConsultoria = !!consultoria
+  const hasConsultant = !!consultant
 
   const upsellSaas = saasPlans.find((p) => p.popular)!
   const upsellConsultoria = consultoriaPlans.find((p) => p.popular)!
 
-  // Se tem sistema e método é cartão, consultoria mostra mensal
-  // Se não tem sistema (só consultoria) ou método é pix, consultoria mostra Pix à vista
   const consultoriaIsMensal = hasSaas && paymentMethod === 'cartao'
 
   const saasMensal = saas ? saas.price : 0
   const consultoriaMensal = consultoria ? consultoria.price : 0
   const consultoriaPixFinal = consultoria ? getConsultoriaPixTotal(consultoria) : 0
-
-  // Total mensal quando cartão (sistema + consultoria)
-  const totalMensal = saasMensal + (consultoriaIsMensal ? consultoriaMensal : 0)
+  const consultantRate = consultant ? consultant.hourlyRate : 0
 
   return (
     <div className="rounded-2xl border border-[#0E0E0F]/10 bg-[#F7F7F7] p-6 space-y-5">
       <h2 className="text-lg font-bold text-[#0E0E0F]">Resumo do pedido</h2>
 
-      {/* Planos selecionados — ordem fixa: saas primeiro */}
-      {[saas, consultoria].filter(Boolean).map((plan) => {
-        const planList = plan!.type === 'saas' ? saasPlans : consultoriaPlans
-        const planLabel = plan!.type === 'saas' ? 'pacote' : 'consultoria'
-        const isConsultoria = plan!.type === 'consultoria'
-
-        return (
-          <div key={plan!.id} className="rounded-xl bg-white p-4 border border-[#0E0E0F]/5">
-            <div className="flex items-start justify-between mb-2">
-              <div>
-                <span className="text-[10px] font-medium uppercase tracking-wider text-[#EA1D2C]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
-                  {plan!.type === 'saas' ? 'Sistema' : 'Consultoria'}
-                </span>
-                <h3 className="font-semibold text-[#0E0E0F] text-sm">{plan!.name}</h3>
-              </div>
-              {selectedPlans.length > 1 && (
-                <button
-                  type="button"
-                  onClick={() => onRemovePlan(plan!.id)}
-                  className="p-1 text-[#9C958A] hover:text-[#EA1D2C] transition-colors"
-                >
-                  <X size={16} />
-                </button>
-              )}
+      {/* Sistema */}
+      {saas && (
+        <div className="rounded-xl bg-white p-4 border border-[#0E0E0F]/5">
+          <div className="flex items-start justify-between mb-2">
+            <div>
+              <span className="text-[10px] font-medium uppercase tracking-wider text-[#EA1D2C]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+                Sistema
+              </span>
+              <h3 className="font-semibold text-[#0E0E0F] text-sm">{saas.name}</h3>
             </div>
-            <ul className="space-y-1.5 mb-3">
-              {plan!.features.slice(0, 3).map((f) => (
-                <li key={f} className="flex items-start gap-2 text-xs text-[#9C958A]">
-                  <Check size={12} className="mt-0.5 text-[#EA1D2C] flex-shrink-0" />
-                  {f}
-                </li>
-              ))}
-              {plan!.features.length > 3 && (
-                <li className="text-xs text-[#9C958A]">+{plan!.features.length - 3} recursos inclusos</li>
-              )}
-            </ul>
-
-            {/* Preço */}
-            {isConsultoria && !consultoriaIsMensal ? (
-              <div className="space-y-1.5">
-                <div className="flex items-baseline justify-between text-xs text-[#9C958A]">
-                  <span>{plan!.months}x de R$ {plan!.priceFormatted}</span>
-                  <span>R$ {formatCurrency(getConsultoriaTotal(plan!))}</span>
-                </div>
-                <div className="flex items-baseline justify-between text-xs text-green-600 font-medium">
-                  <span>Desconto Pix (3%)</span>
-                  <span>- R$ {formatCurrency(getConsultoriaPixDiscount(plan!))}</span>
-                </div>
-                <div className="flex items-baseline justify-between pt-1 border-t border-[#0E0E0F]/5">
-                  <span className="text-xs font-medium text-[#0E0E0F]">Total via Pix</span>
-                  <span className="text-lg font-bold text-[#0E0E0F]">R$ {formatCurrency(getConsultoriaPixTotal(plan!))}</span>
-                </div>
-              </div>
-            ) : (
-              <div className="text-right">
-                <span className="text-xl font-bold text-[#0E0E0F]">R$ {plan!.priceFormatted}</span>
-                <span className="text-xs text-[#9C958A]">/mês</span>
-              </div>
+            {(selectedPlans.length > 1 || hasConsultant) && (
+              <button type="button" onClick={() => onRemovePlan(saas.id)} className="p-1 text-[#9C958A] hover:text-[#EA1D2C] transition-colors">
+                <X size={16} />
+              </button>
             )}
-
-            <PlanSelector
-              plans={planList}
-              currentPlan={plan!}
-              onSelect={onAddPlan}
-              label={planLabel}
-            />
           </div>
-        )
-      })}
+          <ul className="space-y-1.5 mb-3">
+            {saas.features.slice(0, 3).map((f) => (
+              <li key={f} className="flex items-start gap-2 text-xs text-[#9C958A]">
+                <Check size={12} className="mt-0.5 text-[#EA1D2C] flex-shrink-0" />
+                {f}
+              </li>
+            ))}
+            {saas.features.length > 3 && (
+              <li className="text-xs text-[#9C958A]">+{saas.features.length - 3} recursos inclusos</li>
+            )}
+          </ul>
+          <div className="text-right">
+            <span className="text-xl font-bold text-[#0E0E0F]">R$ {saas.priceFormatted}</span>
+            <span className="text-xs text-[#9C958A]">/mês</span>
+          </div>
+          <PlanSelector plans={saasPlans} currentPlan={saas} onSelect={onAddPlan} label="pacote" />
+        </div>
+      )}
 
-      {/* Upsell */}
-      {hasSaas && !hasConsultoria && (
+      {/* Sessão com consultor */}
+      {hasConsultant && (
+        <div className="rounded-xl bg-white p-4 border border-[#EA1D2C]/20">
+          <span className="text-[10px] font-medium uppercase tracking-wider text-[#EA1D2C]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+            Sessão com consultor
+          </span>
+          <div className="flex items-center gap-3 mt-2 mb-3">
+            <div className="w-10 h-10 rounded-full bg-[#EA1D2C]/10 flex items-center justify-center flex-shrink-0">
+              <span className="text-sm font-bold text-[#EA1D2C]">{getInitials(consultant!.name)}</span>
+            </div>
+            <div>
+              <h3 className="font-semibold text-[#0E0E0F] text-sm">{consultant!.name}</h3>
+              <p className="text-xs text-[#9C958A]">{consultant!.title}</p>
+              <div className="flex items-center gap-1 mt-0.5">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} size={10} className={i < Math.round(consultant!.rating) ? 'fill-[#f5a623] text-[#f5a623]' : 'text-[#9C958A]/30'} />
+                ))}
+                <span className="text-[10px] text-[#9C958A] ml-0.5">{consultant!.rating}</span>
+              </div>
+            </div>
+          </div>
+          {consultantSlot && (
+            <div className="flex items-center gap-2 rounded-lg bg-[#EA1D2C]/5 px-3 py-2 mb-3 text-xs text-[#0E0E0F]">
+              <CalendarDays size={14} className="text-[#EA1D2C]" />
+              Agendado: <strong>{consultantSlot.replace('-', ' às ')}</strong>
+            </div>
+          )}
+          <div className="text-right">
+            <span className="text-xl font-bold text-[#0E0E0F]">R$ {consultant!.hourlyRate}</span>
+            <span className="text-xs text-[#9C958A]">/hora</span>
+          </div>
+        </div>
+      )}
+
+      {/* Consultoria tradicional */}
+      {hasConsultoria && (
+        <div className="rounded-xl bg-white p-4 border border-[#0E0E0F]/5">
+          <div className="flex items-start justify-between mb-2">
+            <div>
+              <span className="text-[10px] font-medium uppercase tracking-wider text-[#EA1D2C]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+                Consultoria
+              </span>
+              <h3 className="font-semibold text-[#0E0E0F] text-sm">{consultoria!.name}</h3>
+            </div>
+            <button type="button" onClick={() => onRemovePlan(consultoria!.id)} className="p-1 text-[#9C958A] hover:text-[#EA1D2C] transition-colors">
+              <X size={16} />
+            </button>
+          </div>
+          <ul className="space-y-1.5 mb-3">
+            {consultoria!.features.slice(0, 3).map((f) => (
+              <li key={f} className="flex items-start gap-2 text-xs text-[#9C958A]">
+                <Check size={12} className="mt-0.5 text-[#EA1D2C] flex-shrink-0" />
+                {f}
+              </li>
+            ))}
+            {consultoria!.features.length > 3 && (
+              <li className="text-xs text-[#9C958A]">+{consultoria!.features.length - 3} recursos inclusos</li>
+            )}
+          </ul>
+          {consultoriaIsMensal ? (
+            <div className="text-right">
+              <span className="text-xl font-bold text-[#0E0E0F]">R$ {consultoria!.priceFormatted}</span>
+              <span className="text-xs text-[#9C958A]">/mês</span>
+            </div>
+          ) : (
+            <div className="space-y-1.5">
+              <div className="flex items-baseline justify-between text-xs text-[#9C958A]">
+                <span>{consultoria!.months}x de R$ {consultoria!.priceFormatted}</span>
+                <span>R$ {formatCurrency(getConsultoriaTotal(consultoria!))}</span>
+              </div>
+              <div className="flex items-baseline justify-between text-xs text-green-600 font-medium">
+                <span>Desconto Pix (3%)</span>
+                <span>- R$ {formatCurrency(getConsultoriaPixDiscount(consultoria!))}</span>
+              </div>
+              <div className="flex items-baseline justify-between pt-1 border-t border-[#0E0E0F]/5">
+                <span className="text-xs font-medium text-[#0E0E0F]">Total via Pix</span>
+                <span className="text-lg font-bold text-[#0E0E0F]">R$ {formatCurrency(getConsultoriaPixTotal(consultoria!))}</span>
+              </div>
+            </div>
+          )}
+          <PlanSelector plans={consultoriaPlans} currentPlan={consultoria!} onSelect={onAddPlan} label="consultoria" />
+        </div>
+      )}
+
+      {/* Upsells */}
+      {hasSaas && !hasConsultoria && !hasConsultant && (
         <button
           type="button"
           onClick={() => onAddPlan(upsellConsultoria)}
@@ -164,7 +218,47 @@ export function OrderSummary({ selectedPlans, onAddPlan, onRemovePlan, paymentMe
         </button>
       )}
 
-      {hasConsultoria && !hasSaas && (
+      {/* Consultoria tradicional recolhida (quando vem de consultor) */}
+      {hasConsultant && !hasConsultoria && (
+        <div>
+          <button
+            type="button"
+            onClick={() => setConsultoriaExpanded(!consultoriaExpanded)}
+            className="w-full flex items-center justify-between gap-2 rounded-xl border border-dashed border-[#9C958A]/20 bg-white p-4 text-left hover:bg-[#F7F7F7] transition-colors cursor-pointer"
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-lg bg-[#EA1D2C]/10 flex items-center justify-center flex-shrink-0">
+                <Plus size={16} className="text-[#EA1D2C]" />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-[#0E0E0F]">Adicionar Consultoria Tradicional</p>
+                <p className="text-xs text-[#9C958A]">Planos de 1, 3 ou 6 meses</p>
+              </div>
+            </div>
+            <ChevronDown size={16} className={`text-[#9C958A] transition-transform ${consultoriaExpanded ? 'rotate-180' : ''}`} />
+          </button>
+          {consultoriaExpanded && (
+            <div className="mt-2 rounded-xl border border-[#0E0E0F]/10 bg-white shadow-lg overflow-hidden">
+              {consultoriaPlans.map((plan) => (
+                <button
+                  key={plan.id}
+                  type="button"
+                  onClick={() => { onAddPlan(plan); setConsultoriaExpanded(false) }}
+                  className="w-full flex items-center justify-between px-4 py-3 text-left text-sm hover:bg-[#F7F7F7] text-[#0E0E0F] transition-colors cursor-pointer"
+                >
+                  <div>
+                    <span className="font-medium">{plan.name}</span>
+                    {plan.popular && <span className="ml-2 text-[10px] text-[#EA1D2C] bg-[#EA1D2C]/10 px-2 py-0.5 rounded-full">Popular</span>}
+                  </div>
+                  <span className="text-xs text-[#9C958A]">R$ {plan.priceFormatted}/mês</span>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {hasConsultoria && !hasSaas && !hasConsultant && (
         <button
           type="button"
           onClick={() => onAddPlan(upsellSaas)}
@@ -182,43 +276,23 @@ export function OrderSummary({ selectedPlans, onAddPlan, onRemovePlan, paymentMe
 
       {/* Totais */}
       <div className="border-t border-[#0E0E0F]/10 pt-4 space-y-2">
-        {consultoriaIsMensal ? (
-          <>
-            {hasSaas && (
-              <div className="flex items-baseline justify-between text-sm text-[#9C958A]">
-                <span>Sistema</span>
-                <span>R$ {formatCurrency(saasMensal)}/mês</span>
-              </div>
-            )}
-            {hasConsultoria && (
-              <div className="flex items-baseline justify-between text-sm text-[#9C958A]">
-                <span>Consultoria</span>
-                <span>R$ {formatCurrency(consultoriaMensal)}/mês</span>
-              </div>
-            )}
-            <div className="flex items-baseline justify-between pt-2 border-t border-[#0E0E0F]/5">
-              <span className="text-sm font-bold text-[#0E0E0F]">Total mensal</span>
-              <div>
-                <span className="text-2xl font-bold text-[#0E0E0F]">R$ {formatCurrency(totalMensal)}</span>
-                <span className="text-xs text-[#9C958A]">/mês</span>
-              </div>
-            </div>
-          </>
-        ) : (
-          <>
-            {hasSaas && (
-              <div className="flex items-baseline justify-between text-sm">
-                <span className="text-[#9C958A]">Sistema (mensal)</span>
-                <span className="font-semibold text-[#0E0E0F]">R$ {formatCurrency(saasMensal)}/mês</span>
-              </div>
-            )}
-            {hasConsultoria && (
-              <div className="flex items-baseline justify-between text-sm">
-                <span className="text-[#9C958A]">Consultoria (Pix à vista)</span>
-                <span className="font-semibold text-[#0E0E0F]">R$ {formatCurrency(consultoriaPixFinal)}</span>
-              </div>
-            )}
-          </>
+        {hasSaas && (
+          <div className="flex items-baseline justify-between text-sm text-[#9C958A]">
+            <span>Sistema</span>
+            <span>R$ {formatCurrency(saasMensal)}/mês</span>
+          </div>
+        )}
+        {hasConsultant && (
+          <div className="flex items-baseline justify-between text-sm text-[#9C958A]">
+            <span>Sessão ({consultant!.name.split(' ')[0]})</span>
+            <span>R$ {formatCurrency(consultantRate)}/hora</span>
+          </div>
+        )}
+        {hasConsultoria && (
+          <div className="flex items-baseline justify-between text-sm text-[#9C958A]">
+            <span>Consultoria{consultoriaIsMensal ? '' : ' (Pix à vista)'}</span>
+            <span>{consultoriaIsMensal ? `R$ ${formatCurrency(consultoriaMensal)}/mês` : `R$ ${formatCurrency(consultoriaPixFinal)}`}</span>
+          </div>
         )}
       </div>
 

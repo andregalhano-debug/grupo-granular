@@ -16,6 +16,7 @@ interface ConfirmacaoState {
   plans: Plan[]
   saasMensal: number
   consultoriaPixTotal: number
+  consultant?: { name: string; hourlyRate: number; slot: string | null } | null
 }
 
 const methodLabels: Record<string, string> = {
@@ -91,16 +92,33 @@ export function ConfirmacaoPage() {
               </>
             )}
 
+            {state.consultant && (
+              <>
+                <div className="flex justify-between">
+                  <span className="text-[#9C958A]">Sessão com {state.consultant.name}</span>
+                  <span className="text-[#0E0E0F]">R$ {formatCurrency(state.consultant.hourlyRate)}/hora</span>
+                </div>
+                {state.consultant.slot && (
+                  <div className="flex justify-between">
+                    <span className="text-[#9C958A]">Horário agendado</span>
+                    <span className="text-[#0E0E0F]">{state.consultant.slot.replace('-', ' às ')}</span>
+                  </div>
+                )}
+              </>
+            )}
+
             {consultoria && (
               <>
                 <div className="flex justify-between">
                   <span className="text-[#9C958A]">{consultoria.name}</span>
-                  <span className="text-[#0E0E0F]">R$ {formatCurrency(state.consultoriaPixTotal)}</span>
+                  <span className="text-[#0E0E0F]">{state.consultoriaPix ? `R$ ${formatCurrency(state.consultoriaPixTotal)}` : `R$ ${consultoria.priceFormatted}/mês`}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-[#9C958A]">Pagamento Consultoria</span>
-                  <span className="text-[#0E0E0F]">Pix à vista (3% desconto)</span>
-                </div>
+                {state.consultoriaPix && (
+                  <div className="flex justify-between">
+                    <span className="text-[#9C958A]">Pagamento Consultoria</span>
+                    <span className="text-[#0E0E0F]">Pix à vista (3% desconto)</span>
+                  </div>
+                )}
               </>
             )}
           </div>

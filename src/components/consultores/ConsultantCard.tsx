@@ -68,7 +68,7 @@ export function ConsultantCard({ consultant, onClick }: ConsultantCardProps) {
             Ver perfil
           </button>
           <Link
-            to="/checkout?plano=consultoria-6"
+            to={`/checkout?consultor=${consultant.id}`}
             className="text-sm font-medium bg-[#EA1D2C] hover:bg-[#C8101E] text-white px-4 py-2 rounded-xl transition-colors"
           >
             Contratar

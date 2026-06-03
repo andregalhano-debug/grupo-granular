@@ -224,3 +224,7 @@ export const consultants: Consultant[] = [
     slots: generateSlots(),
   },
 ]
+
+export function getConsultantById(id: string): Consultant | undefined {
+  return consultants.find((c) => c.id === id)
+}

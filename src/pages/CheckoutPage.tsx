@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react'
 import { useSearchParams, useNavigate } from 'react-router-dom'
 import { Loader2 } from 'lucide-react'
-import { getPlanById, allPlans, getConsultoriaPixTotal } from '../data/plans'
+import { getPlanById, allPlans, saasPlans, getConsultoriaPixTotal } from '../data/plans'
+import { getConsultantById } from '../data/consultants'
 import type { Plan } from '../data/plans'
+import type { Consultant } from '../data/consultants'
 import { useCheckoutForm } from '../hooks/useCheckoutForm'
 import { processPayment } from '../services/payment'
 import { formatCurrency } from '../utils/formatters'
@@ -18,9 +20,27 @@ export function CheckoutPage() {
   const { form, errors, isProcessing, setIsProcessing, updateField, setPaymentMethod, validate } = useCheckoutForm()
 
   const [selectedPlans, setSelectedPlans] = useState<Plan[]>([])
+  const [consultant, setConsultant] = useState<Consultant | null>(null)
+  const [consultantSlot, setConsultantSlot] = useState<string | null>(null)
 
   useEffect(() => {
     window.scrollTo(0, 0)
+
+    const consultorId = searchParams.get('consultor')
+    const slot = searchParams.get('slot')
+
+    if (consultorId) {
+      const c = getConsultantById(consultorId)
+      if (c) {
+        setConsultant(c)
+        setConsultantSlot(slot)
+        // Default: Pacote 1 do sistema
+        const pacote1 = saasPlans[0]
+        setSelectedPlans([pacote1])
+        return
+      }
+    }
+
     const planoId = searchParams.get('plano')
     if (planoId) {
       const plan = getPlanById(planoId)
@@ -44,7 +64,7 @@ export function CheckoutPage() {
 
   const handleRemovePlan = (planId: string) => {
     setSelectedPlans((prev) => {
-      if (prev.length <= 1) return prev
+      if (prev.length <= 1 && !consultant) return prev
       return prev.filter((p) => p.id !== planId)
     })
   }
@@ -53,18 +73,29 @@ export function CheckoutPage() {
   const consultoria = selectedPlans.find((p) => p.type === 'consultoria')
   const hasSaas = !!saas
   const hasConsultoria = !!consultoria
+  const hasConsultant = !!consultant
 
-  // Quando cartão selecionado no sistema, consultoria é mensal também
   const consultoriaIsMensal = hasSaas && form.paymentMethod === 'cartao'
 
   const buildButtonText = () => {
-    if (consultoriaIsMensal && hasConsultoria) {
-      const total = saas!.price + consultoria!.price
+    const parts: string[] = []
+
+    if (hasSaas) parts.push(`Sistema R$ ${formatCurrency(saas!.price)}/mês`)
+    if (hasConsultant) parts.push(`Sessão R$ ${consultant!.hourlyRate}/h`)
+    if (hasConsultoria) {
+      if (consultoriaIsMensal) {
+        parts.push(`Consultoria R$ ${formatCurrency(consultoria!.price)}/mês`)
+      } else {
+        parts.push(`Consultoria R$ ${formatCurrency(getConsultoriaPixTotal(consultoria!))} (Pix)`)
+      }
+    }
+
+    if (consultoriaIsMensal && (hasSaas || hasConsultoria)) {
+      let total = (saas?.price || 0) + (hasConsultoria ? consultoria!.price : 0)
+      if (hasConsultant) total += consultant!.hourlyRate
       return `Finalizar pedido — R$ ${formatCurrency(total)}/mês`
     }
-    const parts: string[] = []
-    if (hasSaas) parts.push(`Sistema R$ ${formatCurrency(saas!.price)}/mês`)
-    if (hasConsultoria) parts.push(`Consultoria R$ ${formatCurrency(getConsultoriaPixTotal(consultoria!))} (Pix)`)
+
     return `Finalizar pedido — ${parts.join(' + ')}`
   }
 
@@ -91,10 +122,11 @@ export function CheckoutPage() {
             whatsapp: form.whatsapp,
             email: form.email,
             saasMethod: hasSaas ? form.paymentMethod : null,
-            consultoriaPix: hasConsultoria,
+            consultoriaPix: hasConsultoria && !consultoriaIsMensal,
             plans: selectedPlans,
             saasMensal: saas ? saas.price : 0,
-            consultoriaPixTotal: consultoria ? getConsultoriaPixTotal(consultoria) : 0,
+            consultoriaPixTotal: consultoria && !consultoriaIsMensal ? getConsultoriaPixTotal(consultoria) : 0,
+            consultant: consultant ? { name: consultant.name, hourlyRate: consultant.hourlyRate, slot: consultantSlot } : null,
           },
         })
       }
@@ -110,7 +142,6 @@ export function CheckoutPage() {
       <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
         <form onSubmit={handleSubmit}>
           <div className="grid lg:grid-cols-5 gap-8 lg:gap-12">
-            {/* Coluna esquerda — Formulário */}
             <div className="lg:col-span-3 space-y-8">
               <div>
                 <h1 className="text-2xl font-bold text-[#0E0E0F] mb-1">Finalizar pedido</h1>
@@ -129,16 +160,17 @@ export function CheckoutPage() {
                 selected={form.paymentMethod}
                 onSelect={setPaymentMethod}
                 hasSaas={hasSaas}
-                hasConsultoria={hasConsultoria}
+                hasConsultoria={hasConsultoria || hasConsultant}
               />
 
-              {/* Resumo mobile */}
               <div className="lg:hidden">
                 <OrderSummary
                   selectedPlans={selectedPlans}
                   onAddPlan={handleAddPlan}
                   onRemovePlan={handleRemovePlan}
                   paymentMethod={form.paymentMethod}
+                  consultant={consultant}
+                  consultantSlot={consultantSlot}
                 />
               </div>
 
@@ -160,7 +192,6 @@ export function CheckoutPage() {
               <SecurityBadge />
             </div>
 
-            {/* Coluna direita — Resumo (desktop) */}
             <div className="hidden lg:block lg:col-span-2">
               <div className="sticky top-8">
                 <OrderSummary
@@ -168,6 +199,8 @@ export function CheckoutPage() {
                   onAddPlan={handleAddPlan}
                   onRemovePlan={handleRemovePlan}
                   paymentMethod={form.paymentMethod}
+                  consultant={consultant}
+                  consultantSlot={consultantSlot}
                 />
               </div>
             </div>

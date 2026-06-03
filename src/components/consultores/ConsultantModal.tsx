@@ -222,10 +222,10 @@ export function ConsultantModal({ consultant, onClose }: ConsultantModalProps) {
             </div>
           )}
           <Link
-            to={`/checkout?plano=consultoria-6${selectedSlot ? `&slot=${encodeURIComponent(selectedSlot)}` : ''}`}
+            to={`/checkout?consultor=${consultant.id}${selectedSlot ? `&slot=${encodeURIComponent(selectedSlot)}` : ''}`}
             className="block w-full text-center bg-[#EA1D2C] hover:bg-[#C8101E] text-white font-medium py-4 rounded-xl text-base transition-colors"
           >
-            {selectedSlot ? 'Contratar e confirmar agendamento' : 'Contratar consultoria'}
+            {selectedSlot ? 'Contratar e confirmar agendamento' : 'Contratar consultor'}
           </Link>
           {selectedSlot && (
             <p className="text-[10px] text-[#9C958A] text-center">
