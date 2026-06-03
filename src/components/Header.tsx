@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, Briefcase } from 'lucide-react'
 import { GranularLogo } from './GranularLogo'
+import { useCart } from '../stores/useCartStore'
 
 const navLinks = [
   { label: 'Módulos', href: '/#modulos' },
@@ -12,6 +13,7 @@ const navLinks = [
 
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const cart = useCart()
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-xl border-b border-[#9C958A]/20">
@@ -42,6 +44,17 @@ export function Header() {
           <a href="https://maestrofood.vercel.app/auth" className="text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors">
             Login
           </a>
+
+          {/* Meu plano / carrinho */}
+          {cart.itemCount > 0 && (
+            <Link to="/checkout" className="relative p-2 text-[#9C958A] hover:text-[#0E0E0F] transition-colors">
+              <Briefcase size={20} />
+              <span className="absolute -top-0.5 -right-0.5 w-4.5 h-4.5 bg-[#EA1D2C] text-white text-[10px] font-bold rounded-full flex items-center justify-center leading-none">
+                {cart.itemCount}
+              </span>
+            </Link>
+          )}
+
           <Link
             to="/checkout?plano=saas-2"
             className="text-sm font-medium text-white bg-[#EA1D2C] hover:bg-[#C8101E] px-5 py-2.5 rounded-xl transition-colors"
@@ -50,13 +63,23 @@ export function Header() {
           </Link>
         </div>
 
-        {/* Mobile menu button */}
-        <button
-          className="md:hidden p-2 text-[#0E0E0F]"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          {menuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        {/* Mobile: carrinho + menu */}
+        <div className="md:hidden flex items-center gap-2">
+          {cart.itemCount > 0 && (
+            <Link to="/checkout" className="relative p-2 text-[#9C958A] hover:text-[#0E0E0F] transition-colors">
+              <Briefcase size={20} />
+              <span className="absolute -top-0.5 -right-0.5 w-4.5 h-4.5 bg-[#EA1D2C] text-white text-[10px] font-bold rounded-full flex items-center justify-center leading-none">
+                {cart.itemCount}
+              </span>
+            </Link>
+          )}
+          <button
+            className="p-2 text-[#0E0E0F]"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            {menuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu */}
