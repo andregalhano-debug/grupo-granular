@@ -55,7 +55,7 @@ export function CheckoutPage() {
   const hasConsultoria = !!consultoria
   const hasConsultants = cart.consultants.length > 0
 
-  const consultoriaIsMensal = hasSaas && form.paymentMethod === 'cartao'
+  const consultoriaIsMensal = form.paymentMethod === 'cartao'
   const allConsultantsHaveSlots = cart.consultants.every((c) => !!c.slot)
   const canSubmit = !hasConsultants || allConsultantsHaveSlots
 
