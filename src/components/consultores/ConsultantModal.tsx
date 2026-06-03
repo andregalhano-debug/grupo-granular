@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from 'react'
-import { X, Star, Clock, MapPin, CalendarDays, Check } from 'lucide-react'
+import { X, Star, Clock, MapPin, CalendarDays, Check, ChevronDown } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import type { Consultant, TimeSlot } from '../../data/consultants'
 
@@ -15,6 +15,7 @@ function getInitials(name: string): string {
 export function ConsultantModal({ consultant, onClose }: ConsultantModalProps) {
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null)
   const [booked, setBooked] = useState(false)
+  const [agendaExpanded, setAgendaExpanded] = useState(false)
 
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
@@ -25,6 +26,7 @@ export function ConsultantModal({ consultant, onClose }: ConsultantModalProps) {
   useEffect(() => {
     setSelectedSlot(null)
     setBooked(false)
+    setAgendaExpanded(false)
   }, [consultant])
 
   // Agrupar slots por data
@@ -133,34 +135,76 @@ export function ConsultantModal({ consultant, onClose }: ConsultantModalProps) {
               </div>
             ) : (
               <div className="space-y-3">
-                {Array.from(slotsByDate.entries()).map(([date, slots]) => (
-                  <div key={date}>
-                    <p className="text-xs font-medium text-[#0E0E0F] mb-2 capitalize">{date}</p>
-                    <div className="flex flex-wrap gap-2">
-                      {slots.map((slot) => {
-                        const key = `${date}-${slot.time}`
-                        const isSelected = selectedSlot === key
-                        return (
+                {(() => {
+                  const entries = Array.from(slotsByDate.entries())
+                  const visibleEntries = agendaExpanded ? entries : entries.slice(0, 1)
+                  const hiddenCount = entries.length - 1
+
+                  return (
+                    <>
+                      {visibleEntries.map(([date, slots]) => (
+                        <div key={date}>
+                          <p className="text-xs font-medium text-[#0E0E0F] mb-2 capitalize">{date}</p>
+                          <div className="flex flex-wrap gap-2">
+                            {slots.map((slot) => {
+                              const key = `${date}-${slot.time}`
+                              const isSelected = selectedSlot === key
+                              return (
+                                <button
+                                  key={key}
+                                  type="button"
+                                  disabled={!slot.available}
+                                  onClick={() => setSelectedSlot(isSelected ? null : key)}
+                                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+                                    !slot.available
+                                      ? 'bg-[#F7F7F7] text-[#9C958A]/40 cursor-not-allowed line-through'
+                                      : isSelected
+                                        ? 'bg-[#EA1D2C] text-white shadow-sm'
+                                        : 'border border-[#9C958A]/20 text-[#0E0E0F] hover:border-[#EA1D2C]/30'
+                                  }`}
+                                >
+                                  {slot.time}
+                                </button>
+                              )
+                            })}
+                          </div>
+                        </div>
+                      ))}
+
+                      {!agendaExpanded && hiddenCount > 0 && (
+                        <>
+                          {/* Preview das datas ocultas */}
+                          <div className="flex items-center gap-2 text-xs text-[#9C958A]">
+                            {entries.slice(1, 4).map(([date]) => (
+                              <span key={date} className="bg-[#F7F7F7] px-2.5 py-1 rounded-lg capitalize opacity-60">{date}</span>
+                            ))}
+                            {hiddenCount > 3 && <span className="opacity-40">...</span>}
+                          </div>
                           <button
-                            key={key}
                             type="button"
-                            disabled={!slot.available}
-                            onClick={() => setSelectedSlot(isSelected ? null : key)}
-                            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
-                              !slot.available
-                                ? 'bg-[#F7F7F7] text-[#9C958A]/40 cursor-not-allowed line-through'
-                                : isSelected
-                                  ? 'bg-[#EA1D2C] text-white shadow-sm'
-                                  : 'border border-[#9C958A]/20 text-[#0E0E0F] hover:border-[#EA1D2C]/30'
-                            }`}
+                            onClick={() => setAgendaExpanded(true)}
+                            className="w-full flex items-center justify-center gap-1.5 text-xs font-medium text-[#EA1D2C] hover:bg-[#EA1D2C]/5 py-2 rounded-lg transition-colors cursor-pointer"
                           >
-                            {slot.time}
+                            Ver mais {hiddenCount} {hiddenCount === 1 ? 'dia disponível' : 'dias disponíveis'}
+                            <ChevronDown size={14} />
                           </button>
-                        )
-                      })}
-                    </div>
-                  </div>
-                ))}
+                        </>
+                      )}
+
+                      {agendaExpanded && (
+                        <button
+                          type="button"
+                          onClick={() => setAgendaExpanded(false)}
+                          className="w-full flex items-center justify-center gap-1.5 text-xs font-medium text-[#9C958A] hover:bg-[#F7F7F7] py-2 rounded-lg transition-colors cursor-pointer"
+                        >
+                          Recolher agenda
+                          <ChevronDown size={14} className="rotate-180" />
+                        </button>
+                      )}
+                    </>
+                  )
+                })()}
+
                 <p className="text-[10px] text-[#9C958A]">
                   Integrado com Google Calendar — o convite será enviado automaticamente.
                 </p>
