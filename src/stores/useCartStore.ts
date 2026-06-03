@@ -25,6 +25,7 @@ interface CartContextValue {
   removePlan: (planId: string) => void
   addConsultant: (consultant: Consultant, slot: string | null) => void
   removeConsultant: (consultantId: string) => void
+  updateConsultantSlot: (consultantId: string, slot: string | null) => void
   clearCart: () => void
   itemCount: number
 }
@@ -94,6 +95,10 @@ export function useCartState(): CartContextValue {
     setConsultants((prev) => prev.filter((c) => c.id !== consultantId))
   }, [])
 
+  const updateConsultantSlot = useCallback((consultantId: string, slot: string | null) => {
+    setConsultants((prev) => prev.map((c) => c.id === consultantId ? { ...c, slot } : c))
+  }, [])
+
   const clearCart = useCallback(() => {
     setPlans([])
     setConsultants([])
@@ -101,5 +106,5 @@ export function useCartState(): CartContextValue {
 
   const itemCount = plans.length + consultants.length
 
-  return { plans, consultants, addPlan, removePlan, addConsultant, removeConsultant, clearCart, itemCount }
+  return { plans, consultants, addPlan, removePlan, addConsultant, removeConsultant, updateConsultantSlot, clearCart, itemCount }
 }

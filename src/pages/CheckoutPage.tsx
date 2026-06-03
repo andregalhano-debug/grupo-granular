@@ -56,6 +56,8 @@ export function CheckoutPage() {
   const hasConsultants = cart.consultants.length > 0
 
   const consultoriaIsMensal = hasSaas && form.paymentMethod === 'cartao'
+  const allConsultantsHaveSlots = cart.consultants.every((c) => !!c.slot)
+  const canSubmit = !hasConsultants || allConsultantsHaveSlots
 
   const buildButtonText = () => {
     const parts: string[] = []
@@ -76,7 +78,7 @@ export function CheckoutPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!validate() || isProcessing) return
+    if (!validate() || isProcessing || !canSubmit) return
 
     setIsProcessing(true)
     try {
@@ -145,7 +147,7 @@ export function CheckoutPage() {
 
               <button
                 type="submit"
-                disabled={isProcessing}
+                disabled={isProcessing || !canSubmit}
                 className="w-full flex items-center justify-center gap-2 bg-[#EA1D2C] hover:bg-[#C8101E] disabled:opacity-70 text-white font-medium py-4 px-8 rounded-xl text-base transition-colors cursor-pointer"
               >
                 {isProcessing ? (
@@ -153,6 +155,8 @@ export function CheckoutPage() {
                     <Loader2 size={20} className="animate-spin" />
                     Processando...
                   </>
+                ) : !canSubmit ? (
+                  'Selecione os horários dos consultores'
                 ) : (
                   buildButtonText()
                 )}

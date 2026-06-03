@@ -1,7 +1,9 @@
-import { Check, Plus, X, ChevronDown, CalendarDays, Star } from 'lucide-react'
-import { useState } from 'react'
+import { Check, Plus, X, ChevronDown, CalendarDays, Star, AlertCircle } from 'lucide-react'
+import { useState, useMemo } from 'react'
 import { saasPlans, consultoriaPlans, getConsultoriaTotal, getConsultoriaPixTotal, getConsultoriaPixDiscount } from '../../data/plans'
 import type { Plan } from '../../data/plans'
+import { getConsultantById } from '../../data/consultants'
+import type { TimeSlot } from '../../data/consultants'
 import { formatCurrency } from '../../utils/formatters'
 import { useCart } from '../../stores/useCartStore'
 import type { PaymentMethod } from '../../hooks/useCheckoutForm'
@@ -40,6 +42,121 @@ function PlanSelector({ plans, currentPlan, onSelect, label }: {
 
 function getInitials(name: string): string {
   return name.split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase()
+}
+
+function ConsultantSlotCard({ cartConsultant }: { cartConsultant: { id: string; name: string; title: string; rating: number; hourlyRate: number; slot: string | null } }) {
+  const cart = useCart()
+  const c = cartConsultant
+  const [slotsExpanded, setSlotsExpanded] = useState(false)
+
+  // Buscar slots do consultor original
+  const consultant = getConsultantById(c.id)
+  const slotsByDate = useMemo(() => {
+    if (!consultant) return new Map<string, TimeSlot[]>()
+    const map = new Map<string, TimeSlot[]>()
+    for (const slot of consultant.slots) {
+      const list = map.get(slot.date) || []
+      list.push(slot)
+      map.set(slot.date, list)
+    }
+    return map
+  }, [consultant])
+
+  const entries = Array.from(slotsByDate.entries())
+  const visibleEntries = slotsExpanded ? entries : entries.slice(0, 1)
+  const hiddenCount = entries.length - 1
+  const needsSlot = !c.slot
+
+  return (
+    <div className={`rounded-xl bg-white p-4 border ${needsSlot ? 'border-amber-300' : 'border-[#EA1D2C]/20'}`}>
+      <div className="flex items-start justify-between mb-2">
+        <span className="text-[10px] font-medium uppercase tracking-wider text-[#EA1D2C]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+          Sessão com consultor
+        </span>
+        <button type="button" onClick={() => cart.removeConsultant(c.id)} className="p-1 text-[#9C958A] hover:text-[#EA1D2C] transition-colors"><X size={16} /></button>
+      </div>
+      <div className="flex items-center gap-3 mb-3">
+        <div className="w-10 h-10 rounded-full bg-[#EA1D2C]/10 flex items-center justify-center flex-shrink-0">
+          <span className="text-sm font-bold text-[#EA1D2C]">{getInitials(c.name)}</span>
+        </div>
+        <div>
+          <h3 className="font-semibold text-[#0E0E0F] text-sm">{c.name}</h3>
+          <p className="text-xs text-[#9C958A]">{c.title}</p>
+          <div className="flex items-center gap-1 mt-0.5">
+            {[...Array(5)].map((_, i) => (
+              <Star key={i} size={10} className={i < Math.round(c.rating) ? 'fill-[#f5a623] text-[#f5a623]' : 'text-[#9C958A]/30'} />
+            ))}
+            <span className="text-[10px] text-[#9C958A] ml-0.5">{c.rating}</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Slot selecionado ou seletor */}
+      {c.slot ? (
+        <div className="flex items-center justify-between rounded-lg bg-[#EA1D2C]/5 px-3 py-2 mb-3">
+          <div className="flex items-center gap-2 text-xs text-[#0E0E0F]">
+            <CalendarDays size={14} className="text-[#EA1D2C]" />
+            Agendado: <strong>{c.slot.replace('-', ' às ')}</strong>
+          </div>
+          <button type="button" onClick={() => cart.updateConsultantSlot(c.id, null)} className="text-[10px] text-[#EA1D2C] font-medium hover:underline cursor-pointer">
+            Alterar
+          </button>
+        </div>
+      ) : (
+        <div className="mb-3 space-y-2">
+          <div className="flex items-center gap-2 rounded-lg bg-amber-50 border border-amber-200 px-3 py-2 text-xs text-amber-700">
+            <AlertCircle size={14} className="flex-shrink-0" />
+            Selecione uma data e horário para continuar
+          </div>
+
+          {visibleEntries.map(([date, slots]) => (
+            <div key={date}>
+              <p className="text-[10px] font-medium text-[#0E0E0F] mb-1.5 capitalize">{date}</p>
+              <div className="flex flex-wrap gap-1.5">
+                {slots.map((slot) => {
+                  const key = `${date}-${slot.time}`
+                  return (
+                    <button
+                      key={key}
+                      type="button"
+                      disabled={!slot.available}
+                      onClick={() => cart.updateConsultantSlot(c.id, key)}
+                      className={`px-2.5 py-1 rounded-md text-[10px] font-medium transition-all cursor-pointer ${
+                        !slot.available
+                          ? 'bg-[#F7F7F7] text-[#9C958A]/40 cursor-not-allowed line-through'
+                          : 'border border-[#9C958A]/20 text-[#0E0E0F] hover:border-[#EA1D2C]/40 hover:bg-[#EA1D2C]/5'
+                      }`}
+                    >
+                      {slot.time}
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+          ))}
+
+          {!slotsExpanded && hiddenCount > 0 && (
+            <button type="button" onClick={() => setSlotsExpanded(true)}
+              className="w-full flex items-center justify-center gap-1 text-[10px] font-medium text-[#EA1D2C] hover:bg-[#EA1D2C]/5 py-1.5 rounded-md transition-colors cursor-pointer">
+              +{hiddenCount} {hiddenCount === 1 ? 'dia' : 'dias'}
+              <ChevronDown size={12} />
+            </button>
+          )}
+          {slotsExpanded && (
+            <button type="button" onClick={() => setSlotsExpanded(false)}
+              className="w-full flex items-center justify-center gap-1 text-[10px] font-medium text-[#9C958A] hover:bg-[#F7F7F7] py-1.5 rounded-md transition-colors cursor-pointer">
+              Recolher <ChevronDown size={12} className="rotate-180" />
+            </button>
+          )}
+        </div>
+      )}
+
+      <div className="text-right">
+        <span className="text-xl font-bold text-[#0E0E0F]">R$ {c.hourlyRate}</span>
+        <span className="text-xs text-[#9C958A]">/hora</span>
+      </div>
+    </div>
+  )
 }
 
 export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
@@ -93,39 +210,7 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
 
       {/* Sessões com consultores */}
       {cart.consultants.map((c) => (
-        <div key={c.id} className="rounded-xl bg-white p-4 border border-[#EA1D2C]/20">
-          <div className="flex items-start justify-between mb-2">
-            <span className="text-[10px] font-medium uppercase tracking-wider text-[#EA1D2C]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
-              Sessão com consultor
-            </span>
-            <button type="button" onClick={() => cart.removeConsultant(c.id)} className="p-1 text-[#9C958A] hover:text-[#EA1D2C] transition-colors"><X size={16} /></button>
-          </div>
-          <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 rounded-full bg-[#EA1D2C]/10 flex items-center justify-center flex-shrink-0">
-              <span className="text-sm font-bold text-[#EA1D2C]">{getInitials(c.name)}</span>
-            </div>
-            <div>
-              <h3 className="font-semibold text-[#0E0E0F] text-sm">{c.name}</h3>
-              <p className="text-xs text-[#9C958A]">{c.title}</p>
-              <div className="flex items-center gap-1 mt-0.5">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={10} className={i < Math.round(c.rating) ? 'fill-[#f5a623] text-[#f5a623]' : 'text-[#9C958A]/30'} />
-                ))}
-                <span className="text-[10px] text-[#9C958A] ml-0.5">{c.rating}</span>
-              </div>
-            </div>
-          </div>
-          {c.slot && (
-            <div className="flex items-center gap-2 rounded-lg bg-[#EA1D2C]/5 px-3 py-2 mb-3 text-xs text-[#0E0E0F]">
-              <CalendarDays size={14} className="text-[#EA1D2C]" />
-              Agendado: <strong>{c.slot.replace('-', ' às ')}</strong>
-            </div>
-          )}
-          <div className="text-right">
-            <span className="text-xl font-bold text-[#0E0E0F]">R$ {c.hourlyRate}</span>
-            <span className="text-xs text-[#9C958A]">/hora</span>
-          </div>
-        </div>
+        <ConsultantSlotCard key={c.id} cartConsultant={c} />
       ))}
 
       {/* Consultoria tradicional */}
