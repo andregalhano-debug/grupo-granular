@@ -10,7 +10,7 @@ interface PaymentMethodSelectorProps {
 
 const methods = [
   { id: 'cartao' as const, icon: CreditCard, label: 'Cartão', desc: 'Mensal' },
-  { id: 'pix' as const, icon: QrCode, label: 'Pix', desc: 'À vista com desconto' },
+  { id: 'pix' as const, icon: QrCode, label: 'Pix', desc: 'À vista com 3% de desconto' },
 ]
 
 export function PaymentMethodSelector({ selected, onSelect, hasConsultoria }: PaymentMethodSelectorProps) {
