@@ -250,6 +250,10 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
               </div>
             </div>
           )}
+          <div className="flex items-start gap-2 rounded-lg bg-[#EA1D2C]/5 border border-[#EA1D2C]/10 px-3 py-2 mt-3 text-[11px] text-[#9C958A] leading-relaxed">
+            <Check size={12} className="mt-0.5 text-[#EA1D2C] flex-shrink-0" />
+            <span><strong className="text-[#0E0E0F]">Sistema incluso</strong> durante o período da consultoria. Necessário integração dos dados para início.</span>
+          </div>
           <PlanSelector plans={consultoriaPlans} currentPlan={consultoria!} onSelect={cart.addPlan} label="consultoria" />
         </div>
       )}
