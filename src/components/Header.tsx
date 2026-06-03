@@ -13,7 +13,7 @@ export function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-[#EAE5D9]/90 backdrop-blur-xl border-b border-[#9C958A]/20">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-xl border-b border-[#9C958A]/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-[72px] flex items-center justify-between">
         {/* Logo */}
         <a href="#" className="flex items-center gap-3">
@@ -43,7 +43,7 @@ export function Header() {
           </a>
           <a
             href="#precos"
-            className="text-sm font-medium text-white bg-[#5C1A2B] hover:bg-[#3A1019] px-5 py-2.5 rounded-xl transition-colors"
+            className="text-sm font-medium text-white bg-[#A31631] hover:bg-[#7A1025] px-5 py-2.5 rounded-xl transition-colors"
           >
             Começar Grátis
           </a>
@@ -60,7 +60,7 @@ export function Header() {
 
       {/* Mobile Menu */}
       {menuOpen && (
-        <div className="md:hidden bg-[#EAE5D9] border-t border-[#9C958A]/20 px-4 py-4 space-y-3">
+        <div className="md:hidden bg-white border-t border-[#9C958A]/20 px-4 py-4 space-y-3">
           {navLinks.map((link) => (
             <a
               key={link.href}
@@ -75,7 +75,7 @@ export function Header() {
             <a href="#" className="block text-sm text-[#9C958A] py-2">Login</a>
             <a
               href="#precos"
-              className="block text-center text-sm font-medium text-white bg-[#5C1A2B] px-5 py-2.5 rounded-xl"
+              className="block text-center text-sm font-medium text-white bg-[#A31631] px-5 py-2.5 rounded-xl"
               onClick={() => setMenuOpen(false)}
             >
               Começar Grátis

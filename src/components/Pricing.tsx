@@ -68,7 +68,7 @@ const consultoriaPlans = [
   {
     name: 'Consultoria 1 Mês',
     subtitle: 'Diagnóstico e ações imediatas',
-    price: '3.950',
+    price: '3.890',
     period: '/mês',
     features: [
       'Diagnóstico de gargalos operacionais e comerciais (in loco)',
@@ -85,7 +85,7 @@ const consultoriaPlans = [
   {
     name: 'Consultoria 3 Meses',
     subtitle: 'Transformação com acompanhamento',
-    price: '3.626',
+    price: '3.590',
     period: '/mês',
     features: [
       'Diagnóstico de gargalos operacionais e comerciais (in loco)',
@@ -105,7 +105,7 @@ const consultoriaPlans = [
   {
     name: 'Consultoria 6 Meses',
     subtitle: 'Evolução completa da operação',
-    price: '3.200',
+    price: '2.990',
     period: '/mês',
     features: [
       'Diagnóstico de gargalos operacionais e comerciais (in loco)',
@@ -127,7 +127,7 @@ const consultoriaPlans = [
 
 export function Pricing() {
   return (
-    <section id="precos" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-[#FAF7F0]">
+    <section id="precos" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-[#F7F7F7]">
       <div className="max-w-7xl mx-auto">
         <FadeIn className="text-center mb-16">
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#0E0E0F] mb-4">
@@ -142,8 +142,8 @@ export function Pricing() {
         <FadeIn>
           <div className="max-w-6xl mx-auto mb-10">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-[#5C1A2B] flex items-center justify-center">
-                <Monitor size={22} className="text-[#FAF7F0]" />
+              <div className="w-12 h-12 rounded-xl bg-[#A31631] flex items-center justify-center">
+                <Monitor size={22} className="text-[#F7F7F7]" />
               </div>
               <div>
                 <h3 className="text-2xl font-bold text-[#0E0E0F]">Sistema</h3>
@@ -160,8 +160,8 @@ export function Pricing() {
               <div
                 className={`rounded-2xl p-8 h-full flex flex-col ${
                   plan.popular
-                    ? 'bg-[#5C1A2B] text-white shadow-2xl shadow-[#5C1A2B]/20'
-                    : 'bg-[#EAE5D9] border border-[#9C958A]/20'
+                    ? 'bg-[#A31631] text-white shadow-2xl shadow-[#A31631]/20'
+                    : 'bg-white border border-[#9C958A]/20'
                 }`}
               >
                 <h3 className={`text-xl font-bold mb-1 ${plan.popular ? 'text-white' : 'text-[#0E0E0F]'}`}>
@@ -185,7 +185,7 @@ export function Pricing() {
                       <Check
                         size={16}
                         className={`mt-0.5 flex-shrink-0 ${
-                          plan.popular ? 'text-[#9B3349]' : 'text-[#5C1A2B]'
+                          plan.popular ? 'text-[#C4223D]' : 'text-[#A31631]'
                         }`}
                       />
                       <span className={plan.popular ? 'text-white/80' : 'text-[#2A2622]'}>
@@ -199,8 +199,8 @@ export function Pricing() {
                   href="#"
                   className={`block text-center font-medium py-3 px-6 rounded-xl text-sm transition-colors ${
                     plan.popular
-                      ? 'bg-[#EAE5D9] text-[#5C1A2B] hover:bg-[#FAF7F0]'
-                      : 'border border-[#5C1A2B] text-[#5C1A2B] hover:bg-[#5C1A2B] hover:text-white'
+                      ? 'bg-white text-[#A31631] hover:bg-[#F7F7F7]'
+                      : 'border border-[#A31631] text-[#A31631] hover:bg-[#A31631] hover:text-white'
                   }`}
                 >
                   {plan.cta}
@@ -214,8 +214,8 @@ export function Pricing() {
         <FadeIn>
           <div className="max-w-6xl mx-auto mb-10">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-[#5C1A2B] flex items-center justify-center">
-                <Handshake size={22} className="text-[#FAF7F0]" />
+              <div className="w-12 h-12 rounded-xl bg-[#A31631] flex items-center justify-center">
+                <Handshake size={22} className="text-[#F7F7F7]" />
               </div>
               <div>
                 <h3 className="text-2xl font-bold text-[#0E0E0F]">Consultoria</h3>
@@ -232,8 +232,8 @@ export function Pricing() {
               <div
                 className={`rounded-2xl p-8 h-full flex flex-col ${
                   plan.popular
-                    ? 'bg-[#5C1A2B] text-white shadow-2xl shadow-[#5C1A2B]/20'
-                    : 'bg-[#EAE5D9] border border-[#9C958A]/20'
+                    ? 'bg-[#A31631] text-white shadow-2xl shadow-[#A31631]/20'
+                    : 'bg-white border border-[#9C958A]/20'
                 }`}
               >
                 <h3 className={`text-xl font-bold mb-1 ${plan.popular ? 'text-white' : 'text-[#0E0E0F]'}`}>
@@ -252,7 +252,7 @@ export function Pricing() {
                 <ul className="space-y-3 mb-8 flex-1">
                   {plan.features.map((feature) => (
                     <li key={feature} className="flex items-start gap-3 text-sm">
-                      <Check size={16} className={`mt-0.5 flex-shrink-0 ${plan.popular ? 'text-[#9B3349]' : 'text-[#5C1A2B]'}`} />
+                      <Check size={16} className={`mt-0.5 flex-shrink-0 ${plan.popular ? 'text-[#C4223D]' : 'text-[#A31631]'}`} />
                       <span className={plan.popular ? 'text-white/80' : 'text-[#2A2622]'}>{feature}</span>
                     </li>
                   ))}
@@ -262,8 +262,8 @@ export function Pricing() {
                   href="#"
                   className={`block text-center font-medium py-3 px-6 rounded-xl text-sm transition-colors ${
                     plan.popular
-                      ? 'bg-[#EAE5D9] text-[#5C1A2B] hover:bg-[#FAF7F0]'
-                      : 'border border-[#5C1A2B] text-[#5C1A2B] hover:bg-[#5C1A2B] hover:text-white'
+                      ? 'bg-white text-[#A31631] hover:bg-[#F7F7F7]'
+                      : 'border border-[#A31631] text-[#A31631] hover:bg-[#A31631] hover:text-white'
                   }`}
                 >
                   {plan.cta}
