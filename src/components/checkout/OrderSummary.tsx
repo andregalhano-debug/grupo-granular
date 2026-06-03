@@ -3,11 +3,13 @@ import { useState } from 'react'
 import type { Plan } from '../../data/plans'
 import { saasPlans, consultoriaPlans, getConsultoriaTotal, getConsultoriaPixTotal, getConsultoriaPixDiscount } from '../../data/plans'
 import { formatCurrency } from '../../utils/formatters'
+import type { PaymentMethod } from '../../hooks/useCheckoutForm'
 
 interface OrderSummaryProps {
   selectedPlans: Plan[]
   onAddPlan: (plan: Plan) => void
   onRemovePlan: (planId: string) => void
+  paymentMethod: PaymentMethod
 }
 
 function PlanSelector({ plans, currentPlan, onSelect, label }: {
@@ -51,7 +53,7 @@ function PlanSelector({ plans, currentPlan, onSelect, label }: {
   )
 }
 
-export function OrderSummary({ selectedPlans, onAddPlan, onRemovePlan }: OrderSummaryProps) {
+export function OrderSummary({ selectedPlans, onAddPlan, onRemovePlan, paymentMethod }: OrderSummaryProps) {
   const saas = selectedPlans.find((p) => p.type === 'saas')
   const consultoria = selectedPlans.find((p) => p.type === 'consultoria')
   const hasSaas = !!saas
@@ -60,9 +62,16 @@ export function OrderSummary({ selectedPlans, onAddPlan, onRemovePlan }: OrderSu
   const upsellSaas = saasPlans.find((p) => p.popular)!
   const upsellConsultoria = consultoriaPlans.find((p) => p.popular)!
 
-  // Cálculos
+  // Se tem sistema e método é cartão, consultoria mostra mensal
+  // Se não tem sistema (só consultoria) ou método é pix, consultoria mostra Pix à vista
+  const consultoriaIsMensal = hasSaas && paymentMethod === 'cartao'
+
   const saasMensal = saas ? saas.price : 0
+  const consultoriaMensal = consultoria ? consultoria.price : 0
   const consultoriaPixFinal = consultoria ? getConsultoriaPixTotal(consultoria) : 0
+
+  // Total mensal quando cartão (sistema + consultoria)
+  const totalMensal = saasMensal + (consultoriaIsMensal ? consultoriaMensal : 0)
 
   return (
     <div className="rounded-2xl border border-[#0E0E0F]/10 bg-[#F7F7F7] p-6 space-y-5">
@@ -106,7 +115,7 @@ export function OrderSummary({ selectedPlans, onAddPlan, onRemovePlan }: OrderSu
             </ul>
 
             {/* Preço */}
-            {isConsultoria ? (
+            {isConsultoria && !consultoriaIsMensal ? (
               <div className="space-y-1.5">
                 <div className="flex items-baseline justify-between text-xs text-[#9C958A]">
                   <span>{plan!.months}x de R$ {plan!.priceFormatted}</span>
@@ -124,7 +133,7 @@ export function OrderSummary({ selectedPlans, onAddPlan, onRemovePlan }: OrderSu
             ) : (
               <div className="text-right">
                 <span className="text-xl font-bold text-[#0E0E0F]">R$ {plan!.priceFormatted}</span>
-                <span className="text-xs text-[#9C958A]">{plan!.period}</span>
+                <span className="text-xs text-[#9C958A]">/mês</span>
               </div>
             )}
 
@@ -173,17 +182,43 @@ export function OrderSummary({ selectedPlans, onAddPlan, onRemovePlan }: OrderSu
 
       {/* Totais */}
       <div className="border-t border-[#0E0E0F]/10 pt-4 space-y-2">
-        {hasSaas && (
-          <div className="flex items-baseline justify-between text-sm">
-            <span className="text-[#9C958A]">Sistema (mensal, cartão)</span>
-            <span className="font-semibold text-[#0E0E0F]">R$ {formatCurrency(saasMensal)}/mês</span>
-          </div>
-        )}
-        {hasConsultoria && (
-          <div className="flex items-baseline justify-between text-sm">
-            <span className="text-[#9C958A]">Consultoria (Pix à vista)</span>
-            <span className="font-semibold text-[#0E0E0F]">R$ {formatCurrency(consultoriaPixFinal)}</span>
-          </div>
+        {consultoriaIsMensal ? (
+          <>
+            {hasSaas && (
+              <div className="flex items-baseline justify-between text-sm text-[#9C958A]">
+                <span>Sistema</span>
+                <span>R$ {formatCurrency(saasMensal)}/mês</span>
+              </div>
+            )}
+            {hasConsultoria && (
+              <div className="flex items-baseline justify-between text-sm text-[#9C958A]">
+                <span>Consultoria</span>
+                <span>R$ {formatCurrency(consultoriaMensal)}/mês</span>
+              </div>
+            )}
+            <div className="flex items-baseline justify-between pt-2 border-t border-[#0E0E0F]/5">
+              <span className="text-sm font-bold text-[#0E0E0F]">Total mensal</span>
+              <div>
+                <span className="text-2xl font-bold text-[#0E0E0F]">R$ {formatCurrency(totalMensal)}</span>
+                <span className="text-xs text-[#9C958A]">/mês</span>
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            {hasSaas && (
+              <div className="flex items-baseline justify-between text-sm">
+                <span className="text-[#9C958A]">Sistema (mensal)</span>
+                <span className="font-semibold text-[#0E0E0F]">R$ {formatCurrency(saasMensal)}/mês</span>
+              </div>
+            )}
+            {hasConsultoria && (
+              <div className="flex items-baseline justify-between text-sm">
+                <span className="text-[#9C958A]">Consultoria (Pix à vista)</span>
+                <span className="font-semibold text-[#0E0E0F]">R$ {formatCurrency(consultoriaPixFinal)}</span>
+              </div>
+            )}
+          </>
         )}
       </div>
 

@@ -54,8 +54,14 @@ export function CheckoutPage() {
   const hasSaas = !!saas
   const hasConsultoria = !!consultoria
 
-  // Texto do botão
+  // Quando cartão selecionado no sistema, consultoria é mensal também
+  const consultoriaIsMensal = hasSaas && form.paymentMethod === 'cartao'
+
   const buildButtonText = () => {
+    if (consultoriaIsMensal && hasConsultoria) {
+      const total = saas!.price + consultoria!.price
+      return `Finalizar pedido — R$ ${formatCurrency(total)}/mês`
+    }
     const parts: string[] = []
     if (hasSaas) parts.push(`Sistema R$ ${formatCurrency(saas!.price)}/mês`)
     if (hasConsultoria) parts.push(`Consultoria R$ ${formatCurrency(getConsultoriaPixTotal(consultoria!))} (Pix)`)
@@ -132,6 +138,7 @@ export function CheckoutPage() {
                   selectedPlans={selectedPlans}
                   onAddPlan={handleAddPlan}
                   onRemovePlan={handleRemovePlan}
+                  paymentMethod={form.paymentMethod}
                 />
               </div>
 
@@ -160,6 +167,7 @@ export function CheckoutPage() {
                   selectedPlans={selectedPlans}
                   onAddPlan={handleAddPlan}
                   onRemovePlan={handleRemovePlan}
+                  paymentMethod={form.paymentMethod}
                 />
               </div>
             </div>
