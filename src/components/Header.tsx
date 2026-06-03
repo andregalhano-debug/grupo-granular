@@ -39,7 +39,7 @@ export function Header() {
 
         {/* Desktop CTA */}
         <div className="hidden md:flex items-center gap-4">
-          <a href="#" className="text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors">
+          <a href="https://maestrofood.vercel.app/auth" className="text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors">
             Login
           </a>
           <Link
@@ -73,7 +73,7 @@ export function Header() {
             </a>
           ))}
           <div className="pt-3 border-t border-[#9C958A]/20 space-y-2">
-            <a href="#" className="block text-sm text-[#9C958A] py-2">Login</a>
+            <a href="https://maestrofood.vercel.app/auth" className="block text-sm text-[#9C958A] py-2">Login</a>
             <Link
               to="/checkout?plano=saas-2"
               className="block text-center text-sm font-medium text-white bg-[#EA1D2C] px-5 py-2.5 rounded-xl"

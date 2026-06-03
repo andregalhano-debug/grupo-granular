@@ -189,7 +189,7 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 rounded-lg bg-[#EA1D2C]/10 flex items-center justify-center flex-shrink-0"><Plus size={16} className="text-[#EA1D2C]" /></div>
               <div>
-                <p className="text-sm font-medium text-[#0E0E0F]">Adicionar Consultoria Tradicional</p>
+                <p className="text-sm font-medium text-[#0E0E0F]">Adicionar Consultoria Recorrente</p>
                 <p className="text-xs text-[#9C958A]">Planos de 1, 3 ou 6 meses</p>
               </div>
             </div>
