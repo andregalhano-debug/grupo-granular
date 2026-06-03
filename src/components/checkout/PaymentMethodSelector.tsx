@@ -13,7 +13,7 @@ const methods = [
   { id: 'pix' as const, icon: QrCode, label: 'Pix', desc: 'À vista com desconto' },
 ]
 
-export function PaymentMethodSelector({ selected, onSelect, hasSaas, hasConsultoria }: PaymentMethodSelectorProps) {
+export function PaymentMethodSelector({ selected, onSelect, hasConsultoria }: PaymentMethodSelectorProps) {
   return (
     <div className="space-y-4">
       <h2 className="text-lg font-bold text-[#0E0E0F]">Forma de pagamento</h2>
