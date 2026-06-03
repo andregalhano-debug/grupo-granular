@@ -8,9 +8,9 @@ const testimonials = [
     text: 'Reduzi meu CMV de 38% para 31% em apenas 3 meses usando a Granular. O controle de estoque automatizado e as fichas técnicas mudaram completamente minha operação.',
   },
   {
-    name: 'Ana Paula Ribeiro',
-    role: 'Gerente de Operações — Grupo Sabor',
-    text: 'O KDS transformou nossa cozinha. Os tempos de preparo caíram 40% e os erros de pedido praticamente zeraram. A equipe adora a interface.',
+    name: 'Aline Silva',
+    role: 'Gerente de Delivery',
+    text: 'O KDS transformou nossa cozinha. Os tempos de preparo caíram 40% e os erros de pedido praticamente zeraram. O time todo aprovou.',
   },
   {
     name: 'Roberto Alves',
