@@ -6,6 +6,7 @@ import { ConfirmacaoPage } from './pages/ConfirmacaoPage'
 import { ConsultoresPage } from './pages/ConsultoresPage'
 import { SejaConsultorPage } from './pages/SejaConsultorPage'
 import { LoginPage } from './pages/LoginPage'
+import { PainelConsultorPage } from './pages/PainelConsultorPage'
 import { ChatbotWidget } from './components/chatbot/ChatbotWidget'
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path="/consultores" element={<ConsultoresPage />} />
         <Route path="/seja-consultor" element={<SejaConsultorPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/painel-consultor" element={<PainelConsultorPage />} />
       </Routes>
       <ChatbotWidget />
     </CartProvider>

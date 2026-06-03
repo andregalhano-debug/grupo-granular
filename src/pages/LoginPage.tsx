@@ -61,7 +61,7 @@ export function LoginPage() {
             {/* Login Consultor */}
             <FadeIn delay={200}>
               <a
-                href="https://maestrofood.vercel.app/auth?role=consultor"
+                href="/painel-consultor"
                 className="group block rounded-2xl border border-[#9C958A]/20 bg-white p-8 hover:border-[#EA1D2C]/30 hover:shadow-lg hover:shadow-[#EA1D2C]/5 transition-all h-full"
               >
                 <div className="w-14 h-14 rounded-xl bg-[#0E0E0F]/5 flex items-center justify-center mb-5">
