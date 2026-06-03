@@ -1,26 +1,15 @@
-import { Header } from './components/Header'
-import { Hero } from './components/Hero'
-import { SocialProof } from './components/SocialProof'
-import { Modules } from './components/Modules'
-import { Differentials } from './components/Differentials'
-import { Pricing } from './components/Pricing'
-import { Testimonials } from './components/Testimonials'
-import { CtaSection } from './components/CtaSection'
-import { Footer } from './components/Footer'
+import { Routes, Route } from 'react-router-dom'
+import { LandingPage } from './pages/LandingPage'
+import { CheckoutPage } from './pages/CheckoutPage'
+import { ConfirmacaoPage } from './pages/ConfirmacaoPage'
 
 function App() {
   return (
-    <div className="min-h-screen bg-white">
-      <Header />
-      <Hero />
-      <SocialProof />
-      <Modules />
-      <Differentials />
-      <Pricing />
-      <Testimonials />
-      <CtaSection />
-      <Footer />
-    </div>
+    <Routes>
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/checkout" element={<CheckoutPage />} />
+      <Route path="/confirmacao" element={<ConfirmacaoPage />} />
+    </Routes>
   )
 }
 

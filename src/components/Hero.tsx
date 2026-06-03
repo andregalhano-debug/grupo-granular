@@ -1,4 +1,5 @@
 import { ArrowRight } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
 import telaSistema from '../assets/Tela Maestro.jpg'
 
@@ -8,40 +9,40 @@ export function Hero() {
       <FadeIn className="text-center">
         {/* Badge */}
         <div className="inline-flex items-center gap-2 bg-[#EA1D2C]/10 text-[#EA1D2C] px-4 py-2 rounded-full text-xs font-medium mb-8 tracking-widest uppercase" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
-          Consultoria e Gestão em Delivery
+          Consultoria e Gestao em Delivery
         </div>
 
-        {/* Headline — Instrument Serif italic for editorial feel */}
+        {/* Headline */}
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1] text-[#0E0E0F] max-w-4xl mx-auto mb-6">
-          Cada pedido é um dado.{' '}
+          Cada pedido e um dado.{' '}
           <span className="text-[#EA1D2C] italic" style={{ fontFamily: "'Instrument Serif', serif" }}>
-            Cada dado, uma decisão.
+            Cada dado, uma decisao.
           </span>
         </h1>
 
         {/* Subtext */}
         <p className="text-base sm:text-lg text-[#9C958A] max-w-2xl mx-auto mb-10 leading-relaxed">
-          Consultoria e gestão em delivery, potencializadas por IA — para restaurantes, farmácias e atacarejos.
+          Consultoria e gestao em delivery, potencializadas por IA — para restaurantes, farmacias e atacarejos.
         </p>
 
         {/* CTAs */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-4">
-          <a
-            href="#precos"
+          <Link
+            to="/checkout?plano=saas-2"
             className="inline-flex items-center gap-2 bg-[#EA1D2C] hover:bg-[#C8101E] text-white font-medium px-8 py-4 rounded-xl text-base transition-colors"
           >
-            Começar teste grátis de 14 dias
+            Comecar teste gratis de 14 dias
             <ArrowRight size={18} />
-          </a>
+          </Link>
           <a
             href="#modulos"
             className="inline-flex items-center gap-2 border border-[#9C958A]/30 hover:border-[#EA1D2C]/30 text-[#0E0E0F] font-medium px-8 py-4 rounded-xl text-base transition-colors"
           >
-            Ver Módulos
+            Ver Modulos
           </a>
         </div>
         <p className="text-xs text-[#9C958A] mb-16">
-          Sem cartão de crédito. Cancele quando quiser.
+          Sem cartao de credito. Cancele quando quiser.
         </p>
       </FadeIn>
 
@@ -63,7 +64,7 @@ export function Hero() {
           {/* Imagem real */}
           <img
             src={telaSistema}
-            alt="Dashboard Granular — Visão geral de faturamento, pedidos, promoções e clientes"
+            alt="Dashboard Granular — Visao geral de faturamento, pedidos, promocoes e clientes"
             className="w-full block"
           />
         </div>
