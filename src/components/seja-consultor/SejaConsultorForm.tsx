@@ -38,10 +38,14 @@ export function SejaConsultorForm({ form, errors, isProcessing, onUpdate, onSubm
       {/* Email */}
       <div>
         <label className="flex items-center gap-2 text-sm font-medium text-[#0E0E0F] mb-1.5">
-          <Mail size={16} className="text-[#9C958A]" /> E-mail
+          <Mail size={16} className="text-[#9C958A]" /> E-mail Google <span className="text-xs text-[#EA1D2C]">*obrigatório</span>
         </label>
-        <input type="email" placeholder="seu@email.com" value={form.email} onChange={(e) => onUpdate('email', e.target.value)} className={inputClass('email')} />
-        {errors.email && <p className="text-xs text-[#EA1D2C] mt-1">{errors.email}</p>}
+        <input type="email" placeholder="seu@gmail.com" value={form.email} onChange={(e) => onUpdate('email', e.target.value)} className={inputClass('email')} />
+        {errors.email ? (
+          <p className="text-xs text-[#EA1D2C] mt-1">{errors.email}</p>
+        ) : (
+          <p className="text-xs text-[#9C958A] mt-1">Necessário para integração com Google Calendar</p>
+        )}
       </div>
 
       {/* WhatsApp */}

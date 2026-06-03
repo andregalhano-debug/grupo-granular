@@ -10,9 +10,16 @@ export interface Review {
   rating: number
 }
 
+export interface TimeSlot {
+  date: string
+  time: string
+  available: boolean
+}
+
 export interface Consultant {
   id: string
   name: string
+  googleEmail: string
   specialty: ConsultantCategory
   title: string
   company: string
@@ -25,6 +32,7 @@ export interface Consultant {
   availability: string[]
   reviews: Review[]
   linkedin?: string
+  slots: TimeSlot[]
 }
 
 export const consultantCategories: { id: ConsultantCategory | null; label: string; icon: LucideIcon }[] = [
@@ -37,10 +45,29 @@ export const consultantCategories: { id: ConsultantCategory | null; label: strin
   { id: 'rh', label: 'Recursos Humanos', icon: Users },
 ]
 
+// Gera slots simulados para os próximos 5 dias úteis
+function generateSlots(): TimeSlot[] {
+  const slots: TimeSlot[] = []
+  const now = new Date()
+  let daysAdded = 0
+  const d = new Date(now)
+  while (daysAdded < 5) {
+    d.setDate(d.getDate() + 1)
+    if (d.getDay() === 0 || d.getDay() === 6) continue
+    const dateStr = d.toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit', month: '2-digit' })
+    for (const time of ['09:00', '10:00', '11:00', '14:00', '15:00', '16:00']) {
+      slots.push({ date: dateStr, time, available: Math.random() > 0.35 })
+    }
+    daysAdded++
+  }
+  return slots
+}
+
 export const consultants: Consultant[] = [
   {
     id: 'c1',
     name: 'Rafael Mendes',
+    googleEmail: 'rafael.mendes@gmail.com',
     specialty: 'operacao',
     title: 'Especialista em Operações de Delivery',
     company: 'Ex-Gerente iFood',
@@ -55,10 +82,12 @@ export const consultants: Consultant[] = [
       { author: 'Carlos M.', role: 'Dono de Dark Kitchen', text: 'O Rafael transformou nossa operação. Reduzimos o tempo médio de preparo em 40%.', rating: 5 },
       { author: 'Patrícia R.', role: 'Gerente de Rede', text: 'Consultoria muito prática e focada em resultados. Recomendo demais.', rating: 5 },
     ],
+    slots: generateSlots(),
   },
   {
     id: 'c2',
     name: 'Camila Santos',
+    googleEmail: 'camila.santos@gmail.com',
     specialty: 'financeiro',
     title: 'Consultora Financeira para Food Service',
     company: 'Ex-Controller Grupo Habib\'s',
@@ -73,10 +102,12 @@ export const consultants: Consultant[] = [
       { author: 'Roberto A.', role: 'CEO de Rede', text: 'A Camila nos ajudou a identificar onde estávamos perdendo dinheiro. CMV caiu 7 pontos.', rating: 5 },
       { author: 'Juliana F.', role: 'Proprietária', text: 'Finalmente entendi meus números. Consultoria clara e objetiva.', rating: 4 },
     ],
+    slots: generateSlots(),
   },
   {
     id: 'c3',
     name: 'Lucas Oliveira',
+    googleEmail: 'lucas.oliveira.mkt@gmail.com',
     specialty: 'marketing',
     title: 'Estrategista de Marketing para Delivery',
     company: 'Ex-Head de Marketing Rappi',
@@ -91,10 +122,12 @@ export const consultants: Consultant[] = [
       { author: 'Ana P.', role: 'Dona de Restaurante', text: 'Nossas vendas no iFood triplicaram em 2 meses seguindo as estratégias do Lucas.', rating: 5 },
       { author: 'Marcos L.', role: 'Sócio-fundador', text: 'Muito conhecimento prático sobre marketplaces. Vale cada centavo.', rating: 5 },
     ],
+    slots: generateSlots(),
   },
   {
     id: 'c4',
     name: 'Fernanda Costa',
+    googleEmail: 'fernanda.costa.chef@gmail.com',
     specialty: 'cardapio',
     title: 'Especialista em Engenharia de Cardápio',
     company: 'Chef e Consultora Independente',
@@ -109,10 +142,12 @@ export const consultants: Consultant[] = [
       { author: 'Diego S.', role: 'Dono de Hamburgueria', text: 'A Fernanda reestruturou nosso cardápio e o ticket médio subiu 35%. Incrível.', rating: 5 },
       { author: 'Luana M.', role: 'Gerente', text: 'Trabalho impecável nas fichas técnicas. Agora temos controle total dos custos.', rating: 5 },
     ],
+    slots: generateSlots(),
   },
   {
     id: 'c5',
     name: 'Thiago Barbosa',
+    googleEmail: 'thiago.barbosa.ifood@gmail.com',
     specialty: 'ifood',
     title: 'Consultor Especializado em iFood',
     company: 'Ex-Account Manager iFood',
@@ -127,10 +162,12 @@ export const consultants: Consultant[] = [
       { author: 'Ricardo T.', role: 'Proprietário', text: 'O Thiago conhece o iFood por dentro. Saímos da página 3 para o top 10 em 1 mês.', rating: 5 },
       { author: 'Sabrina K.', role: 'Gerente de Delivery', text: 'Estratégias certeiras. Nossas avaliações subiram de 4.2 para 4.8.', rating: 5 },
     ],
+    slots: generateSlots(),
   },
   {
     id: 'c6',
     name: 'Mariana Alves',
+    googleEmail: 'mariana.alves.rh@gmail.com',
     specialty: 'rh',
     title: 'Consultora de RH para Food Service',
     company: 'Ex-RH Grupo Madero',
@@ -145,10 +182,12 @@ export const consultants: Consultant[] = [
       { author: 'Felipe G.', role: 'Dono de Rede', text: 'Nosso turnover caiu 60% depois da consultoria da Mariana. Time muito mais estável.', rating: 5 },
       { author: 'Amanda R.', role: 'Gerente de Operações', text: 'Ótima visão de processos de RH adaptados ao food service.', rating: 4 },
     ],
+    slots: generateSlots(),
   },
   {
     id: 'c7',
     name: 'Pedro Henrique Lima',
+    googleEmail: 'pedro.lima.ops@gmail.com',
     specialty: 'operacao',
     title: 'Consultor de Expansão e Multi-lojas',
     company: 'Ex-Diretor de Operações Subway BR',
@@ -162,10 +201,12 @@ export const consultants: Consultant[] = [
     reviews: [
       { author: 'Eduardo V.', role: 'CEO', text: 'Consultoria essencial para quem quer crescer. O Pedro nos ajudou a abrir 5 novas unidades sem perder qualidade.', rating: 5 },
     ],
+    slots: generateSlots(),
   },
   {
     id: 'c8',
     name: 'Isabela Rocha',
+    googleEmail: 'isabela.rocha.brand@gmail.com',
     specialty: 'marketing',
     title: 'Especialista em Branding para Delivery',
     company: 'Fundadora da Agência FoodBrand',
@@ -180,5 +221,6 @@ export const consultants: Consultant[] = [
       { author: 'Gustavo N.', role: 'Dono de Dark Kitchen', text: 'A Isabela transformou nossa marca. As embalagens e o perfil no iFood ficaram profissionais.', rating: 5 },
       { author: 'Letícia B.', role: 'Sócia', text: 'Excelente trabalho de branding. Os clientes elogiam muito a nova identidade.', rating: 4 },
     ],
+    slots: generateSlots(),
   },
 ]

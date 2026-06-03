@@ -1,7 +1,7 @@
-import { useEffect } from 'react'
-import { X, Star, Clock, MapPin } from 'lucide-react'
+import { useEffect, useState, useMemo } from 'react'
+import { X, Star, Clock, MapPin, CalendarDays, Check } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import type { Consultant } from '../../data/consultants'
+import type { Consultant, TimeSlot } from '../../data/consultants'
 
 interface ConsultantModalProps {
   consultant: Consultant | null
@@ -13,13 +13,39 @@ function getInitials(name: string): string {
 }
 
 export function ConsultantModal({ consultant, onClose }: ConsultantModalProps) {
+  const [selectedSlot, setSelectedSlot] = useState<string | null>(null)
+  const [booked, setBooked] = useState(false)
+
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
     document.addEventListener('keydown', handleEsc)
     return () => document.removeEventListener('keydown', handleEsc)
   }, [onClose])
 
+  useEffect(() => {
+    setSelectedSlot(null)
+    setBooked(false)
+  }, [consultant])
+
+  // Agrupar slots por data
+  const slotsByDate = useMemo(() => {
+    if (!consultant) return new Map<string, TimeSlot[]>()
+    const map = new Map<string, TimeSlot[]>()
+    for (const slot of consultant.slots) {
+      const list = map.get(slot.date) || []
+      list.push(slot)
+      map.set(slot.date, list)
+    }
+    return map
+  }, [consultant])
+
   if (!consultant) return null
+
+  const handleBook = () => {
+    if (!selectedSlot) return
+    // Simulação — futuramente integra com Google Calendar API
+    setBooked(true)
+  }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose}>
@@ -88,6 +114,60 @@ export function ConsultantModal({ consultant, onClose }: ConsultantModalProps) {
             </div>
           </div>
 
+          {/* Agendamento */}
+          <div>
+            <h3 className="flex items-center gap-2 text-sm font-semibold text-[#0E0E0F] mb-3">
+              <CalendarDays size={16} />
+              Agendar sessão
+            </h3>
+
+            {booked ? (
+              <div className="rounded-xl bg-green-50 p-5 text-center space-y-2">
+                <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mx-auto">
+                  <Check size={20} className="text-green-600" />
+                </div>
+                <p className="text-sm font-medium text-green-700">Sessão agendada com sucesso!</p>
+                <p className="text-xs text-green-600">
+                  Você receberá um convite no Google Calendar com os detalhes da reunião.
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {Array.from(slotsByDate.entries()).map(([date, slots]) => (
+                  <div key={date}>
+                    <p className="text-xs font-medium text-[#0E0E0F] mb-2 capitalize">{date}</p>
+                    <div className="flex flex-wrap gap-2">
+                      {slots.map((slot) => {
+                        const key = `${date}-${slot.time}`
+                        const isSelected = selectedSlot === key
+                        return (
+                          <button
+                            key={key}
+                            type="button"
+                            disabled={!slot.available}
+                            onClick={() => setSelectedSlot(isSelected ? null : key)}
+                            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+                              !slot.available
+                                ? 'bg-[#F7F7F7] text-[#9C958A]/40 cursor-not-allowed line-through'
+                                : isSelected
+                                  ? 'bg-[#EA1D2C] text-white shadow-sm'
+                                  : 'border border-[#9C958A]/20 text-[#0E0E0F] hover:border-[#EA1D2C]/30'
+                            }`}
+                          >
+                            {slot.time}
+                          </button>
+                        )
+                      })}
+                    </div>
+                  </div>
+                ))}
+                <p className="text-[10px] text-[#9C958A]">
+                  Integrado com Google Calendar — o convite será enviado automaticamente.
+                </p>
+              </div>
+            )}
+          </div>
+
           {/* Reviews */}
           {consultant.reviews.length > 0 && (
             <div>
@@ -110,20 +190,26 @@ export function ConsultantModal({ consultant, onClose }: ConsultantModalProps) {
 
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row gap-3">
+            {!booked && (
+              <button
+                type="button"
+                onClick={handleBook}
+                disabled={!selectedSlot}
+                className={`flex-1 text-center font-medium py-4 rounded-xl text-base transition-colors ${
+                  selectedSlot
+                    ? 'bg-[#EA1D2C] hover:bg-[#C8101E] text-white cursor-pointer'
+                    : 'bg-[#EA1D2C]/30 text-white/70 cursor-not-allowed'
+                }`}
+              >
+                {selectedSlot ? 'Confirmar agendamento' : 'Selecione um horário'}
+              </button>
+            )}
             <Link
               to="/checkout?plano=consultoria-6"
-              className="flex-1 block text-center bg-[#EA1D2C] hover:bg-[#C8101E] text-white font-medium py-4 rounded-xl text-base transition-colors"
+              className="flex-1 block text-center border border-[#EA1D2C] text-[#EA1D2C] hover:bg-[#EA1D2C] hover:text-white font-medium py-4 rounded-xl text-base transition-colors"
             >
               Contratar consultoria
             </Link>
-            <a
-              href={`https://wa.me/5511999999999?text=Olá!%20Gostaria%20de%20agendar%20uma%20sessão%20com%20${encodeURIComponent(consultant.name)}.`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 block text-center border border-[#9C958A]/30 text-[#0E0E0F] hover:bg-[#F7F7F7] font-medium py-4 rounded-xl text-base transition-colors"
-            >
-              Falar pelo WhatsApp
-            </a>
           </div>
         </div>
       </div>

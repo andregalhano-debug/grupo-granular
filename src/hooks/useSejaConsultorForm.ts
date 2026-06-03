@@ -37,7 +37,11 @@ export function useSejaConsultorForm() {
     const emailErr = validateEmail(form.email)
     const whatsErr = validateWhatsApp(form.whatsapp)
     if (nomeErr) e.nome = nomeErr
-    if (emailErr) e.email = emailErr
+    if (emailErr) {
+      e.email = emailErr
+    } else if (!form.email.trim().endsWith('@gmail.com') && !form.email.trim().endsWith('@googlemail.com')) {
+      e.email = 'Use um e-mail Google (@gmail.com) para integração com a agenda'
+    }
     if (whatsErr) e.whatsapp = whatsErr
     if (!form.specialty) e.specialty = 'Selecione uma especialidade'
     if (!form.experienceYears || Number(form.experienceYears) < 1) e.experienceYears = 'Informe os anos de experiência'
