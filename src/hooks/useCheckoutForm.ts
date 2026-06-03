@@ -22,7 +22,7 @@ export function useCheckoutForm() {
     nome: '',
     whatsapp: '',
     email: '',
-    paymentMethod: 'pix',
+    paymentMethod: 'cartao',
   })
   const [errors, setErrors] = useState<FormErrors>({})
   const [isProcessing, setIsProcessing] = useState(false)
