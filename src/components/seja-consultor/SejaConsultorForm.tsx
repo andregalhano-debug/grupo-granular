@@ -21,7 +21,7 @@ export function SejaConsultorForm({ form, errors, isProcessing, onUpdate, onSubm
 
   const inputClass = (field: string) =>
     `w-full px-4 py-3 rounded-xl border text-sm bg-white outline-none transition-colors ${
-      errors[field] ? 'border-[#EA1D2C]' : 'border-[#0E0E0F]/15 focus:border-[#EA1D2C]'
+      errors[field] ? 'border-[#A31631]' : 'border-[#0E0E0F]/15 focus:border-[#A31631]'
     }`
 
   return (
@@ -32,17 +32,17 @@ export function SejaConsultorForm({ form, errors, isProcessing, onUpdate, onSubm
           <User size={16} className="text-[#9C958A]" /> Nome completo
         </label>
         <input type="text" placeholder="Seu nome e sobrenome" value={form.nome} onChange={(e) => onUpdate('nome', e.target.value)} className={inputClass('nome')} />
-        {errors.nome && <p className="text-xs text-[#EA1D2C] mt-1">{errors.nome}</p>}
+        {errors.nome && <p className="text-xs text-[#A31631] mt-1">{errors.nome}</p>}
       </div>
 
       {/* Email */}
       <div>
         <label className="flex items-center gap-2 text-sm font-medium text-[#0E0E0F] mb-1.5">
-          <Mail size={16} className="text-[#9C958A]" /> E-mail Google <span className="text-xs text-[#EA1D2C]">*obrigatório</span>
+          <Mail size={16} className="text-[#9C958A]" /> E-mail Google <span className="text-xs text-[#A31631]">*obrigatório</span>
         </label>
         <input type="email" placeholder="seu@gmail.com" value={form.email} onChange={(e) => onUpdate('email', e.target.value)} className={inputClass('email')} />
         {errors.email ? (
-          <p className="text-xs text-[#EA1D2C] mt-1">{errors.email}</p>
+          <p className="text-xs text-[#A31631] mt-1">{errors.email}</p>
         ) : (
           <p className="text-xs text-[#9C958A] mt-1">Necessário para integração com Google Calendar</p>
         )}
@@ -54,7 +54,7 @@ export function SejaConsultorForm({ form, errors, isProcessing, onUpdate, onSubm
           <MessageCircle size={16} className="text-[#25D366]" /> WhatsApp
         </label>
         <input type="tel" placeholder="(11) 99999-9999" value={form.whatsapp} onChange={(e) => onUpdate('whatsapp', e.target.value)} className={inputClass('whatsapp')} />
-        {errors.whatsapp && <p className="text-xs text-[#EA1D2C] mt-1">{errors.whatsapp}</p>}
+        {errors.whatsapp && <p className="text-xs text-[#A31631] mt-1">{errors.whatsapp}</p>}
       </div>
 
       {/* Especialidade */}
@@ -68,7 +68,7 @@ export function SejaConsultorForm({ form, errors, isProcessing, onUpdate, onSubm
             <option key={cat.id} value={cat.id!}>{cat.label}</option>
           ))}
         </select>
-        {errors.specialty && <p className="text-xs text-[#EA1D2C] mt-1">{errors.specialty}</p>}
+        {errors.specialty && <p className="text-xs text-[#A31631] mt-1">{errors.specialty}</p>}
       </div>
 
       {/* Anos de experiência */}
@@ -77,7 +77,7 @@ export function SejaConsultorForm({ form, errors, isProcessing, onUpdate, onSubm
           <Clock size={16} className="text-[#9C958A]" /> Anos de experiência
         </label>
         <input type="number" min="1" placeholder="Ex: 5" value={form.experienceYears} onChange={(e) => onUpdate('experienceYears', e.target.value)} className={inputClass('experienceYears')} />
-        {errors.experienceYears && <p className="text-xs text-[#EA1D2C] mt-1">{errors.experienceYears}</p>}
+        {errors.experienceYears && <p className="text-xs text-[#A31631] mt-1">{errors.experienceYears}</p>}
       </div>
 
       {/* LinkedIn */}
@@ -100,14 +100,14 @@ export function SejaConsultorForm({ form, errors, isProcessing, onUpdate, onSubm
           onChange={(e) => onUpdate('bio', e.target.value)}
           className={`${inputClass('bio')} resize-none`}
         />
-        {errors.bio && <p className="text-xs text-[#EA1D2C] mt-1">{errors.bio}</p>}
+        {errors.bio && <p className="text-xs text-[#A31631] mt-1">{errors.bio}</p>}
       </div>
 
       {/* Submit */}
       <button
         type="submit"
         disabled={isProcessing}
-        className="w-full flex items-center justify-center gap-2 bg-[#EA1D2C] hover:bg-[#C8101E] disabled:opacity-70 text-white font-medium py-4 px-8 rounded-xl text-base transition-colors cursor-pointer"
+        className="w-full flex items-center justify-center gap-2 bg-[#A31631] hover:bg-[#7A1025] disabled:opacity-70 text-white font-medium py-4 px-8 rounded-xl text-base transition-colors cursor-pointer"
       >
         {isProcessing ? (
           <><Loader2 size={20} className="animate-spin" /> Enviando...</>

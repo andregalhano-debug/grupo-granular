@@ -17,8 +17,8 @@ export function CategoryFilter({ selected, onSelect }: CategoryFilterProps) {
             onClick={() => onSelect(cat.id)}
             className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${
               isActive
-                ? 'bg-[#EA1D2C] text-white shadow-sm'
-                : 'border border-[#9C958A]/30 text-[#9C958A] hover:border-[#EA1D2C]/30 hover:text-[#0E0E0F]'
+                ? 'bg-[#A31631] text-white shadow-sm'
+                : 'border border-[#9C958A]/30 text-[#9C958A] hover:border-[#A31631]/30 hover:text-[#0E0E0F]'
             }`}
           >
             <cat.icon size={16} />

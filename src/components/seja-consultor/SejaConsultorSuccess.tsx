@@ -15,7 +15,7 @@ export function SejaConsultorSuccess() {
         <Link to="/consultores" className="inline-flex items-center gap-2 border border-[#0E0E0F]/15 text-[#0E0E0F] font-medium px-6 py-3 rounded-xl text-sm transition-colors hover:bg-[#F7F7F7]">
           Ver consultores
         </Link>
-        <Link to="/" className="inline-flex items-center gap-2 bg-[#EA1D2C] hover:bg-[#C8101E] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors">
+        <Link to="/" className="inline-flex items-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors">
           Voltar ao site
         </Link>
       </div>

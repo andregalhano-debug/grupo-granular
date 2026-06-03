@@ -26,10 +26,10 @@ export function ContactForm({ nome, whatsapp, email, errors, onUpdate }: Contact
           value={nome}
           onChange={(e) => onUpdate('nome', e.target.value)}
           className={`w-full px-4 py-3 rounded-xl border text-sm bg-white outline-none transition-colors ${
-            errors.nome ? 'border-[#EA1D2C]' : 'border-[#0E0E0F]/15 focus:border-[#EA1D2C]'
+            errors.nome ? 'border-[#A31631]' : 'border-[#0E0E0F]/15 focus:border-[#A31631]'
           }`}
         />
-        {errors.nome && <p className="text-xs text-[#EA1D2C] mt-1">{errors.nome}</p>}
+        {errors.nome && <p className="text-xs text-[#A31631] mt-1">{errors.nome}</p>}
       </div>
 
       {/* WhatsApp */}
@@ -44,11 +44,11 @@ export function ContactForm({ nome, whatsapp, email, errors, onUpdate }: Contact
           value={whatsapp}
           onChange={(e) => onUpdate('whatsapp', e.target.value)}
           className={`w-full px-4 py-3 rounded-xl border text-sm bg-white outline-none transition-colors ${
-            errors.whatsapp ? 'border-[#EA1D2C]' : 'border-[#0E0E0F]/15 focus:border-[#EA1D2C]'
+            errors.whatsapp ? 'border-[#A31631]' : 'border-[#0E0E0F]/15 focus:border-[#A31631]'
           }`}
         />
         {errors.whatsapp ? (
-          <p className="text-xs text-[#EA1D2C] mt-1">{errors.whatsapp}</p>
+          <p className="text-xs text-[#A31631] mt-1">{errors.whatsapp}</p>
         ) : (
           <p className="text-xs text-[#9C958A] mt-1">Usaremos para entrar em contato e verificar sua conta</p>
         )}
@@ -66,11 +66,11 @@ export function ContactForm({ nome, whatsapp, email, errors, onUpdate }: Contact
           value={email}
           onChange={(e) => onUpdate('email', e.target.value)}
           className={`w-full px-4 py-3 rounded-xl border text-sm bg-white outline-none transition-colors ${
-            errors.email ? 'border-[#EA1D2C]' : 'border-[#0E0E0F]/15 focus:border-[#EA1D2C]'
+            errors.email ? 'border-[#A31631]' : 'border-[#0E0E0F]/15 focus:border-[#A31631]'
           }`}
         />
         {errors.email ? (
-          <p className="text-xs text-[#EA1D2C] mt-1">{errors.email}</p>
+          <p className="text-xs text-[#A31631] mt-1">{errors.email}</p>
         ) : (
           <p className="text-xs text-[#9C958A] mt-1">Enviaremos a confirmação do pedido</p>
         )}

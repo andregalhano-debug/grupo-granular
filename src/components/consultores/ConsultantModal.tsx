@@ -60,8 +60,8 @@ export function ConsultantModal({ consultant, onClose }: ConsultantModalProps) {
         <div className="p-8 space-y-6">
           {/* Header */}
           <div className="flex items-start gap-5">
-            <div className="w-20 h-20 rounded-full bg-[#EA1D2C]/10 flex items-center justify-center flex-shrink-0">
-              <span className="text-2xl font-bold text-[#EA1D2C]">{getInitials(consultant.name)}</span>
+            <div className="w-20 h-20 rounded-full bg-[#A31631]/10 flex items-center justify-center flex-shrink-0">
+              <span className="text-2xl font-bold text-[#A31631]">{getInitials(consultant.name)}</span>
             </div>
             <div>
               <h2 className="text-xl font-bold text-[#0E0E0F]">{consultant.name}</h2>
@@ -105,7 +105,7 @@ export function ConsultantModal({ consultant, onClose }: ConsultantModalProps) {
             <h3 className="text-sm font-semibold text-[#0E0E0F] mb-3">Especialidades</h3>
             <div className="flex flex-wrap gap-2">
               {consultant.expertises.map((exp) => (
-                <span key={exp} className="text-xs bg-[#EA1D2C]/10 text-[#EA1D2C] px-3 py-1.5 rounded-full font-medium">
+                <span key={exp} className="text-xs bg-[#A31631]/10 text-[#A31631] px-3 py-1.5 rounded-full font-medium">
                   {exp}
                 </span>
               ))}
@@ -144,8 +144,8 @@ export function ConsultantModal({ consultant, onClose }: ConsultantModalProps) {
                                     !slot.available
                                       ? 'bg-[#F7F7F7] text-[#9C958A]/40 cursor-not-allowed line-through'
                                       : isSelected
-                                        ? 'bg-[#EA1D2C] text-white shadow-sm'
-                                        : 'border border-[#9C958A]/20 text-[#0E0E0F] hover:border-[#EA1D2C]/30'
+                                        ? 'bg-[#A31631] text-white shadow-sm'
+                                        : 'border border-[#9C958A]/20 text-[#0E0E0F] hover:border-[#A31631]/30'
                                   }`}
                                 >
                                   {slot.time}
@@ -168,7 +168,7 @@ export function ConsultantModal({ consultant, onClose }: ConsultantModalProps) {
                           <button
                             type="button"
                             onClick={() => setAgendaExpanded(true)}
-                            className="w-full flex items-center justify-center gap-1.5 text-xs font-medium text-[#EA1D2C] hover:bg-[#EA1D2C]/5 py-2 rounded-lg transition-colors cursor-pointer"
+                            className="w-full flex items-center justify-center gap-1.5 text-xs font-medium text-[#A31631] hover:bg-[#A31631]/5 py-2 rounded-lg transition-colors cursor-pointer"
                           >
                             Ver mais {hiddenCount} {hiddenCount === 1 ? 'dia disponível' : 'dias disponíveis'}
                             <ChevronDown size={14} />
@@ -190,7 +190,7 @@ export function ConsultantModal({ consultant, onClose }: ConsultantModalProps) {
                   )
                 })()}
 
-                <div className="rounded-lg bg-[#EA1D2C]/5 border border-[#EA1D2C]/10 px-3 py-2.5 text-[11px] text-[#9C958A] leading-relaxed">
+                <div className="rounded-lg bg-[#A31631]/5 border border-[#A31631]/10 px-3 py-2.5 text-[11px] text-[#9C958A] leading-relaxed">
                   <strong className="text-[#0E0E0F]">Como funciona:</strong> selecione o horário desejado e finalize o pagamento. O agendamento será confirmado automaticamente após a aprovação do pagamento, com convite enviado via Google Calendar.
                 </div>
               </div>
@@ -218,8 +218,8 @@ export function ConsultantModal({ consultant, onClose }: ConsultantModalProps) {
 
           {/* CTA */}
           {selectedSlot && (
-            <div className="flex items-center gap-2 rounded-xl bg-[#EA1D2C]/5 px-4 py-3 text-sm">
-              <CalendarDays size={16} className="text-[#EA1D2C] flex-shrink-0" />
+            <div className="flex items-center gap-2 rounded-xl bg-[#A31631]/5 px-4 py-3 text-sm">
+              <CalendarDays size={16} className="text-[#A31631] flex-shrink-0" />
               <span className="text-[#0E0E0F]">
                 Horário selecionado: <strong>{selectedSlot.replace('-', ' às ')}</strong>
               </span>
@@ -233,7 +233,7 @@ export function ConsultantModal({ consultant, onClose }: ConsultantModalProps) {
               onClose()
               navigate('/checkout')
             }}
-            className="block w-full text-center bg-[#EA1D2C] hover:bg-[#C8101E] text-white font-medium py-4 rounded-xl text-base transition-colors cursor-pointer"
+            className="block w-full text-center bg-[#A31631] hover:bg-[#7A1025] text-white font-medium py-4 rounded-xl text-base transition-colors cursor-pointer"
           >
             {selectedSlot ? 'Contratar e confirmar agendamento' : 'Contratar consultor'}
           </button>

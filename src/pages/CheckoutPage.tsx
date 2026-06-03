@@ -148,7 +148,7 @@ export function CheckoutPage() {
               <button
                 type="submit"
                 disabled={isProcessing || !canSubmit}
-                className="w-full flex items-center justify-center gap-2 bg-[#EA1D2C] hover:bg-[#C8101E] disabled:opacity-70 text-white font-medium py-4 px-8 rounded-xl text-base transition-colors cursor-pointer"
+                className="w-full flex items-center justify-center gap-2 bg-[#A31631] hover:bg-[#7A1025] disabled:opacity-70 text-white font-medium py-4 px-8 rounded-xl text-base transition-colors cursor-pointer"
               >
                 {isProcessing ? (
                   <>

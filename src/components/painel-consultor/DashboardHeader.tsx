@@ -27,8 +27,8 @@ export function DashboardHeader() {
 
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-[#EA1D2C]/10 flex items-center justify-center">
-              <span className="text-xs font-bold text-[#EA1D2C]">{getInitials(mockConsultantName)}</span>
+            <div className="w-8 h-8 rounded-full bg-[#A31631]/10 flex items-center justify-center">
+              <span className="text-xs font-bold text-[#A31631]">{getInitials(mockConsultantName)}</span>
             </div>
             <span className="text-sm font-medium text-[#0E0E0F] hidden sm:inline">{mockConsultantName}</span>
           </div>

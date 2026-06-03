@@ -42,16 +42,16 @@ export function LoginPage() {
             <FadeIn delay={100}>
               <a
                 href="https://maestrofood.vercel.app/auth"
-                className="group block rounded-2xl border border-[#9C958A]/20 bg-white p-8 hover:border-[#EA1D2C]/30 hover:shadow-lg hover:shadow-[#EA1D2C]/5 transition-all h-full"
+                className="group block rounded-2xl border border-[#9C958A]/20 bg-white p-8 hover:border-[#A31631]/30 hover:shadow-lg hover:shadow-[#A31631]/5 transition-all h-full"
               >
-                <div className="w-14 h-14 rounded-xl bg-[#EA1D2C]/10 flex items-center justify-center mb-5">
-                  <Monitor size={28} className="text-[#EA1D2C]" />
+                <div className="w-14 h-14 rounded-xl bg-[#A31631]/10 flex items-center justify-center mb-5">
+                  <Monitor size={28} className="text-[#A31631]" />
                 </div>
                 <h2 className="text-lg font-bold text-[#0E0E0F] mb-2">Sou Cliente</h2>
                 <p className="text-sm text-[#9C958A] leading-relaxed mb-6">
                   Acesse o sistema Granular para gerenciar sua operação de delivery — dashboard, pedidos, estoque, financeiro e muito mais.
                 </p>
-                <div className="flex items-center gap-2 text-sm font-medium text-[#EA1D2C] group-hover:gap-3 transition-all">
+                <div className="flex items-center gap-2 text-sm font-medium text-[#A31631] group-hover:gap-3 transition-all">
                   Acessar sistema
                   <ArrowRight size={16} />
                 </div>
@@ -62,7 +62,7 @@ export function LoginPage() {
             <FadeIn delay={200}>
               <a
                 href="/painel-consultor"
-                className="group block rounded-2xl border border-[#9C958A]/20 bg-white p-8 hover:border-[#EA1D2C]/30 hover:shadow-lg hover:shadow-[#EA1D2C]/5 transition-all h-full"
+                className="group block rounded-2xl border border-[#9C958A]/20 bg-white p-8 hover:border-[#A31631]/30 hover:shadow-lg hover:shadow-[#A31631]/5 transition-all h-full"
               >
                 <div className="w-14 h-14 rounded-xl bg-[#0E0E0F]/5 flex items-center justify-center mb-5">
                   <Users size={28} className="text-[#0E0E0F]" />
@@ -85,7 +85,7 @@ export function LoginPage() {
                     Histórico e dados dos parceiros
                   </li>
                 </ul>
-                <div className="flex items-center gap-2 text-sm font-medium text-[#EA1D2C] group-hover:gap-3 transition-all">
+                <div className="flex items-center gap-2 text-sm font-medium text-[#A31631] group-hover:gap-3 transition-all">
                   Acessar painel do consultor
                   <ArrowRight size={16} />
                 </div>

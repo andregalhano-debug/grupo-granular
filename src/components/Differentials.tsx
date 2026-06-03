@@ -41,8 +41,8 @@ export function Differentials() {
           {items.map((item, i) => (
             <FadeIn key={item.title} delay={i * 100}>
               <div className="rounded-2xl border border-[#FAF7F0]/[0.08] bg-[#FAF7F0]/[0.03] p-8 hover:bg-[#FAF7F0]/[0.06] transition-colors h-full">
-                <div className="w-11 h-11 rounded-xl bg-[#EA1D2C]/40 flex items-center justify-center mb-5">
-                  <item.icon size={22} className="text-[#F23B4C]" />
+                <div className="w-11 h-11 rounded-xl bg-[#A31631]/40 flex items-center justify-center mb-5">
+                  <item.icon size={22} className="text-[#C4223D]" />
                 </div>
                 <h3 className="text-lg font-semibold text-[#FAF7F0] mb-3">{item.title}</h3>
                 <p className="text-sm text-[#FAF7F0]/40 leading-relaxed">{item.desc}</p>

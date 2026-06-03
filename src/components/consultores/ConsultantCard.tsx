@@ -26,11 +26,11 @@ export function ConsultantCard({ consultant, onClick }: ConsultantCardProps) {
   }
 
   return (
-    <div className="rounded-2xl border border-[#9C958A]/20 bg-white p-6 hover:shadow-lg hover:shadow-[#EA1D2C]/5 hover:border-[#EA1D2C]/20 transition-all h-full flex flex-col">
+    <div className="rounded-2xl border border-[#9C958A]/20 bg-white p-6 hover:shadow-lg hover:shadow-[#A31631]/5 hover:border-[#A31631]/20 transition-all h-full flex flex-col">
       <div className="flex items-start gap-4 mb-4">
         {/* Avatar iniciais */}
-        <div className="w-14 h-14 rounded-full bg-[#EA1D2C]/10 flex items-center justify-center flex-shrink-0">
-          <span className="text-lg font-bold text-[#EA1D2C]">{getInitials(consultant.name)}</span>
+        <div className="w-14 h-14 rounded-full bg-[#A31631]/10 flex items-center justify-center flex-shrink-0">
+          <span className="text-lg font-bold text-[#A31631]">{getInitials(consultant.name)}</span>
         </div>
         <div className="min-w-0">
           <h3 className="font-semibold text-[#0E0E0F] text-sm">{consultant.name}</h3>
@@ -41,7 +41,7 @@ export function ConsultantCard({ consultant, onClick }: ConsultantCardProps) {
 
       {/* Specialty badge */}
       {cat && (
-        <span className="inline-flex items-center gap-1.5 text-[10px] font-medium text-[#EA1D2C] bg-[#EA1D2C]/10 px-2.5 py-1 rounded-full w-fit mb-3">
+        <span className="inline-flex items-center gap-1.5 text-[10px] font-medium text-[#A31631] bg-[#A31631]/10 px-2.5 py-1 rounded-full w-fit mb-3">
           <cat.icon size={12} />
           {cat.label}
         </span>
@@ -79,7 +79,7 @@ export function ConsultantCard({ consultant, onClick }: ConsultantCardProps) {
           </button>
           <button
             onClick={handleContract}
-            className="text-sm font-medium bg-[#EA1D2C] hover:bg-[#C8101E] text-white px-4 py-2 rounded-xl transition-colors cursor-pointer"
+            className="text-sm font-medium bg-[#A31631] hover:bg-[#7A1025] text-white px-4 py-2 rounded-xl transition-colors cursor-pointer"
           >
             Contratar
           </button>

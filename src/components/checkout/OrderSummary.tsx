@@ -21,7 +21,7 @@ function PlanSelector({ plans, currentPlan, onSelect, label }: {
   const [open, setOpen] = useState(false)
   return (
     <div className="relative">
-      <button type="button" onClick={() => setOpen(!open)} className="w-full flex items-center justify-between gap-2 text-xs text-[#EA1D2C] font-medium mt-2 px-2 py-1.5 rounded-lg hover:bg-[#EA1D2C]/5 transition-colors cursor-pointer">
+      <button type="button" onClick={() => setOpen(!open)} className="w-full flex items-center justify-between gap-2 text-xs text-[#A31631] font-medium mt-2 px-2 py-1.5 rounded-lg hover:bg-[#A31631]/5 transition-colors cursor-pointer">
         Alterar {label}
         <ChevronDown size={14} className={`transition-transform ${open ? 'rotate-180' : ''}`} />
       </button>
@@ -29,7 +29,7 @@ function PlanSelector({ plans, currentPlan, onSelect, label }: {
         <div className="mt-1 rounded-xl border border-[#0E0E0F]/10 bg-white shadow-lg overflow-hidden z-10 relative">
           {plans.map((plan) => (
             <button key={plan.id} type="button" onClick={() => { onSelect(plan); setOpen(false) }}
-              className={`w-full flex items-center justify-between px-4 py-3 text-left text-sm transition-colors cursor-pointer ${plan.id === currentPlan.id ? 'bg-[#EA1D2C]/5 text-[#EA1D2C] font-medium' : 'hover:bg-[#F7F7F7] text-[#0E0E0F]'}`}>
+              className={`w-full flex items-center justify-between px-4 py-3 text-left text-sm transition-colors cursor-pointer ${plan.id === currentPlan.id ? 'bg-[#A31631]/5 text-[#A31631] font-medium' : 'hover:bg-[#F7F7F7] text-[#0E0E0F]'}`}>
               <span>{plan.name}</span>
               <span className="text-xs text-[#9C958A]">R$ {plan.priceFormatted}/mês</span>
             </button>
@@ -68,16 +68,16 @@ function ConsultantSlotCard({ cartConsultant }: { cartConsultant: { id: string; 
   const needsSlot = !c.slot
 
   return (
-    <div className={`rounded-xl bg-white p-4 border ${needsSlot ? 'border-amber-300' : 'border-[#EA1D2C]/20'}`}>
+    <div className={`rounded-xl bg-white p-4 border ${needsSlot ? 'border-amber-300' : 'border-[#A31631]/20'}`}>
       <div className="flex items-start justify-between mb-2">
-        <span className="text-[10px] font-medium uppercase tracking-wider text-[#EA1D2C]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+        <span className="text-[10px] font-medium uppercase tracking-wider text-[#A31631]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
           Sessão com consultor
         </span>
-        <button type="button" onClick={() => cart.removeConsultant(c.id)} className="p-1 text-[#9C958A] hover:text-[#EA1D2C] transition-colors"><X size={16} /></button>
+        <button type="button" onClick={() => cart.removeConsultant(c.id)} className="p-1 text-[#9C958A] hover:text-[#A31631] transition-colors"><X size={16} /></button>
       </div>
       <div className="flex items-center gap-3 mb-3">
-        <div className="w-10 h-10 rounded-full bg-[#EA1D2C]/10 flex items-center justify-center flex-shrink-0">
-          <span className="text-sm font-bold text-[#EA1D2C]">{getInitials(c.name)}</span>
+        <div className="w-10 h-10 rounded-full bg-[#A31631]/10 flex items-center justify-center flex-shrink-0">
+          <span className="text-sm font-bold text-[#A31631]">{getInitials(c.name)}</span>
         </div>
         <div>
           <h3 className="font-semibold text-[#0E0E0F] text-sm">{c.name}</h3>
@@ -93,12 +93,12 @@ function ConsultantSlotCard({ cartConsultant }: { cartConsultant: { id: string; 
 
       {/* Slot selecionado ou seletor */}
       {c.slot ? (
-        <div className="flex items-center justify-between rounded-lg bg-[#EA1D2C]/5 px-3 py-2 mb-3">
+        <div className="flex items-center justify-between rounded-lg bg-[#A31631]/5 px-3 py-2 mb-3">
           <div className="flex items-center gap-2 text-xs text-[#0E0E0F]">
-            <CalendarDays size={14} className="text-[#EA1D2C]" />
+            <CalendarDays size={14} className="text-[#A31631]" />
             Agendado: <strong>{c.slot.replace('-', ' às ')}</strong>
           </div>
-          <button type="button" onClick={() => cart.updateConsultantSlot(c.id, null)} className="text-[10px] text-[#EA1D2C] font-medium hover:underline cursor-pointer">
+          <button type="button" onClick={() => cart.updateConsultantSlot(c.id, null)} className="text-[10px] text-[#A31631] font-medium hover:underline cursor-pointer">
             Alterar
           </button>
         </div>
@@ -124,7 +124,7 @@ function ConsultantSlotCard({ cartConsultant }: { cartConsultant: { id: string; 
                       className={`px-2.5 py-1 rounded-md text-[10px] font-medium transition-all cursor-pointer ${
                         !slot.available
                           ? 'bg-[#F7F7F7] text-[#9C958A]/40 cursor-not-allowed line-through'
-                          : 'border border-[#9C958A]/20 text-[#0E0E0F] hover:border-[#EA1D2C]/40 hover:bg-[#EA1D2C]/5'
+                          : 'border border-[#9C958A]/20 text-[#0E0E0F] hover:border-[#A31631]/40 hover:bg-[#A31631]/5'
                       }`}
                     >
                       {slot.time}
@@ -137,7 +137,7 @@ function ConsultantSlotCard({ cartConsultant }: { cartConsultant: { id: string; 
 
           {!slotsExpanded && hiddenCount > 0 && (
             <button type="button" onClick={() => setSlotsExpanded(true)}
-              className="w-full flex items-center justify-center gap-1 text-[10px] font-medium text-[#EA1D2C] hover:bg-[#EA1D2C]/5 py-1.5 rounded-md transition-colors cursor-pointer">
+              className="w-full flex items-center justify-center gap-1 text-[10px] font-medium text-[#A31631] hover:bg-[#A31631]/5 py-1.5 rounded-md transition-colors cursor-pointer">
               +{hiddenCount} {hiddenCount === 1 ? 'dia' : 'dias'}
               <ChevronDown size={12} />
             </button>
@@ -187,16 +187,16 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
         <div className="rounded-xl bg-white p-4 border border-[#0E0E0F]/5">
           <div className="flex items-start justify-between mb-2">
             <div>
-              <span className="text-[10px] font-medium uppercase tracking-wider text-[#EA1D2C]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>Sistema</span>
+              <span className="text-[10px] font-medium uppercase tracking-wider text-[#A31631]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>Sistema</span>
               <h3 className="font-semibold text-[#0E0E0F] text-sm">{saas.name}</h3>
             </div>
             {(cart.plans.length > 1 || hasConsultants) && (
-              <button type="button" onClick={() => cart.removePlan(saas.id)} className="p-1 text-[#9C958A] hover:text-[#EA1D2C] transition-colors"><X size={16} /></button>
+              <button type="button" onClick={() => cart.removePlan(saas.id)} className="p-1 text-[#9C958A] hover:text-[#A31631] transition-colors"><X size={16} /></button>
             )}
           </div>
           <ul className="space-y-1.5 mb-3">
             {saas.features.slice(0, 3).map((f) => (
-              <li key={f} className="flex items-start gap-2 text-xs text-[#9C958A]"><Check size={12} className="mt-0.5 text-[#EA1D2C] flex-shrink-0" />{f}</li>
+              <li key={f} className="flex items-start gap-2 text-xs text-[#9C958A]"><Check size={12} className="mt-0.5 text-[#A31631] flex-shrink-0" />{f}</li>
             ))}
             {saas.features.length > 3 && <li className="text-xs text-[#9C958A]">+{saas.features.length - 3} recursos inclusos</li>}
           </ul>
@@ -218,14 +218,14 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
         <div className="rounded-xl bg-white p-4 border border-[#0E0E0F]/5">
           <div className="flex items-start justify-between mb-2">
             <div>
-              <span className="text-[10px] font-medium uppercase tracking-wider text-[#EA1D2C]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>Consultoria</span>
+              <span className="text-[10px] font-medium uppercase tracking-wider text-[#A31631]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>Consultoria</span>
               <h3 className="font-semibold text-[#0E0E0F] text-sm">{consultoria!.name}</h3>
             </div>
-            <button type="button" onClick={() => cart.removePlan(consultoria!.id)} className="p-1 text-[#9C958A] hover:text-[#EA1D2C] transition-colors"><X size={16} /></button>
+            <button type="button" onClick={() => cart.removePlan(consultoria!.id)} className="p-1 text-[#9C958A] hover:text-[#A31631] transition-colors"><X size={16} /></button>
           </div>
           <ul className="space-y-1.5 mb-3">
             {consultoria!.features.slice(0, 3).map((f) => (
-              <li key={f} className="flex items-start gap-2 text-xs text-[#9C958A]"><Check size={12} className="mt-0.5 text-[#EA1D2C] flex-shrink-0" />{f}</li>
+              <li key={f} className="flex items-start gap-2 text-xs text-[#9C958A]"><Check size={12} className="mt-0.5 text-[#A31631] flex-shrink-0" />{f}</li>
             ))}
             {consultoria!.features.length > 3 && <li className="text-xs text-[#9C958A]">+{consultoria!.features.length - 3} recursos inclusos</li>}
           </ul>
@@ -250,8 +250,8 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
               </div>
             </div>
           )}
-          <div className="flex items-start gap-2 rounded-lg bg-[#EA1D2C]/5 border border-[#EA1D2C]/10 px-3 py-2 mt-3 text-[11px] text-[#9C958A] leading-relaxed">
-            <Check size={12} className="mt-0.5 text-[#EA1D2C] flex-shrink-0" />
+          <div className="flex items-start gap-2 rounded-lg bg-[#A31631]/5 border border-[#A31631]/10 px-3 py-2 mt-3 text-[11px] text-[#9C958A] leading-relaxed">
+            <Check size={12} className="mt-0.5 text-[#A31631] flex-shrink-0" />
             <span><strong className="text-[#0E0E0F]">Sistema incluso</strong> durante o período da consultoria. Necessário integração dos dados para início.</span>
           </div>
           <PlanSelector plans={consultoriaPlans} currentPlan={consultoria!} onSelect={cart.addPlan} label="consultoria" />
@@ -261,8 +261,8 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
       {/* Upsells */}
       {hasSaas && !hasConsultoria && !hasConsultants && (
         <button type="button" onClick={() => cart.addPlan(upsellConsultoria)}
-          className="w-full flex items-center gap-3 rounded-xl border border-dashed border-[#EA1D2C]/30 bg-[#EA1D2C]/5 p-4 text-left hover:bg-[#EA1D2C]/10 transition-colors cursor-pointer">
-          <div className="w-8 h-8 rounded-lg bg-[#EA1D2C]/10 flex items-center justify-center flex-shrink-0"><Plus size={16} className="text-[#EA1D2C]" /></div>
+          className="w-full flex items-center gap-3 rounded-xl border border-dashed border-[#A31631]/30 bg-[#A31631]/5 p-4 text-left hover:bg-[#A31631]/10 transition-colors cursor-pointer">
+          <div className="w-8 h-8 rounded-lg bg-[#A31631]/10 flex items-center justify-center flex-shrink-0"><Plus size={16} className="text-[#A31631]" /></div>
           <div>
             <p className="text-sm font-medium text-[#0E0E0F]">Adicionar Consultoria</p>
             <p className="text-xs text-[#9C958A]">{upsellConsultoria.name} — R$ {upsellConsultoria.priceFormatted}/mês</p>
@@ -276,7 +276,7 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
           <button type="button" onClick={() => setConsultoriaExpanded(!consultoriaExpanded)}
             className="w-full flex items-center justify-between gap-2 rounded-xl border border-dashed border-[#9C958A]/20 bg-white p-4 text-left hover:bg-[#F7F7F7] transition-colors cursor-pointer">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-[#EA1D2C]/10 flex items-center justify-center flex-shrink-0"><Plus size={16} className="text-[#EA1D2C]" /></div>
+              <div className="w-8 h-8 rounded-lg bg-[#A31631]/10 flex items-center justify-center flex-shrink-0"><Plus size={16} className="text-[#A31631]" /></div>
               <div>
                 <p className="text-sm font-medium text-[#0E0E0F]">Adicionar Consultoria Recorrente</p>
                 <p className="text-xs text-[#9C958A]">Planos de 1, 3 ou 6 meses</p>
@@ -291,7 +291,7 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
                   className="w-full flex items-center justify-between px-4 py-3 text-left text-sm hover:bg-[#F7F7F7] text-[#0E0E0F] transition-colors cursor-pointer">
                   <div>
                     <span className="font-medium">{plan.name}</span>
-                    {plan.popular && <span className="ml-2 text-[10px] text-[#EA1D2C] bg-[#EA1D2C]/10 px-2 py-0.5 rounded-full">Popular</span>}
+                    {plan.popular && <span className="ml-2 text-[10px] text-[#A31631] bg-[#A31631]/10 px-2 py-0.5 rounded-full">Popular</span>}
                   </div>
                   <span className="text-xs text-[#9C958A]">R$ {plan.priceFormatted}/mês</span>
                 </button>
@@ -303,8 +303,8 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
 
       {hasConsultoria && !hasSaas && !hasConsultants && (
         <button type="button" onClick={() => cart.addPlan(upsellSaas)}
-          className="w-full flex items-center gap-3 rounded-xl border border-dashed border-[#EA1D2C]/30 bg-[#EA1D2C]/5 p-4 text-left hover:bg-[#EA1D2C]/10 transition-colors cursor-pointer">
-          <div className="w-8 h-8 rounded-lg bg-[#EA1D2C]/10 flex items-center justify-center flex-shrink-0"><Plus size={16} className="text-[#EA1D2C]" /></div>
+          className="w-full flex items-center gap-3 rounded-xl border border-dashed border-[#A31631]/30 bg-[#A31631]/5 p-4 text-left hover:bg-[#A31631]/10 transition-colors cursor-pointer">
+          <div className="w-8 h-8 rounded-lg bg-[#A31631]/10 flex items-center justify-center flex-shrink-0"><Plus size={16} className="text-[#A31631]" /></div>
           <div>
             <p className="text-sm font-medium text-[#0E0E0F]">Adicionar Sistema</p>
             <p className="text-xs text-[#9C958A]">{upsellSaas.name} — R$ {upsellSaas.priceFormatted}/mês</p>

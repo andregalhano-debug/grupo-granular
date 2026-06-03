@@ -2,8 +2,8 @@ import { Search, BarChart3, Target, ArrowRight, Lightbulb, CheckCircle2 } from '
 import { consultationTemplate } from '../../data/dashboardMock'
 
 const phaseIcons = [Search, BarChart3, Target, ArrowRight]
-const phaseColors = ['text-[#EA1D2C]', 'text-[#0E0E0F]', 'text-[#0E0E0F]', 'text-green-600']
-const phaseBgColors = ['bg-[#EA1D2C]/10', 'bg-[#0E0E0F]/5', 'bg-[#0E0E0F]/5', 'bg-green-50']
+const phaseColors = ['text-[#A31631]', 'text-[#0E0E0F]', 'text-[#0E0E0F]', 'text-green-600']
+const phaseBgColors = ['bg-[#A31631]/10', 'bg-[#0E0E0F]/5', 'bg-[#0E0E0F]/5', 'bg-green-50']
 
 export function ConsultationTemplate() {
   return (
@@ -52,8 +52,8 @@ export function ConsultationTemplate() {
 
                   {/* Dicas */}
                   {phase.tips.map((tip) => (
-                    <div key={tip} className="flex items-start gap-2 rounded-lg bg-[#EA1D2C]/5 px-3 py-2">
-                      <Lightbulb size={14} className="mt-0.5 text-[#EA1D2C] flex-shrink-0" />
+                    <div key={tip} className="flex items-start gap-2 rounded-lg bg-[#A31631]/5 px-3 py-2">
+                      <Lightbulb size={14} className="mt-0.5 text-[#A31631] flex-shrink-0" />
                       <p className="text-[11px] text-[#9C958A] leading-relaxed">{tip}</p>
                     </div>
                   ))}

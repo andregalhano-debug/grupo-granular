@@ -20,7 +20,7 @@ export function Pricing() {
         <FadeIn>
           <div className="max-w-6xl mx-auto mb-10">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-[#EA1D2C] flex items-center justify-center">
+              <div className="w-12 h-12 rounded-xl bg-[#A31631] flex items-center justify-center">
                 <Monitor size={22} className="text-[#F7F7F7]" />
               </div>
               <div>
@@ -38,7 +38,7 @@ export function Pricing() {
               <div
                 className={`rounded-2xl p-8 h-full flex flex-col ${
                   plan.popular
-                    ? 'bg-[#EA1D2C] text-white shadow-2xl shadow-[#EA1D2C]/20'
+                    ? 'bg-[#A31631] text-white shadow-2xl shadow-[#A31631]/20'
                     : 'bg-white border border-[#9C958A]/20'
                 }`}
               >
@@ -63,7 +63,7 @@ export function Pricing() {
                       <Check
                         size={16}
                         className={`mt-0.5 flex-shrink-0 ${
-                          plan.popular ? 'text-[#F23B4C]' : 'text-[#EA1D2C]'
+                          plan.popular ? 'text-[#C4223D]' : 'text-[#A31631]'
                         }`}
                       />
                       <span className={plan.popular ? 'text-white/80' : 'text-[#2A2622]'}>
@@ -77,8 +77,8 @@ export function Pricing() {
                   to={`/checkout?plano=${plan.id}`}
                   className={`block text-center font-medium py-3 px-6 rounded-xl text-sm transition-colors ${
                     plan.popular
-                      ? 'bg-white text-[#EA1D2C] hover:bg-[#F7F7F7]'
-                      : 'border border-[#EA1D2C] text-[#EA1D2C] hover:bg-[#EA1D2C] hover:text-white'
+                      ? 'bg-white text-[#A31631] hover:bg-[#F7F7F7]'
+                      : 'border border-[#A31631] text-[#A31631] hover:bg-[#A31631] hover:text-white'
                   }`}
                 >
                   {plan.cta}
@@ -92,7 +92,7 @@ export function Pricing() {
         <FadeIn>
           <div className="max-w-6xl mx-auto mb-10">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-[#EA1D2C] flex items-center justify-center">
+              <div className="w-12 h-12 rounded-xl bg-[#A31631] flex items-center justify-center">
                 <Handshake size={22} className="text-[#F7F7F7]" />
               </div>
               <div>
@@ -110,7 +110,7 @@ export function Pricing() {
               <div
                 className={`rounded-2xl p-8 h-full flex flex-col ${
                   plan.popular
-                    ? 'bg-[#EA1D2C] text-white shadow-2xl shadow-[#EA1D2C]/20'
+                    ? 'bg-[#A31631] text-white shadow-2xl shadow-[#A31631]/20'
                     : 'bg-white border border-[#9C958A]/20'
                 }`}
               >
@@ -130,7 +130,7 @@ export function Pricing() {
                 <ul className="space-y-3 mb-8 flex-1">
                   {plan.features.map((feature) => (
                     <li key={feature} className="flex items-start gap-3 text-sm">
-                      <Check size={16} className={`mt-0.5 flex-shrink-0 ${plan.popular ? 'text-[#F23B4C]' : 'text-[#EA1D2C]'}`} />
+                      <Check size={16} className={`mt-0.5 flex-shrink-0 ${plan.popular ? 'text-[#C4223D]' : 'text-[#A31631]'}`} />
                       <span className={plan.popular ? 'text-white/80' : 'text-[#2A2622]'}>{feature}</span>
                     </li>
                   ))}
@@ -140,8 +140,8 @@ export function Pricing() {
                   to={`/checkout?plano=${plan.id}`}
                   className={`block text-center font-medium py-3 px-6 rounded-xl text-sm transition-colors ${
                     plan.popular
-                      ? 'bg-white text-[#EA1D2C] hover:bg-[#F7F7F7]'
-                      : 'border border-[#EA1D2C] text-[#EA1D2C] hover:bg-[#EA1D2C] hover:text-white'
+                      ? 'bg-white text-[#A31631] hover:bg-[#F7F7F7]'
+                      : 'border border-[#A31631] text-[#A31631] hover:bg-[#A31631] hover:text-white'
                   }`}
                 >
                   {plan.cta}

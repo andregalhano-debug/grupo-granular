@@ -9,7 +9,7 @@ export function ConsultoresHero() {
         </div>
         <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.1] text-[#FAF7F0] mb-6">
           Encontre o{' '}
-          <span className="text-[#EA1D2C] italic" style={{ fontFamily: "'Instrument Serif', serif" }}>
+          <span className="text-[#A31631] italic" style={{ fontFamily: "'Instrument Serif', serif" }}>
             especialista ideal
           </span>{' '}
           para sua operação

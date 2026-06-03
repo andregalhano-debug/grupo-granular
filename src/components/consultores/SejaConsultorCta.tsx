@@ -13,7 +13,7 @@ export function SejaConsultorCta() {
         </p>
         <Link
           to="/seja-consultor"
-          className="inline-flex items-center gap-2 bg-white hover:bg-[#F7F7F7] text-[#EA1D2C] font-medium px-8 py-4 rounded-xl text-base transition-colors"
+          className="inline-flex items-center gap-2 bg-white hover:bg-[#F7F7F7] text-[#A31631] font-medium px-8 py-4 rounded-xl text-base transition-colors"
         >
           Candidatar-se agora
         </Link>

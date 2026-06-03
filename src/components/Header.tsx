@@ -49,7 +49,7 @@ export function Header() {
           {cart.itemCount > 0 && (
             <Link to="/checkout" className="relative p-2 text-[#9C958A] hover:text-[#0E0E0F] transition-colors">
               <Briefcase size={20} />
-              <span className="absolute -top-0.5 -right-0.5 w-4.5 h-4.5 bg-[#EA1D2C] text-white text-[10px] font-bold rounded-full flex items-center justify-center leading-none">
+              <span className="absolute -top-0.5 -right-0.5 w-4.5 h-4.5 bg-[#A31631] text-white text-[10px] font-bold rounded-full flex items-center justify-center leading-none">
                 {cart.itemCount}
               </span>
             </Link>
@@ -57,9 +57,9 @@ export function Header() {
 
           <Link
             to="/checkout?plano=saas-2"
-            className="text-sm font-medium text-white bg-[#EA1D2C] hover:bg-[#C8101E] px-5 py-2.5 rounded-xl transition-colors"
+            className="text-sm font-medium text-white bg-[#A31631] hover:bg-[#7A1025] px-5 py-2.5 rounded-xl transition-colors"
           >
-            Começar Grátis
+            Começar Agora
           </Link>
         </div>
 
@@ -68,7 +68,7 @@ export function Header() {
           {cart.itemCount > 0 && (
             <Link to="/checkout" className="relative p-2 text-[#9C958A] hover:text-[#0E0E0F] transition-colors">
               <Briefcase size={20} />
-              <span className="absolute -top-0.5 -right-0.5 w-4.5 h-4.5 bg-[#EA1D2C] text-white text-[10px] font-bold rounded-full flex items-center justify-center leading-none">
+              <span className="absolute -top-0.5 -right-0.5 w-4.5 h-4.5 bg-[#A31631] text-white text-[10px] font-bold rounded-full flex items-center justify-center leading-none">
                 {cart.itemCount}
               </span>
             </Link>
@@ -99,10 +99,10 @@ export function Header() {
             <a href="/login" className="block text-sm text-[#9C958A] py-2">Login</a>
             <Link
               to="/checkout?plano=saas-2"
-              className="block text-center text-sm font-medium text-white bg-[#EA1D2C] px-5 py-2.5 rounded-xl"
+              className="block text-center text-sm font-medium text-white bg-[#A31631] px-5 py-2.5 rounded-xl"
               onClick={() => setMenuOpen(false)}
             >
-              Começar Grátis
+              Começar Agora
             </Link>
           </div>
         </div>

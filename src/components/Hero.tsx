@@ -8,14 +8,14 @@ export function Hero() {
     <section id="hero" className="pt-32 sm:pt-40 pb-20 sm:pb-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       <FadeIn className="text-center">
         {/* Badge */}
-        <div className="inline-flex items-center gap-2 bg-[#EA1D2C]/10 text-[#EA1D2C] px-4 py-2 rounded-full text-xs font-medium mb-8 tracking-widest uppercase" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+        <div className="inline-flex items-center gap-2 bg-[#A31631]/10 text-[#A31631] px-4 py-2 rounded-full text-xs font-medium mb-8 tracking-widest uppercase" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
           Consultoria e Gestão em Delivery
         </div>
 
         {/* Headline */}
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1] text-[#0E0E0F] max-w-4xl mx-auto mb-6">
           Cada pedido é um dado.{' '}
-          <span className="text-[#EA1D2C] italic" style={{ fontFamily: "'Instrument Serif', serif" }}>
+          <span className="text-[#A31631] italic" style={{ fontFamily: "'Instrument Serif', serif" }}>
             Cada dado, uma decisão.
           </span>
         </h1>
@@ -29,14 +29,14 @@ export function Hero() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-4">
           <Link
             to="/checkout?plano=saas-2"
-            className="inline-flex items-center gap-2 bg-[#EA1D2C] hover:bg-[#C8101E] text-white font-medium px-8 py-4 rounded-xl text-base transition-colors"
+            className="inline-flex items-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-8 py-4 rounded-xl text-base transition-colors"
           >
-            Começar teste grátis de 14 dias
+            Começar Agora
             <ArrowRight size={18} />
           </Link>
           <a
             href="#modulos"
-            className="inline-flex items-center gap-2 border border-[#9C958A]/30 hover:border-[#EA1D2C]/30 text-[#0E0E0F] font-medium px-8 py-4 rounded-xl text-base transition-colors"
+            className="inline-flex items-center gap-2 border border-[#9C958A]/30 hover:border-[#A31631]/30 text-[#0E0E0F] font-medium px-8 py-4 rounded-xl text-base transition-colors"
           >
             Ver Módulos
           </a>

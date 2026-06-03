@@ -23,7 +23,7 @@ export function SejaConsultorPage() {
             ) : (
               <>
                 <div className="text-center mb-10">
-                  <div className="inline-flex items-center gap-2 bg-[#EA1D2C]/10 text-[#EA1D2C] px-4 py-2 rounded-full text-xs font-medium mb-6 tracking-widest uppercase" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+                  <div className="inline-flex items-center gap-2 bg-[#A31631]/10 text-[#A31631] px-4 py-2 rounded-full text-xs font-medium mb-6 tracking-widest uppercase" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
                     Seja um consultor
                   </div>
                   <h1 className="text-2xl sm:text-3xl font-bold text-[#0E0E0F] mb-3">

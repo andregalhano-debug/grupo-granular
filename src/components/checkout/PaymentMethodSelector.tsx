@@ -27,12 +27,12 @@ export function PaymentMethodSelector({ selected, onSelect, hasConsultoria }: Pa
             onClick={() => onSelect(m.id)}
             className={`flex flex-col items-center gap-1.5 p-4 rounded-xl border text-center transition-all cursor-pointer ${
               selected === m.id
-                ? 'border-[#EA1D2C] bg-[#EA1D2C]/5 shadow-sm'
+                ? 'border-[#A31631] bg-[#A31631]/5 shadow-sm'
                 : 'border-[#0E0E0F]/10 hover:border-[#0E0E0F]/25'
             }`}
           >
-            <m.icon size={24} className={selected === m.id ? 'text-[#EA1D2C]' : 'text-[#9C958A]'} />
-            <span className={`text-sm font-medium ${selected === m.id ? 'text-[#EA1D2C]' : 'text-[#0E0E0F]'}`}>
+            <m.icon size={24} className={selected === m.id ? 'text-[#A31631]' : 'text-[#9C958A]'} />
+            <span className={`text-sm font-medium ${selected === m.id ? 'text-[#A31631]' : 'text-[#0E0E0F]'}`}>
               {m.label}
             </span>
             <span className="text-[10px] text-[#9C958A]">{m.desc}</span>

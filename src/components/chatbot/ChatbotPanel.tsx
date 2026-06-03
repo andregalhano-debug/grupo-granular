@@ -32,7 +32,7 @@ export function ChatbotPanel({ messages, onSend, agentName }: ChatbotPanelProps)
   return (
     <div className="fixed bottom-24 right-6 z-50 w-[360px] max-sm:w-[calc(100vw-48px)] max-h-[500px] rounded-2xl border border-[#0E0E0F]/10 bg-white shadow-2xl flex flex-col overflow-hidden">
       {/* Header */}
-      <div className="bg-[#EA1D2C] px-4 py-3 flex items-center gap-3">
+      <div className="bg-[#A31631] px-4 py-3 flex items-center gap-3">
         <GranularLogo size={24} color="#FFFFFF" />
         <span className="text-sm font-semibold text-white">{agentName} — Granular</span>
       </div>
@@ -47,7 +47,7 @@ export function ChatbotPanel({ messages, onSend, agentName }: ChatbotPanelProps)
             <div
               className={`max-w-[85%] rounded-xl px-3.5 py-2.5 text-sm leading-relaxed ${
                 msg.role === 'user'
-                  ? 'bg-[#EA1D2C]/10 text-[#0E0E0F]'
+                  ? 'bg-[#A31631]/10 text-[#0E0E0F]'
                   : 'bg-[#F7F7F7] text-[#0E0E0F]'
               }`}
             >
@@ -76,11 +76,11 @@ export function ChatbotPanel({ messages, onSend, agentName }: ChatbotPanelProps)
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Digite sua dúvida..."
-          className="flex-1 text-sm px-3 py-2 rounded-lg border border-[#0E0E0F]/10 outline-none focus:border-[#EA1D2C] transition-colors"
+          className="flex-1 text-sm px-3 py-2 rounded-lg border border-[#0E0E0F]/10 outline-none focus:border-[#A31631] transition-colors"
         />
         <button
           type="submit"
-          className="p-2 rounded-lg bg-[#EA1D2C] hover:bg-[#C8101E] text-white transition-colors cursor-pointer"
+          className="p-2 rounded-lg bg-[#A31631] hover:bg-[#7A1025] text-white transition-colors cursor-pointer"
         >
           <Send size={16} />
         </button>

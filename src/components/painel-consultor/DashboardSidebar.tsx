@@ -29,7 +29,7 @@ export function DashboardSidebar({ activeTab, onTabChange }: DashboardSidebarPro
               onClick={() => onTabChange(tab.id)}
               className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all cursor-pointer ${
                 activeTab === tab.id
-                  ? 'bg-[#EA1D2C]/10 text-[#EA1D2C]'
+                  ? 'bg-[#A31631]/10 text-[#A31631]'
                   : 'text-[#9C958A] hover:text-[#0E0E0F] hover:bg-[#F7F7F7]'
               }`}
             >
@@ -57,7 +57,7 @@ export function DashboardSidebar({ activeTab, onTabChange }: DashboardSidebarPro
               onClick={() => onTabChange(tab.id)}
               className={`flex items-center gap-1.5 px-4 py-3 text-xs font-medium whitespace-nowrap transition-colors cursor-pointer border-b-2 ${
                 activeTab === tab.id
-                  ? 'text-[#EA1D2C] border-[#EA1D2C]'
+                  ? 'text-[#A31631] border-[#A31631]'
                   : 'text-[#9C958A] border-transparent hover:text-[#0E0E0F]'
               }`}
             >

@@ -27,8 +27,8 @@ export function BriefingCard({ session, defaultOpen = false }: BriefingCardProps
         className="w-full flex items-center justify-between p-5 text-left cursor-pointer hover:bg-[#F7F7F7]/50 transition-colors"
       >
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-[#EA1D2C]/10 flex items-center justify-center flex-shrink-0">
-            <span className="text-xs font-bold text-[#EA1D2C]">{c.businessName.split(' ').map((n) => n[0]).join('').slice(0, 2)}</span>
+          <div className="w-10 h-10 rounded-full bg-[#A31631]/10 flex items-center justify-center flex-shrink-0">
+            <span className="text-xs font-bold text-[#A31631]">{c.businessName.split(' ').map((n) => n[0]).join('').slice(0, 2)}</span>
           </div>
           <div>
             <h3 className="text-sm font-semibold text-[#0E0E0F]">{c.businessName}</h3>
@@ -43,7 +43,7 @@ export function BriefingCard({ session, defaultOpen = false }: BriefingCardProps
         <div className="px-5 pb-5 space-y-5 border-t border-[#0E0E0F]/5 pt-5">
           {/* Objetivo */}
           <div className="flex items-start gap-2">
-            <Target size={16} className="text-[#EA1D2C] mt-0.5 flex-shrink-0" />
+            <Target size={16} className="text-[#A31631] mt-0.5 flex-shrink-0" />
             <div>
               <p className="text-[10px] font-medium text-[#9C958A] uppercase tracking-wider mb-1" style={{ fontFamily: "'JetBrains Mono', monospace" }}>Objetivo</p>
               <p className="text-sm font-medium text-[#0E0E0F]">{b.objective}</p>
@@ -75,7 +75,7 @@ export function BriefingCard({ session, defaultOpen = false }: BriefingCardProps
             <p className="text-[10px] font-medium text-[#9C958A] uppercase tracking-wider mb-2" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
               <Bot size={12} className="inline mr-1" />Insights da IA
             </p>
-            <div className="border-l-2 border-[#EA1D2C]/30 pl-3 space-y-2">
+            <div className="border-l-2 border-[#A31631]/30 pl-3 space-y-2">
               {b.chatbotInsights.map((insight, i) => (
                 <p key={i} className="text-xs text-[#9C958A] leading-relaxed">{insight}</p>
               ))}
@@ -89,14 +89,14 @@ export function BriefingCard({ session, defaultOpen = false }: BriefingCardProps
             </p>
             <div className="flex flex-wrap gap-2">
               {c.painPoints.map((p) => (
-                <span key={p} className="text-xs bg-[#EA1D2C]/10 text-[#EA1D2C] px-2.5 py-1 rounded-full">{p}</span>
+                <span key={p} className="text-xs bg-[#A31631]/10 text-[#A31631] px-2.5 py-1 rounded-full">{p}</span>
               ))}
             </div>
           </div>
 
           {/* Abordagem */}
-          <div className="rounded-xl bg-[#EA1D2C]/5 border border-[#EA1D2C]/10 p-4">
-            <p className="text-[10px] font-medium text-[#EA1D2C] uppercase tracking-wider mb-1" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+          <div className="rounded-xl bg-[#A31631]/5 border border-[#A31631]/10 p-4">
+            <p className="text-[10px] font-medium text-[#A31631] uppercase tracking-wider mb-1" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
               <Lightbulb size={12} className="inline mr-1" />Abordagem recomendada
             </p>
             <p className="text-xs text-[#0E0E0F] leading-relaxed">{b.recommendedApproach}</p>

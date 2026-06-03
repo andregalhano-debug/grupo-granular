@@ -81,7 +81,7 @@ export function PreparationCard({ session, defaultOpen = false }: PreparationCar
             <ol className="space-y-1.5">
               {p.suggestedTopics.map((topic, i) => (
                 <li key={i} className="flex items-start gap-2 text-xs text-[#0E0E0F]">
-                  <span className="text-[10px] font-bold text-[#EA1D2C] w-4 flex-shrink-0">{i + 1}.</span>
+                  <span className="text-[10px] font-bold text-[#A31631] w-4 flex-shrink-0">{i + 1}.</span>
                   {topic}
                 </li>
               ))}
@@ -95,7 +95,7 @@ export function PreparationCard({ session, defaultOpen = false }: PreparationCar
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               placeholder="Adicione suas notas para esta sessão..."
-              className="w-full text-xs text-[#0E0E0F] bg-[#F7F7F7] rounded-xl p-3 border border-[#0E0E0F]/10 outline-none focus:border-[#EA1D2C] transition-colors resize-none min-h-[80px]"
+              className="w-full text-xs text-[#0E0E0F] bg-[#F7F7F7] rounded-xl p-3 border border-[#0E0E0F]/10 outline-none focus:border-[#A31631] transition-colors resize-none min-h-[80px]"
             />
           </div>
         </div>

@@ -16,9 +16,9 @@ export function OnboardingTimeline() {
           <div key={step.title} className="flex gap-4">
             <div className="flex flex-col items-center">
               <div className={`w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 ${
-                step.done ? 'bg-green-100' : 'bg-[#EA1D2C]/10'
+                step.done ? 'bg-green-100' : 'bg-[#A31631]/10'
               }`}>
-                <step.icon size={18} className={step.done ? 'text-green-600' : 'text-[#EA1D2C]'} />
+                <step.icon size={18} className={step.done ? 'text-green-600' : 'text-[#A31631]'} />
               </div>
               {i < steps.length - 1 && (
                 <div className="w-px h-8 bg-[#0E0E0F]/10 my-1" />
