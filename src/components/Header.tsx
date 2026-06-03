@@ -43,7 +43,7 @@ export function Header() {
           </a>
           <a
             href="#precos"
-            className="text-sm font-medium text-white bg-[#A31631] hover:bg-[#7A1025] px-5 py-2.5 rounded-xl transition-colors"
+            className="text-sm font-medium text-white bg-[#EA1D2C] hover:bg-[#C8101E] px-5 py-2.5 rounded-xl transition-colors"
           >
             Começar Grátis
           </a>
@@ -75,7 +75,7 @@ export function Header() {
             <a href="#" className="block text-sm text-[#9C958A] py-2">Login</a>
             <a
               href="#precos"
-              className="block text-center text-sm font-medium text-white bg-[#A31631] px-5 py-2.5 rounded-xl"
+              className="block text-center text-sm font-medium text-white bg-[#EA1D2C] px-5 py-2.5 rounded-xl"
               onClick={() => setMenuOpen(false)}
             >
               Começar Grátis

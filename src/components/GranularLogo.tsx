@@ -32,7 +32,7 @@ export function GranularLogo({ size = 40, className = '', color = 'currentColor'
           const opacity = 1 - normalizedDist * 0.5
 
           const isWine = winePositions.has(`${row}-${col}`)
-          const fill = isWine ? '#A31631' : color
+          const fill = isWine ? '#EA1D2C' : color
 
           if (radius < 0.3) return null
 

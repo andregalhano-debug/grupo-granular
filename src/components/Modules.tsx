@@ -34,9 +34,9 @@ export function Modules() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {modules.map((mod, i) => (
             <FadeIn key={mod.title} delay={i * 80}>
-              <div className="group rounded-2xl border border-[#9C958A]/20 bg-[#F7F7F7] p-6 hover:border-[#A31631]/20 hover:shadow-lg hover:shadow-[#A31631]/5 transition-all duration-300 h-full">
-                <div className="w-11 h-11 rounded-xl bg-[#A31631]/10 flex items-center justify-center mb-4">
-                  <mod.icon size={22} className="text-[#A31631]" />
+              <div className="group rounded-2xl border border-[#9C958A]/20 bg-[#F7F7F7] p-6 hover:border-[#EA1D2C]/20 hover:shadow-lg hover:shadow-[#EA1D2C]/5 transition-all duration-300 h-full">
+                <div className="w-11 h-11 rounded-xl bg-[#EA1D2C]/10 flex items-center justify-center mb-4">
+                  <mod.icon size={22} className="text-[#EA1D2C]" />
                 </div>
                 <h3 className="font-semibold text-[#0E0E0F] mb-2">{mod.title}</h3>
                 <p className="text-sm text-[#9C958A] leading-relaxed">{mod.desc}</p>
@@ -48,7 +48,7 @@ export function Modules() {
         <FadeIn delay={400} className="flex flex-wrap items-center justify-center gap-6 mt-12">
           {badges.map((badge) => (
             <div key={badge.text} className="flex items-center gap-2 text-sm text-[#9C958A]">
-              <badge.icon size={16} className="text-[#A31631]" />
+              <badge.icon size={16} className="text-[#EA1D2C]" />
               {badge.text}
             </div>
           ))}
