@@ -1,7 +1,9 @@
 import { useEffect, useState, useMemo } from 'react'
 import { X, Star, Clock, MapPin, CalendarDays, ChevronDown } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import type { Consultant, TimeSlot } from '../../data/consultants'
+import { useCart } from '../../stores/useCartStore'
+import { saasPlans } from '../../data/plans'
 
 interface ConsultantModalProps {
   consultant: Consultant | null
@@ -13,6 +15,8 @@ function getInitials(name: string): string {
 }
 
 export function ConsultantModal({ consultant, onClose }: ConsultantModalProps) {
+  const cart = useCart()
+  const navigate = useNavigate()
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null)
   const [agendaExpanded, setAgendaExpanded] = useState(false)
 
@@ -221,12 +225,18 @@ export function ConsultantModal({ consultant, onClose }: ConsultantModalProps) {
               </span>
             </div>
           )}
-          <Link
-            to={`/checkout?consultor=${consultant.id}${selectedSlot ? `&slot=${encodeURIComponent(selectedSlot)}` : ''}`}
-            className="block w-full text-center bg-[#EA1D2C] hover:bg-[#C8101E] text-white font-medium py-4 rounded-xl text-base transition-colors"
+          <button
+            type="button"
+            onClick={() => {
+              cart.addConsultant(consultant!, selectedSlot)
+              if (!cart.plans.some((p) => p.type === 'saas')) cart.addPlan(saasPlans[0])
+              onClose()
+              navigate('/checkout')
+            }}
+            className="block w-full text-center bg-[#EA1D2C] hover:bg-[#C8101E] text-white font-medium py-4 rounded-xl text-base transition-colors cursor-pointer"
           >
             {selectedSlot ? 'Contratar e confirmar agendamento' : 'Contratar consultor'}
-          </Link>
+          </button>
           {selectedSlot && (
             <p className="text-[10px] text-[#9C958A] text-center">
               O horário será reservado e confirmado automaticamente após o pagamento.

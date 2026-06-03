@@ -1,18 +1,13 @@
 import { Check, Plus, X, ChevronDown, CalendarDays, Star } from 'lucide-react'
 import { useState } from 'react'
-import type { Plan } from '../../data/plans'
-import type { Consultant } from '../../data/consultants'
 import { saasPlans, consultoriaPlans, getConsultoriaTotal, getConsultoriaPixTotal, getConsultoriaPixDiscount } from '../../data/plans'
+import type { Plan } from '../../data/plans'
 import { formatCurrency } from '../../utils/formatters'
+import { useCart } from '../../stores/useCartStore'
 import type { PaymentMethod } from '../../hooks/useCheckoutForm'
 
 interface OrderSummaryProps {
-  selectedPlans: Plan[]
-  onAddPlan: (plan: Plan) => void
-  onRemovePlan: (planId: string) => void
   paymentMethod: PaymentMethod
-  consultant?: Consultant | null
-  consultantSlot?: string | null
 }
 
 function PlanSelector({ plans, currentPlan, onSelect, label }: {
@@ -22,30 +17,17 @@ function PlanSelector({ plans, currentPlan, onSelect, label }: {
   label: string
 }) {
   const [open, setOpen] = useState(false)
-
   return (
     <div className="relative">
-      <button
-        type="button"
-        onClick={() => setOpen(!open)}
-        className="w-full flex items-center justify-between gap-2 text-xs text-[#EA1D2C] font-medium mt-2 px-2 py-1.5 rounded-lg hover:bg-[#EA1D2C]/5 transition-colors cursor-pointer"
-      >
+      <button type="button" onClick={() => setOpen(!open)} className="w-full flex items-center justify-between gap-2 text-xs text-[#EA1D2C] font-medium mt-2 px-2 py-1.5 rounded-lg hover:bg-[#EA1D2C]/5 transition-colors cursor-pointer">
         Alterar {label}
         <ChevronDown size={14} className={`transition-transform ${open ? 'rotate-180' : ''}`} />
       </button>
       {open && (
         <div className="mt-1 rounded-xl border border-[#0E0E0F]/10 bg-white shadow-lg overflow-hidden z-10 relative">
           {plans.map((plan) => (
-            <button
-              key={plan.id}
-              type="button"
-              onClick={() => { onSelect(plan); setOpen(false) }}
-              className={`w-full flex items-center justify-between px-4 py-3 text-left text-sm transition-colors cursor-pointer ${
-                plan.id === currentPlan.id
-                  ? 'bg-[#EA1D2C]/5 text-[#EA1D2C] font-medium'
-                  : 'hover:bg-[#F7F7F7] text-[#0E0E0F]'
-              }`}
-            >
+            <button key={plan.id} type="button" onClick={() => { onSelect(plan); setOpen(false) }}
+              className={`w-full flex items-center justify-between px-4 py-3 text-left text-sm transition-colors cursor-pointer ${plan.id === currentPlan.id ? 'bg-[#EA1D2C]/5 text-[#EA1D2C] font-medium' : 'hover:bg-[#F7F7F7] text-[#0E0E0F]'}`}>
               <span>{plan.name}</span>
               <span className="text-xs text-[#9C958A]">R$ {plan.priceFormatted}/mês</span>
             </button>
@@ -60,13 +42,15 @@ function getInitials(name: string): string {
   return name.split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase()
 }
 
-export function OrderSummary({ selectedPlans, onAddPlan, onRemovePlan, paymentMethod, consultant, consultantSlot }: OrderSummaryProps) {
+export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
+  const cart = useCart()
   const [consultoriaExpanded, setConsultoriaExpanded] = useState(false)
-  const saas = selectedPlans.find((p) => p.type === 'saas')
-  const consultoria = selectedPlans.find((p) => p.type === 'consultoria')
+
+  const saas = cart.plans.find((p) => p.type === 'saas')
+  const consultoria = cart.plans.find((p) => p.type === 'consultoria')
   const hasSaas = !!saas
   const hasConsultoria = !!consultoria
-  const hasConsultant = !!consultant
+  const hasConsultants = cart.consultants.length > 0
 
   const upsellSaas = saasPlans.find((p) => p.popular)!
   const upsellConsultoria = consultoriaPlans.find((p) => p.popular)!
@@ -76,7 +60,6 @@ export function OrderSummary({ selectedPlans, onAddPlan, onRemovePlan, paymentMe
   const saasMensal = saas ? saas.price : 0
   const consultoriaMensal = consultoria ? consultoria.price : 0
   const consultoriaPixFinal = consultoria ? getConsultoriaPixTotal(consultoria) : 0
-  const consultantRate = consultant ? consultant.hourlyRate : 0
 
   return (
     <div className="rounded-2xl border border-[#0E0E0F]/10 bg-[#F7F7F7] p-6 space-y-5">
@@ -87,94 +70,79 @@ export function OrderSummary({ selectedPlans, onAddPlan, onRemovePlan, paymentMe
         <div className="rounded-xl bg-white p-4 border border-[#0E0E0F]/5">
           <div className="flex items-start justify-between mb-2">
             <div>
-              <span className="text-[10px] font-medium uppercase tracking-wider text-[#EA1D2C]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
-                Sistema
-              </span>
+              <span className="text-[10px] font-medium uppercase tracking-wider text-[#EA1D2C]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>Sistema</span>
               <h3 className="font-semibold text-[#0E0E0F] text-sm">{saas.name}</h3>
             </div>
-            {(selectedPlans.length > 1 || hasConsultant) && (
-              <button type="button" onClick={() => onRemovePlan(saas.id)} className="p-1 text-[#9C958A] hover:text-[#EA1D2C] transition-colors">
-                <X size={16} />
-              </button>
+            {(cart.plans.length > 1 || hasConsultants) && (
+              <button type="button" onClick={() => cart.removePlan(saas.id)} className="p-1 text-[#9C958A] hover:text-[#EA1D2C] transition-colors"><X size={16} /></button>
             )}
           </div>
           <ul className="space-y-1.5 mb-3">
             {saas.features.slice(0, 3).map((f) => (
-              <li key={f} className="flex items-start gap-2 text-xs text-[#9C958A]">
-                <Check size={12} className="mt-0.5 text-[#EA1D2C] flex-shrink-0" />
-                {f}
-              </li>
+              <li key={f} className="flex items-start gap-2 text-xs text-[#9C958A]"><Check size={12} className="mt-0.5 text-[#EA1D2C] flex-shrink-0" />{f}</li>
             ))}
-            {saas.features.length > 3 && (
-              <li className="text-xs text-[#9C958A]">+{saas.features.length - 3} recursos inclusos</li>
-            )}
+            {saas.features.length > 3 && <li className="text-xs text-[#9C958A]">+{saas.features.length - 3} recursos inclusos</li>}
           </ul>
           <div className="text-right">
             <span className="text-xl font-bold text-[#0E0E0F]">R$ {saas.priceFormatted}</span>
             <span className="text-xs text-[#9C958A]">/mês</span>
           </div>
-          <PlanSelector plans={saasPlans} currentPlan={saas} onSelect={onAddPlan} label="pacote" />
+          <PlanSelector plans={saasPlans} currentPlan={saas} onSelect={cart.addPlan} label="pacote" />
         </div>
       )}
 
-      {/* Sessão com consultor */}
-      {hasConsultant && (
-        <div className="rounded-xl bg-white p-4 border border-[#EA1D2C]/20">
-          <span className="text-[10px] font-medium uppercase tracking-wider text-[#EA1D2C]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
-            Sessão com consultor
-          </span>
-          <div className="flex items-center gap-3 mt-2 mb-3">
+      {/* Sessões com consultores */}
+      {cart.consultants.map((c) => (
+        <div key={c.id} className="rounded-xl bg-white p-4 border border-[#EA1D2C]/20">
+          <div className="flex items-start justify-between mb-2">
+            <span className="text-[10px] font-medium uppercase tracking-wider text-[#EA1D2C]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+              Sessão com consultor
+            </span>
+            <button type="button" onClick={() => cart.removeConsultant(c.id)} className="p-1 text-[#9C958A] hover:text-[#EA1D2C] transition-colors"><X size={16} /></button>
+          </div>
+          <div className="flex items-center gap-3 mb-3">
             <div className="w-10 h-10 rounded-full bg-[#EA1D2C]/10 flex items-center justify-center flex-shrink-0">
-              <span className="text-sm font-bold text-[#EA1D2C]">{getInitials(consultant!.name)}</span>
+              <span className="text-sm font-bold text-[#EA1D2C]">{getInitials(c.name)}</span>
             </div>
             <div>
-              <h3 className="font-semibold text-[#0E0E0F] text-sm">{consultant!.name}</h3>
-              <p className="text-xs text-[#9C958A]">{consultant!.title}</p>
+              <h3 className="font-semibold text-[#0E0E0F] text-sm">{c.name}</h3>
+              <p className="text-xs text-[#9C958A]">{c.title}</p>
               <div className="flex items-center gap-1 mt-0.5">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={10} className={i < Math.round(consultant!.rating) ? 'fill-[#f5a623] text-[#f5a623]' : 'text-[#9C958A]/30'} />
+                  <Star key={i} size={10} className={i < Math.round(c.rating) ? 'fill-[#f5a623] text-[#f5a623]' : 'text-[#9C958A]/30'} />
                 ))}
-                <span className="text-[10px] text-[#9C958A] ml-0.5">{consultant!.rating}</span>
+                <span className="text-[10px] text-[#9C958A] ml-0.5">{c.rating}</span>
               </div>
             </div>
           </div>
-          {consultantSlot && (
+          {c.slot && (
             <div className="flex items-center gap-2 rounded-lg bg-[#EA1D2C]/5 px-3 py-2 mb-3 text-xs text-[#0E0E0F]">
               <CalendarDays size={14} className="text-[#EA1D2C]" />
-              Agendado: <strong>{consultantSlot.replace('-', ' às ')}</strong>
+              Agendado: <strong>{c.slot.replace('-', ' às ')}</strong>
             </div>
           )}
           <div className="text-right">
-            <span className="text-xl font-bold text-[#0E0E0F]">R$ {consultant!.hourlyRate}</span>
+            <span className="text-xl font-bold text-[#0E0E0F]">R$ {c.hourlyRate}</span>
             <span className="text-xs text-[#9C958A]">/hora</span>
           </div>
         </div>
-      )}
+      ))}
 
       {/* Consultoria tradicional */}
       {hasConsultoria && (
         <div className="rounded-xl bg-white p-4 border border-[#0E0E0F]/5">
           <div className="flex items-start justify-between mb-2">
             <div>
-              <span className="text-[10px] font-medium uppercase tracking-wider text-[#EA1D2C]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
-                Consultoria
-              </span>
+              <span className="text-[10px] font-medium uppercase tracking-wider text-[#EA1D2C]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>Consultoria</span>
               <h3 className="font-semibold text-[#0E0E0F] text-sm">{consultoria!.name}</h3>
             </div>
-            <button type="button" onClick={() => onRemovePlan(consultoria!.id)} className="p-1 text-[#9C958A] hover:text-[#EA1D2C] transition-colors">
-              <X size={16} />
-            </button>
+            <button type="button" onClick={() => cart.removePlan(consultoria!.id)} className="p-1 text-[#9C958A] hover:text-[#EA1D2C] transition-colors"><X size={16} /></button>
           </div>
           <ul className="space-y-1.5 mb-3">
             {consultoria!.features.slice(0, 3).map((f) => (
-              <li key={f} className="flex items-start gap-2 text-xs text-[#9C958A]">
-                <Check size={12} className="mt-0.5 text-[#EA1D2C] flex-shrink-0" />
-                {f}
-              </li>
+              <li key={f} className="flex items-start gap-2 text-xs text-[#9C958A]"><Check size={12} className="mt-0.5 text-[#EA1D2C] flex-shrink-0" />{f}</li>
             ))}
-            {consultoria!.features.length > 3 && (
-              <li className="text-xs text-[#9C958A]">+{consultoria!.features.length - 3} recursos inclusos</li>
-            )}
+            {consultoria!.features.length > 3 && <li className="text-xs text-[#9C958A]">+{consultoria!.features.length - 3} recursos inclusos</li>}
           </ul>
           {consultoriaIsMensal ? (
             <div className="text-right">
@@ -197,20 +165,15 @@ export function OrderSummary({ selectedPlans, onAddPlan, onRemovePlan, paymentMe
               </div>
             </div>
           )}
-          <PlanSelector plans={consultoriaPlans} currentPlan={consultoria!} onSelect={onAddPlan} label="consultoria" />
+          <PlanSelector plans={consultoriaPlans} currentPlan={consultoria!} onSelect={cart.addPlan} label="consultoria" />
         </div>
       )}
 
       {/* Upsells */}
-      {hasSaas && !hasConsultoria && !hasConsultant && (
-        <button
-          type="button"
-          onClick={() => onAddPlan(upsellConsultoria)}
-          className="w-full flex items-center gap-3 rounded-xl border border-dashed border-[#EA1D2C]/30 bg-[#EA1D2C]/5 p-4 text-left hover:bg-[#EA1D2C]/10 transition-colors cursor-pointer"
-        >
-          <div className="w-8 h-8 rounded-lg bg-[#EA1D2C]/10 flex items-center justify-center flex-shrink-0">
-            <Plus size={16} className="text-[#EA1D2C]" />
-          </div>
+      {hasSaas && !hasConsultoria && !hasConsultants && (
+        <button type="button" onClick={() => cart.addPlan(upsellConsultoria)}
+          className="w-full flex items-center gap-3 rounded-xl border border-dashed border-[#EA1D2C]/30 bg-[#EA1D2C]/5 p-4 text-left hover:bg-[#EA1D2C]/10 transition-colors cursor-pointer">
+          <div className="w-8 h-8 rounded-lg bg-[#EA1D2C]/10 flex items-center justify-center flex-shrink-0"><Plus size={16} className="text-[#EA1D2C]" /></div>
           <div>
             <p className="text-sm font-medium text-[#0E0E0F]">Adicionar Consultoria</p>
             <p className="text-xs text-[#9C958A]">{upsellConsultoria.name} — R$ {upsellConsultoria.priceFormatted}/mês</p>
@@ -218,18 +181,13 @@ export function OrderSummary({ selectedPlans, onAddPlan, onRemovePlan, paymentMe
         </button>
       )}
 
-      {/* Consultoria tradicional recolhida (quando vem de consultor) */}
-      {hasConsultant && !hasConsultoria && (
+      {/* Consultoria recolhida (quando tem consultores) */}
+      {hasConsultants && !hasConsultoria && (
         <div>
-          <button
-            type="button"
-            onClick={() => setConsultoriaExpanded(!consultoriaExpanded)}
-            className="w-full flex items-center justify-between gap-2 rounded-xl border border-dashed border-[#9C958A]/20 bg-white p-4 text-left hover:bg-[#F7F7F7] transition-colors cursor-pointer"
-          >
+          <button type="button" onClick={() => setConsultoriaExpanded(!consultoriaExpanded)}
+            className="w-full flex items-center justify-between gap-2 rounded-xl border border-dashed border-[#9C958A]/20 bg-white p-4 text-left hover:bg-[#F7F7F7] transition-colors cursor-pointer">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-[#EA1D2C]/10 flex items-center justify-center flex-shrink-0">
-                <Plus size={16} className="text-[#EA1D2C]" />
-              </div>
+              <div className="w-8 h-8 rounded-lg bg-[#EA1D2C]/10 flex items-center justify-center flex-shrink-0"><Plus size={16} className="text-[#EA1D2C]" /></div>
               <div>
                 <p className="text-sm font-medium text-[#0E0E0F]">Adicionar Consultoria Tradicional</p>
                 <p className="text-xs text-[#9C958A]">Planos de 1, 3 ou 6 meses</p>
@@ -240,12 +198,8 @@ export function OrderSummary({ selectedPlans, onAddPlan, onRemovePlan, paymentMe
           {consultoriaExpanded && (
             <div className="mt-2 rounded-xl border border-[#0E0E0F]/10 bg-white shadow-lg overflow-hidden">
               {consultoriaPlans.map((plan) => (
-                <button
-                  key={plan.id}
-                  type="button"
-                  onClick={() => { onAddPlan(plan); setConsultoriaExpanded(false) }}
-                  className="w-full flex items-center justify-between px-4 py-3 text-left text-sm hover:bg-[#F7F7F7] text-[#0E0E0F] transition-colors cursor-pointer"
-                >
+                <button key={plan.id} type="button" onClick={() => { cart.addPlan(plan); setConsultoriaExpanded(false) }}
+                  className="w-full flex items-center justify-between px-4 py-3 text-left text-sm hover:bg-[#F7F7F7] text-[#0E0E0F] transition-colors cursor-pointer">
                   <div>
                     <span className="font-medium">{plan.name}</span>
                     {plan.popular && <span className="ml-2 text-[10px] text-[#EA1D2C] bg-[#EA1D2C]/10 px-2 py-0.5 rounded-full">Popular</span>}
@@ -258,15 +212,10 @@ export function OrderSummary({ selectedPlans, onAddPlan, onRemovePlan, paymentMe
         </div>
       )}
 
-      {hasConsultoria && !hasSaas && !hasConsultant && (
-        <button
-          type="button"
-          onClick={() => onAddPlan(upsellSaas)}
-          className="w-full flex items-center gap-3 rounded-xl border border-dashed border-[#EA1D2C]/30 bg-[#EA1D2C]/5 p-4 text-left hover:bg-[#EA1D2C]/10 transition-colors cursor-pointer"
-        >
-          <div className="w-8 h-8 rounded-lg bg-[#EA1D2C]/10 flex items-center justify-center flex-shrink-0">
-            <Plus size={16} className="text-[#EA1D2C]" />
-          </div>
+      {hasConsultoria && !hasSaas && !hasConsultants && (
+        <button type="button" onClick={() => cart.addPlan(upsellSaas)}
+          className="w-full flex items-center gap-3 rounded-xl border border-dashed border-[#EA1D2C]/30 bg-[#EA1D2C]/5 p-4 text-left hover:bg-[#EA1D2C]/10 transition-colors cursor-pointer">
+          <div className="w-8 h-8 rounded-lg bg-[#EA1D2C]/10 flex items-center justify-center flex-shrink-0"><Plus size={16} className="text-[#EA1D2C]" /></div>
           <div>
             <p className="text-sm font-medium text-[#0E0E0F]">Adicionar Sistema</p>
             <p className="text-xs text-[#9C958A]">{upsellSaas.name} — R$ {upsellSaas.priceFormatted}/mês</p>
@@ -278,16 +227,14 @@ export function OrderSummary({ selectedPlans, onAddPlan, onRemovePlan, paymentMe
       <div className="border-t border-[#0E0E0F]/10 pt-4 space-y-2">
         {hasSaas && (
           <div className="flex items-baseline justify-between text-sm text-[#9C958A]">
-            <span>Sistema</span>
-            <span>R$ {formatCurrency(saasMensal)}/mês</span>
+            <span>Sistema</span><span>R$ {formatCurrency(saasMensal)}/mês</span>
           </div>
         )}
-        {hasConsultant && (
-          <div className="flex items-baseline justify-between text-sm text-[#9C958A]">
-            <span>Sessão ({consultant!.name.split(' ')[0]})</span>
-            <span>R$ {formatCurrency(consultantRate)}/hora</span>
+        {cart.consultants.map((c) => (
+          <div key={c.id} className="flex items-baseline justify-between text-sm text-[#9C958A]">
+            <span>Sessão ({c.name.split(' ')[0]})</span><span>R$ {formatCurrency(c.hourlyRate)}/hora</span>
           </div>
-        )}
+        ))}
         {hasConsultoria && (
           <div className="flex items-baseline justify-between text-sm text-[#9C958A]">
             <span>Consultoria{consultoriaIsMensal ? '' : ' (Pix à vista)'}</span>
@@ -298,22 +245,10 @@ export function OrderSummary({ selectedPlans, onAddPlan, onRemovePlan, paymentMe
 
       {/* Trust */}
       <div className="flex flex-col gap-2 text-xs text-[#9C958A]">
-        <div className="flex items-center gap-2">
-          <Check size={12} className="text-green-600" />
-          14 dias grátis nos planos de sistema
-        </div>
-        <div className="flex items-center gap-2">
-          <Check size={12} className="text-green-600" />
-          Cancele quando quiser
-        </div>
-        <div className="flex items-center gap-2">
-          <Check size={12} className="text-green-600" />
-          Receba o cronograma após o pagamento
-        </div>
-        <div className="flex items-center gap-2">
-          <Check size={12} className="text-green-600" />
-          Um Consultor irá entrar em contato
-        </div>
+        <div className="flex items-center gap-2"><Check size={12} className="text-green-600" />14 dias grátis nos planos de sistema</div>
+        <div className="flex items-center gap-2"><Check size={12} className="text-green-600" />Cancele quando quiser</div>
+        <div className="flex items-center gap-2"><Check size={12} className="text-green-600" />Receba o cronograma após o pagamento</div>
+        <div className="flex items-center gap-2"><Check size={12} className="text-green-600" />Um Consultor irá entrar em contato</div>
       </div>
     </div>
   )

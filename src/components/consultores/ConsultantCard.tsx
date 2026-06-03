@@ -1,7 +1,9 @@
 import { Star } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import type { Consultant } from '../../data/consultants'
 import { consultantCategories } from '../../data/consultants'
+import { useCart } from '../../stores/useCartStore'
+import { saasPlans } from '../../data/plans'
 
 interface ConsultantCardProps {
   consultant: Consultant
@@ -13,7 +15,15 @@ function getInitials(name: string): string {
 }
 
 export function ConsultantCard({ consultant, onClick }: ConsultantCardProps) {
+  const cart = useCart()
+  const navigate = useNavigate()
   const cat = consultantCategories.find((c) => c.id === consultant.specialty)
+
+  const handleContract = () => {
+    cart.addConsultant(consultant, null)
+    if (!cart.plans.some((p) => p.type === 'saas')) cart.addPlan(saasPlans[0])
+    navigate('/checkout')
+  }
 
   return (
     <div className="rounded-2xl border border-[#9C958A]/20 bg-white p-6 hover:shadow-lg hover:shadow-[#EA1D2C]/5 hover:border-[#EA1D2C]/20 transition-all h-full flex flex-col">
@@ -67,12 +77,12 @@ export function ConsultantCard({ consultant, onClick }: ConsultantCardProps) {
           >
             Ver perfil
           </button>
-          <Link
-            to={`/checkout?consultor=${consultant.id}`}
-            className="text-sm font-medium bg-[#EA1D2C] hover:bg-[#C8101E] text-white px-4 py-2 rounded-xl transition-colors"
+          <button
+            onClick={handleContract}
+            className="text-sm font-medium bg-[#EA1D2C] hover:bg-[#C8101E] text-white px-4 py-2 rounded-xl transition-colors cursor-pointer"
           >
             Contratar
-          </Link>
+          </button>
         </div>
       </div>
     </div>

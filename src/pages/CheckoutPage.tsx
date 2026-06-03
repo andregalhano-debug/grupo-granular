@@ -1,10 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useSearchParams, useNavigate } from 'react-router-dom'
 import { Loader2 } from 'lucide-react'
-import { getPlanById, allPlans, saasPlans, getConsultoriaPixTotal } from '../data/plans'
+import { getPlanById, saasPlans, getConsultoriaPixTotal } from '../data/plans'
 import { getConsultantById } from '../data/consultants'
-import type { Plan } from '../data/plans'
-import type { Consultant } from '../data/consultants'
+import { useCart } from '../stores/useCartStore'
 import { useCheckoutForm } from '../hooks/useCheckoutForm'
 import { processPayment } from '../services/payment'
 import { formatCurrency } from '../utils/formatters'
@@ -18,84 +17,60 @@ export function CheckoutPage() {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
   const { form, errors, isProcessing, setIsProcessing, updateField, setPaymentMethod, validate } = useCheckoutForm()
+  const cart = useCart()
 
-  const [selectedPlans, setSelectedPlans] = useState<Plan[]>([])
-  const [consultant, setConsultant] = useState<Consultant | null>(null)
-  const [consultantSlot, setConsultantSlot] = useState<string | null>(null)
-
+  // Processar URL params apenas na primeira carga
   useEffect(() => {
     window.scrollTo(0, 0)
 
     const consultorId = searchParams.get('consultor')
     const slot = searchParams.get('slot')
+    const planoId = searchParams.get('plano')
 
     if (consultorId) {
       const c = getConsultantById(consultorId)
       if (c) {
-        setConsultant(c)
-        setConsultantSlot(slot)
-        // Default: Pacote 1 do sistema
-        const pacote1 = saasPlans[0]
-        setSelectedPlans([pacote1])
-        return
+        cart.addConsultant(c, slot || null)
+        // Garantir que tem pelo menos o Pacote 1
+        if (cart.plans.length === 0 && !cart.plans.some((p) => p.type === 'saas')) {
+          cart.addPlan(saasPlans[0])
+        }
       }
-    }
-
-    const planoId = searchParams.get('plano')
-    if (planoId) {
+    } else if (planoId) {
       const plan = getPlanById(planoId)
-      if (plan) {
-        setSelectedPlans([plan])
-        return
-      }
+      if (plan) cart.addPlan(plan)
     }
-    const popular = allPlans.find((p) => p.type === 'saas' && p.popular)
-    if (popular) setSelectedPlans([popular])
-  }, [searchParams])
 
-  const handleAddPlan = (plan: Plan) => {
-    setSelectedPlans((prev) => {
-      if (prev.some((p) => p.id === plan.id)) return prev
-      const filtered = prev.filter((p) => p.type !== plan.type)
-      const updated = [...filtered, plan]
-      return updated.sort((a, b) => (a.type === 'saas' ? -1 : 1) - (b.type === 'saas' ? -1 : 1))
-    })
-  }
+    // Se carrinho vazio e sem params, adicionar plano popular
+    if (!consultorId && !planoId && cart.plans.length === 0 && cart.consultants.length === 0) {
+      const popular = saasPlans.find((p) => p.popular) || saasPlans[0]
+      cart.addPlan(popular)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-  const handleRemovePlan = (planId: string) => {
-    setSelectedPlans((prev) => {
-      if (prev.length <= 1 && !consultant) return prev
-      return prev.filter((p) => p.id !== planId)
-    })
-  }
-
-  const saas = selectedPlans.find((p) => p.type === 'saas')
-  const consultoria = selectedPlans.find((p) => p.type === 'consultoria')
+  const saas = cart.plans.find((p) => p.type === 'saas')
+  const consultoria = cart.plans.find((p) => p.type === 'consultoria')
   const hasSaas = !!saas
   const hasConsultoria = !!consultoria
-  const hasConsultant = !!consultant
+  const hasConsultants = cart.consultants.length > 0
 
   const consultoriaIsMensal = hasSaas && form.paymentMethod === 'cartao'
 
   const buildButtonText = () => {
     const parts: string[] = []
-
-    if (hasSaas) parts.push(`Sistema R$ ${formatCurrency(saas!.price)}/mês`)
-    if (hasConsultant) parts.push(`Sessão R$ ${consultant!.hourlyRate}/h`)
+    if (hasSaas) parts.push(`R$ ${formatCurrency(saas!.price)}/mês`)
+    if (hasConsultants) {
+      const sessaoTotal = cart.consultants.reduce((sum, c) => sum + c.hourlyRate, 0)
+      parts.push(`Sessão R$ ${formatCurrency(sessaoTotal)}`)
+    }
     if (hasConsultoria) {
       if (consultoriaIsMensal) {
-        parts.push(`Consultoria R$ ${formatCurrency(consultoria!.price)}/mês`)
+        parts.push(`R$ ${formatCurrency(consultoria!.price)}/mês`)
       } else {
-        parts.push(`Consultoria R$ ${formatCurrency(getConsultoriaPixTotal(consultoria!))} (Pix)`)
+        parts.push(`Pix R$ ${formatCurrency(getConsultoriaPixTotal(consultoria!))}`)
       }
     }
-
-    if (consultoriaIsMensal && (hasSaas || hasConsultoria)) {
-      let total = (saas?.price || 0) + (hasConsultoria ? consultoria!.price : 0)
-      if (hasConsultant) total += consultant!.hourlyRate
-      return `Finalizar pedido — R$ ${formatCurrency(total)}/mês`
-    }
-
     return `Finalizar pedido — ${parts.join(' + ')}`
   }
 
@@ -110,7 +85,7 @@ export function CheckoutPage() {
         whatsapp: form.whatsapp,
         email: form.email,
         method: hasSaas ? form.paymentMethod : 'pix',
-        planIds: selectedPlans.map((p) => p.id),
+        planIds: cart.plans.map((p) => p.id),
         totalCents: 0,
       })
 
@@ -123,12 +98,13 @@ export function CheckoutPage() {
             email: form.email,
             saasMethod: hasSaas ? form.paymentMethod : null,
             consultoriaPix: hasConsultoria && !consultoriaIsMensal,
-            plans: selectedPlans,
+            plans: cart.plans,
             saasMensal: saas ? saas.price : 0,
             consultoriaPixTotal: consultoria && !consultoriaIsMensal ? getConsultoriaPixTotal(consultoria) : 0,
-            consultant: consultant ? { name: consultant.name, hourlyRate: consultant.hourlyRate, slot: consultantSlot } : null,
+            consultants: cart.consultants,
           },
         })
+        cart.clearCart()
       }
     } finally {
       setIsProcessing(false)
@@ -160,18 +136,11 @@ export function CheckoutPage() {
                 selected={form.paymentMethod}
                 onSelect={setPaymentMethod}
                 hasSaas={hasSaas}
-                hasConsultoria={hasConsultoria || hasConsultant}
+                hasConsultoria={hasConsultoria || hasConsultants}
               />
 
               <div className="lg:hidden">
-                <OrderSummary
-                  selectedPlans={selectedPlans}
-                  onAddPlan={handleAddPlan}
-                  onRemovePlan={handleRemovePlan}
-                  paymentMethod={form.paymentMethod}
-                  consultant={consultant}
-                  consultantSlot={consultantSlot}
-                />
+                <OrderSummary paymentMethod={form.paymentMethod} />
               </div>
 
               <button
@@ -194,14 +163,7 @@ export function CheckoutPage() {
 
             <div className="hidden lg:block lg:col-span-2">
               <div className="sticky top-8">
-                <OrderSummary
-                  selectedPlans={selectedPlans}
-                  onAddPlan={handleAddPlan}
-                  onRemovePlan={handleRemovePlan}
-                  paymentMethod={form.paymentMethod}
-                  consultant={consultant}
-                  consultantSlot={consultantSlot}
-                />
+                <OrderSummary paymentMethod={form.paymentMethod} />
               </div>
             </div>
           </div>

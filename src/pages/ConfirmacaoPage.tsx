@@ -16,7 +16,7 @@ interface ConfirmacaoState {
   plans: Plan[]
   saasMensal: number
   consultoriaPixTotal: number
-  consultant?: { name: string; hourlyRate: number; slot: string | null } | null
+  consultants?: { id: string; name: string; hourlyRate: number; slot: string | null }[]
 }
 
 const methodLabels: Record<string, string> = {
@@ -92,20 +92,20 @@ export function ConfirmacaoPage() {
               </>
             )}
 
-            {state.consultant && (
-              <>
+            {state.consultants?.map((c) => (
+              <div key={c.id} className="space-y-3">
                 <div className="flex justify-between">
-                  <span className="text-[#9C958A]">Sessão com {state.consultant.name}</span>
-                  <span className="text-[#0E0E0F]">R$ {formatCurrency(state.consultant.hourlyRate)}/hora</span>
+                  <span className="text-[#9C958A]">Sessão com {c.name}</span>
+                  <span className="text-[#0E0E0F]">R$ {formatCurrency(c.hourlyRate)}/hora</span>
                 </div>
-                {state.consultant.slot && (
+                {c.slot && (
                   <div className="flex justify-between">
                     <span className="text-[#9C958A]">Horário agendado</span>
-                    <span className="text-[#0E0E0F]">{state.consultant.slot.replace('-', ' às ')}</span>
+                    <span className="text-[#0E0E0F]">{c.slot.replace('-', ' às ')}</span>
                   </div>
                 )}
-              </>
-            )}
+              </div>
+            ))}
 
             {consultoria && (
               <>
