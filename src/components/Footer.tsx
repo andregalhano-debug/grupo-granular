@@ -43,7 +43,7 @@ export function Footer() {
             <h4 className="font-semibold text-sm text-[#0E0E0F] mb-4 tracking-widest uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '11px' }}>Empresa</h4>
             <ul className="space-y-2.5">
               <li><a href="#" className="text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors">Sobre</a></li>
-              <li><a href="#" className="text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors">Comunidade Granular</a></li>
+              <li><Link to="/consultores" className="text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors">Comunidade Granular</Link></li>
               <li><a href="#" className="text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors">Contato</a></li>
             </ul>
           </div>
