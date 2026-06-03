@@ -37,9 +37,10 @@ export function CheckoutPage() {
   const handleAddPlan = (plan: Plan) => {
     setSelectedPlans((prev) => {
       if (prev.some((p) => p.id === plan.id)) return prev
-      // Substitui plano do mesmo tipo se ja houver
       const filtered = prev.filter((p) => p.type !== plan.type)
-      return [...filtered, plan]
+      const updated = [...filtered, plan]
+      // Manter ordem fixa: saas primeiro, consultoria depois
+      return updated.sort((a, b) => (a.type === 'saas' ? -1 : 1) - (b.type === 'saas' ? -1 : 1))
     })
   }
 
