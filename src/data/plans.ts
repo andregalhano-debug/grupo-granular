@@ -43,7 +43,7 @@ export const saasPlans: Plan[] = [
       '1 Relatório Mensal',
     ],
     popular: false,
-    cta: 'Começar teste grátis',
+    cta: 'Começar Grátis',
   },
   {
     id: 'saas-2',
@@ -66,7 +66,7 @@ export const saasPlans: Plan[] = [
       '1 Relatório Semanal',
     ],
     popular: true,
-    cta: 'Começar teste grátis',
+    cta: 'Começar Grátis',
   },
   {
     id: 'saas-3',
