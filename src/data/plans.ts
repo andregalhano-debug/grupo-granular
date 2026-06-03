@@ -79,7 +79,7 @@ export const saasPlans: Plan[] = [
       '1 Relatorio Semanal',
     ],
     popular: false,
-    cta: 'Falar com Vendas',
+    cta: 'Comecar Gratis',
   },
 ]
 
@@ -101,7 +101,7 @@ export const consultoriaPlans: Plan[] = [
       '4h reuniao estrategica + 1h visita na operacao',
       'Relatorio Semanal',
     ],
-    cta: 'Falar com Vendas',
+    cta: 'Comecar Gratis',
     popular: false,
   },
   {
@@ -124,7 +124,7 @@ export const consultoriaPlans: Plan[] = [
       '12h reuniao estrategica + 4h visita na operacao',
       'Relatorio Semanal',
     ],
-    cta: 'Falar com Vendas',
+    cta: 'Comecar Gratis',
     popular: false,
   },
   {
@@ -148,7 +148,7 @@ export const consultoriaPlans: Plan[] = [
       '24h reuniao estrategica + 8h visita na operacao',
       'Relatorio Semanal',
     ],
-    cta: 'Falar com Vendas',
+    cta: 'Comecar Gratis',
     popular: true,
   },
 ]
