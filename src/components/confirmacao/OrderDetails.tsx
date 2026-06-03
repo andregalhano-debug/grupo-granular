@@ -10,14 +10,12 @@ interface OrderDetailsProps {
 
 const methodLabels: Record<string, string> = {
   pix: 'Pix',
-  cartao: 'Cartao de Credito',
-  boleto: 'Boleto Bancario',
+  cartao: 'Cartão de Crédito',
 }
 
 const statusLabels: Record<string, { text: string; color: string }> = {
   pix: { text: 'Aprovado', color: 'text-green-600 bg-green-50' },
   cartao: { text: 'Aprovado', color: 'text-green-600 bg-green-50' },
-  boleto: { text: 'Aguardando pagamento', color: 'text-amber-600 bg-amber-50' },
 }
 
 export function OrderDetails({ orderId, plans, method, total }: OrderDetailsProps) {
@@ -38,7 +36,7 @@ export function OrderDetails({ orderId, plans, method, total }: OrderDetailsProp
         {plans.map((p) => (
           <div key={p.id} className="flex justify-between">
             <span className="text-[#9C958A]">{p.name}</span>
-            <span className="text-[#0E0E0F]">R$ {p.priceFormatted}/mes</span>
+            <span className="text-[#0E0E0F]">R$ {p.priceFormatted}/mês</span>
           </div>
         ))}
         <div className="flex justify-between">
@@ -47,7 +45,7 @@ export function OrderDetails({ orderId, plans, method, total }: OrderDetailsProp
         </div>
         <div className="border-t border-[#0E0E0F]/10 pt-3 flex justify-between font-bold">
           <span className="text-[#0E0E0F]">Total mensal</span>
-          <span className="text-[#0E0E0F]">R$ {formatCurrency(total)}/mes</span>
+          <span className="text-[#0E0E0F]">R$ {formatCurrency(total)}/mês</span>
         </div>
       </div>
     </div>

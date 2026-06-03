@@ -45,15 +45,15 @@ export function ConfirmacaoPage() {
           <h1 className="text-2xl sm:text-3xl font-bold text-[#0E0E0F]">Pedido confirmado!</h1>
           <p className="text-[#9C958A] text-sm sm:text-base max-w-md mx-auto leading-relaxed">
             Obrigado, <strong className="text-[#0E0E0F]">{firstName}</strong>! Um consultor Granular
-            entrara em contato pelo WhatsApp <strong className="text-[#0E0E0F]">{state.whatsapp}</strong> para
-            combinar os proximos passos.
+            entrará em contato pelo WhatsApp <strong className="text-[#0E0E0F]">{state.whatsapp}</strong> para
+            combinar os próximos passos.
           </p>
         </div>
 
         {/* Email notice */}
         <div className="flex items-center gap-3 rounded-xl bg-blue-50 p-4 text-sm text-blue-700">
           <Mail size={18} className="flex-shrink-0" />
-          Confirmacao enviada para <strong>{state.email}</strong>
+          Confirmação enviada para <strong>{state.email}</strong>
         </div>
 
         {/* Detalhes */}

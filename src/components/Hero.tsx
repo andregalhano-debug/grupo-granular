@@ -9,20 +9,20 @@ export function Hero() {
       <FadeIn className="text-center">
         {/* Badge */}
         <div className="inline-flex items-center gap-2 bg-[#EA1D2C]/10 text-[#EA1D2C] px-4 py-2 rounded-full text-xs font-medium mb-8 tracking-widest uppercase" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
-          Consultoria e Gestao em Delivery
+          Consultoria e Gestão em Delivery
         </div>
 
         {/* Headline */}
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1] text-[#0E0E0F] max-w-4xl mx-auto mb-6">
-          Cada pedido e um dado.{' '}
+          Cada pedido é um dado.{' '}
           <span className="text-[#EA1D2C] italic" style={{ fontFamily: "'Instrument Serif', serif" }}>
-            Cada dado, uma decisao.
+            Cada dado, uma decisão.
           </span>
         </h1>
 
         {/* Subtext */}
         <p className="text-base sm:text-lg text-[#9C958A] max-w-2xl mx-auto mb-10 leading-relaxed">
-          Consultoria e gestao em delivery, potencializadas por IA — para restaurantes, farmacias e atacarejos.
+          Consultoria e gestão em delivery, potencializadas por IA — para restaurantes, farmácias e atacarejos.
         </p>
 
         {/* CTAs */}
@@ -31,18 +31,18 @@ export function Hero() {
             to="/checkout?plano=saas-2"
             className="inline-flex items-center gap-2 bg-[#EA1D2C] hover:bg-[#C8101E] text-white font-medium px-8 py-4 rounded-xl text-base transition-colors"
           >
-            Comecar teste gratis de 14 dias
+            Começar teste grátis de 14 dias
             <ArrowRight size={18} />
           </Link>
           <a
             href="#modulos"
             className="inline-flex items-center gap-2 border border-[#9C958A]/30 hover:border-[#EA1D2C]/30 text-[#0E0E0F] font-medium px-8 py-4 rounded-xl text-base transition-colors"
           >
-            Ver Modulos
+            Ver Módulos
           </a>
         </div>
         <p className="text-xs text-[#9C958A] mb-16">
-          Sem cartao de credito. Cancele quando quiser.
+          Sem cartão de crédito. Cancele quando quiser.
         </p>
       </FadeIn>
 
@@ -64,7 +64,7 @@ export function Hero() {
           {/* Imagem real */}
           <img
             src={telaSistema}
-            alt="Dashboard Granular — Visao geral de faturamento, pedidos, promocoes e clientes"
+            alt="Dashboard Granular — Visão geral de faturamento, pedidos, promoções e clientes"
             className="w-full block"
           />
         </div>

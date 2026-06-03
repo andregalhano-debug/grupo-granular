@@ -13,6 +13,25 @@ export function ContactForm({ nome, whatsapp, email, errors, onUpdate }: Contact
     <div className="space-y-5">
       <h2 className="text-lg font-bold text-[#0E0E0F]">Seus dados de contato</h2>
 
+      {/* Nome */}
+      <div>
+        <label className="flex items-center gap-2 text-sm font-medium text-[#0E0E0F] mb-1.5">
+          <User size={16} className="text-[#9C958A]" />
+          Nome completo
+        </label>
+        <input
+          type="text"
+          autoFocus
+          placeholder="Seu nome e sobrenome"
+          value={nome}
+          onChange={(e) => onUpdate('nome', e.target.value)}
+          className={`w-full px-4 py-3 rounded-xl border text-sm bg-white outline-none transition-colors ${
+            errors.nome ? 'border-[#EA1D2C]' : 'border-[#0E0E0F]/15 focus:border-[#EA1D2C]'
+          }`}
+        />
+        {errors.nome && <p className="text-xs text-[#EA1D2C] mt-1">{errors.nome}</p>}
+      </div>
+
       {/* WhatsApp */}
       <div>
         <label className="flex items-center gap-2 text-sm font-medium text-[#0E0E0F] mb-1.5">
@@ -21,7 +40,6 @@ export function ContactForm({ nome, whatsapp, email, errors, onUpdate }: Contact
         </label>
         <input
           type="tel"
-          autoFocus
           placeholder="(11) 99999-9999"
           value={whatsapp}
           onChange={(e) => onUpdate('whatsapp', e.target.value)}
@@ -34,24 +52,6 @@ export function ContactForm({ nome, whatsapp, email, errors, onUpdate }: Contact
         ) : (
           <p className="text-xs text-[#9C958A] mt-1">Usaremos para entrar em contato e verificar sua conta</p>
         )}
-      </div>
-
-      {/* Nome */}
-      <div>
-        <label className="flex items-center gap-2 text-sm font-medium text-[#0E0E0F] mb-1.5">
-          <User size={16} className="text-[#9C958A]" />
-          Nome completo
-        </label>
-        <input
-          type="text"
-          placeholder="Seu nome e sobrenome"
-          value={nome}
-          onChange={(e) => onUpdate('nome', e.target.value)}
-          className={`w-full px-4 py-3 rounded-xl border text-sm bg-white outline-none transition-colors ${
-            errors.nome ? 'border-[#EA1D2C]' : 'border-[#0E0E0F]/15 focus:border-[#EA1D2C]'
-          }`}
-        />
-        {errors.nome && <p className="text-xs text-[#EA1D2C] mt-1">{errors.nome}</p>}
       </div>
 
       {/* Email */}
@@ -72,7 +72,7 @@ export function ContactForm({ nome, whatsapp, email, errors, onUpdate }: Contact
         {errors.email ? (
           <p className="text-xs text-[#EA1D2C] mt-1">{errors.email}</p>
         ) : (
-          <p className="text-xs text-[#9C958A] mt-1">Enviaremos a confirmacao do pedido</p>
+          <p className="text-xs text-[#9C958A] mt-1">Enviaremos a confirmação do pedido</p>
         )}
       </div>
     </div>

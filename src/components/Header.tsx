@@ -4,9 +4,9 @@ import { Menu, X } from 'lucide-react'
 import { GranularLogo } from './GranularLogo'
 
 const navLinks = [
-  { label: 'Modulos', href: '/#modulos' },
+  { label: 'Módulos', href: '/#modulos' },
   { label: 'Diferenciais', href: '/#diferenciais' },
-  { label: 'Precos', href: '/#precos' },
+  { label: 'Preços', href: '/#precos' },
   { label: 'Depoimentos', href: '/#depoimentos' },
 ]
 
@@ -46,7 +46,7 @@ export function Header() {
             to="/checkout?plano=saas-2"
             className="text-sm font-medium text-white bg-[#EA1D2C] hover:bg-[#C8101E] px-5 py-2.5 rounded-xl transition-colors"
           >
-            Comecar Gratis
+            Começar Grátis
           </Link>
         </div>
 
@@ -79,7 +79,7 @@ export function Header() {
               className="block text-center text-sm font-medium text-white bg-[#EA1D2C] px-5 py-2.5 rounded-xl"
               onClick={() => setMenuOpen(false)}
             >
-              Comecar Gratis
+              Começar Grátis
             </Link>
           </div>
         </div>

@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react'
 import { validateWhatsApp, validateEmail, validateNome } from '../utils/validators'
 import { formatWhatsApp } from '../utils/formatters'
 
-export type PaymentMethod = 'pix' | 'cartao' | 'boleto'
+export type PaymentMethod = 'pix' | 'cartao'
 
 interface FormState {
   nome: string

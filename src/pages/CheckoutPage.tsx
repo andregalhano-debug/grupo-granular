@@ -132,7 +132,7 @@ export function CheckoutPage() {
                     Processando...
                   </>
                 ) : (
-                  <>Finalizar pedido — R$ {formatCurrency(total)}/mes</>
+                  <>Finalizar pedido — R$ {formatCurrency(total)}/mês</>
                 )}
               </button>
 

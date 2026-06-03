@@ -9,10 +9,10 @@ export function Pricing() {
       <div className="max-w-7xl mx-auto">
         <FadeIn className="text-center mb-16">
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#0E0E0F] mb-4">
-            Planos que cabem na sua operacao
+            Planos que cabem na sua operação
           </h2>
           <p className="text-[#9C958A] text-base sm:text-lg max-w-2xl mx-auto">
-            Comece com teste gratis de 14 dias e faca o upgrade quando quiser.
+            Comece com teste grátis de 14 dias e faça o upgrade quando quiser.
           </p>
         </FadeIn>
 
@@ -25,7 +25,7 @@ export function Pricing() {
               </div>
               <div>
                 <h3 className="text-2xl font-bold text-[#0E0E0F]">Sistema</h3>
-                <p className="text-sm text-[#9C958A]">Plataforma SaaS para gestao da sua operacao</p>
+                <p className="text-sm text-[#9C958A]">Plataforma SaaS para gestão da sua operação</p>
               </div>
               <div className="hidden sm:block flex-1 h-px bg-[#9C958A]/30 ml-4" />
             </div>
@@ -97,7 +97,7 @@ export function Pricing() {
               </div>
               <div>
                 <h3 className="text-2xl font-bold text-[#0E0E0F]">Consultoria</h3>
-                <p className="text-sm text-[#9C958A]">Especialistas in loco transformando sua operacao</p>
+                <p className="text-sm text-[#9C958A]">Especialistas in loco transformando sua operação</p>
               </div>
               <div className="hidden sm:block flex-1 h-px bg-[#9C958A]/30 ml-4" />
             </div>

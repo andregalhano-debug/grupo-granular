@@ -60,7 +60,7 @@ export function Modules() {
             to="/checkout?plano=saas-2"
             className="inline-flex items-center gap-2 bg-[#EA1D2C] hover:bg-[#C8101E] text-white font-medium px-8 py-4 rounded-xl text-base transition-colors"
           >
-            Comecar Gratis
+            Começar Grátis
           </Link>
         </FadeIn>
       </div>

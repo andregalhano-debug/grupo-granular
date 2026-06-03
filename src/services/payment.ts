@@ -2,7 +2,7 @@ export interface PaymentRequest {
   nome: string
   whatsapp: string
   email: string
-  method: 'pix' | 'cartao' | 'boleto'
+  method: 'pix' | 'cartao'
   planIds: string[]
   totalCents: number
 }
@@ -10,7 +10,7 @@ export interface PaymentRequest {
 export interface PaymentResult {
   success: boolean
   orderId: string
-  method: 'pix' | 'cartao' | 'boleto'
+  method: 'pix' | 'cartao'
 }
 
 export async function processPayment(req: PaymentRequest): Promise<PaymentResult> {
