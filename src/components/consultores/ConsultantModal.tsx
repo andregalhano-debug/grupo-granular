@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from 'react'
-import { X, Star, Clock, MapPin, CalendarDays, Check, ChevronDown } from 'lucide-react'
+import { X, Star, Clock, MapPin, CalendarDays, ChevronDown } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import type { Consultant, TimeSlot } from '../../data/consultants'
 
@@ -14,7 +14,6 @@ function getInitials(name: string): string {
 
 export function ConsultantModal({ consultant, onClose }: ConsultantModalProps) {
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null)
-  const [booked, setBooked] = useState(false)
   const [agendaExpanded, setAgendaExpanded] = useState(false)
 
   useEffect(() => {
@@ -25,7 +24,6 @@ export function ConsultantModal({ consultant, onClose }: ConsultantModalProps) {
 
   useEffect(() => {
     setSelectedSlot(null)
-    setBooked(false)
     setAgendaExpanded(false)
   }, [consultant])
 
@@ -42,12 +40,6 @@ export function ConsultantModal({ consultant, onClose }: ConsultantModalProps) {
   }, [consultant])
 
   if (!consultant) return null
-
-  const handleBook = () => {
-    if (!selectedSlot) return
-    // Simulação — futuramente integra com Google Calendar API
-    setBooked(true)
-  }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose}>
@@ -123,18 +115,7 @@ export function ConsultantModal({ consultant, onClose }: ConsultantModalProps) {
               Agendar sessão
             </h3>
 
-            {booked ? (
-              <div className="rounded-xl bg-green-50 p-5 text-center space-y-2">
-                <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mx-auto">
-                  <Check size={20} className="text-green-600" />
-                </div>
-                <p className="text-sm font-medium text-green-700">Sessão agendada com sucesso!</p>
-                <p className="text-xs text-green-600">
-                  Você receberá um convite no Google Calendar com os detalhes da reunião.
-                </p>
-              </div>
-            ) : (
-              <div className="space-y-3">
+            <div className="space-y-3">
                 {(() => {
                   const entries = Array.from(slotsByDate.entries())
                   const visibleEntries = agendaExpanded ? entries : entries.slice(0, 1)
@@ -205,11 +186,10 @@ export function ConsultantModal({ consultant, onClose }: ConsultantModalProps) {
                   )
                 })()}
 
-                <p className="text-[10px] text-[#9C958A]">
-                  Integrado com Google Calendar — o convite será enviado automaticamente.
-                </p>
+                <div className="rounded-lg bg-[#EA1D2C]/5 border border-[#EA1D2C]/10 px-3 py-2.5 text-[11px] text-[#9C958A] leading-relaxed">
+                  <strong className="text-[#0E0E0F]">Como funciona:</strong> selecione o horário desejado e finalize o pagamento. O agendamento será confirmado automaticamente após a aprovação do pagamento, com convite enviado via Google Calendar.
+                </div>
               </div>
-            )}
           </div>
 
           {/* Reviews */}
@@ -232,29 +212,26 @@ export function ConsultantModal({ consultant, onClose }: ConsultantModalProps) {
             </div>
           )}
 
-          {/* CTAs */}
-          <div className="flex flex-col sm:flex-row gap-3">
-            {!booked && (
-              <button
-                type="button"
-                onClick={handleBook}
-                disabled={!selectedSlot}
-                className={`flex-1 text-center font-medium py-4 rounded-xl text-base transition-colors ${
-                  selectedSlot
-                    ? 'bg-[#EA1D2C] hover:bg-[#C8101E] text-white cursor-pointer'
-                    : 'bg-[#EA1D2C]/30 text-white/70 cursor-not-allowed'
-                }`}
-              >
-                {selectedSlot ? 'Confirmar agendamento' : 'Selecione um horário'}
-              </button>
-            )}
-            <Link
-              to="/checkout?plano=consultoria-6"
-              className="flex-1 block text-center border border-[#EA1D2C] text-[#EA1D2C] hover:bg-[#EA1D2C] hover:text-white font-medium py-4 rounded-xl text-base transition-colors"
-            >
-              Contratar consultoria
-            </Link>
-          </div>
+          {/* CTA */}
+          {selectedSlot && (
+            <div className="flex items-center gap-2 rounded-xl bg-[#EA1D2C]/5 px-4 py-3 text-sm">
+              <CalendarDays size={16} className="text-[#EA1D2C] flex-shrink-0" />
+              <span className="text-[#0E0E0F]">
+                Horário selecionado: <strong>{selectedSlot.replace('-', ' às ')}</strong>
+              </span>
+            </div>
+          )}
+          <Link
+            to={`/checkout?plano=consultoria-6${selectedSlot ? `&slot=${encodeURIComponent(selectedSlot)}` : ''}`}
+            className="block w-full text-center bg-[#EA1D2C] hover:bg-[#C8101E] text-white font-medium py-4 rounded-xl text-base transition-colors"
+          >
+            {selectedSlot ? 'Contratar e confirmar agendamento' : 'Contratar consultoria'}
+          </Link>
+          {selectedSlot && (
+            <p className="text-[10px] text-[#9C958A] text-center">
+              O horário será reservado e confirmado automaticamente após o pagamento.
+            </p>
+          )}
         </div>
       </div>
     </div>
