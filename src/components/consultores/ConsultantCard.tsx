@@ -1,4 +1,5 @@
 import { Star } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import type { Consultant } from '../../data/consultants'
 import { consultantCategories } from '../../data/consultants'
 
@@ -59,12 +60,20 @@ export function ConsultantCard({ consultant, onClick }: ConsultantCardProps) {
           <span className="text-lg font-bold text-[#0E0E0F]">R$ {consultant.hourlyRate}</span>
           <span className="text-xs text-[#9C958A]">/hora</span>
         </div>
-        <button
-          onClick={onClick}
-          className="text-sm font-medium border border-[#EA1D2C] text-[#EA1D2C] hover:bg-[#EA1D2C] hover:text-white px-4 py-2 rounded-xl transition-colors cursor-pointer"
-        >
-          Ver perfil
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={onClick}
+            className="text-sm font-medium border border-[#9C958A]/30 text-[#9C958A] hover:border-[#0E0E0F]/30 hover:text-[#0E0E0F] px-3 py-2 rounded-xl transition-colors cursor-pointer"
+          >
+            Ver perfil
+          </button>
+          <Link
+            to="/checkout?plano=consultoria-6"
+            className="text-sm font-medium bg-[#EA1D2C] hover:bg-[#C8101E] text-white px-4 py-2 rounded-xl transition-colors"
+          >
+            Contratar
+          </Link>
+        </div>
       </div>
     </div>
   )

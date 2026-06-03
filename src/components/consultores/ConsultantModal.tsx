@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { X, Star, Clock, MapPin } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import type { Consultant } from '../../data/consultants'
 
 interface ConsultantModalProps {
@@ -107,15 +108,23 @@ export function ConsultantModal({ consultant, onClose }: ConsultantModalProps) {
             </div>
           )}
 
-          {/* CTA */}
-          <a
-            href={`https://wa.me/5511999999999?text=Olá!%20Gostaria%20de%20agendar%20uma%20sessão%20com%20${encodeURIComponent(consultant.name)}.`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block w-full text-center bg-[#EA1D2C] hover:bg-[#C8101E] text-white font-medium py-4 rounded-xl text-base transition-colors"
-          >
-            Agendar sessão — R$ {consultant.hourlyRate}/hora
-          </a>
+          {/* CTAs */}
+          <div className="flex flex-col sm:flex-row gap-3">
+            <Link
+              to="/checkout?plano=consultoria-6"
+              className="flex-1 block text-center bg-[#EA1D2C] hover:bg-[#C8101E] text-white font-medium py-4 rounded-xl text-base transition-colors"
+            >
+              Contratar consultoria
+            </Link>
+            <a
+              href={`https://wa.me/5511999999999?text=Olá!%20Gostaria%20de%20agendar%20uma%20sessão%20com%20${encodeURIComponent(consultant.name)}.`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 block text-center border border-[#9C958A]/30 text-[#0E0E0F] hover:bg-[#F7F7F7] font-medium py-4 rounded-xl text-base transition-colors"
+            >
+              Falar pelo WhatsApp
+            </a>
+          </div>
         </div>
       </div>
     </div>
