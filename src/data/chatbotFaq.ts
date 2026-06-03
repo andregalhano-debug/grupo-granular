@@ -104,4 +104,26 @@ export const fallbackMessage = {
   whatsappLabel: 'Falar pelo WhatsApp',
 }
 
-export const welcomeMessage = 'Olá! Sou o assistente da Granular. Pergunte sobre nossos planos, consultoria, módulos ou qualquer dúvida. 😊'
+const AGENT_NAMES = [
+  'Carla', 'Bia', 'Ana', 'Júlia', 'Lara', 'Sofia', 'Helena',
+  'Laura', 'Isa', 'Manu', 'Lia', 'Marina', 'Clara', 'Alice',
+  'Luana', 'Camila', 'Fernanda', 'Letícia', 'Raquel', 'Gabi',
+]
+
+function getAgentName(): string {
+  const key = 'granular-agent-name'
+  let name = sessionStorage.getItem(key)
+  if (!name) {
+    name = AGENT_NAMES[Math.floor(Math.random() * AGENT_NAMES.length)]
+    sessionStorage.setItem(key, name)
+  }
+  return name
+}
+
+export function getAgentInfo() {
+  const name = getAgentName()
+  return {
+    name,
+    welcomeMessage: `Olá! 😊 Eu sou a ${name}, assistente da Granular. Pergunte sobre nossos planos, consultoria, módulos ou qualquer dúvida!`,
+  }
+}

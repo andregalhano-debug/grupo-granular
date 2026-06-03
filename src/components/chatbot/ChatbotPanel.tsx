@@ -6,9 +6,10 @@ import { GranularLogo } from '../GranularLogo'
 interface ChatbotPanelProps {
   messages: ChatMessage[]
   onSend: (text: string) => void
+  agentName: string
 }
 
-export function ChatbotPanel({ messages, onSend }: ChatbotPanelProps) {
+export function ChatbotPanel({ messages, onSend, agentName }: ChatbotPanelProps) {
   const [input, setInput] = useState('')
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -33,7 +34,7 @@ export function ChatbotPanel({ messages, onSend }: ChatbotPanelProps) {
       {/* Header */}
       <div className="bg-[#EA1D2C] px-4 py-3 flex items-center gap-3">
         <GranularLogo size={24} color="#FFFFFF" />
-        <span className="text-sm font-semibold text-white">Assistente Granular</span>
+        <span className="text-sm font-semibold text-white">{agentName} — Granular</span>
       </div>
 
       {/* Messages */}

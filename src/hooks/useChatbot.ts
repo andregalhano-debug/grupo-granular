@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react'
-import { faqEntries, fallbackMessage, welcomeMessage } from '../data/chatbotFaq'
+import { faqEntries, fallbackMessage, getAgentInfo } from '../data/chatbotFaq'
 import { findBestMatch } from '../utils/fuzzyMatch'
 
 export interface ChatMessage {
@@ -12,8 +12,9 @@ export interface ChatMessage {
 
 export function useChatbot() {
   const [isOpen, setIsOpen] = useState(false)
+  const [agent] = useState(() => getAgentInfo())
   const [messages, setMessages] = useState<ChatMessage[]>([
-    { id: 'welcome', role: 'bot', text: welcomeMessage },
+    { id: 'welcome', role: 'bot', text: agent.welcomeMessage },
   ])
 
   const toggle = useCallback(() => setIsOpen((prev) => !prev), [])
@@ -43,5 +44,5 @@ export function useChatbot() {
     setMessages((prev) => [...prev, userMsg, botMsg])
   }, [])
 
-  return { isOpen, messages, toggle, sendMessage }
+  return { isOpen, messages, toggle, sendMessage, agentName: agent.name }
 }
