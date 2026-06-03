@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { GranularLogo } from './GranularLogo'
 
 export function Footer() {
@@ -7,7 +8,7 @@ export function Footer() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Logo */}
           <div>
-            <a href="#" className="flex items-center gap-3 mb-4">
+            <a href="/" className="flex items-center gap-3 mb-4">
               <GranularLogo size={36} color="#0E0E0F" />
               <span className="text-lg font-semibold tracking-tight text-[#0E0E0F]">
                 Granular
@@ -24,11 +25,16 @@ export function Footer() {
             <ul className="space-y-2.5">
               {['Estoque', 'Produção', 'Financeiro', 'iFood', 'KDS', 'Checklists', 'IA'].map((item) => (
                 <li key={item}>
-                  <a href="#modulos" className="text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors">
+                  <a href="/#modulos" className="text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors">
                     {item}
                   </a>
                 </li>
               ))}
+              <li>
+                <Link to="/consultores" className="text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors">
+                  Consultores
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -36,13 +42,9 @@ export function Footer() {
           <div>
             <h4 className="font-semibold text-sm text-[#0E0E0F] mb-4 tracking-widest uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '11px' }}>Empresa</h4>
             <ul className="space-y-2.5">
-              {['Sobre', 'Blog', 'Carreiras', 'Contato'].map((item) => (
-                <li key={item}>
-                  <a href="#" className="text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors">
-                    {item}
-                  </a>
-                </li>
-              ))}
+              <li><a href="#" className="text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors">Sobre</a></li>
+              <li><a href="#" className="text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors">Comunidade Granular</a></li>
+              <li><a href="#" className="text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors">Contato</a></li>
             </ul>
           </div>
 
