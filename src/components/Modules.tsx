@@ -53,6 +53,15 @@ export function Modules() {
             </div>
           ))}
         </FadeIn>
+
+        <FadeIn delay={500} className="text-center mt-10">
+          <a
+            href="#precos"
+            className="inline-flex items-center gap-2 bg-[#EA1D2C] hover:bg-[#C8101E] text-white font-medium px-8 py-4 rounded-xl text-base transition-colors"
+          >
+            Começar Grátis
+          </a>
+        </FadeIn>
       </div>
     </section>
   )
