@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useSearchParams, useNavigate } from 'react-router-dom'
 import { Loader2 } from 'lucide-react'
-import { getPlanById, allPlans } from '../data/plans'
+import { getPlanById, allPlans, getConsultoriaPixTotal } from '../data/plans'
 import type { Plan } from '../data/plans'
 import { useCheckoutForm } from '../hooks/useCheckoutForm'
 import { processPayment } from '../services/payment'
@@ -29,7 +29,6 @@ export function CheckoutPage() {
         return
       }
     }
-    // Se nenhum plano valido, seleciona o popular SaaS
     const popular = allPlans.find((p) => p.type === 'saas' && p.popular)
     if (popular) setSelectedPlans([popular])
   }, [searchParams])
@@ -39,7 +38,6 @@ export function CheckoutPage() {
       if (prev.some((p) => p.id === plan.id)) return prev
       const filtered = prev.filter((p) => p.type !== plan.type)
       const updated = [...filtered, plan]
-      // Manter ordem fixa: saas primeiro, consultoria depois
       return updated.sort((a, b) => (a.type === 'saas' ? -1 : 1) - (b.type === 'saas' ? -1 : 1))
     })
   }
@@ -51,7 +49,18 @@ export function CheckoutPage() {
     })
   }
 
-  const total = selectedPlans.reduce((sum, p) => sum + p.price, 0)
+  const saas = selectedPlans.find((p) => p.type === 'saas')
+  const consultoria = selectedPlans.find((p) => p.type === 'consultoria')
+  const hasSaas = !!saas
+  const hasConsultoria = !!consultoria
+
+  // Texto do botão
+  const buildButtonText = () => {
+    const parts: string[] = []
+    if (hasSaas) parts.push(`Sistema R$ ${formatCurrency(saas!.price)}/mês`)
+    if (hasConsultoria) parts.push(`Consultoria R$ ${formatCurrency(getConsultoriaPixTotal(consultoria!))} (Pix)`)
+    return `Finalizar pedido — ${parts.join(' + ')}`
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -63,9 +72,9 @@ export function CheckoutPage() {
         nome: form.nome,
         whatsapp: form.whatsapp,
         email: form.email,
-        method: form.paymentMethod,
+        method: hasSaas ? form.paymentMethod : 'pix',
         planIds: selectedPlans.map((p) => p.id),
-        totalCents: total * 100,
+        totalCents: 0,
       })
 
       if (result.success) {
@@ -75,9 +84,11 @@ export function CheckoutPage() {
             nome: form.nome,
             whatsapp: form.whatsapp,
             email: form.email,
-            method: result.method,
+            saasMethod: hasSaas ? form.paymentMethod : null,
+            consultoriaPix: hasConsultoria,
             plans: selectedPlans,
-            total,
+            saasMensal: saas ? saas.price : 0,
+            consultoriaPixTotal: consultoria ? getConsultoriaPixTotal(consultoria) : 0,
           },
         })
       }
@@ -93,7 +104,7 @@ export function CheckoutPage() {
       <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
         <form onSubmit={handleSubmit}>
           <div className="grid lg:grid-cols-5 gap-8 lg:gap-12">
-            {/* Coluna esquerda — Formulario */}
+            {/* Coluna esquerda — Formulário */}
             <div className="lg:col-span-3 space-y-8">
               <div>
                 <h1 className="text-2xl font-bold text-[#0E0E0F] mb-1">Finalizar pedido</h1>
@@ -111,9 +122,11 @@ export function CheckoutPage() {
               <PaymentMethodSelector
                 selected={form.paymentMethod}
                 onSelect={setPaymentMethod}
+                hasSaas={hasSaas}
+                hasConsultoria={hasConsultoria}
               />
 
-              {/* Submit — visivel no mobile abaixo do form */}
+              {/* Resumo mobile */}
               <div className="lg:hidden">
                 <OrderSummary
                   selectedPlans={selectedPlans}
@@ -133,7 +146,7 @@ export function CheckoutPage() {
                     Processando...
                   </>
                 ) : (
-                  <>Finalizar pedido — R$ {formatCurrency(total)}/mês</>
+                  buildButtonText()
                 )}
               </button>
 

@@ -6,9 +6,22 @@ export interface Plan {
   price: number
   priceFormatted: string
   period: string
+  months?: number
   features: string[]
   popular: boolean
   cta: string
+}
+
+export function getConsultoriaTotal(plan: Plan): number {
+  return plan.price * (plan.months || 1)
+}
+
+export function getConsultoriaPixDiscount(plan: Plan): number {
+  return Math.round(getConsultoriaTotal(plan) * 0.03)
+}
+
+export function getConsultoriaPixTotal(plan: Plan): number {
+  return getConsultoriaTotal(plan) - getConsultoriaPixDiscount(plan)
 }
 
 export const saasPlans: Plan[] = [
@@ -92,6 +105,7 @@ export const consultoriaPlans: Plan[] = [
     price: 3890,
     priceFormatted: '3.890',
     period: '/mês',
+    months: 1,
     features: [
       'Diagnóstico de gargalos operacionais e comerciais (in loco)',
       'Curadoria e posicionamento do cardápio',
@@ -112,6 +126,7 @@ export const consultoriaPlans: Plan[] = [
     price: 3590,
     priceFormatted: '3.590',
     period: '/mês',
+    months: 3,
     features: [
       'Diagnóstico de gargalos operacionais e comerciais (in loco)',
       'Curadoria e posicionamento do cardápio',
@@ -135,6 +150,7 @@ export const consultoriaPlans: Plan[] = [
     price: 2990,
     priceFormatted: '2.990',
     period: '/mês',
+    months: 6,
     features: [
       'Diagnóstico de gargalos operacionais e comerciais (in loco)',
       'Curadoria e posicionamento do cardápio',

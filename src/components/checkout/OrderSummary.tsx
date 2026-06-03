@@ -1,7 +1,7 @@
 import { Check, Plus, X, ChevronDown } from 'lucide-react'
 import { useState } from 'react'
 import type { Plan } from '../../data/plans'
-import { saasPlans, consultoriaPlans } from '../../data/plans'
+import { saasPlans, consultoriaPlans, getConsultoriaTotal, getConsultoriaPixTotal, getConsultoriaPixDiscount } from '../../data/plans'
 import { formatCurrency } from '../../utils/formatters'
 
 interface OrderSummaryProps {
@@ -29,7 +29,7 @@ function PlanSelector({ plans, currentPlan, onSelect, label }: {
         <ChevronDown size={14} className={`transition-transform ${open ? 'rotate-180' : ''}`} />
       </button>
       {open && (
-        <div className="mt-1 rounded-xl border border-[#0E0E0F]/10 bg-white shadow-lg overflow-hidden">
+        <div className="mt-1 rounded-xl border border-[#0E0E0F]/10 bg-white shadow-lg overflow-hidden z-10 relative">
           {plans.map((plan) => (
             <button
               key={plan.id}
@@ -52,35 +52,41 @@ function PlanSelector({ plans, currentPlan, onSelect, label }: {
 }
 
 export function OrderSummary({ selectedPlans, onAddPlan, onRemovePlan }: OrderSummaryProps) {
-  const hasSaas = selectedPlans.some((p) => p.type === 'saas')
-  const hasConsultoria = selectedPlans.some((p) => p.type === 'consultoria')
-  const total = selectedPlans.reduce((sum, p) => sum + p.price, 0)
+  const saas = selectedPlans.find((p) => p.type === 'saas')
+  const consultoria = selectedPlans.find((p) => p.type === 'consultoria')
+  const hasSaas = !!saas
+  const hasConsultoria = !!consultoria
 
   const upsellSaas = saasPlans.find((p) => p.popular)!
   const upsellConsultoria = consultoriaPlans.find((p) => p.popular)!
+
+  // Cálculos
+  const saasMensal = saas ? saas.price : 0
+  const consultoriaPixFinal = consultoria ? getConsultoriaPixTotal(consultoria) : 0
 
   return (
     <div className="rounded-2xl border border-[#0E0E0F]/10 bg-[#F7F7F7] p-6 space-y-5">
       <h2 className="text-lg font-bold text-[#0E0E0F]">Resumo do pedido</h2>
 
-      {/* Planos selecionados */}
-      {selectedPlans.map((plan) => {
-        const planList = plan.type === 'saas' ? saasPlans : consultoriaPlans
-        const planLabel = plan.type === 'saas' ? 'pacote' : 'consultoria'
+      {/* Planos selecionados — ordem fixa: saas primeiro */}
+      {[saas, consultoria].filter(Boolean).map((plan) => {
+        const planList = plan!.type === 'saas' ? saasPlans : consultoriaPlans
+        const planLabel = plan!.type === 'saas' ? 'pacote' : 'consultoria'
+        const isConsultoria = plan!.type === 'consultoria'
 
         return (
-          <div key={plan.id} className="rounded-xl bg-white p-4 border border-[#0E0E0F]/5">
+          <div key={plan!.id} className="rounded-xl bg-white p-4 border border-[#0E0E0F]/5">
             <div className="flex items-start justify-between mb-2">
               <div>
                 <span className="text-[10px] font-medium uppercase tracking-wider text-[#EA1D2C]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
-                  {plan.type === 'saas' ? 'Sistema' : 'Consultoria'}
+                  {plan!.type === 'saas' ? 'Sistema' : 'Consultoria'}
                 </span>
-                <h3 className="font-semibold text-[#0E0E0F] text-sm">{plan.name}</h3>
+                <h3 className="font-semibold text-[#0E0E0F] text-sm">{plan!.name}</h3>
               </div>
               {selectedPlans.length > 1 && (
                 <button
                   type="button"
-                  onClick={() => onRemovePlan(plan.id)}
+                  onClick={() => onRemovePlan(plan!.id)}
                   className="p-1 text-[#9C958A] hover:text-[#EA1D2C] transition-colors"
                 >
                   <X size={16} />
@@ -88,25 +94,43 @@ export function OrderSummary({ selectedPlans, onAddPlan, onRemovePlan }: OrderSu
               )}
             </div>
             <ul className="space-y-1.5 mb-3">
-              {plan.features.slice(0, 3).map((f) => (
+              {plan!.features.slice(0, 3).map((f) => (
                 <li key={f} className="flex items-start gap-2 text-xs text-[#9C958A]">
                   <Check size={12} className="mt-0.5 text-[#EA1D2C] flex-shrink-0" />
                   {f}
                 </li>
               ))}
-              {plan.features.length > 3 && (
-                <li className="text-xs text-[#9C958A]">+{plan.features.length - 3} recursos inclusos</li>
+              {plan!.features.length > 3 && (
+                <li className="text-xs text-[#9C958A]">+{plan!.features.length - 3} recursos inclusos</li>
               )}
             </ul>
-            <div className="text-right">
-              <span className="text-xl font-bold text-[#0E0E0F]">R$ {plan.priceFormatted}</span>
-              <span className="text-xs text-[#9C958A]">{plan.period}</span>
-            </div>
 
-            {/* Seletor de plano */}
+            {/* Preço */}
+            {isConsultoria ? (
+              <div className="space-y-1.5">
+                <div className="flex items-baseline justify-between text-xs text-[#9C958A]">
+                  <span>{plan!.months}x de R$ {plan!.priceFormatted}</span>
+                  <span>R$ {formatCurrency(getConsultoriaTotal(plan!))}</span>
+                </div>
+                <div className="flex items-baseline justify-between text-xs text-green-600 font-medium">
+                  <span>Desconto Pix (3%)</span>
+                  <span>- R$ {formatCurrency(getConsultoriaPixDiscount(plan!))}</span>
+                </div>
+                <div className="flex items-baseline justify-between pt-1 border-t border-[#0E0E0F]/5">
+                  <span className="text-xs font-medium text-[#0E0E0F]">Total via Pix</span>
+                  <span className="text-lg font-bold text-[#0E0E0F]">R$ {formatCurrency(getConsultoriaPixTotal(plan!))}</span>
+                </div>
+              </div>
+            ) : (
+              <div className="text-right">
+                <span className="text-xl font-bold text-[#0E0E0F]">R$ {plan!.priceFormatted}</span>
+                <span className="text-xs text-[#9C958A]">{plan!.period}</span>
+              </div>
+            )}
+
             <PlanSelector
               plans={planList}
-              currentPlan={plan}
+              currentPlan={plan!}
               onSelect={onAddPlan}
               label={planLabel}
             />
@@ -147,15 +171,20 @@ export function OrderSummary({ selectedPlans, onAddPlan, onRemovePlan }: OrderSu
         </button>
       )}
 
-      {/* Total */}
-      <div className="border-t border-[#0E0E0F]/10 pt-4">
-        <div className="flex items-baseline justify-between">
-          <span className="text-sm text-[#9C958A]">Total mensal</span>
-          <div>
-            <span className="text-2xl font-bold text-[#0E0E0F]">R$ {formatCurrency(total)}</span>
-            <span className="text-xs text-[#9C958A]">/mês</span>
+      {/* Totais */}
+      <div className="border-t border-[#0E0E0F]/10 pt-4 space-y-2">
+        {hasSaas && (
+          <div className="flex items-baseline justify-between text-sm">
+            <span className="text-[#9C958A]">Sistema (mensal, cartão)</span>
+            <span className="font-semibold text-[#0E0E0F]">R$ {formatCurrency(saasMensal)}/mês</span>
           </div>
-        </div>
+        )}
+        {hasConsultoria && (
+          <div className="flex items-baseline justify-between text-sm">
+            <span className="text-[#9C958A]">Consultoria (Pix à vista)</span>
+            <span className="font-semibold text-[#0E0E0F]">R$ {formatCurrency(consultoriaPixFinal)}</span>
+          </div>
+        )}
       </div>
 
       {/* Trust */}
@@ -167,6 +196,14 @@ export function OrderSummary({ selectedPlans, onAddPlan, onRemovePlan }: OrderSu
         <div className="flex items-center gap-2">
           <Check size={12} className="text-green-600" />
           Cancele quando quiser
+        </div>
+        <div className="flex items-center gap-2">
+          <Check size={12} className="text-green-600" />
+          Receba o cronograma após o pagamento
+        </div>
+        <div className="flex items-center gap-2">
+          <Check size={12} className="text-green-600" />
+          Um Consultor irá entrar em contato
         </div>
       </div>
     </div>
