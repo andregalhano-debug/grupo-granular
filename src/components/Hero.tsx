@@ -13,7 +13,7 @@ export function Hero() {
         </div>
 
         {/* Headline */}
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1] text-[#0E0E0F] max-w-4xl mx-auto mb-6">
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1] text-[#0E0E0F] max-w-4xl mx-auto mb-8">
           Cada pedido é um dado.{' '}
           <span className="text-[#A31631] italic" style={{ fontFamily: "'Instrument Serif', serif" }}>
             Cada dado, uma decisão.
@@ -21,12 +21,12 @@ export function Hero() {
         </h1>
 
         {/* Subtext */}
-        <p className="text-base sm:text-lg text-[#9C958A] max-w-2xl mx-auto mb-8 leading-relaxed">
+        <p className="text-base sm:text-lg text-[#9C958A] max-w-2xl mx-auto mb-10 leading-relaxed">
           Consultoria e gestão em delivery, potencializadas por IA e especialistas.
         </p>
 
         {/* Segmentos */}
-        <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mb-10">
+        <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mb-14">
           {[
             { icon: UtensilsCrossed, label: 'Restaurantes' },
             { icon: ShoppingCart, label: 'Mercados' },
