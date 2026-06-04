@@ -1,9 +1,12 @@
-import { ArrowRight, UtensilsCrossed, ShoppingCart, Warehouse, Pill, PawPrint } from 'lucide-react'
+import { useState } from 'react'
+import { ArrowRight, UtensilsCrossed, ShoppingCart, Warehouse, Pill, PawPrint, X } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
 import telaSistema from '../assets/Tela Maestro.jpg'
 
 export function Hero() {
+  const [lightbox, setLightbox] = useState(false)
+
   return (
     <section id="hero" className="pt-32 sm:pt-40 pb-20 sm:pb-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       <FadeIn className="text-center">
@@ -84,10 +87,41 @@ export function Hero() {
           <img
             src={telaSistema}
             alt="Dashboard Granular — Visão geral de faturamento, pedidos, promoções e clientes"
-            className="w-full block"
+            className="w-full block cursor-pointer hover:opacity-90 transition-opacity"
+            onClick={() => setLightbox(true)}
+            title="Clique para ampliar"
           />
         </div>
       </FadeIn>
+
+      {/* Lightbox */}
+      {lightbox && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm cursor-pointer"
+          onClick={() => setLightbox(false)}
+          style={{ animation: 'fadeInHero 0.2s ease' }}
+        >
+          <button
+            onClick={() => setLightbox(false)}
+            className="absolute top-6 right-6 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+          >
+            <X size={24} />
+          </button>
+          <img
+            src={telaSistema}
+            alt="Dashboard Granular ampliado"
+            className="max-w-[90vw] max-h-[90vh] rounded-2xl shadow-2xl object-contain cursor-default"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
+
+      <style>{`
+        @keyframes fadeInHero {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+      `}</style>
     </section>
   )
 }
