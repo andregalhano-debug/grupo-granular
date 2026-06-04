@@ -51,9 +51,11 @@ export function Pricing() {
                 <h3 className={`text-xl font-bold mb-1 ${plan.popular ? 'text-white' : 'text-[#0E0E0F]'}`}>
                   {plan.name}
                 </h3>
-                <p className={`text-sm mb-4 ${plan.popular ? 'text-white/60' : 'text-[#9C958A]'}`}>
-                  {plan.subtitle}
-                </p>
+                {plan.subtitle && (
+                  <p className={`text-sm mb-4 ${plan.popular ? 'text-white/60' : 'text-[#9C958A]'}`}>
+                    {plan.subtitle}
+                  </p>
+                )}
 
                 {saasHighlights[plan.id] && (
                   <div className={`rounded-lg px-4 py-2.5 mb-5 ${
