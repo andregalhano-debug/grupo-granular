@@ -11,9 +11,14 @@ export function Pricing() {
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#0E0E0F] mb-4">
             Planos que cabem na sua operação
           </h2>
-          <p className="text-[#9C958A] text-base sm:text-lg max-w-2xl mx-auto">
-            Comece com teste grátis de 14 dias e faça o upgrade quando quiser.
+          <p className="text-[#9C958A] text-base sm:text-lg max-w-2xl mx-auto mb-6">
+            Comece agora a transformação na gestão do seu negócio. Pacotes sob demanda e valores acessíveis.
           </p>
+          <div className="inline-block bg-[#A31631]/10 border border-[#A31631]/20 rounded-xl px-6 py-3">
+            <p className="text-sm sm:text-base font-medium text-[#A31631]">
+              Gerencie seu negócio com controle e escalabilidade, investindo menos que o custo de um único funcionário.
+            </p>
+          </div>
         </FadeIn>
 
         {/* PACOTES SaaS */}
