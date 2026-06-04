@@ -1,4 +1,4 @@
-import { Package, ChefHat, Monitor, TrendingUp, ShoppingBag, Users, ClipboardCheck, Bot } from 'lucide-react'
+import { Package, ChefHat, Monitor, TrendingUp, ShoppingBag, Users, ClipboardCheck, Bot, UserCog, FileBarChart } from 'lucide-react'
 
 export interface ModuleDetail {
   icon: typeof Package
@@ -72,6 +72,22 @@ export const modulesData: ModuleDetail[] = [
     desc: 'Assistentes inteligentes para compras, precificação, previsão e mais.',
     features: ['IA de compras', 'IA de precificação', 'Previsão de demanda', 'Alertas inteligentes', 'Recomendações automáticas'],
     detailText: 'Conte com 15 agentes de inteligência artificial que trabalham nos bastidores da sua operação. Desde sugestões de compra baseadas em consumo histórico até precificação dinâmica e previsão de demanda — a IA da Granular antecipa problemas e recomenda ações antes que você precise pedir.',
+    screenshot: '',
+  },
+  {
+    icon: UserCog,
+    title: 'Pessoas (RH)',
+    desc: 'Gestão completa de colaboradores, escalas, documentos e desempenho.',
+    features: ['Cadastro de colaboradores', 'Escalas e turnos', 'Controle de documentos', 'Avaliação de desempenho', 'Histórico funcional'],
+    detailText: 'Centralize toda a gestão de pessoas da sua operação. Cadastre colaboradores com documentos, controle escalas e turnos, acompanhe o desempenho individual e mantenha o histórico funcional organizado. Tenha visibilidade sobre vencimentos de exames, contratos e treinamentos — reduzindo riscos trabalhistas e garantindo conformidade.',
+    screenshot: '',
+  },
+  {
+    icon: FileBarChart,
+    title: 'Relatórios',
+    desc: 'Relatórios gerenciais automatizados com insights acionáveis para tomada de decisão.',
+    features: ['Relatórios semanais', 'Análises comparativas', 'Indicadores de performance', 'Exportação de dados', 'Visão multi-lojas'],
+    detailText: 'Receba relatórios gerenciais automatizados com os principais indicadores da sua operação. Compare performance entre unidades, acompanhe a evolução de vendas, CMV, ticket médio e muito mais. Dados consolidados e prontos para decisão — sem precisar montar planilhas manualmente.',
     screenshot: '',
   },
 ]
