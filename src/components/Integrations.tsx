@@ -2,35 +2,11 @@ import { FadeIn } from './FadeIn'
 import { Plus } from 'lucide-react'
 
 const integrations = [
-  {
-    name: 'iFood',
-    logo: 'https://logodownload.org/wp-content/uploads/2017/05/ifood-logo-0.png',
-    color: '#EA1D2C',
-  },
-  {
-    name: 'Saipos',
-    logo: null,
-    initials: 'SP',
-    color: '#1E3A5F',
-  },
-  {
-    name: 'Open Delivery',
-    logo: null,
-    initials: 'OD',
-    color: '#2563EB',
-  },
-  {
-    name: 'Omie',
-    logo: null,
-    initials: 'Om',
-    color: '#00A651',
-  },
-  {
-    name: 'Foozi',
-    logo: null,
-    initials: 'Fz',
-    color: '#F59E0B',
-  },
+  { name: 'iFood', logo: 'https://logodownload.org/wp-content/uploads/2017/05/ifood-logo-0.png' },
+  { name: 'Saipos', logo: '/logos/saipos.svg' },
+  { name: 'Open Delivery', logo: '/logos/opendelivery.webp' },
+  { name: 'Omie', logo: '/logos/omie.png' },
+  { name: 'Foozi', logo: '/logos/foozi.svg' },
 ]
 
 export function Integrations() {
@@ -57,20 +33,11 @@ export function Integrations() {
             <FadeIn key={item.name} delay={i * 100}>
               <div className="group flex flex-col items-center gap-3">
                 <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-white border border-[#9C958A]/20 shadow-sm flex items-center justify-center group-hover:shadow-lg group-hover:border-[#A31631]/20 transition-all duration-300 overflow-hidden p-4">
-                  {item.logo ? (
-                    <img
-                      src={item.logo}
-                      alt={item.name}
-                      className="w-full h-full object-contain"
-                    />
-                  ) : (
-                    <span
-                      className="text-xl sm:text-2xl font-bold"
-                      style={{ color: item.color }}
-                    >
-                      {item.initials}
-                    </span>
-                  )}
+                  <img
+                    src={item.logo}
+                    alt={item.name}
+                    className="w-full h-full object-contain"
+                  />
                 </div>
                 <span className="text-xs font-medium text-[#0E0E0F]">{item.name}</span>
               </div>
