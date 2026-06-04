@@ -1,4 +1,4 @@
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, UtensilsCrossed, ShoppingCart, Warehouse, Pill, PawPrint } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
 import telaSistema from '../assets/Tela Maestro.jpg'
@@ -21,9 +21,28 @@ export function Hero() {
         </h1>
 
         {/* Subtext */}
-        <p className="text-base sm:text-lg text-[#9C958A] max-w-2xl mx-auto mb-10 leading-relaxed">
-          Consultoria e gestão em delivery, potencializadas por IA — para restaurantes, farmácias e atacarejos.
+        <p className="text-base sm:text-lg text-[#9C958A] max-w-2xl mx-auto mb-8 leading-relaxed">
+          Consultoria e gestão em delivery, potencializadas por IA e especialistas.
         </p>
+
+        {/* Segmentos */}
+        <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mb-10">
+          {[
+            { icon: UtensilsCrossed, label: 'Restaurantes' },
+            { icon: ShoppingCart, label: 'Mercados' },
+            { icon: Warehouse, label: 'Atacarejos' },
+            { icon: Pill, label: 'Farmácias' },
+            { icon: PawPrint, label: 'Pet Shop' },
+          ].map((seg) => (
+            <div
+              key={seg.label}
+              className="flex items-center gap-2 bg-[#A31631]/5 border border-[#A31631]/15 px-4 py-2 rounded-full"
+            >
+              <seg.icon size={16} className="text-[#A31631]" />
+              <span className="text-sm font-medium text-[#0E0E0F]">{seg.label}</span>
+            </div>
+          ))}
+        </div>
 
         {/* CTAs */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-4">
