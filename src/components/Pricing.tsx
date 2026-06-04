@@ -9,11 +9,25 @@ const saasHighlights: Record<string, string> = {
   'saas-3': 'Gerencie seu negócio de ponta a ponta, com controle e escala, investindo menos que o custo de 1 funcionário.',
 }
 
+const saasCapacity: Record<string, string> = {
+  'saas-1': 'Até 3 IDs e 3k pedidos/mês',
+  'saas-2': 'Até 10 IDs e 10k pedidos/mês',
+  'saas-3': 'Até 20 IDs e 50k pedidos/mês',
+}
+
+// Texto customizado por feature+plano (em vez de check, mostra o texto)
+const featureLabels: Record<string, Record<string, string>> = {
+  'Relatórios': {
+    'saas-1': 'Mensal',
+    'saas-2': 'Semanal',
+    'saas-3': 'Semanal',
+  },
+}
+
 // Extrai todas as features únicas na ordem em que aparecem (do plano mais completo para o menor)
 function getAllFeatures(plans: Plan[]): string[] {
   const seen = new Set<string>()
   const all: string[] = []
-  // Percorre do plano mais completo ao menor para manter a ordem lógica
   for (const plan of [...plans].reverse()) {
     for (const f of plan.features) {
       if (!seen.has(f)) {
@@ -28,9 +42,11 @@ function getAllFeatures(plans: Plan[]): string[] {
 function ComparisonTable({
   plans,
   highlights,
+  capacity,
 }: {
   plans: Plan[]
   highlights?: Record<string, string>
+  capacity?: Record<string, string>
 }) {
   const allFeatures = getAllFeatures(plans)
 
@@ -39,46 +55,40 @@ function ComparisonTable({
       <div className="min-w-[640px]">
         {/* Header dos planos */}
         <div className="grid gap-0" style={{ gridTemplateColumns: `1.5fr repeat(${plans.length}, 1fr)` }}>
-          {/* Célula vazia */}
           <div className="p-4" />
           {plans.map((plan) => (
             <div
               key={plan.id}
-              className={`p-6 text-center rounded-t-2xl ${
-                plan.popular
-                  ? 'bg-[#A31631] text-white'
-                  : 'bg-white border-t border-x border-[#9C958A]/20'
-              }`}
+              className="p-6 text-center rounded-t-2xl bg-white border-t border-x border-[#9C958A]/20"
             >
-              <h3 className={`text-lg font-bold mb-1 ${plan.popular ? 'text-white' : 'text-[#0E0E0F]'}`}>
+              <h3 className="text-lg font-bold mb-1 text-[#0E0E0F]">
                 {plan.name}
               </h3>
               {plan.subtitle && (
-                <p className={`text-xs mb-3 ${plan.popular ? 'text-white/60' : 'text-[#9C958A]'}`}>
+                <p className="text-xs text-[#9C958A] mb-2">
                   {plan.subtitle}
                 </p>
               )}
+              {capacity?.[plan.id] && (
+                <p className="text-[11px] font-medium text-[#A31631] mb-3" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+                  {capacity[plan.id]}
+                </p>
+              )}
               {highlights?.[plan.id] && (
-                <div className={`rounded-lg px-3 py-2 mb-3 ${
-                  plan.popular
-                    ? 'bg-white/10 border border-white/20'
-                    : 'bg-[#A31631]/5 border border-[#A31631]/15'
-                }`}>
-                  <p className={`text-[11px] leading-relaxed font-medium ${
-                    plan.popular ? 'text-white/90' : 'text-[#A31631]'
-                  }`}>
+                <div className="rounded-lg px-3 py-2 mb-3 bg-[#A31631]/5 border border-[#A31631]/15">
+                  <p className="text-[11px] leading-relaxed font-medium text-[#A31631]">
                     {highlights[plan.id]}
                   </p>
                 </div>
               )}
               <div className="flex items-baseline justify-center gap-0.5">
                 <span
-                  className={`text-4xl font-bold ${plan.popular ? 'text-white' : 'text-[#0E0E0F]'}`}
+                  className="text-4xl font-bold text-[#0E0E0F]"
                   style={{ fontFamily: "'Space Grotesk', sans-serif" }}
                 >
                   {plan.priceFormatted}
                 </span>
-                <span className={`text-sm ${plan.popular ? 'text-white/60' : 'text-[#9C958A]'}`}>
+                <span className="text-sm text-[#9C958A]">
                   {plan.period}
                 </span>
               </div>
@@ -93,30 +103,31 @@ function ComparisonTable({
             className="grid gap-0"
             style={{ gridTemplateColumns: `1.5fr repeat(${plans.length}, 1fr)` }}
           >
-            {/* Nome da feature */}
             <div className={`flex items-center px-4 py-3 text-sm text-[#0E0E0F] ${idx % 2 === 0 ? 'bg-[#F7F7F7]' : 'bg-white'}`}>
               {feature}
             </div>
-            {/* Check ou dash por plano */}
             {plans.map((plan) => {
               const has = plan.features.includes(feature)
+              const customLabel = featureLabels[feature]?.[plan.id]
               return (
                 <div
                   key={plan.id}
                   className={`flex items-center justify-center px-4 py-3 ${
-                    plan.popular
-                      ? idx % 2 === 0 ? 'bg-[#A31631]/[0.95]' : 'bg-[#A31631]'
-                      : idx % 2 === 0 ? 'bg-[#F7F7F7] border-x border-[#9C958A]/10' : 'bg-white border-x border-[#9C958A]/10'
+                    idx % 2 === 0 ? 'bg-[#F7F7F7] border-x border-[#9C958A]/10' : 'bg-white border-x border-[#9C958A]/10'
                   }`}
                 >
                   {has ? (
-                    <div className={`w-6 h-6 rounded-full flex items-center justify-center ${
-                      plan.popular ? 'bg-white/20' : 'bg-green-500/10'
-                    }`}>
-                      <Check size={14} className={plan.popular ? 'text-white' : 'text-green-600'} />
-                    </div>
+                    customLabel ? (
+                      <span className="text-xs font-semibold text-green-600 bg-green-500/10 px-3 py-1 rounded-full">
+                        {customLabel}
+                      </span>
+                    ) : (
+                      <div className="w-6 h-6 rounded-full flex items-center justify-center bg-green-500/10">
+                        <Check size={14} className="text-green-600" />
+                      </div>
+                    )
                   ) : (
-                    <Minus size={16} className={plan.popular ? 'text-white/30' : 'text-[#9C958A]/40'} />
+                    <Minus size={16} className="text-[#9C958A]/40" />
                   )}
                 </div>
               )
@@ -130,19 +141,11 @@ function ComparisonTable({
           {plans.map((plan) => (
             <div
               key={plan.id}
-              className={`p-6 text-center rounded-b-2xl ${
-                plan.popular
-                  ? 'bg-[#A31631]'
-                  : 'bg-white border-b border-x border-[#9C958A]/20'
-              }`}
+              className="p-6 text-center rounded-b-2xl bg-white border-b border-x border-[#9C958A]/20"
             >
               <Link
                 to={`/checkout?plano=${plan.id}`}
-                className={`inline-block w-full font-medium py-3 px-6 rounded-xl text-sm transition-colors ${
-                  plan.popular
-                    ? 'bg-white text-[#A31631] hover:bg-[#F7F7F7]'
-                    : 'border border-[#A31631] text-[#A31631] hover:bg-[#A31631] hover:text-white'
-                }`}
+                className="inline-block w-full font-medium py-3 px-6 rounded-xl text-sm transition-colors border border-[#A31631] text-[#A31631] hover:bg-[#A31631] hover:text-white"
               >
                 {plan.cta}
               </Link>
@@ -184,7 +187,7 @@ export function Pricing() {
         </FadeIn>
 
         <FadeIn delay={100} className="mb-24">
-          <ComparisonTable plans={saasPlans} highlights={saasHighlights} />
+          <ComparisonTable plans={saasPlans} highlights={saasHighlights} capacity={saasCapacity} />
         </FadeIn>
 
         {/* CONSULTORIA */}
