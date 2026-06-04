@@ -120,7 +120,7 @@ export function Pricing() {
               </div>
               <div>
                 <h3 className="text-2xl font-bold text-[#0E0E0F]">Consultoria</h3>
-                <p className="text-sm text-[#9C958A]">Especialistas in loco transformando sua operação</p>
+                <p className="text-sm text-[#9C958A]">Especialistas transformando sua operação</p>
               </div>
               <div className="hidden sm:block flex-1 h-px bg-[#9C958A]/30 ml-4" />
             </div>
