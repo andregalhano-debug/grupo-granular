@@ -166,7 +166,7 @@ export function Pricing() {
             Planos que cabem na sua operação
           </h2>
           <p className="text-[#9C958A] text-base sm:text-lg max-w-2xl mx-auto">
-            Comece agora a transformação na gestão do seu negócio. Pacotes sob demanda e valores acessíveis.
+            Comece agora a transformação na gestão do seu negócio investindo menos que o custo de 1 funcionário.
           </p>
         </FadeIn>
 
