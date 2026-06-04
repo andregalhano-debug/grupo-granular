@@ -12,6 +12,7 @@ const badges = [
 
 export function Modules() {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
+  const [lightbox, setLightbox] = useState<string | null>(null)
   const detailRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -140,7 +141,9 @@ export function Modules() {
                     <img
                       src={openModule.screenshot}
                       alt={`Tela do módulo ${openModule.title}`}
-                      className="rounded-xl shadow-lg w-full max-w-lg object-cover"
+                      className="rounded-xl shadow-lg w-full max-w-lg object-cover cursor-pointer hover:opacity-90 transition-opacity"
+                      onClick={() => setLightbox(openModule.screenshot)}
+                      title="Clique para ampliar"
                     />
                   ) : (
                     <div className="w-full max-w-lg aspect-video rounded-xl bg-[#9C958A]/10 flex items-center justify-center">
@@ -175,6 +178,28 @@ export function Modules() {
         </FadeIn>
       </div>
 
+      {/* Lightbox — ampliar screenshot */}
+      {lightbox && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm cursor-pointer"
+          onClick={() => setLightbox(null)}
+          style={{ animation: 'fadeIn 0.2s ease' }}
+        >
+          <button
+            onClick={() => setLightbox(null)}
+            className="absolute top-6 right-6 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+          >
+            <X size={24} />
+          </button>
+          <img
+            src={lightbox}
+            alt="Screenshot ampliado"
+            className="max-w-[90vw] max-h-[90vh] rounded-2xl shadow-2xl object-contain cursor-default"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
+
       <style>{`
         @keyframes slideDown {
           from {
@@ -187,6 +212,10 @@ export function Modules() {
             max-height: 800px;
             transform: translateY(0);
           }
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
         }
       `}</style>
     </section>
