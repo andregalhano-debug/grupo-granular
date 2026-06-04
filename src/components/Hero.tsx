@@ -42,7 +42,7 @@ export function Hero() {
           </a>
         </div>
         <p className="text-xs text-[#9C958A] mb-16">
-          Sem cartão de crédito. Cancele quando quiser.
+          Módulos sob demanda. Cancele quando quiser.
         </p>
       </FadeIn>
 
