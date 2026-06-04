@@ -5,7 +5,7 @@ import { FadeIn } from './FadeIn'
 import { modulesData } from '../data/modulesData'
 
 const badges = [
-  { icon: Smartphone, text: 'App mobile nativo incluso' },
+  { icon: Smartphone, text: 'Versão mobile nativa' },
   { icon: Shield, text: 'Multi-lojas com visões apartadas' },
   { icon: BarChart3, text: 'Benchmark entre unidades' },
 ]
