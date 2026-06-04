@@ -31,26 +31,20 @@ export function Integrations() {
         <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-8">
           {integrations.map((item, i) => (
             <FadeIn key={item.name} delay={i * 100}>
-              <div className="group flex flex-col items-center gap-3">
-                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-white border border-[#9C958A]/20 shadow-sm flex items-center justify-center group-hover:shadow-lg group-hover:border-[#A31631]/20 transition-all duration-300 overflow-hidden p-4">
-                  <img
-                    src={item.logo}
-                    alt={item.name}
-                    className="w-full h-full object-contain"
-                  />
-                </div>
-                <span className="text-xs font-medium text-[#0E0E0F]">{item.name}</span>
+              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-white border border-[#9C958A]/20 shadow-sm flex items-center justify-center hover:shadow-lg hover:border-[#A31631]/20 transition-all duration-300 overflow-hidden p-4">
+                <img
+                  src={item.logo}
+                  alt={item.name}
+                  className="w-full h-full object-contain"
+                />
               </div>
             </FadeIn>
           ))}
 
           {/* Em breve */}
           <FadeIn delay={integrations.length * 100}>
-            <div className="flex flex-col items-center gap-3">
-              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl border-2 border-dashed border-[#9C958A]/30 flex items-center justify-center">
-                <Plus size={28} className="text-[#9C958A]/40" />
-              </div>
-              <span className="text-xs font-medium text-[#9C958A]">Em breve</span>
+            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl border-2 border-dashed border-[#9C958A]/30 flex items-center justify-center">
+              <Plus size={28} className="text-[#9C958A]/40" />
             </div>
           </FadeIn>
         </div>
