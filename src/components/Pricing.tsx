@@ -1,12 +1,157 @@
-import { Check, Monitor, Handshake } from 'lucide-react'
+import { Check, Minus, Monitor, Handshake } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
-import { saasPlans, consultoriaPlans } from '../data/plans'
+import { saasPlans, consultoriaPlans, type Plan } from '../data/plans'
 
 const saasHighlights: Record<string, string> = {
   'saas-1': 'Portal granular iFood, focado na estratégia comercial, controle da venda e operação, com foco na sua margem de lucro.',
   'saas-2': 'Tenha uma profundidade ainda maior no controle de estoque e aplique os checklists operacionais.',
   'saas-3': 'Gerencie seu negócio de ponta a ponta, com controle e escala, investindo menos que o custo de 1 funcionário.',
+}
+
+// Extrai todas as features únicas na ordem em que aparecem (do plano mais completo para o menor)
+function getAllFeatures(plans: Plan[]): string[] {
+  const seen = new Set<string>()
+  const all: string[] = []
+  // Percorre do plano mais completo ao menor para manter a ordem lógica
+  for (const plan of [...plans].reverse()) {
+    for (const f of plan.features) {
+      if (!seen.has(f)) {
+        seen.add(f)
+        all.push(f)
+      }
+    }
+  }
+  return all
+}
+
+function ComparisonTable({
+  plans,
+  highlights,
+}: {
+  plans: Plan[]
+  highlights?: Record<string, string>
+}) {
+  const allFeatures = getAllFeatures(plans)
+
+  return (
+    <div className="max-w-6xl mx-auto overflow-x-auto">
+      <div className="min-w-[640px]">
+        {/* Header dos planos */}
+        <div className="grid gap-0" style={{ gridTemplateColumns: `1.5fr repeat(${plans.length}, 1fr)` }}>
+          {/* Célula vazia */}
+          <div className="p-4" />
+          {plans.map((plan) => (
+            <div
+              key={plan.id}
+              className={`p-6 text-center rounded-t-2xl ${
+                plan.popular
+                  ? 'bg-[#A31631] text-white'
+                  : 'bg-white border-t border-x border-[#9C958A]/20'
+              }`}
+            >
+              <h3 className={`text-lg font-bold mb-1 ${plan.popular ? 'text-white' : 'text-[#0E0E0F]'}`}>
+                {plan.name}
+              </h3>
+              {plan.subtitle && (
+                <p className={`text-xs mb-3 ${plan.popular ? 'text-white/60' : 'text-[#9C958A]'}`}>
+                  {plan.subtitle}
+                </p>
+              )}
+              {highlights?.[plan.id] && (
+                <div className={`rounded-lg px-3 py-2 mb-3 ${
+                  plan.popular
+                    ? 'bg-white/10 border border-white/20'
+                    : 'bg-[#A31631]/5 border border-[#A31631]/15'
+                }`}>
+                  <p className={`text-[11px] leading-relaxed font-medium ${
+                    plan.popular ? 'text-white/90' : 'text-[#A31631]'
+                  }`}>
+                    {highlights[plan.id]}
+                  </p>
+                </div>
+              )}
+              <div className="flex items-baseline justify-center gap-0.5">
+                <span
+                  className={`text-4xl font-bold ${plan.popular ? 'text-white' : 'text-[#0E0E0F]'}`}
+                  style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+                >
+                  {plan.priceFormatted}
+                </span>
+                <span className={`text-sm ${plan.popular ? 'text-white/60' : 'text-[#9C958A]'}`}>
+                  {plan.period}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Linhas de features */}
+        {allFeatures.map((feature, idx) => (
+          <div
+            key={feature}
+            className="grid gap-0"
+            style={{ gridTemplateColumns: `1.5fr repeat(${plans.length}, 1fr)` }}
+          >
+            {/* Nome da feature */}
+            <div className={`flex items-center px-4 py-3 text-sm text-[#0E0E0F] ${idx % 2 === 0 ? 'bg-[#F7F7F7]' : 'bg-white'}`}>
+              {feature}
+            </div>
+            {/* Check ou dash por plano */}
+            {plans.map((plan) => {
+              const has = plan.features.includes(feature)
+              return (
+                <div
+                  key={plan.id}
+                  className={`flex items-center justify-center px-4 py-3 ${
+                    plan.popular
+                      ? idx % 2 === 0 ? 'bg-[#A31631]/[0.95]' : 'bg-[#A31631]'
+                      : idx % 2 === 0 ? 'bg-[#F7F7F7] border-x border-[#9C958A]/10' : 'bg-white border-x border-[#9C958A]/10'
+                  }`}
+                >
+                  {has ? (
+                    <div className={`w-6 h-6 rounded-full flex items-center justify-center ${
+                      plan.popular ? 'bg-white/20' : 'bg-green-500/10'
+                    }`}>
+                      <Check size={14} className={plan.popular ? 'text-white' : 'text-green-600'} />
+                    </div>
+                  ) : (
+                    <Minus size={16} className={plan.popular ? 'text-white/30' : 'text-[#9C958A]/40'} />
+                  )}
+                </div>
+              )
+            })}
+          </div>
+        ))}
+
+        {/* CTAs */}
+        <div className="grid gap-0" style={{ gridTemplateColumns: `1.5fr repeat(${plans.length}, 1fr)` }}>
+          <div className="p-4" />
+          {plans.map((plan) => (
+            <div
+              key={plan.id}
+              className={`p-6 text-center rounded-b-2xl ${
+                plan.popular
+                  ? 'bg-[#A31631]'
+                  : 'bg-white border-b border-x border-[#9C958A]/20'
+              }`}
+            >
+              <Link
+                to={`/checkout?plano=${plan.id}`}
+                className={`inline-block w-full font-medium py-3 px-6 rounded-xl text-sm transition-colors ${
+                  plan.popular
+                    ? 'bg-white text-[#A31631] hover:bg-[#F7F7F7]'
+                    : 'border border-[#A31631] text-[#A31631] hover:bg-[#A31631] hover:text-white'
+                }`}
+              >
+                {plan.cta}
+              </Link>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
 }
 
 export function Pricing() {
@@ -22,7 +167,7 @@ export function Pricing() {
           </p>
         </FadeIn>
 
-        {/* PACOTES SaaS */}
+        {/* SISTEMA */}
         <FadeIn>
           <div className="max-w-6xl mx-auto mb-10">
             <div className="flex items-center gap-4">
@@ -38,78 +183,9 @@ export function Pricing() {
           </div>
         </FadeIn>
 
-        <div className="grid lg:grid-cols-3 gap-6 max-w-6xl mx-auto items-stretch mb-24">
-          {saasPlans.map((plan, i) => (
-            <FadeIn key={plan.id} delay={i * 120}>
-              <div
-                className={`rounded-2xl p-8 h-full flex flex-col ${
-                  plan.popular
-                    ? 'bg-[#A31631] text-white shadow-2xl shadow-[#A31631]/20'
-                    : 'bg-white border border-[#9C958A]/20'
-                }`}
-              >
-                <h3 className={`text-xl font-bold mb-1 ${plan.popular ? 'text-white' : 'text-[#0E0E0F]'}`}>
-                  {plan.name}
-                </h3>
-                {plan.subtitle && (
-                  <p className={`text-sm mb-4 ${plan.popular ? 'text-white/60' : 'text-[#9C958A]'}`}>
-                    {plan.subtitle}
-                  </p>
-                )}
-
-                {saasHighlights[plan.id] && (
-                  <div className={`rounded-lg px-4 py-2.5 mb-5 ${
-                    plan.popular
-                      ? 'bg-white/10 border border-white/20'
-                      : 'bg-[#A31631]/5 border border-[#A31631]/15'
-                  }`}>
-                    <p className={`text-xs leading-relaxed font-medium ${
-                      plan.popular ? 'text-white/90' : 'text-[#A31631]'
-                    }`}>
-                      {saasHighlights[plan.id]}
-                    </p>
-                  </div>
-                )}
-
-                <div className="flex items-baseline gap-0.5 mb-6">
-                  <span className={`text-5xl font-bold ${plan.popular ? 'text-white' : 'text-[#0E0E0F]'}`} style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-                    {plan.priceFormatted}
-                  </span>
-                  <span className={`text-sm ${plan.popular ? 'text-white/60' : 'text-[#9C958A]'}`}>
-                    {plan.period}
-                  </span>
-                </div>
-
-                <ul className="space-y-3 mb-8 flex-1">
-                  {plan.features.map((feature) => (
-                    <li key={feature} className="flex items-start gap-3 text-sm">
-                      <Check
-                        size={16}
-                        className={`mt-0.5 flex-shrink-0 ${
-                          plan.popular ? 'text-[#C4223D]' : 'text-[#A31631]'
-                        }`}
-                      />
-                      <span className={plan.popular ? 'text-white/80' : 'text-[#2A2622]'}>
-                        {feature}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-
-                <Link
-                  to={`/checkout?plano=${plan.id}`}
-                  className={`block text-center font-medium py-3 px-6 rounded-xl text-sm transition-colors ${
-                    plan.popular
-                      ? 'bg-white text-[#A31631] hover:bg-[#F7F7F7]'
-                      : 'border border-[#A31631] text-[#A31631] hover:bg-[#A31631] hover:text-white'
-                  }`}
-                >
-                  {plan.cta}
-                </Link>
-              </div>
-            </FadeIn>
-          ))}
-        </div>
+        <FadeIn delay={100} className="mb-24">
+          <ComparisonTable plans={saasPlans} highlights={saasHighlights} />
+        </FadeIn>
 
         {/* CONSULTORIA */}
         <FadeIn>
@@ -127,52 +203,9 @@ export function Pricing() {
           </div>
         </FadeIn>
 
-        <div className="grid lg:grid-cols-3 gap-6 max-w-6xl mx-auto items-stretch">
-          {consultoriaPlans.map((plan, i) => (
-            <FadeIn key={plan.id} delay={i * 120}>
-              <div
-                className={`rounded-2xl p-8 h-full flex flex-col ${
-                  plan.popular
-                    ? 'bg-[#A31631] text-white shadow-2xl shadow-[#A31631]/20'
-                    : 'bg-white border border-[#9C958A]/20'
-                }`}
-              >
-                <h3 className={`text-xl font-bold mb-1 ${plan.popular ? 'text-white' : 'text-[#0E0E0F]'}`}>
-                  {plan.name}
-                </h3>
-                <p className={`text-sm mb-5 ${plan.popular ? 'text-white/60' : 'text-[#9C958A]'}`}>
-                  {plan.subtitle}
-                </p>
-                <div className="flex items-baseline gap-0.5 mb-6">
-                  <span className={`text-5xl font-bold ${plan.popular ? 'text-white' : 'text-[#0E0E0F]'}`} style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-                    {plan.priceFormatted}
-                  </span>
-                  <span className={`text-sm ${plan.popular ? 'text-white/60' : 'text-[#9C958A]'}`}>{plan.period}</span>
-                </div>
-
-                <ul className="space-y-3 mb-8 flex-1">
-                  {plan.features.map((feature) => (
-                    <li key={feature} className="flex items-start gap-3 text-sm">
-                      <Check size={16} className={`mt-0.5 flex-shrink-0 ${plan.popular ? 'text-[#C4223D]' : 'text-[#A31631]'}`} />
-                      <span className={plan.popular ? 'text-white/80' : 'text-[#2A2622]'}>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <Link
-                  to={`/checkout?plano=${plan.id}`}
-                  className={`block text-center font-medium py-3 px-6 rounded-xl text-sm transition-colors ${
-                    plan.popular
-                      ? 'bg-white text-[#A31631] hover:bg-[#F7F7F7]'
-                      : 'border border-[#A31631] text-[#A31631] hover:bg-[#A31631] hover:text-white'
-                  }`}
-                >
-                  {plan.cta}
-                </Link>
-              </div>
-            </FadeIn>
-          ))}
-        </div>
+        <FadeIn delay={100}>
+          <ComparisonTable plans={consultoriaPlans} />
+        </FadeIn>
       </div>
     </section>
   )
