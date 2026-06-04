@@ -3,11 +3,7 @@ import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
 import { saasPlans, consultoriaPlans, type Plan } from '../data/plans'
 
-const saasHighlights: Record<string, string> = {
-  'saas-1': 'Portal granular iFood, focado na estratégia comercial, controle da venda e operação, com foco na sua margem de lucro.',
-  'saas-2': 'Tenha uma profundidade ainda maior no controle de estoque e aplique os checklists operacionais.',
-  'saas-3': 'Gerencie seu negócio de ponta a ponta, com controle e escala, investindo menos que o custo de 1 funcionário.',
-}
+const saasHighlights: Record<string, string> = {}
 
 const saasCapacity: Record<string, string> = {
   'saas-1': 'Até 3 IDs e 3k pedidos/mês',
