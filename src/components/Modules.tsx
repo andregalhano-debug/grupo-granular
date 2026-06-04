@@ -209,7 +209,7 @@ export function Modules() {
           }
           to {
             opacity: 1;
-            max-height: 800px;
+            max-height: 1200px;
             transform: translateY(0);
           }
         }

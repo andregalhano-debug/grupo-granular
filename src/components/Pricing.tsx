@@ -3,15 +3,12 @@ import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
 import { saasPlans, consultoriaPlans, type Plan } from '../data/plans'
 
-const saasHighlights: Record<string, string> = {}
-
 const saasCapacity: Record<string, string> = {
   'saas-1': 'Até 3 IDs e 3k pedidos/mês',
   'saas-2': 'Até 10 IDs e 10k pedidos/mês',
   'saas-3': 'Até 20 IDs e 50k pedidos/mês',
 }
 
-// Texto customizado por feature+plano (em vez de check, mostra o texto)
 const featureLabels: Record<string, Record<string, string>> = {
   'Relatórios': {
     'saas-1': 'Mensal',
@@ -20,7 +17,6 @@ const featureLabels: Record<string, Record<string, string>> = {
   },
 }
 
-// Extrai todas as features únicas na ordem em que aparecem (do plano mais completo para o menor)
 function getAllFeatures(plans: Plan[]): string[] {
   const seen = new Set<string>()
   const all: string[] = []
@@ -35,119 +31,185 @@ function getAllFeatures(plans: Plan[]): string[] {
   return all
 }
 
-function ComparisonTable({
+/* ── Cards mobile: um card por plano com lista de features ── */
+function MobileCards({
   plans,
-  highlights,
   capacity,
 }: {
   plans: Plan[]
-  highlights?: Record<string, string>
   capacity?: Record<string, string>
 }) {
   const allFeatures = getAllFeatures(plans)
 
   return (
-    <div className="max-w-6xl mx-auto overflow-x-auto">
-      <div className="min-w-[640px]">
-        {/* Header dos planos */}
-        <div className="grid gap-0" style={{ gridTemplateColumns: `1.5fr repeat(${plans.length}, 1fr)` }}>
-          <div className="p-4" />
-          {plans.map((plan) => (
-            <div
-              key={plan.id}
-              className="p-6 text-center rounded-t-2xl bg-white border-t border-x border-[#9C958A]/20"
-            >
-              <h3 className="text-lg font-bold mb-1 text-[#0E0E0F]">
-                {plan.name}
-              </h3>
-              {plan.subtitle && (
-                <p className="text-xs text-[#9C958A] mb-2">
-                  {plan.subtitle}
-                </p>
-              )}
-              {capacity?.[plan.id] && (
-                <p className="text-[11px] font-medium text-[#A31631] mb-3" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
-                  {capacity[plan.id]}
-                </p>
-              )}
-              {highlights?.[plan.id] && (
-                <div className="rounded-lg px-3 py-2 mb-3 bg-[#A31631]/5 border border-[#A31631]/15">
-                  <p className="text-[11px] leading-relaxed font-medium text-[#A31631]">
-                    {highlights[plan.id]}
-                  </p>
-                </div>
-              )}
-              <div className="flex items-baseline justify-center gap-0.5">
-                <span
-                  className="text-4xl font-bold text-[#0E0E0F]"
-                  style={{ fontFamily: "'Space Grotesk', sans-serif" }}
-                >
-                  {plan.priceFormatted}
-                </span>
-                <span className="text-sm text-[#9C958A]">
-                  {plan.period}
-                </span>
-              </div>
+    <div className="space-y-6 lg:hidden">
+      {plans.map((plan) => (
+        <div
+          key={plan.id}
+          className="rounded-2xl bg-white border border-[#9C958A]/20 overflow-hidden"
+        >
+          {/* Header do card */}
+          <div className="p-6 text-center border-b border-[#9C958A]/10">
+            <h3 className="text-lg font-bold text-[#0E0E0F] mb-1">{plan.name}</h3>
+            {plan.subtitle && (
+              <p className="text-xs text-[#9C958A] mb-1">{plan.subtitle}</p>
+            )}
+            {capacity?.[plan.id] && (
+              <p className="text-[11px] font-medium text-[#A31631] mb-3" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+                {capacity[plan.id]}
+              </p>
+            )}
+            <div className="flex items-baseline justify-center gap-0.5">
+              <span className="text-4xl font-bold text-[#0E0E0F]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                {plan.priceFormatted}
+              </span>
+              <span className="text-sm text-[#9C958A]">{plan.period}</span>
             </div>
-          ))}
-        </div>
+          </div>
 
-        {/* Linhas de features */}
-        {allFeatures.map((feature, idx) => (
-          <div
-            key={feature}
-            className="grid gap-0"
-            style={{ gridTemplateColumns: `1.5fr repeat(${plans.length}, 1fr)` }}
-          >
-            <div className={`flex items-center px-4 py-3 text-sm text-[#0E0E0F] ${idx % 2 === 0 ? 'bg-[#F7F7F7]' : 'bg-white'}`}>
-              {feature}
-            </div>
-            {plans.map((plan) => {
-              const has = plan.features.includes(feature)
-              const customLabel = featureLabels[feature]?.[plan.id]
-              return (
-                <div
-                  key={plan.id}
-                  className={`flex items-center justify-center px-4 py-3 ${
-                    idx % 2 === 0 ? 'bg-[#F7F7F7] border-x border-[#9C958A]/10' : 'bg-white border-x border-[#9C958A]/10'
-                  }`}
-                >
-                  {has ? (
-                    customLabel ? (
-                      <span className="text-xs font-semibold text-green-600 bg-green-500/10 px-3 py-1 rounded-full">
-                        {customLabel}
-                      </span>
+          {/* Features */}
+          <div className="p-4">
+            <ul className="space-y-2.5">
+              {allFeatures.map((feature) => {
+                const has = plan.features.includes(feature)
+                const customLabel = featureLabels[feature]?.[plan.id]
+                return (
+                  <li key={feature} className="flex items-center gap-3 text-sm">
+                    {has ? (
+                      <>
+                        <div className="w-5 h-5 rounded-full flex items-center justify-center bg-green-500/10 flex-shrink-0">
+                          <Check size={12} className="text-green-600" />
+                        </div>
+                        <span className="text-[#0E0E0F]">
+                          {feature}
+                          {customLabel && (
+                            <span className="ml-2 text-[11px] font-semibold text-green-600 bg-green-500/10 px-2 py-0.5 rounded-full">
+                              {customLabel}
+                            </span>
+                          )}
+                        </span>
+                      </>
                     ) : (
-                      <div className="w-6 h-6 rounded-full flex items-center justify-center bg-green-500/10">
-                        <Check size={14} className="text-green-600" />
-                      </div>
-                    )
-                  ) : (
-                    <Minus size={16} className="text-[#9C958A]/40" />
-                  )}
-                </div>
-              )
-            })}
+                      <>
+                        <Minus size={14} className="text-[#9C958A]/40 flex-shrink-0 ml-0.5" />
+                        <span className="text-[#9C958A]/50 line-through">{feature}</span>
+                      </>
+                    )}
+                  </li>
+                )
+              })}
+            </ul>
+          </div>
+
+          {/* CTA */}
+          <div className="px-4 pb-5">
+            <Link
+              to={`/checkout?plano=${plan.id}`}
+              className="block text-center font-medium py-3 px-6 rounded-xl text-sm transition-colors border border-[#A31631] text-[#A31631] hover:bg-[#A31631] hover:text-white"
+            >
+              {plan.cta}
+            </Link>
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+/* ── Tabela comparativa desktop ── */
+function DesktopTable({
+  plans,
+  capacity,
+}: {
+  plans: Plan[]
+  capacity?: Record<string, string>
+}) {
+  const allFeatures = getAllFeatures(plans)
+
+  return (
+    <div className="max-w-6xl mx-auto hidden lg:block">
+      {/* Header dos planos */}
+      <div className="grid gap-0" style={{ gridTemplateColumns: `1.5fr repeat(${plans.length}, 1fr)` }}>
+        <div className="p-4" />
+        {plans.map((plan) => (
+          <div
+            key={plan.id}
+            className="p-6 text-center rounded-t-2xl bg-white border-t border-x border-[#9C958A]/20"
+          >
+            <h3 className="text-lg font-bold mb-1 text-[#0E0E0F]">{plan.name}</h3>
+            {plan.subtitle && (
+              <p className="text-xs text-[#9C958A] mb-2">{plan.subtitle}</p>
+            )}
+            {capacity?.[plan.id] && (
+              <p className="text-[11px] font-medium text-[#A31631] mb-3" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+                {capacity[plan.id]}
+              </p>
+            )}
+            <div className="flex items-baseline justify-center gap-0.5">
+              <span className="text-4xl font-bold text-[#0E0E0F]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                {plan.priceFormatted}
+              </span>
+              <span className="text-sm text-[#9C958A]">{plan.period}</span>
+            </div>
           </div>
         ))}
+      </div>
 
-        {/* CTAs */}
-        <div className="grid gap-0" style={{ gridTemplateColumns: `1.5fr repeat(${plans.length}, 1fr)` }}>
-          <div className="p-4" />
-          {plans.map((plan) => (
-            <div
-              key={plan.id}
-              className="p-6 text-center rounded-b-2xl bg-white border-b border-x border-[#9C958A]/20"
-            >
-              <Link
-                to={`/checkout?plano=${plan.id}`}
-                className="inline-block w-full font-medium py-3 px-6 rounded-xl text-sm transition-colors border border-[#A31631] text-[#A31631] hover:bg-[#A31631] hover:text-white"
+      {/* Linhas de features */}
+      {allFeatures.map((feature, idx) => (
+        <div
+          key={feature}
+          className="grid gap-0"
+          style={{ gridTemplateColumns: `1.5fr repeat(${plans.length}, 1fr)` }}
+        >
+          <div className={`flex items-center px-4 py-3 text-sm text-[#0E0E0F] ${idx % 2 === 0 ? 'bg-[#F7F7F7]' : 'bg-white'}`}>
+            {feature}
+          </div>
+          {plans.map((plan) => {
+            const has = plan.features.includes(feature)
+            const customLabel = featureLabels[feature]?.[plan.id]
+            return (
+              <div
+                key={plan.id}
+                className={`flex items-center justify-center px-4 py-3 ${
+                  idx % 2 === 0 ? 'bg-[#F7F7F7] border-x border-[#9C958A]/10' : 'bg-white border-x border-[#9C958A]/10'
+                }`}
               >
-                {plan.cta}
-              </Link>
-            </div>
-          ))}
+                {has ? (
+                  customLabel ? (
+                    <span className="text-xs font-semibold text-green-600 bg-green-500/10 px-3 py-1 rounded-full">
+                      {customLabel}
+                    </span>
+                  ) : (
+                    <div className="w-6 h-6 rounded-full flex items-center justify-center bg-green-500/10">
+                      <Check size={14} className="text-green-600" />
+                    </div>
+                  )
+                ) : (
+                  <Minus size={16} className="text-[#9C958A]/40" />
+                )}
+              </div>
+            )
+          })}
         </div>
+      ))}
+
+      {/* CTAs */}
+      <div className="grid gap-0" style={{ gridTemplateColumns: `1.5fr repeat(${plans.length}, 1fr)` }}>
+        <div className="p-4" />
+        {plans.map((plan) => (
+          <div
+            key={plan.id}
+            className="p-6 text-center rounded-b-2xl bg-white border-b border-x border-[#9C958A]/20"
+          >
+            <Link
+              to={`/checkout?plano=${plan.id}`}
+              className="inline-block w-full font-medium py-3 px-6 rounded-xl text-sm transition-colors border border-[#A31631] text-[#A31631] hover:bg-[#A31631] hover:text-white"
+            >
+              {plan.cta}
+            </Link>
+          </div>
+        ))}
       </div>
     </div>
   )
@@ -183,7 +245,8 @@ export function Pricing() {
         </FadeIn>
 
         <FadeIn delay={100} className="mb-24">
-          <ComparisonTable plans={saasPlans} highlights={saasHighlights} capacity={saasCapacity} />
+          <DesktopTable plans={saasPlans} capacity={saasCapacity} />
+          <MobileCards plans={saasPlans} capacity={saasCapacity} />
         </FadeIn>
 
         {/* CONSULTORIA */}
@@ -203,7 +266,8 @@ export function Pricing() {
         </FadeIn>
 
         <FadeIn delay={100}>
-          <ComparisonTable plans={consultoriaPlans} />
+          <DesktopTable plans={consultoriaPlans} />
+          <MobileCards plans={consultoriaPlans} />
         </FadeIn>
       </div>
     </section>
