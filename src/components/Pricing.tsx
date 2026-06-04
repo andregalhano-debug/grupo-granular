@@ -3,6 +3,12 @@ import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
 import { saasPlans, consultoriaPlans } from '../data/plans'
 
+const saasHighlights: Record<string, string> = {
+  'saas-1': 'Portal granular iFood, focado na estratégia e controle da sua venda e operação.',
+  'saas-2': 'Tenha uma profundidade ainda maior no controle de estoque e aplique os checklists operacionais.',
+  'saas-3': 'Gerencie seu negócio com controle e escalabilidade, investindo menos que o custo de um único funcionário.',
+}
+
 export function Pricing() {
   return (
     <section id="precos" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-[#F7F7F7]">
@@ -11,14 +17,9 @@ export function Pricing() {
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#0E0E0F] mb-4">
             Planos que cabem na sua operação
           </h2>
-          <p className="text-[#9C958A] text-base sm:text-lg max-w-2xl mx-auto mb-6">
+          <p className="text-[#9C958A] text-base sm:text-lg max-w-2xl mx-auto">
             Comece agora a transformação na gestão do seu negócio. Pacotes sob demanda e valores acessíveis.
           </p>
-          <div className="inline-block bg-[#A31631]/10 border border-[#A31631]/20 rounded-xl px-6 py-3">
-            <p className="text-sm sm:text-base font-medium text-[#A31631]">
-              Gerencie seu negócio com controle e escalabilidade, investindo menos que o custo de um único funcionário.
-            </p>
-          </div>
         </FadeIn>
 
         {/* PACOTES SaaS */}
@@ -50,9 +51,24 @@ export function Pricing() {
                 <h3 className={`text-xl font-bold mb-1 ${plan.popular ? 'text-white' : 'text-[#0E0E0F]'}`}>
                   {plan.name}
                 </h3>
-                <p className={`text-sm mb-5 ${plan.popular ? 'text-white/60' : 'text-[#9C958A]'}`}>
+                <p className={`text-sm mb-4 ${plan.popular ? 'text-white/60' : 'text-[#9C958A]'}`}>
                   {plan.subtitle}
                 </p>
+
+                {saasHighlights[plan.id] && (
+                  <div className={`rounded-lg px-4 py-2.5 mb-5 ${
+                    plan.popular
+                      ? 'bg-white/10 border border-white/20'
+                      : 'bg-[#A31631]/5 border border-[#A31631]/15'
+                  }`}>
+                    <p className={`text-xs leading-relaxed font-medium ${
+                      plan.popular ? 'text-white/90' : 'text-[#A31631]'
+                    }`}>
+                      {saasHighlights[plan.id]}
+                    </p>
+                  </div>
+                )}
+
                 <div className="flex items-baseline gap-0.5 mb-6">
                   <span className={`text-5xl font-bold ${plan.popular ? 'text-white' : 'text-[#0E0E0F]'}`} style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
                     {plan.priceFormatted}
