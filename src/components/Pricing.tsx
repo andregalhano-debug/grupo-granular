@@ -6,7 +6,7 @@ import { saasPlans, consultoriaPlans } from '../data/plans'
 const saasHighlights: Record<string, string> = {
   'saas-1': 'Portal granular iFood, focado na estratégia e controle da sua venda e operação.',
   'saas-2': 'Tenha uma profundidade ainda maior no controle de estoque e aplique os checklists operacionais.',
-  'saas-3': 'Gerencie seu negócio com controle e escalabilidade, investindo menos que o custo de um único funcionário.',
+  'saas-3': 'Gerencie seu negócio de ponta a ponta, com controle e escala, investindo menos que o custo de 1 funcionário.',
 }
 
 export function Pricing() {
