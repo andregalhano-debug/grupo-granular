@@ -65,7 +65,7 @@ export const saasPlans: Plan[] = [
       'Até 10 IDs – Até 10.000 pedidos/mês',
       '1 Relatório Semanal',
     ],
-    popular: true,
+    popular: false,
     cta: 'Começar Agora',
   },
   {
@@ -165,7 +165,7 @@ export const consultoriaPlans: Plan[] = [
       'Relatório Semanal',
     ],
     cta: 'Começar Agora',
-    popular: true,
+    popular: false,
   },
 ]
 
