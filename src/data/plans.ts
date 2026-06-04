@@ -29,7 +29,7 @@ export const saasPlans: Plan[] = [
     id: 'saas-1',
     type: 'saas',
     name: 'Módulo 1',
-    subtitle: 'Vendas, operação, Portal iFood',
+    subtitle: 'Vendas, Operação, Portal iFood',
     price: 89,
     priceFormatted: '89',
     period: '/mês',
