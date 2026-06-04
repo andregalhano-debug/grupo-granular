@@ -6,6 +6,7 @@ import { useCart } from '../stores/useCartStore'
 
 const navLinks = [
   { label: 'Módulos', href: '/#modulos' },
+  { label: 'Integrações', href: '/#integracoes' },
   { label: 'Diferenciais', href: '/#diferenciais' },
   { label: 'Preços', href: '/#precos' },
   { label: 'Consultores', href: '/consultores' },

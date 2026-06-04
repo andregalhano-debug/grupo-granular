@@ -11,7 +11,7 @@ const integrations = [
 
 export function Integrations() {
   return (
-    <section className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-[#F7F7F7]">
+    <section id="integracoes" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-[#F7F7F7]">
       <div className="max-w-7xl mx-auto">
         <FadeIn className="text-center mb-16">
           <p
