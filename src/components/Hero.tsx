@@ -88,6 +88,7 @@ export function Hero() {
             src={telaSistema}
             alt="Dashboard Granular — Visão geral de faturamento, pedidos, promoções e clientes"
             className="w-full block cursor-pointer hover:opacity-90 transition-opacity"
+            fetchPriority="high"
             onClick={() => setLightbox(true)}
             title="Clique para ampliar"
           />

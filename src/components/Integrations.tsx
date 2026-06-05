@@ -89,6 +89,7 @@ export function Integrations() {
                 <img
                   src={item.logo}
                   alt={item.name}
+                  loading="lazy"
                   className="w-12 h-12 sm:w-14 sm:h-14 object-contain"
                 />
                 <span className={`flex items-center gap-1 text-[10px] mt-2 font-medium transition-colors ${

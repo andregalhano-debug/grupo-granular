@@ -297,6 +297,7 @@ export function Modules() {
                       src={openModule.screenshot}
                       alt={`Tela do módulo ${openModule.title}`}
                       className="rounded-xl shadow-lg w-full max-w-lg object-cover cursor-pointer hover:opacity-90 transition-opacity"
+                      loading="lazy"
                       onClick={() => setLightbox(openModule.screenshot)}
                       title="Clique para ampliar"
                     />
