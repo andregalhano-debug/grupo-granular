@@ -192,7 +192,7 @@ export function Integrations() {
                           <p className="text-xs text-[#9C958A]">Executivo dedicado + sistema incluso + rede de fornecedores</p>
                         </div>
                         <div className="text-right">
-                          <span className="text-lg font-bold text-[#0E0E0F]">R$ 1.500</span>
+                          <span className="text-lg font-bold text-[#0E0E0F]">1.500</span>
                           <span className="text-xs text-[#9C958A]">/mês</span>
                         </div>
                       </div>
@@ -221,7 +221,7 @@ export function Integrations() {
                           <p className="text-xs text-[#9C958A]">Plataforma de atendimento integrada à Granular</p>
                         </div>
                         <div className="text-right">
-                          <span className="text-lg font-bold text-[#0E0E0F]">R$ 350</span>
+                          <span className="text-lg font-bold text-[#0E0E0F]">350</span>
                           <span className="text-xs text-[#9C958A]">/mês</span>
                         </div>
                       </div>
@@ -237,7 +237,7 @@ export function Integrations() {
                       to={`/checkout?plano=${fooziOption === 'executivo' ? 'foozi-executivo' : 'foozi-sistema'}`}
                       className="inline-flex items-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors w-full justify-center"
                     >
-                      Começar Agora — R$ {fooziOption === 'executivo' ? '1.500' : '350'}/mês
+                      Começar Agora — {fooziOption === 'executivo' ? '1.500' : '350'}/mês
                       <ChevronRight size={16} />
                     </Link>
                   </div>
