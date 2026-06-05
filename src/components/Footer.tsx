@@ -80,7 +80,7 @@ export function Footer() {
             <ul className="space-y-2.5">
               <li><a href="#" className="text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors">Sobre</a></li>
               <li><Link to="/consultores" className="text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors">Comunidade Granular</Link></li>
-              <li><Link to="/seja-consultor" className="text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors">Seja um consultor Granular</Link></li>
+              <li><Link to="/seja-consultor" className="text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors">Seja um mentor da Granular</Link></li>
               <li><a href="#" className="text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors">Contato</a></li>
             </ul>
           </div>

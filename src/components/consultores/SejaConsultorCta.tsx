@@ -6,7 +6,7 @@ export function SejaConsultorCta() {
     <section className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-[#0E0E0F]">
       <FadeIn className="text-center max-w-3xl mx-auto">
         <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#FAF7F0] mb-6">
-          Seja um consultor Granular
+          Seja um mentor da Granular
         </h2>
         <p className="text-[#FAF7F0]/50 text-base sm:text-lg mb-10">
           Compartilhe sua experiência e ajude operações de delivery a crescerem. Junte-se à nossa rede de especialistas.
