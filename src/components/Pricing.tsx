@@ -268,14 +268,8 @@ export function Pricing() {
         <FadeIn delay={50}>
           <div className="max-w-6xl mx-auto mb-10 rounded-xl bg-[#0E0E0F]/[0.03] border border-[#9C958A]/15 p-4 sm:p-5">
             <p className="text-xs sm:text-sm text-[#0E0E0F] leading-relaxed">
-              <strong>Todos os blocos estão disponíveis em qualquer pacote.</strong>{' '}
               Após o diagnóstico inicial, mentor e cliente definem juntos quais blocos serão priorizados — de acordo com as necessidades do negócio e o tempo contratado.
             </p>
-            <div className="flex flex-wrap gap-3 sm:gap-4 mt-3 text-[11px] sm:text-xs text-[#9C958A]">
-              <span className="flex items-center gap-1.5"><Check size={12} className="text-[#A31631]" />4 horas mensais de consultoria</span>
-              <span className="flex items-center gap-1.5"><Check size={12} className="text-[#A31631]" />Módulo 1 do sistema incluso</span>
-              <span className="flex items-center gap-1.5"><Check size={12} className="text-[#A31631]" />Visita in loco negociada à parte</span>
-            </div>
           </div>
         </FadeIn>
 
