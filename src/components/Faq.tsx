@@ -48,8 +48,8 @@ const faqs = [
     a: 'Depende do estado atual da operação, mas clientes com diagnóstico claro e execução do plano de ação costumam ver impacto nos KPIs já nas primeiras semanas. Operações com CMV descontrolado, por exemplo, conseguem reduzir 3-5 pontos percentuais no primeiro mês.',
   },
   {
-    q: 'O sistema funciona para qualquer tipo de restaurante?',
-    a: 'Sim. A Granular atende dark kitchens, restaurantes com salão, redes de franquias, operações de delivery e buffets. O sistema é multi-loja com visões apartadas e benchmark entre unidades.',
+    q: 'O sistema funciona para qualquer tipo de negócio?',
+    a: 'Sim. O Grupo Granular atende restaurantes, supermercados, atacarejos, farmácias, pet shops, dentre outros segmentos. Com foco na transformação do delivery e da gestão consolidada dos canais e operações. O sistema é multi-loja com visões apartadas e benchmark entre unidades.',
   },
 ]
 
