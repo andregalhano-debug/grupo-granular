@@ -165,6 +165,7 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
 
   const saas = cart.plans.find((p) => p.type === 'saas')
   const consultoria = cart.plans.find((p) => p.type === 'consultoria')
+  const modulos = cart.plans.filter((p) => p.type === 'modulo')
   const hasSaas = !!saas
   const hasConsultoria = !!consultoria
   const hasConsultants = cart.consultants.length > 0
@@ -207,6 +208,30 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
           <PlanSelector plans={saasPlans} currentPlan={saas} onSelect={cart.addPlan} label="pacote" />
         </div>
       )}
+
+      {/* Módulos avulsos (ex: Pessoas RH) */}
+      {modulos.map((mod) => (
+        <div key={mod.id} className="rounded-xl bg-white p-4 border border-[#A31631]/20">
+          <div className="flex items-start justify-between mb-2">
+            <div>
+              <span className="text-[10px] font-medium uppercase tracking-wider text-[#A31631]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>Módulo avulso</span>
+              <h3 className="font-semibold text-[#0E0E0F] text-sm">{mod.name}</h3>
+              <p className="text-xs text-[#9C958A] mt-0.5">{mod.subtitle}</p>
+            </div>
+            <button type="button" onClick={() => cart.removePlan(mod.id)} className="p-1 text-[#9C958A] hover:text-[#A31631] transition-colors"><X size={16} /></button>
+          </div>
+          <ul className="space-y-1.5 mb-3">
+            {mod.features.slice(0, 4).map((f) => (
+              <li key={f} className="flex items-start gap-2 text-xs text-[#9C958A]"><Check size={12} className="mt-0.5 text-[#A31631] flex-shrink-0" />{f}</li>
+            ))}
+            {mod.features.length > 4 && <li className="text-xs text-[#9C958A]">+{mod.features.length - 4} recursos inclusos</li>}
+          </ul>
+          <div className="text-right">
+            <span className="text-xl font-bold text-[#0E0E0F]">R$ {mod.priceFormatted}</span>
+            <span className="text-xs text-[#9C958A]">/mês</span>
+          </div>
+        </div>
+      ))}
 
       {/* Sessões com consultores */}
       {cart.consultants.map((c) => (
@@ -337,6 +362,11 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
             <span>Sistema</span><span>R$ {formatCurrency(saasMensal)}/mês</span>
           </div>
         )}
+        {modulos.map((mod) => (
+          <div key={mod.id} className="flex items-baseline justify-between text-sm text-[#9C958A]">
+            <span>{mod.name}</span><span>R$ {formatCurrency(mod.price)}/mês</span>
+          </div>
+        ))}
         {cart.consultants.map((c) => (
           <div key={c.id} className="flex items-baseline justify-between text-sm text-[#9C958A]">
             <span>Sessão ({c.name.split(' ')[0]})</span><span>R$ {formatCurrency(c.hourlyRate)}/hora</span>

@@ -61,8 +61,10 @@ export function CheckoutPage() {
 
   const saas = cart.plans.find((p) => p.type === 'saas')
   const consultoria = cart.plans.find((p) => p.type === 'consultoria')
+  const modulos = cart.plans.filter((p) => p.type === 'modulo')
   const hasSaas = !!saas
   const hasConsultoria = !!consultoria
+  const hasModulos = modulos.length > 0
   const hasConsultants = cart.consultants.length > 0
 
   const consultoriaIsMensal = form.paymentMethod === 'cartao'
@@ -72,6 +74,10 @@ export function CheckoutPage() {
   const buildButtonText = () => {
     const parts: string[] = []
     if (hasSaas) parts.push(`R$ ${formatCurrency(saas!.price)}/mês`)
+    if (hasModulos) {
+      const moduloTotal = modulos.reduce((sum, m) => sum + m.price, 0)
+      parts.push(`R$ ${formatCurrency(moduloTotal)}/mês`)
+    }
     if (hasConsultants) {
       const sessaoTotal = cart.consultants.reduce((sum, c) => sum + c.hourlyRate, 0)
       parts.push(`Sessão R$ ${formatCurrency(sessaoTotal)}`)

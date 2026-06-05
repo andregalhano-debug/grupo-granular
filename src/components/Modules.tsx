@@ -126,13 +126,42 @@ export function Modules() {
                     </div>
                   </div>
 
-                  <Link
-                    to="/checkout?plano=saas-2"
-                    className="inline-flex items-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors self-start"
-                  >
-                    Começar Agora
-                    <ChevronRight size={16} />
-                  </Link>
+                  {/* Destaque de contratação avulsa para Pessoas (RH) */}
+                  {openModule.standalone ? (
+                    <div className="flex flex-col gap-3 self-start">
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-5 rounded-xl bg-[#A31631]/5 border border-[#A31631]/10">
+                        <div className="flex-1">
+                          <p className="text-sm font-semibold text-[#0E0E0F] mb-1">
+                            Contrate este módulo separadamente
+                          </p>
+                          <p className="text-xs text-[#9C958A] leading-relaxed">
+                            O módulo Pessoas (RH) pode ser adquirido de forma independente por <strong className="text-[#0E0E0F]">R$ 599/mês</strong>. Ideal para operações que já possuem ERP mas precisam de gestão de equipe especializada em food service.
+                          </p>
+                        </div>
+                        <Link
+                          to="/checkout?plano=modulo-pessoas"
+                          className="inline-flex items-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors whitespace-nowrap flex-shrink-0"
+                        >
+                          Começar Agora — R$ 599/mês
+                          <ChevronRight size={16} />
+                        </Link>
+                      </div>
+                      <Link
+                        to="/checkout?plano=saas-3"
+                        className="inline-flex items-center gap-2 text-[#A31631] hover:text-[#7A1025] font-medium text-xs transition-colors self-start"
+                      >
+                        Ou veja o Módulo 3 completo (RH + Produção) →
+                      </Link>
+                    </div>
+                  ) : (
+                    <Link
+                      to="/checkout?plano=saas-2"
+                      className="inline-flex items-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors self-start"
+                    >
+                      Começar Agora
+                      <ChevronRight size={16} />
+                    </Link>
+                  )}
                 </div>
 
                 {/* Lado direito — screenshot */}

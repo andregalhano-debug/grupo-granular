@@ -82,6 +82,12 @@ export function useCartState(): CartContextValue {
 
   const addPlan = useCallback((plan: Plan) => {
     setPlans((prev) => {
+      // Módulos avulsos: evitar duplicata por ID, mas permitir múltiplos módulos diferentes
+      if (plan.type === 'modulo') {
+        if (prev.some((p) => p.id === plan.id)) return prev
+        return [...prev, plan]
+      }
+      // Saas e consultoria: substituir o existente do mesmo tipo
       const filtered = prev.filter((p) => p.type !== plan.type)
       const updated = [...filtered, plan]
       return updated.sort((a, b) => (a.type === 'saas' ? -1 : 1) - (b.type === 'saas' ? -1 : 1))

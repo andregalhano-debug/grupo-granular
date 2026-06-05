@@ -7,6 +7,7 @@ export interface ModuleDetail {
   features: string[]
   detailText: string
   screenshot: string
+  standalone?: boolean
 }
 
 export const modulesData: ModuleDetail[] = [
@@ -77,10 +78,11 @@ export const modulesData: ModuleDetail[] = [
   {
     icon: UserCog,
     title: 'Pessoas (RH)',
-    desc: 'Gestão completa de colaboradores, escalas, documentos e desempenho.',
-    features: ['Cadastro de colaboradores', 'Escalas e turnos', 'Controle de documentos', 'Avaliação de desempenho', 'Histórico funcional'],
-    detailText: 'Centralize toda a gestão de pessoas da sua operação. Cadastre colaboradores com documentos, controle escalas e turnos, acompanhe o desempenho individual e mantenha o histórico funcional organizado. Tenha visibilidade sobre vencimentos de exames, contratos e treinamentos — reduzindo riscos trabalhistas e garantindo conformidade.',
+    desc: 'Recrutamento, contratação, escalas, documentos, desempenho e controle de turnover.',
+    features: ['Recrutamento e seleção', 'Controle de entrevistas', 'Contratação e onboarding', 'Escalas e turnos (6x1, 12h)', 'Controle de documentos', 'Avaliação de desempenho', 'Custo real por colaborador', 'Produtividade por função', 'Gestão de turnover', 'Plano de carreira', 'Treinamentos e certificações', 'Histórico funcional'],
+    detailText: 'O módulo mais completo de gestão de pessoas para food service. Comece pelo recrutamento: publique vagas, controle o funil de entrevistas e acompanhe cada candidato até a contratação. No onboarding, cadastre colaboradores com documentos, exames e contratos — com alertas automáticos de vencimento para reduzir riscos trabalhistas. Monte escalas inteligentes (6x1, turnos de 12h, folguistas) e acompanhe a produtividade por função: chapeiro, fritador, montador, auxiliar, estoquista. Calcule o custo real de cada colaborador (salário × 1.6 a 1.8 com encargos, VT, alimentação e uniforme) e identifique oportunidades de otimização. Avalie desempenho individual, crie planos de carreira simples (auxiliar → cozinheiro → chefe) e implemente bonificações por resultado. Com o turnover do setor entre 60-100% ao ano, ter visibilidade completa sobre a equipe é o que separa operações lucrativas de operações que sangram dinheiro.',
     screenshot: '',
+    standalone: true,
   },
   {
     icon: FileBarChart,

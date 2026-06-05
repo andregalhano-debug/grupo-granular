@@ -1,6 +1,6 @@
 export interface Plan {
   id: string
-  type: 'saas' | 'consultoria'
+  type: 'saas' | 'consultoria' | 'modulo'
   name: string
   subtitle: string
   price: number
@@ -158,7 +158,31 @@ export const consultoriaPlans: Plan[] = [
   },
 ]
 
-export const allPlans = [...saasPlans, ...consultoriaPlans]
+export const moduloPlans: Plan[] = [
+  {
+    id: 'modulo-pessoas',
+    type: 'modulo',
+    name: 'Pessoas (RH)',
+    subtitle: 'Recrutamento, contratação, escalas e gestão completa de equipe',
+    price: 599,
+    priceFormatted: '599',
+    period: '/mês',
+    features: [
+      'Recrutamento e controle de entrevistas',
+      'Contratação e onboarding digital',
+      'Escalas e turnos inteligentes (6x1, 12h)',
+      'Controle de documentos com alertas de vencimento',
+      'Avaliação de desempenho e produtividade',
+      'Custo real por colaborador',
+      'Gestão de turnover e plano de carreira',
+      'Treinamentos e certificações',
+    ],
+    popular: false,
+    cta: 'Começar Agora',
+  },
+]
+
+export const allPlans = [...saasPlans, ...consultoriaPlans, ...moduloPlans]
 
 export function getPlanById(id: string): Plan | undefined {
   return allPlans.find((p) => p.id === id)
