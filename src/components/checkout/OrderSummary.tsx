@@ -210,7 +210,6 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
   const hasConsultants = cart.consultants.length > 0
 
   const upsellSaas = saasPlans.find((p) => p.popular) || saasPlans[0]
-  const upsellConsultoria = consultoriaPlans.find((p) => p.popular) || consultoriaPlans[0]
 
   const consultoriaIsMensal = paymentMethod === 'cartao'
 
@@ -341,26 +340,27 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
         </CollapsibleCard>
       ))}
 
-      {/* Upsells */}
-      {hasSaas && !hasConsultoria && !hasConsultants && (
-        <button type="button" onClick={() => cart.addPlan(upsellConsultoria)}
+      {/* Adicionar Sistema — sempre visível quando não tem */}
+      {!hasSaas && (
+        <button type="button" onClick={() => cart.addPlan(upsellSaas)}
           className="w-full flex items-center gap-3 rounded-xl border border-dashed border-[#A31631]/30 bg-[#A31631]/5 p-4 text-left hover:bg-[#A31631]/10 transition-colors cursor-pointer">
           <div className="w-8 h-8 rounded-lg bg-[#A31631]/10 flex items-center justify-center flex-shrink-0"><Plus size={16} className="text-[#A31631]" /></div>
           <div>
-            <p className="text-sm font-medium text-[#0E0E0F]">Adicionar Consultoria</p>
-            <p className="text-xs text-[#9C958A]">{upsellConsultoria.name} — R$ {upsellConsultoria.priceFormatted}/mês</p>
+            <p className="text-sm font-medium text-[#0E0E0F]">Adicionar Sistema</p>
+            <p className="text-xs text-[#9C958A]">{upsellSaas.name} — R$ {upsellSaas.priceFormatted}/mês</p>
           </div>
         </button>
       )}
 
-      {hasConsultants && !hasConsultoria && (
+      {/* Adicionar Consultoria — sempre visível quando não tem */}
+      {!hasConsultoria && (
         <div>
           <button type="button" onClick={() => setConsultoriaExpanded(!consultoriaExpanded)}
-            className="w-full flex items-center justify-between gap-2 rounded-xl border border-dashed border-[#9C958A]/20 bg-white p-4 text-left hover:bg-[#F7F7F7] transition-colors cursor-pointer">
+            className="w-full flex items-center justify-between gap-2 rounded-xl border border-dashed border-[#A31631]/30 bg-[#A31631]/5 p-4 text-left hover:bg-[#A31631]/10 transition-colors cursor-pointer">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 rounded-lg bg-[#A31631]/10 flex items-center justify-center flex-shrink-0"><Plus size={16} className="text-[#A31631]" /></div>
               <div>
-                <p className="text-sm font-medium text-[#0E0E0F]">Adicionar Consultoria Recorrente</p>
+                <p className="text-sm font-medium text-[#0E0E0F]">Adicionar Consultoria</p>
                 <p className="text-xs text-[#9C958A]">Planos de 1, 3 ou 6 meses</p>
               </div>
             </div>
@@ -381,17 +381,6 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
             </div>
           )}
         </div>
-      )}
-
-      {hasConsultoria && !hasSaas && !hasConsultants && (
-        <button type="button" onClick={() => cart.addPlan(upsellSaas)}
-          className="w-full flex items-center gap-3 rounded-xl border border-dashed border-[#A31631]/30 bg-[#A31631]/5 p-4 text-left hover:bg-[#A31631]/10 transition-colors cursor-pointer">
-          <div className="w-8 h-8 rounded-lg bg-[#A31631]/10 flex items-center justify-center flex-shrink-0"><Plus size={16} className="text-[#A31631]" /></div>
-          <div>
-            <p className="text-sm font-medium text-[#0E0E0F]">Adicionar Sistema</p>
-            <p className="text-xs text-[#9C958A]">{upsellSaas.name} — R$ {upsellSaas.priceFormatted}/mês</p>
-          </div>
-        </button>
       )}
 
       {/* ─── TOTAIS SEPARADOS ─── */}
