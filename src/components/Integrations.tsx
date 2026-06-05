@@ -1,11 +1,14 @@
 import { useState, useRef, useEffect } from 'react'
-import { X, ChevronRight, Plus, Info, Handshake } from 'lucide-react'
+import { X, ChevronRight, Plus, Info, Handshake, Check } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
 import { integrationsData } from '../data/integrationsData'
 
+type FooziOption = 'sistema' | 'executivo'
+
 export function Integrations() {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
+  const [fooziOption, setFooziOption] = useState<FooziOption>('executivo')
   const detailRef = useRef<HTMLDivElement>(null)
   const sectionRef = useRef<HTMLElement>(null)
 
@@ -166,36 +169,76 @@ export function Integrations() {
                   </div>
                 </div>
 
-                {/* CTA para parceiro (Foozi) — destaque sutil dentro do painel */}
-                {openIntegration.partner && openIntegration.ctaLink && (
-                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-5 rounded-xl bg-[#A31631]/5 border border-[#A31631]/10">
-                    <div className="flex-1">
-                      <p className="text-sm font-semibold text-[#0E0E0F] mb-1">
-                        Granular + Foozi: gestão e atendimento em um só lugar
-                      </p>
-                      <p className="text-xs text-[#9C958A] leading-relaxed">
-                        Contrate o sistema Granular com a Foozi já inclusa e tenha operação completa — da gestão de estoque e financeiro ao atendimento profissional via WhatsApp e BPO.
-                      </p>
-                    </div>
-                    <Link
-                      to={openIntegration.ctaLink}
-                      className="inline-flex items-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors whitespace-nowrap flex-shrink-0"
+                {/* Seleção de plano Foozi — apenas para parceiro */}
+                {openIntegration.partner && (
+                  <div className="space-y-4">
+                    <p className="text-sm font-semibold text-[#0E0E0F]">
+                      Granular + Foozi: escolha a melhor opção para sua operação
+                    </p>
+
+                    {/* Opção Executivo de Compras */}
+                    <button
+                      type="button"
+                      onClick={() => setFooziOption('executivo')}
+                      className={`w-full text-left rounded-xl border-2 p-5 transition-all cursor-pointer ${
+                        fooziOption === 'executivo'
+                          ? 'border-[#A31631] bg-[#A31631]/5'
+                          : 'border-[#0E0E0F]/10 hover:border-[#A31631]/30'
+                      }`}
                     >
-                      {openIntegration.ctaLabel}
+                      <div className="flex items-start justify-between mb-2">
+                        <div>
+                          <p className="text-sm font-semibold text-[#0E0E0F]">Executivo de Compras</p>
+                          <p className="text-xs text-[#9C958A]">BPO completo + sistema Foozi incluso</p>
+                        </div>
+                        <div className="text-right">
+                          <span className="text-lg font-bold text-[#0E0E0F]">R$ 1.500</span>
+                          <span className="text-xs text-[#9C958A]">/mês</span>
+                        </div>
+                      </div>
+                      <div className="flex flex-wrap gap-x-4 gap-y-1 mt-3">
+                        <span className="flex items-center gap-1.5 text-xs text-[#9C958A]"><Check size={12} className="text-[#A31631]" />Central terceirizada</span>
+                        <span className="flex items-center gap-1.5 text-xs text-[#9C958A]"><Check size={12} className="text-[#A31631]" />Executivo dedicado</span>
+                        <span className="flex items-center gap-1.5 text-xs text-[#9C958A]"><Check size={12} className="text-[#A31631]" />BPO 24h</span>
+                        <span className="flex items-center gap-1.5 text-xs text-green-600 font-medium"><Check size={12} />Sistema incluso</span>
+                      </div>
+                    </button>
+
+                    {/* Opção somente Sistema */}
+                    <button
+                      type="button"
+                      onClick={() => setFooziOption('sistema')}
+                      className={`w-full text-left rounded-xl border-2 p-5 transition-all cursor-pointer ${
+                        fooziOption === 'sistema'
+                          ? 'border-[#A31631] bg-[#A31631]/5'
+                          : 'border-[#0E0E0F]/10 hover:border-[#A31631]/30'
+                      }`}
+                    >
+                      <div className="flex items-start justify-between mb-2">
+                        <div>
+                          <p className="text-sm font-semibold text-[#0E0E0F]">Somente Sistema Foozi</p>
+                          <p className="text-xs text-[#9C958A]">Plataforma de atendimento integrada à Granular</p>
+                        </div>
+                        <div className="text-right">
+                          <span className="text-lg font-bold text-[#0E0E0F]">R$ 350</span>
+                          <span className="text-xs text-[#9C958A]">/mês</span>
+                        </div>
+                      </div>
+                      <div className="flex flex-wrap gap-x-4 gap-y-1 mt-3">
+                        <span className="flex items-center gap-1.5 text-xs text-[#9C958A]"><Check size={12} className="text-[#A31631]" />WhatsApp</span>
+                        <span className="flex items-center gap-1.5 text-xs text-[#9C958A]"><Check size={12} className="text-[#A31631]" />Chatbot</span>
+                        <span className="flex items-center gap-1.5 text-xs text-[#9C958A]"><Check size={12} className="text-[#A31631]" />Pedidos por mensagem</span>
+                      </div>
+                    </button>
+
+                    <Link
+                      to={`/checkout?plano=${fooziOption === 'executivo' ? 'foozi-executivo' : 'foozi-sistema'}`}
+                      className="inline-flex items-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors w-full justify-center"
+                    >
+                      Começar Agora — R$ {fooziOption === 'executivo' ? '1.500' : '350'}/mês
                       <ChevronRight size={16} />
                     </Link>
                   </div>
-                )}
-
-                {/* CTA genérico para outras integrações */}
-                {!openIntegration.partner && (
-                  <Link
-                    to="/checkout?plano=saas-2"
-                    className="inline-flex items-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors"
-                  >
-                    Começar Agora
-                    <ChevronRight size={16} />
-                  </Link>
                 )}
               </div>
             </div>

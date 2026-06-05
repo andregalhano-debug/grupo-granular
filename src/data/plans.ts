@@ -180,6 +180,41 @@ export const moduloPlans: Plan[] = [
     popular: false,
     cta: 'Começar Agora',
   },
+  {
+    id: 'foozi-sistema',
+    type: 'modulo',
+    name: 'Foozi — Sistema',
+    subtitle: 'Plataforma de atendimento digital integrada à Granular',
+    price: 350,
+    priceFormatted: '350',
+    period: '/mês',
+    features: [
+      'Atendimento via WhatsApp',
+      'Chatbot inteligente',
+      'Gestão de pedidos por mensagem',
+      'Integração com ecossistema Granular',
+    ],
+    popular: false,
+    cta: 'Começar Agora',
+  },
+  {
+    id: 'foozi-executivo',
+    type: 'modulo',
+    name: 'Foozi — Executivo de Compras',
+    subtitle: 'BPO completo com central terceirizada + sistema incluso',
+    price: 1500,
+    priceFormatted: '1.500',
+    period: '/mês',
+    features: [
+      'Tudo do sistema Foozi incluso',
+      'Central de atendimento terceirizada',
+      'Executivo de compras dedicado',
+      'BPO de atendimento 24h',
+      'Gestão completa do canal de vendas',
+    ],
+    popular: false,
+    cta: 'Começar Agora',
+  },
 ]
 
 export const allPlans = [...saasPlans, ...consultoriaPlans, ...moduloPlans]

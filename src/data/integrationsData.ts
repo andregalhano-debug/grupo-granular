@@ -5,8 +5,6 @@ export interface IntegrationDetail {
   detailText: string
   tags: string[]
   partner?: boolean
-  ctaLabel?: string
-  ctaLink?: string
 }
 
 export const integrationsData: IntegrationDetail[] = [
@@ -50,7 +48,5 @@ export const integrationsData: IntegrationDetail[] = [
       'A Foozi é a nossa parceira estratégica em atendimento digital e BPO (Business Process Outsourcing) para food service. Com a Foozi integrada à Granular, sua operação ganha um canal de atendimento profissional via WhatsApp, chatbot inteligente, gestão de pedidos por mensagem e uma central de atendimento terceirizada que funciona como extensão da sua equipe. A combinação Granular + Foozi entrega gestão operacional completa junto com atendimento ao cliente de alto nível — tudo em um único ecossistema. Ideal para redes que querem escalar o atendimento sem aumentar a equipe interna.',
     tags: ['WhatsApp', 'Chatbot', 'BPO de atendimento', 'Central terceirizada', 'Pedidos por mensagem', 'Atendimento 24h'],
     partner: true,
-    ctaLabel: 'Comece Agora com Foozi',
-    ctaLink: '/checkout?plano=saas-2&addon=foozi',
   },
 ]
