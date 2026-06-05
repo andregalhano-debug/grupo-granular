@@ -251,7 +251,7 @@ export function Pricing() {
 
         {/* CONSULTORIA */}
         <FadeIn>
-          <div className="max-w-6xl mx-auto mb-10">
+          <div className="max-w-6xl mx-auto mb-6">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-xl bg-[#A31631] flex items-center justify-center">
                 <Handshake size={22} className="text-[#F7F7F7]" />
@@ -261,6 +261,20 @@ export function Pricing() {
                 <p className="text-sm text-[#9C958A]">Especialistas transformando sua operação</p>
               </div>
               <div className="hidden sm:block flex-1 h-px bg-[#9C958A]/30 ml-4" />
+            </div>
+          </div>
+        </FadeIn>
+
+        <FadeIn delay={50}>
+          <div className="max-w-6xl mx-auto mb-10 rounded-xl bg-[#0E0E0F]/[0.03] border border-[#9C958A]/15 p-5">
+            <p className="text-sm text-[#0E0E0F] leading-relaxed">
+              <strong>Todos os temas estão disponíveis em qualquer pacote.</strong>{' '}
+              Após o diagnóstico inicial, consultor e cliente definem juntos quais blocos serão priorizados — operação, financeiro, estoque, cardápio, iFood ou RH — de acordo com as necessidades do negócio e o tempo contratado.
+            </p>
+            <div className="flex flex-wrap gap-4 mt-3 text-xs text-[#9C958A]">
+              <span className="flex items-center gap-1.5"><Check size={12} className="text-[#A31631]" />4 horas mensais de consultoria</span>
+              <span className="flex items-center gap-1.5"><Check size={12} className="text-[#A31631]" />Módulo 1 do sistema incluso</span>
+              <span className="flex items-center gap-1.5"><Check size={12} className="text-[#A31631]" />Visita in loco negociada à parte</span>
             </div>
           </div>
         </FadeIn>
