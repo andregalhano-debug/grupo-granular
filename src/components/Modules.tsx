@@ -14,6 +14,7 @@ export function Modules() {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
   const [lightbox, setLightbox] = useState<string | null>(null)
   const detailRef = useRef<HTMLDivElement>(null)
+  const sectionRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
     if (openIndex !== null && detailRef.current) {
@@ -23,6 +24,24 @@ export function Modules() {
     }
   }, [openIndex])
 
+  // Fechar ao clicar fora do painel
+  useEffect(() => {
+    if (openIndex === null) return
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as Node
+      if (sectionRef.current && !sectionRef.current.contains(target)) {
+        setOpenIndex(null)
+        return
+      }
+      if (detailRef.current && !detailRef.current.contains(target)) {
+        const btn = (e.target as HTMLElement).closest('button[data-module]')
+        if (!btn) setOpenIndex(null)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [openIndex])
+
   const handleToggle = (i: number) => {
     setOpenIndex(openIndex === i ? null : i)
   }
@@ -30,7 +49,7 @@ export function Modules() {
   const openModule = openIndex !== null ? modulesData[openIndex] : null
 
   return (
-    <section id="modulos" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-white">
+    <section ref={sectionRef} id="modulos" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-white">
       <div className="max-w-7xl mx-auto">
         <FadeIn className="text-center mb-16">
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#0E0E0F] mb-4">
@@ -45,6 +64,7 @@ export function Modules() {
           {modulesData.map((mod, i) => (
             <FadeIn key={mod.title} delay={i * 80}>
               <button
+                data-module
                 onClick={() => handleToggle(i)}
                 className={`group rounded-2xl border p-6 transition-all duration-300 h-full w-full text-left cursor-pointer ${
                   openIndex === i

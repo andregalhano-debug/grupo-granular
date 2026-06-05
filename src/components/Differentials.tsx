@@ -1,26 +1,26 @@
-import { Brain, ClipboardList, PieChart, Plug } from 'lucide-react'
+import { TrendingUp, Clock, Users, CalendarCheck } from 'lucide-react'
 import { FadeIn } from './FadeIn'
 
 const items = [
   {
-    icon: Brain,
-    title: 'IA Integrada — Único no Mercado',
-    desc: '15 agentes de IA que automatizam compras, precificação, previsão de demanda e mais. Tecnologia exclusiva que nenhum concorrente oferece.',
+    icon: TrendingUp,
+    title: 'Controle total de margem e lucro',
+    desc: 'Acompanhe os KPIs do seu negócio de forma consolidada e simples, com planos de ação automatizados para proteger sua rentabilidade.',
   },
   {
-    icon: ClipboardList,
-    title: 'Checklists Operacionais',
-    desc: 'Rotinas operacionais digitalizadas com fotos, evidências e assinatura. Economize com ferramentas separadas.',
+    icon: Clock,
+    title: 'Gestão simplificada, mais tempo de qualidade',
+    desc: 'Acompanhe a operação via dados e resultados, com ações direcionadas aos problemas identificados — sem perder horas em planilhas.',
   },
   {
-    icon: PieChart,
-    title: 'CMV Automático em Tempo Real',
-    desc: 'Acompanhe seu custo de mercadoria vendida atualizado a cada venda, sem planilhas ou cálculos manuais.',
+    icon: Users,
+    title: 'Tempo para construir Cultura',
+    desc: 'O mais importante na operação são as pessoas. A gestão otimizada libera tempo para atuar na estratégia e no desenvolvimento da equipe.',
   },
   {
-    icon: Plug,
-    title: 'Integração Nativa Omie + iFood',
-    desc: 'Conecte seu ERP e marketplace favoritos sem intermediários. Dados sincronizados automaticamente.',
+    icon: CalendarCheck,
+    title: 'Rituais e disciplina na rotina',
+    desc: 'Garanta que os rituais e combinados sejam cumpridos pela equipe, fortalecendo a cultura construída com o tempo ganho na Granular.',
   },
 ]
 
@@ -30,10 +30,10 @@ export function Differentials() {
       <div className="max-w-7xl mx-auto">
         <FadeIn className="text-center mb-16">
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#FAF7F0] mb-4">
-            Por que escolher a Granular?
+            Por que escolher o Grupo Granular?
           </h2>
           <p className="text-[#FAF7F0]/50 text-base sm:text-lg max-w-2xl mx-auto">
-            Diferenciais que fazem sua operação decolar.
+            Transforme a produtividade do seu negócio com gestão simplificada e tenha mais tempo de vida.
           </p>
         </FadeIn>
 
