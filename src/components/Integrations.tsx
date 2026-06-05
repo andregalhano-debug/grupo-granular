@@ -61,7 +61,7 @@ export function Integrations() {
           <p className="text-[#9C958A] text-base sm:text-lg max-w-2xl mx-auto mb-6">
             Conecte as ferramentas que você já usa ao ecossistema Granular.
           </p>
-          <div className="inline-flex items-center gap-3 bg-white border border-[#A31631]/15 rounded-xl px-5 py-3 shadow-sm">
+          <div className="inline-flex items-center gap-2 sm:gap-3 bg-white border border-[#A31631]/15 rounded-xl px-3 sm:px-5 py-2.5 sm:py-3 shadow-sm">
             <img
               src="https://logodownload.org/wp-content/uploads/2017/05/ifood-logo-0.png"
               alt="iFood"
@@ -118,27 +118,27 @@ export function Integrations() {
           >
             <div className="rounded-2xl border border-[#A31631]/20 bg-white shadow-xl shadow-[#A31631]/5 overflow-hidden">
               {/* Header */}
-              <div className="flex items-center justify-between px-6 sm:px-8 py-5 border-b border-[#0E0E0F]/5">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-[#F7F7F7] flex items-center justify-center overflow-hidden p-2">
+              <div className="flex items-start justify-between px-4 sm:px-8 py-4 sm:py-5 border-b border-[#0E0E0F]/5 gap-3">
+                <div className="flex items-start gap-3 sm:gap-4 min-w-0">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-[#F7F7F7] flex items-center justify-center overflow-hidden p-1.5 sm:p-2 flex-shrink-0">
                     <img src={openIntegration.logo} alt={openIntegration.name} className="w-full h-full object-contain" />
                   </div>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <h3 className="text-lg font-bold text-[#0E0E0F]">{openIntegration.name}</h3>
+                  <div className="min-w-0">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <h3 className="text-base sm:text-lg font-bold text-[#0E0E0F]">{openIntegration.name}</h3>
                       {openIntegration.partner && (
-                        <span className="flex items-center gap-1 bg-[#A31631]/10 text-[#A31631] text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full">
+                        <span className="flex items-center gap-1 bg-[#A31631]/10 text-[#A31631] text-[9px] sm:text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full">
                           <Handshake size={10} />
-                          Parceiro Granular
+                          Parceiro
                         </span>
                       )}
                     </div>
-                    <p className="text-sm text-[#9C958A]">{openIntegration.desc}</p>
+                    <p className="text-xs sm:text-sm text-[#9C958A] line-clamp-2">{openIntegration.desc}</p>
                   </div>
                 </div>
                 <button
                   onClick={() => setOpenIndex(null)}
-                  className="p-2 rounded-lg hover:bg-[#F7F7F7] text-[#9C958A] hover:text-[#0E0E0F] transition-colors"
+                  className="p-2 rounded-lg hover:bg-[#F7F7F7] text-[#9C958A] hover:text-[#0E0E0F] transition-colors flex-shrink-0"
                 >
                   <X size={20} />
                 </button>
@@ -171,9 +171,9 @@ export function Integrations() {
 
                 {/* Seleção de plano Foozi — apenas para parceiro */}
                 {openIntegration.partner && (
-                  <div className="space-y-4">
-                    <p className="text-sm font-semibold text-[#0E0E0F]">
-                      Granular + Foozi: escolha a melhor opção para sua operação
+                  <div className="space-y-3 sm:space-y-4">
+                    <p className="text-xs sm:text-sm font-semibold text-[#0E0E0F]">
+                      Granular + Foozi: escolha a melhor opção
                     </p>
 
                     {/* Opção Executivo de Compras */}

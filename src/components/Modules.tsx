@@ -116,19 +116,20 @@ export function Modules() {
           >
             <div className="rounded-2xl border border-[#A31631]/20 bg-white shadow-xl shadow-[#A31631]/5 overflow-hidden">
               {/* Header */}
-              <div className="flex items-center justify-between px-6 sm:px-8 py-5 border-b border-[#0E0E0F]/5">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-[#A31631]/10 flex items-center justify-center">
-                    <openModule.icon size={24} className="text-[#A31631]" />
+              <div className="flex items-start justify-between px-4 sm:px-8 py-4 sm:py-5 border-b border-[#0E0E0F]/5 gap-3">
+                <div className="flex items-start gap-3 sm:gap-4 min-w-0">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-[#A31631]/10 flex items-center justify-center flex-shrink-0">
+                    <openModule.icon size={20} className="text-[#A31631] sm:hidden" />
+                    <openModule.icon size={24} className="text-[#A31631] hidden sm:block" />
                   </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-[#0E0E0F]">{openModule.title}</h3>
-                    <p className="text-sm text-[#9C958A]">{openModule.desc}</p>
+                  <div className="min-w-0">
+                    <h3 className="text-base sm:text-lg font-bold text-[#0E0E0F]">{openModule.title}</h3>
+                    <p className="text-xs sm:text-sm text-[#9C958A] line-clamp-2">{openModule.desc}</p>
                   </div>
                 </div>
                 <button
                   onClick={() => { setOpenIndex(null); scrollToSection() }}
-                  className="p-2 rounded-lg hover:bg-[#F7F7F7] text-[#9C958A] hover:text-[#0E0E0F] transition-colors"
+                  className="p-2 rounded-lg hover:bg-[#F7F7F7] text-[#9C958A] hover:text-[#0E0E0F] transition-colors flex-shrink-0"
                 >
                   <X size={20} />
                 </button>
@@ -137,7 +138,7 @@ export function Modules() {
               {/* Conteúdo */}
               <div className="grid lg:grid-cols-2 gap-0">
                 {/* Lado esquerdo — texto e funcionalidades */}
-                <div className="p-6 sm:p-8 flex flex-col justify-center">
+                <div className="p-4 sm:p-6 lg:p-8 flex flex-col justify-center">
                   <p className="text-sm text-[#0E0E0F] leading-relaxed mb-6">
                     {openModule.detailText}
                   </p>

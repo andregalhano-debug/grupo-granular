@@ -13,7 +13,7 @@ export function ConsultantGrid({ consultants }: ConsultantGridProps) {
 
   return (
     <>
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         {consultants.map((c, i) => (
           <FadeIn key={c.id} delay={i * 80}>
             <ConsultantCard consultant={c} onClick={() => setSelected(c)} />

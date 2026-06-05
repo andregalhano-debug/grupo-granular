@@ -66,7 +66,7 @@ function CollapsibleCard({ label, name, price, period, borderClass, children, on
       <button
         type="button"
         onClick={() => setExpanded(!expanded)}
-        className="w-full flex items-center justify-between p-4 cursor-pointer"
+        className="w-full flex items-center justify-between p-3 sm:p-4 cursor-pointer"
       >
         <div className="flex items-center gap-3 min-w-0">
           <div className="text-left min-w-0">
@@ -229,7 +229,7 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
   const totalAvulso = sessaoAvulso + consultoriaAvulso
 
   return (
-    <div className="rounded-2xl border border-[#0E0E0F]/10 bg-[#F7F7F7] p-6 space-y-4">
+    <div className="rounded-2xl border border-[#0E0E0F]/10 bg-[#F7F7F7] p-4 sm:p-6 space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-bold text-[#0E0E0F]">Resumo do pedido</h2>
         <button

@@ -75,7 +75,7 @@ export function Faq() {
                 <button
                   type="button"
                   onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                  className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left cursor-pointer hover:bg-[#F7F7F7]/50 transition-colors"
+                  className="w-full flex items-center justify-between gap-3 px-4 sm:px-5 py-3.5 sm:py-4 text-left cursor-pointer hover:bg-[#F7F7F7]/50 transition-colors"
                 >
                   <span className="text-sm font-medium text-[#0E0E0F]">{faq.q}</span>
                   <ChevronDown
@@ -84,7 +84,7 @@ export function Faq() {
                   />
                 </button>
                 {openIndex === i && (
-                  <div className="px-5 pb-4">
+                  <div className="px-4 sm:px-5 pb-3.5 sm:pb-4">
                     <p className="text-sm text-[#9C958A] leading-relaxed">{faq.a}</p>
                   </div>
                 )}

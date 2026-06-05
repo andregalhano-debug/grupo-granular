@@ -30,13 +30,13 @@ function LessonViewer({ lesson, onClose, timeSpent, canComplete, completed, onCo
           <button onClick={onClose} className="flex items-center gap-2 text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors cursor-pointer">
             <ArrowLeft size={16} /> Voltar à trilha
           </button>
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 text-xs text-[#9C958A]">
+          <div className="flex items-center gap-2 sm:gap-4">
+            <div className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs text-[#9C958A]">
               <Clock size={12} />
-              {formatTime(timeSpent)} / {lesson.durationMinutes} min
+              {formatTime(timeSpent)}/{lesson.durationMinutes}m
             </div>
             {!completed && (
-              <div className="w-24 h-1.5 rounded-full bg-[#0E0E0F]/10 overflow-hidden">
+              <div className="w-16 sm:w-24 h-1.5 rounded-full bg-[#0E0E0F]/10 overflow-hidden">
                 <div
                   className={`h-full rounded-full transition-all duration-1000 ${canComplete ? 'bg-green-500' : 'bg-[#A31631]'}`}
                   style={{ width: `${progressPercent}%` }}
