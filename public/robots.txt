@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /painel-consultor
+
+Sitemap: https://www.grupogranular.com.br/sitemap.xml

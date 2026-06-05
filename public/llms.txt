@@ -1,0 +1,40 @@
+# Grupo Granular
+
+> Sistema de gestão completo e mentoria especializada para delivery e food service.
+
+## Sobre
+
+O Grupo Granular oferece uma plataforma SaaS de gestão operacional para restaurantes, supermercados, atacarejos, farmácias, pet shops e outros segmentos. O foco é na transformação do delivery e da gestão consolidada dos canais e operações.
+
+## Módulos do Sistema
+
+- Estoque Inteligente: controle de insumos, compras, inventário, curva ABC, alertas preditivos
+- Produção e Fichas Técnicas: custo por porção, rendimento, simulador de preço
+- KDS (Kitchen Display System): painel digital para cozinha em tempo real
+- Financeiro e DRE: DRE automático, contas a pagar/receber, conciliação bancária
+- iFood e Pedidos: integração nativa, gestão multi-marca, métricas de delivery
+- CRM e Clientes: base unificada, segmentação, campanhas, análise de recorrência
+- Checklists Operacionais: rotinas digitalizadas com fotos e evidências
+- 15 Agentes de IA: compras, precificação, previsão de demanda, alertas inteligentes
+- Pessoas (RH): recrutamento, entrevistas, escalas, desempenho, turnover
+- Relatórios: gerenciais automatizados com visão multi-lojas
+- Integrações: iFood, Saipos, Open Delivery, Omie, Foozi
+
+## Mentoria
+
+Mentores com experiência real em delivery e food service. Diagnóstico completo da operação com priorização de blocos (operação, financeiro, estoque, cardápio, iFood, RH). Pacotes de 1, 3 ou 6 meses com 4 horas mensais.
+
+## Preços
+
+- Módulo 1 (Vendas, Operação, Portal iFood): R$ 89/mês
+- Módulo 2 (Estoque e Checklist): R$ 489/mês
+- Módulo 3 (Pessoas RH e Produção): R$ 3.899/mês
+- Mentoria 1 mês: R$ 3.890/mês
+- Mentoria 3 meses: R$ 3.590/mês
+- Mentoria 6 meses: R$ 2.990/mês
+
+## Contato
+
+- Website: https://www.grupogranular.com.br
+- Instagram: https://instagram.com/grupogranular
+- LinkedIn: https://linkedin.com/company/grupogranular
