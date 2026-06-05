@@ -170,8 +170,8 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
   const hasConsultoria = !!consultoria
   const hasConsultants = cart.consultants.length > 0
 
-  const upsellSaas = saasPlans.find((p) => p.popular)!
-  const upsellConsultoria = consultoriaPlans.find((p) => p.popular)!
+  const upsellSaas = saasPlans.find((p) => p.popular) || saasPlans[0]
+  const upsellConsultoria = consultoriaPlans.find((p) => p.popular) || consultoriaPlans[0]
 
   const consultoriaIsMensal = paymentMethod === 'cartao'
 
