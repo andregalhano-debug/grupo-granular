@@ -3,9 +3,9 @@ import { FadeIn } from './FadeIn'
 
 const testimonials = [
   {
-    name: 'Carlos Mendes',
-    role: 'Proprietário — Dark Kitchen SP',
-    text: 'Reduzi meu CMV de 38% para 31% em apenas 3 meses usando a Granular. O controle de estoque automatizado e as fichas técnicas mudaram completamente minha operação.',
+    name: 'Andréa Ribeiro',
+    role: 'Analista de RH',
+    text: 'O sistema é simples de usar e fez uma diferença enorme na gestão de pessoas do grupo. Escalas, documentos, controle de entrevistas — tudo num lugar só. Ganhamos agilidade e reduziu muito o retrabalho.',
   },
   {
     name: 'Aline Silva',
@@ -13,9 +13,9 @@ const testimonials = [
     text: 'O KDS transformou nossa cozinha. Os tempos de preparo caíram 40% e os erros de pedido praticamente zeraram. O time todo aprovou.',
   },
   {
-    name: 'Roberto Alves',
-    role: 'CEO — Rede Delivery Norte',
-    text: 'Antes usava 4 sistemas separados. Com a Granular, tenho tudo em um lugar só. A IA de precificação sozinha já pagou a assinatura no primeiro mês.',
+    name: 'Fabrício Silva',
+    role: 'Gerente de Operações',
+    text: 'Ter os KPIs operacionais consolidados mudou minha rotina. Parei de apagar incêndio e passei a atuar de forma estratégica. A Granular me devolveu tempo para pensar no negócio.',
   },
 ]
 
