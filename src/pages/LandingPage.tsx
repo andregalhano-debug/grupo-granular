@@ -6,6 +6,7 @@ import { Integrations } from '../components/Integrations'
 import { Differentials } from '../components/Differentials'
 import { Pricing } from '../components/Pricing'
 import { Testimonials } from '../components/Testimonials'
+import { Faq } from '../components/Faq'
 import { CtaSection } from '../components/CtaSection'
 import { Footer } from '../components/Footer'
 
@@ -20,6 +21,7 @@ export function LandingPage() {
       <Differentials />
       <Pricing />
       <Testimonials />
+      <Faq />
       <CtaSection />
       <Footer />
     </div>

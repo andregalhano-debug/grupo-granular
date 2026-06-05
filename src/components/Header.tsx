@@ -10,6 +10,7 @@ const navLinks = [
   { label: 'Diferenciais', href: '/#diferenciais' },
   { label: 'Preços', href: '/#precos' },
   { label: 'Mentores', href: '/consultores' },
+  { label: 'FAQ', href: '/#faq' },
 ]
 
 export function Header() {
