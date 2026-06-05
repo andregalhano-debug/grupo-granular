@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { X, ChevronRight, Plus, Star } from 'lucide-react'
+import { X, ChevronRight, Plus, Info, Handshake } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
 import { integrationsData } from '../data/integrationsData'
@@ -56,37 +56,30 @@ export function Integrations() {
             <FadeIn key={item.name} delay={i * 100}>
               <button
                 onClick={() => handleToggle(i)}
-                className={`group relative flex flex-col items-center justify-center rounded-2xl border p-5 transition-all duration-300 cursor-pointer ${
-                  item.highlight ? 'w-28 h-28 sm:w-36 sm:h-36' : 'w-20 h-20 sm:w-24 sm:h-24'
-                } ${
+                className={`group relative flex flex-col items-center justify-center rounded-2xl border p-4 transition-all duration-300 cursor-pointer w-24 h-24 sm:w-28 sm:h-28 ${
                   openIndex === i
                     ? 'border-[#A31631] bg-white shadow-lg shadow-[#A31631]/10'
-                    : item.highlight
-                    ? 'border-[#A31631]/30 bg-white shadow-md hover:shadow-lg hover:border-[#A31631]/50'
                     : 'border-[#9C958A]/20 bg-white shadow-sm hover:shadow-lg hover:border-[#A31631]/20'
                 }`}
               >
-                {item.highlight && (
-                  <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 flex items-center gap-1 bg-[#A31631] text-white text-[9px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full whitespace-nowrap">
-                    <Star size={10} className="fill-white" />
-                    Parceiro
-                  </span>
-                )}
                 <img
                   src={item.logo}
                   alt={item.name}
-                  className={`object-contain ${item.highlight ? 'w-16 h-16 sm:w-20 sm:h-20' : 'w-full h-full'}`}
+                  className="w-12 h-12 sm:w-14 sm:h-14 object-contain"
                 />
-                {item.highlight && (
-                  <span className="text-[10px] text-[#9C958A] mt-1 font-medium">Saiba mais</span>
-                )}
+                <span className={`flex items-center gap-1 text-[10px] mt-2 font-medium transition-colors ${
+                  openIndex === i ? 'text-[#A31631]' : 'text-[#9C958A] group-hover:text-[#A31631]'
+                }`}>
+                  <Info size={10} />
+                  Saiba mais
+                </span>
               </button>
             </FadeIn>
           ))}
 
           {/* Em breve */}
           <FadeIn delay={integrationsData.length * 100}>
-            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl border-2 border-dashed border-[#9C958A]/30 flex items-center justify-center">
+            <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl border-2 border-dashed border-[#9C958A]/30 flex items-center justify-center">
               <Plus size={28} className="text-[#9C958A]/40" />
             </div>
           </FadeIn>
@@ -99,11 +92,7 @@ export function Integrations() {
             className="mt-6 overflow-hidden"
             style={{ animation: 'integrationSlideDown 0.4s ease forwards' }}
           >
-            <div className={`rounded-2xl border overflow-hidden ${
-              openIntegration.highlight
-                ? 'border-[#A31631]/30 bg-white shadow-xl shadow-[#A31631]/10'
-                : 'border-[#A31631]/20 bg-white shadow-xl shadow-[#A31631]/5'
-            }`}>
+            <div className="rounded-2xl border border-[#A31631]/20 bg-white shadow-xl shadow-[#A31631]/5 overflow-hidden">
               {/* Header */}
               <div className="flex items-center justify-between px-6 sm:px-8 py-5 border-b border-[#0E0E0F]/5">
                 <div className="flex items-center gap-4">
@@ -113,10 +102,10 @@ export function Integrations() {
                   <div>
                     <div className="flex items-center gap-2">
                       <h3 className="text-lg font-bold text-[#0E0E0F]">{openIntegration.name}</h3>
-                      {openIntegration.highlight && (
+                      {openIntegration.partner && (
                         <span className="flex items-center gap-1 bg-[#A31631]/10 text-[#A31631] text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full">
-                          <Star size={10} className="fill-[#A31631]" />
-                          Parceiro estratégico
+                          <Handshake size={10} />
+                          Parceiro Granular
                         </span>
                       )}
                     </div>
@@ -156,8 +145,8 @@ export function Integrations() {
                   </div>
                 </div>
 
-                {/* CTA especial para Foozi */}
-                {openIntegration.highlight && openIntegration.ctaLink && (
+                {/* CTA para parceiro (Foozi) — destaque sutil dentro do painel */}
+                {openIntegration.partner && openIntegration.ctaLink && (
                   <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-5 rounded-xl bg-[#A31631]/5 border border-[#A31631]/10">
                     <div className="flex-1">
                       <p className="text-sm font-semibold text-[#0E0E0F] mb-1">
@@ -178,7 +167,7 @@ export function Integrations() {
                 )}
 
                 {/* CTA genérico para outras integrações */}
-                {!openIntegration.highlight && (
+                {!openIntegration.partner && (
                   <Link
                     to="/checkout?plano=saas-2"
                     className="inline-flex items-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors"

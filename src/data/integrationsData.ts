@@ -4,7 +4,7 @@ export interface IntegrationDetail {
   desc: string
   detailText: string
   tags: string[]
-  highlight?: boolean
+  partner?: boolean
   ctaLabel?: string
   ctaLink?: string
 }
@@ -15,7 +15,7 @@ export const integrationsData: IntegrationDetail[] = [
     logo: 'https://logodownload.org/wp-content/uploads/2017/05/ifood-logo-0.png',
     desc: 'Receba e gerencie pedidos do iFood direto no painel Granular.',
     detailText:
-      'A integração com o iFood permite que todos os pedidos entrem automaticamente no sistema Granular, eliminando a necessidade de gerenciamento manual. Acompanhe status de entregas, métricas de performance, avaliações e tempo médio de preparo — tudo centralizado. Ideal para operações que dependem do delivery como canal principal de vendas.',
+      'A integração com o iFood permite que todos os pedidos entrem automaticamente no sistema Granular, eliminando a necessidade de gerenciamento manual. Acompanhe status de entregas, métricas de performance, avaliações e tempo médio de preparo — tudo centralizado. Consolide a gestão de todos os IDs e marcas, com visão unificada dos resultados. Ativação simples diretamente via Portal do Parceiro iFood.',
     tags: ['Pedidos automáticos', 'Rastreamento', 'Métricas de delivery', 'Avaliações'],
   },
   {
@@ -49,7 +49,7 @@ export const integrationsData: IntegrationDetail[] = [
     detailText:
       'A Foozi é a nossa parceira estratégica em atendimento digital e BPO (Business Process Outsourcing) para food service. Com a Foozi integrada à Granular, sua operação ganha um canal de atendimento profissional via WhatsApp, chatbot inteligente, gestão de pedidos por mensagem e uma central de atendimento terceirizada que funciona como extensão da sua equipe. A combinação Granular + Foozi entrega gestão operacional completa junto com atendimento ao cliente de alto nível — tudo em um único ecossistema. Ideal para redes que querem escalar o atendimento sem aumentar a equipe interna.',
     tags: ['WhatsApp', 'Chatbot', 'BPO de atendimento', 'Central terceirizada', 'Pedidos por mensagem', 'Atendimento 24h'],
-    highlight: true,
+    partner: true,
     ctaLabel: 'Comece Agora com Foozi',
     ctaLink: '/checkout?plano=saas-2&addon=foozi',
   },
