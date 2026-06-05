@@ -43,10 +43,10 @@ export const integrationsData: IntegrationDetail[] = [
   {
     name: 'Foozi',
     logo: '/logos/foozi.svg',
-    desc: 'Plataforma completa de atendimento digital e BPO para food service.',
+    desc: 'Atendimento digital, BPO e acesso a +2.000 fornecedores para food service.',
     detailText:
-      'A Foozi é a nossa parceira estratégica em atendimento digital e BPO (Business Process Outsourcing) para food service. Com a Foozi integrada à Granular, sua operação ganha um canal de atendimento profissional via WhatsApp, chatbot inteligente, gestão de pedidos por mensagem e uma central de atendimento terceirizada que funciona como extensão da sua equipe. A combinação Granular + Foozi entrega gestão operacional completa junto com atendimento ao cliente de alto nível — tudo em um único ecossistema. Ideal para redes que querem escalar o atendimento sem aumentar a equipe interna.',
-    tags: ['WhatsApp', 'Chatbot', 'BPO de atendimento', 'Central terceirizada', 'Pedidos por mensagem', 'Atendimento 24h'],
+      'A Foozi é parceira estratégica da Granular em atendimento digital, BPO e gestão de compras para food service. Com a integração, sua operação ganha atendimento profissional via WhatsApp, chatbot inteligente e uma central terceirizada que funciona como extensão da sua equipe. Além disso, você acessa uma base de mais de 2.000 fornecedores homologados para o fluxo de compras — cotação, negociação e pedidos gerenciados diretamente na Granular, simplificando toda a cadeia de suprimentos. Com o Executivo de Compras, um profissional dedicado cuida de ponta a ponta: desde a busca dos melhores preços na rede de fornecedores até a formalização dos pedidos, tudo integrado ao controle de estoque e financeiro da Granular. Ideal para operações que querem reduzir custos de insumos, ganhar poder de negociação e eliminar o trabalho manual de compras.',
+    tags: ['WhatsApp', 'Chatbot', 'BPO de atendimento', '+2.000 fornecedores', 'Executivo de compras', 'Gestão de compras na Granular', 'Cotação e negociação', 'Central terceirizada'],
     partner: true,
   },
 ]

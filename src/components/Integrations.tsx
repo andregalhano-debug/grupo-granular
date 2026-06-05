@@ -189,7 +189,7 @@ export function Integrations() {
                       <div className="flex items-start justify-between mb-2">
                         <div>
                           <p className="text-sm font-semibold text-[#0E0E0F]">Executivo de Compras</p>
-                          <p className="text-xs text-[#9C958A]">BPO completo + sistema Foozi incluso</p>
+                          <p className="text-xs text-[#9C958A]">Executivo dedicado + sistema incluso + rede de fornecedores</p>
                         </div>
                         <div className="text-right">
                           <span className="text-lg font-bold text-[#0E0E0F]">R$ 1.500</span>
@@ -197,9 +197,10 @@ export function Integrations() {
                         </div>
                       </div>
                       <div className="flex flex-wrap gap-x-4 gap-y-1 mt-3">
-                        <span className="flex items-center gap-1.5 text-xs text-[#9C958A]"><Check size={12} className="text-[#A31631]" />Central terceirizada</span>
+                        <span className="flex items-center gap-1.5 text-xs text-[#9C958A]"><Check size={12} className="text-[#A31631]" />+2.000 fornecedores</span>
                         <span className="flex items-center gap-1.5 text-xs text-[#9C958A]"><Check size={12} className="text-[#A31631]" />Executivo dedicado</span>
-                        <span className="flex items-center gap-1.5 text-xs text-[#9C958A]"><Check size={12} className="text-[#A31631]" />BPO 24h</span>
+                        <span className="flex items-center gap-1.5 text-xs text-[#9C958A]"><Check size={12} className="text-[#A31631]" />Cotação e negociação</span>
+                        <span className="flex items-center gap-1.5 text-xs text-[#9C958A]"><Check size={12} className="text-[#A31631]" />Central terceirizada</span>
                         <span className="flex items-center gap-1.5 text-xs text-green-600 font-medium"><Check size={12} />Sistema incluso</span>
                       </div>
                     </button>
@@ -228,6 +229,7 @@ export function Integrations() {
                         <span className="flex items-center gap-1.5 text-xs text-[#9C958A]"><Check size={12} className="text-[#A31631]" />WhatsApp</span>
                         <span className="flex items-center gap-1.5 text-xs text-[#9C958A]"><Check size={12} className="text-[#A31631]" />Chatbot</span>
                         <span className="flex items-center gap-1.5 text-xs text-[#9C958A]"><Check size={12} className="text-[#A31631]" />Pedidos por mensagem</span>
+                        <span className="flex items-center gap-1.5 text-xs text-[#9C958A]"><Check size={12} className="text-[#A31631]" />Acesso a fornecedores</span>
                       </div>
                     </button>
 
