@@ -126,7 +126,7 @@ function ConsultantSlotCard({ cartConsultant, forceCollapsed }: { cartConsultant
 
   return (
     <CollapsibleCard
-      label="Sessão com consultor"
+      label="Sessão com Mentor"
       name={c.name}
       price={String(c.hourlyRate)}
       period="/hora"
