@@ -1,5 +1,5 @@
-import { Check, Plus, X, ChevronDown, CalendarDays, Star, AlertCircle } from 'lucide-react'
-import { useState, useMemo } from 'react'
+import { Check, Plus, X, ChevronDown, CalendarDays, Star, AlertCircle, ChevronsDownUp } from 'lucide-react'
+import { useState, useMemo, useEffect } from 'react'
 import { saasPlans, consultoriaPlans, getConsultoriaTotal, getConsultoriaPixTotal, getConsultoriaPixDiscount } from '../../data/plans'
 import type { Plan } from '../../data/plans'
 import { getConsultantById } from '../../data/consultants'
@@ -44,7 +44,7 @@ function getInitials(name: string): string {
   return name.split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase()
 }
 
-function CollapsibleCard({ label, name, price, period, borderClass, children, onRemove }: {
+function CollapsibleCard({ label, name, price, period, borderClass, children, onRemove, forceCollapsed }: {
   label: string
   name: string
   price: string
@@ -52,8 +52,13 @@ function CollapsibleCard({ label, name, price, period, borderClass, children, on
   borderClass?: string
   children: React.ReactNode
   onRemove?: () => void
+  forceCollapsed?: number
 }) {
-  const [expanded, setExpanded] = useState(true)
+  const [expanded, setExpanded] = useState(false)
+
+  useEffect(() => {
+    if (forceCollapsed !== undefined && forceCollapsed > 0) setExpanded(false)
+  }, [forceCollapsed])
 
   return (
     <div className={`rounded-xl bg-white border transition-all ${borderClass || 'border-[#0E0E0F]/5'}`}>
@@ -97,7 +102,7 @@ function CollapsibleCard({ label, name, price, period, borderClass, children, on
   )
 }
 
-function ConsultantSlotCard({ cartConsultant }: { cartConsultant: { id: string; name: string; title: string; rating: number; hourlyRate: number; slot: string | null } }) {
+function ConsultantSlotCard({ cartConsultant, forceCollapsed }: { cartConsultant: { id: string; name: string; title: string; rating: number; hourlyRate: number; slot: string | null }; forceCollapsed?: number }) {
   const cart = useCart()
   const c = cartConsultant
   const [slotsExpanded, setSlotsExpanded] = useState(false)
@@ -126,6 +131,7 @@ function ConsultantSlotCard({ cartConsultant }: { cartConsultant: { id: string; 
       price={String(c.hourlyRate)}
       period="/hora"
       borderClass={needsSlot ? 'border-amber-300' : 'border-[#A31631]/20'}
+      forceCollapsed={forceCollapsed}
       onRemove={() => cart.removeConsultant(c.id)}
     >
       <div className="flex items-center gap-3 mb-3">
@@ -194,6 +200,7 @@ function ConsultantSlotCard({ cartConsultant }: { cartConsultant: { id: string; 
 export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
   const cart = useCart()
   const [consultoriaExpanded, setConsultoriaExpanded] = useState(false)
+  const [collapseAll, setCollapseAll] = useState(0)
 
   const saas = cart.plans.find((p) => p.type === 'saas')
   const consultoria = cart.plans.find((p) => p.type === 'consultoria')
@@ -219,7 +226,17 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
 
   return (
     <div className="rounded-2xl border border-[#0E0E0F]/10 bg-[#F7F7F7] p-6 space-y-4">
-      <h2 className="text-lg font-bold text-[#0E0E0F]">Resumo do pedido</h2>
+      <div className="flex items-center justify-between">
+        <h2 className="text-lg font-bold text-[#0E0E0F]">Resumo do pedido</h2>
+        <button
+          type="button"
+          onClick={() => setCollapseAll((c) => c + 1)}
+          className="flex items-center gap-1.5 text-[10px] font-medium text-[#9C958A] hover:text-[#A31631] transition-colors cursor-pointer px-2 py-1 rounded-lg hover:bg-[#A31631]/5"
+        >
+          <ChevronsDownUp size={12} />
+          Recolher todos
+        </button>
+      </div>
 
       {/* Sistema */}
       {saas && (
@@ -228,6 +245,7 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
           name={saas.name}
           price={saas.priceFormatted}
           period="/mês"
+          forceCollapsed={collapseAll}
           onRemove={(cart.plans.length > 1 || hasConsultants) ? () => cart.removePlan(saas.id) : undefined}
         >
           <ul className="space-y-1.5 mb-3">
@@ -249,6 +267,7 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
           price={mod.priceFormatted}
           period="/mês"
           borderClass="border-[#A31631]/20"
+          forceCollapsed={collapseAll}
           onRemove={() => cart.removePlan(mod.id)}
         >
           <p className="text-xs text-[#9C958A] mb-2">{mod.subtitle}</p>
@@ -263,7 +282,7 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
 
       {/* Sessões com consultores */}
       {cart.consultants.map((c) => (
-        <ConsultantSlotCard key={c.id} cartConsultant={c} />
+        <ConsultantSlotCard key={c.id} cartConsultant={c} forceCollapsed={collapseAll} />
       ))}
 
       {/* Consultoria */}
@@ -273,6 +292,7 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
           name={consultoria!.name}
           price={consultoriaIsMensal ? consultoria!.priceFormatted : formatCurrency(getConsultoriaPixTotal(consultoria!))}
           period={consultoriaIsMensal ? '/mês' : ' à vista'}
+          forceCollapsed={collapseAll}
           onRemove={() => cart.removePlan(consultoria!.id)}
         >
           <ul className="space-y-1.5 mb-3">
@@ -310,6 +330,7 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
           price="—"
           period=""
           borderClass="border-[#A31631]/20"
+          forceCollapsed={collapseAll}
           onRemove={() => cart.removeAddon(addon.id)}
         >
           <p className="text-xs text-[#9C958A] leading-relaxed mb-2">{addon.description}</p>
