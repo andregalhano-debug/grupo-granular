@@ -33,7 +33,7 @@ export function Differentials() {
             Por que escolher o Grupo Granular?
           </h2>
           <p className="text-[#FAF7F0]/50 text-base sm:text-lg max-w-2xl mx-auto">
-            Transforme a produtividade do seu negócio com gestão simplificada e tenha mais tempo de vida.
+            Transforme a produtividade do seu negócio com gestão simplificada e tenha <span className="text-[#FAF7F0] font-semibold">mais tempo de vida.</span>
           </p>
         </FadeIn>
 
