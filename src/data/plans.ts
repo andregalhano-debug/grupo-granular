@@ -90,7 +90,7 @@ export const consultoriaPlans: Plan[] = [
     id: 'consultoria-1',
     type: 'consultoria',
     name: 'Consultoria 1 Mês',
-    subtitle: 'Diagnóstico + primeiras ações',
+    subtitle: 'Diagnóstico geral + primeiras ações',
     price: 3890,
     priceFormatted: '3.890',
     period: '/mês',
