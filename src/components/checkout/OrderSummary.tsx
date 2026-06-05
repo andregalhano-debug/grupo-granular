@@ -44,12 +44,64 @@ function getInitials(name: string): string {
   return name.split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase()
 }
 
+function CollapsibleCard({ label, name, price, period, borderClass, children, onRemove }: {
+  label: string
+  name: string
+  price: string
+  period: string
+  borderClass?: string
+  children: React.ReactNode
+  onRemove?: () => void
+}) {
+  const [expanded, setExpanded] = useState(true)
+
+  return (
+    <div className={`rounded-xl bg-white border transition-all ${borderClass || 'border-[#0E0E0F]/5'}`}>
+      {/* Header sempre visível — clicável para recolher */}
+      <button
+        type="button"
+        onClick={() => setExpanded(!expanded)}
+        className="w-full flex items-center justify-between p-4 cursor-pointer"
+      >
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="text-left min-w-0">
+            <span className="text-[10px] font-medium uppercase tracking-wider text-[#A31631] block" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+              {label}
+            </span>
+            <h3 className="font-semibold text-[#0E0E0F] text-sm truncate">{name}</h3>
+          </div>
+        </div>
+        <div className="flex items-center gap-3 flex-shrink-0">
+          <div className="text-right">
+            <span className="text-sm font-bold text-[#0E0E0F]">R$ {price}</span>
+            <span className="text-[10px] text-[#9C958A]">{period}</span>
+          </div>
+          <ChevronDown size={14} className={`text-[#9C958A] transition-transform ${expanded ? 'rotate-180' : ''}`} />
+        </div>
+      </button>
+
+      {/* Conteúdo expandido */}
+      {expanded && (
+        <div className="px-4 pb-4 pt-0 border-t border-[#0E0E0F]/5">
+          {onRemove && (
+            <div className="flex justify-end mb-2">
+              <button type="button" onClick={onRemove} className="flex items-center gap-1 text-[10px] text-[#9C958A] hover:text-[#A31631] transition-colors">
+                <X size={12} /> Remover
+              </button>
+            </div>
+          )}
+          {children}
+        </div>
+      )}
+    </div>
+  )
+}
+
 function ConsultantSlotCard({ cartConsultant }: { cartConsultant: { id: string; name: string; title: string; rating: number; hourlyRate: number; slot: string | null } }) {
   const cart = useCart()
   const c = cartConsultant
   const [slotsExpanded, setSlotsExpanded] = useState(false)
 
-  // Buscar slots do consultor original
   const consultant = getConsultantById(c.id)
   const slotsByDate = useMemo(() => {
     if (!consultant) return new Map<string, TimeSlot[]>()
@@ -68,19 +120,19 @@ function ConsultantSlotCard({ cartConsultant }: { cartConsultant: { id: string; 
   const needsSlot = !c.slot
 
   return (
-    <div className={`rounded-xl bg-white p-4 border ${needsSlot ? 'border-amber-300' : 'border-[#A31631]/20'}`}>
-      <div className="flex items-start justify-between mb-2">
-        <span className="text-[10px] font-medium uppercase tracking-wider text-[#A31631]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
-          Sessão com consultor
-        </span>
-        <button type="button" onClick={() => cart.removeConsultant(c.id)} className="p-1 text-[#9C958A] hover:text-[#A31631] transition-colors"><X size={16} /></button>
-      </div>
+    <CollapsibleCard
+      label="Sessão com consultor"
+      name={c.name}
+      price={String(c.hourlyRate)}
+      period="/hora"
+      borderClass={needsSlot ? 'border-amber-300' : 'border-[#A31631]/20'}
+      onRemove={() => cart.removeConsultant(c.id)}
+    >
       <div className="flex items-center gap-3 mb-3">
         <div className="w-10 h-10 rounded-full bg-[#A31631]/10 flex items-center justify-center flex-shrink-0">
           <span className="text-sm font-bold text-[#A31631]">{getInitials(c.name)}</span>
         </div>
         <div>
-          <h3 className="font-semibold text-[#0E0E0F] text-sm">{c.name}</h3>
           <p className="text-xs text-[#9C958A]">{c.title}</p>
           <div className="flex items-center gap-1 mt-0.5">
             {[...Array(5)].map((_, i) => (
@@ -91,9 +143,8 @@ function ConsultantSlotCard({ cartConsultant }: { cartConsultant: { id: string; 
         </div>
       </div>
 
-      {/* Slot selecionado ou seletor */}
       {c.slot ? (
-        <div className="flex items-center justify-between rounded-lg bg-[#A31631]/5 px-3 py-2 mb-3">
+        <div className="flex items-center justify-between rounded-lg bg-[#A31631]/5 px-3 py-2">
           <div className="flex items-center gap-2 text-xs text-[#0E0E0F]">
             <CalendarDays size={14} className="text-[#A31631]" />
             Agendado: <strong>{c.slot.replace('-', ' às ')}</strong>
@@ -103,12 +154,11 @@ function ConsultantSlotCard({ cartConsultant }: { cartConsultant: { id: string; 
           </button>
         </div>
       ) : (
-        <div className="mb-3 space-y-2">
+        <div className="space-y-2">
           <div className="flex items-center gap-2 rounded-lg bg-amber-50 border border-amber-200 px-3 py-2 text-xs text-amber-700">
             <AlertCircle size={14} className="flex-shrink-0" />
             Selecione uma data e horário para continuar
           </div>
-
           {visibleEntries.map(([date, slots]) => (
             <div key={date}>
               <p className="text-[10px] font-medium text-[#0E0E0F] mb-1.5 capitalize">{date}</p>
@@ -116,17 +166,8 @@ function ConsultantSlotCard({ cartConsultant }: { cartConsultant: { id: string; 
                 {slots.map((slot) => {
                   const key = `${date}-${slot.time}`
                   return (
-                    <button
-                      key={key}
-                      type="button"
-                      disabled={!slot.available}
-                      onClick={() => cart.updateConsultantSlot(c.id, key)}
-                      className={`px-2.5 py-1 rounded-md text-[10px] font-medium transition-all cursor-pointer ${
-                        !slot.available
-                          ? 'bg-[#F7F7F7] text-[#9C958A]/40 cursor-not-allowed line-through'
-                          : 'border border-[#9C958A]/20 text-[#0E0E0F] hover:border-[#A31631]/40 hover:bg-[#A31631]/5'
-                      }`}
-                    >
+                    <button key={key} type="button" disabled={!slot.available} onClick={() => cart.updateConsultantSlot(c.id, key)}
+                      className={`px-2.5 py-1 rounded-md text-[10px] font-medium transition-all cursor-pointer ${!slot.available ? 'bg-[#F7F7F7] text-[#9C958A]/40 cursor-not-allowed line-through' : 'border border-[#9C958A]/20 text-[#0E0E0F] hover:border-[#A31631]/40 hover:bg-[#A31631]/5'}`}>
                       {slot.time}
                     </button>
                   )
@@ -134,28 +175,19 @@ function ConsultantSlotCard({ cartConsultant }: { cartConsultant: { id: string; 
               </div>
             </div>
           ))}
-
           {!slotsExpanded && hiddenCount > 0 && (
-            <button type="button" onClick={() => setSlotsExpanded(true)}
-              className="w-full flex items-center justify-center gap-1 text-[10px] font-medium text-[#A31631] hover:bg-[#A31631]/5 py-1.5 rounded-md transition-colors cursor-pointer">
-              +{hiddenCount} {hiddenCount === 1 ? 'dia' : 'dias'}
-              <ChevronDown size={12} />
+            <button type="button" onClick={() => setSlotsExpanded(true)} className="w-full flex items-center justify-center gap-1 text-[10px] font-medium text-[#A31631] hover:bg-[#A31631]/5 py-1.5 rounded-md transition-colors cursor-pointer">
+              +{hiddenCount} {hiddenCount === 1 ? 'dia' : 'dias'} <ChevronDown size={12} />
             </button>
           )}
           {slotsExpanded && (
-            <button type="button" onClick={() => setSlotsExpanded(false)}
-              className="w-full flex items-center justify-center gap-1 text-[10px] font-medium text-[#9C958A] hover:bg-[#F7F7F7] py-1.5 rounded-md transition-colors cursor-pointer">
+            <button type="button" onClick={() => setSlotsExpanded(false)} className="w-full flex items-center justify-center gap-1 text-[10px] font-medium text-[#9C958A] hover:bg-[#F7F7F7] py-1.5 rounded-md transition-colors cursor-pointer">
               Recolher <ChevronDown size={12} className="rotate-180" />
             </button>
           )}
         </div>
       )}
-
-      <div className="text-right">
-        <span className="text-xl font-bold text-[#0E0E0F]">R$ {c.hourlyRate}</span>
-        <span className="text-xs text-[#9C958A]">/hora</span>
-      </div>
-    </div>
+    </CollapsibleCard>
   )
 }
 
@@ -175,62 +207,58 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
 
   const consultoriaIsMensal = paymentMethod === 'cartao'
 
-  const saasMensal = saas ? saas.price : 0
-  const consultoriaMensal = consultoria ? consultoria.price : 0
-  const consultoriaPixFinal = consultoria ? getConsultoriaPixTotal(consultoria) : 0
+  // Cálculos de totais
+  const totalMensal =
+    (saas ? saas.price : 0) +
+    modulos.reduce((sum, m) => sum + m.price, 0) +
+    (hasConsultoria && consultoriaIsMensal ? consultoria!.price : 0)
+
+  const sessaoAvulso = cart.consultants.reduce((sum, c) => sum + c.hourlyRate, 0)
+  const consultoriaAvulso = hasConsultoria && !consultoriaIsMensal ? getConsultoriaPixTotal(consultoria!) : 0
+  const totalAvulso = sessaoAvulso + consultoriaAvulso
 
   return (
-    <div className="rounded-2xl border border-[#0E0E0F]/10 bg-[#F7F7F7] p-6 space-y-5">
+    <div className="rounded-2xl border border-[#0E0E0F]/10 bg-[#F7F7F7] p-6 space-y-4">
       <h2 className="text-lg font-bold text-[#0E0E0F]">Resumo do pedido</h2>
 
       {/* Sistema */}
       {saas && (
-        <div className="rounded-xl bg-white p-4 border border-[#0E0E0F]/5">
-          <div className="flex items-start justify-between mb-2">
-            <div>
-              <span className="text-[10px] font-medium uppercase tracking-wider text-[#A31631]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>Sistema</span>
-              <h3 className="font-semibold text-[#0E0E0F] text-sm">{saas.name}</h3>
-            </div>
-            {(cart.plans.length > 1 || hasConsultants) && (
-              <button type="button" onClick={() => cart.removePlan(saas.id)} className="p-1 text-[#9C958A] hover:text-[#A31631] transition-colors"><X size={16} /></button>
-            )}
-          </div>
+        <CollapsibleCard
+          label="Sistema"
+          name={saas.name}
+          price={saas.priceFormatted}
+          period="/mês"
+          onRemove={(cart.plans.length > 1 || hasConsultants) ? () => cart.removePlan(saas.id) : undefined}
+        >
           <ul className="space-y-1.5 mb-3">
             {saas.features.slice(0, 3).map((f) => (
               <li key={f} className="flex items-start gap-2 text-xs text-[#9C958A]"><Check size={12} className="mt-0.5 text-[#A31631] flex-shrink-0" />{f}</li>
             ))}
             {saas.features.length > 3 && <li className="text-xs text-[#9C958A]">+{saas.features.length - 3} recursos inclusos</li>}
           </ul>
-          <div className="text-right">
-            <span className="text-xl font-bold text-[#0E0E0F]">R$ {saas.priceFormatted}</span>
-            <span className="text-xs text-[#9C958A]">/mês</span>
-          </div>
           <PlanSelector plans={saasPlans} currentPlan={saas} onSelect={cart.addPlan} label="pacote" />
-        </div>
+        </CollapsibleCard>
       )}
 
-      {/* Módulos avulsos (ex: Pessoas RH) */}
+      {/* Módulos avulsos */}
       {modulos.map((mod) => (
-        <div key={mod.id} className="rounded-xl bg-white p-4 border border-[#A31631]/20">
-          <div className="flex items-start justify-between mb-2">
-            <div>
-              <span className="text-[10px] font-medium uppercase tracking-wider text-[#A31631]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>Módulo avulso</span>
-              <h3 className="font-semibold text-[#0E0E0F] text-sm">{mod.name}</h3>
-              <p className="text-xs text-[#9C958A] mt-0.5">{mod.subtitle}</p>
-            </div>
-            <button type="button" onClick={() => cart.removePlan(mod.id)} className="p-1 text-[#9C958A] hover:text-[#A31631] transition-colors"><X size={16} /></button>
-          </div>
-          <ul className="space-y-1.5 mb-3">
+        <CollapsibleCard
+          key={mod.id}
+          label="Módulo avulso"
+          name={mod.name}
+          price={mod.priceFormatted}
+          period="/mês"
+          borderClass="border-[#A31631]/20"
+          onRemove={() => cart.removePlan(mod.id)}
+        >
+          <p className="text-xs text-[#9C958A] mb-2">{mod.subtitle}</p>
+          <ul className="space-y-1.5">
             {mod.features.slice(0, 4).map((f) => (
               <li key={f} className="flex items-start gap-2 text-xs text-[#9C958A]"><Check size={12} className="mt-0.5 text-[#A31631] flex-shrink-0" />{f}</li>
             ))}
             {mod.features.length > 4 && <li className="text-xs text-[#9C958A]">+{mod.features.length - 4} recursos inclusos</li>}
           </ul>
-          <div className="text-right">
-            <span className="text-xl font-bold text-[#0E0E0F]">R$ {mod.priceFormatted}</span>
-            <span className="text-xs text-[#9C958A]">/mês</span>
-          </div>
-        </div>
+        </CollapsibleCard>
       ))}
 
       {/* Sessões com consultores */}
@@ -238,29 +266,23 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
         <ConsultantSlotCard key={c.id} cartConsultant={c} />
       ))}
 
-      {/* Consultoria tradicional */}
+      {/* Consultoria */}
       {hasConsultoria && (
-        <div className="rounded-xl bg-white p-4 border border-[#0E0E0F]/5">
-          <div className="flex items-start justify-between mb-2">
-            <div>
-              <span className="text-[10px] font-medium uppercase tracking-wider text-[#A31631]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>Consultoria</span>
-              <h3 className="font-semibold text-[#0E0E0F] text-sm">{consultoria!.name}</h3>
-            </div>
-            <button type="button" onClick={() => cart.removePlan(consultoria!.id)} className="p-1 text-[#9C958A] hover:text-[#A31631] transition-colors"><X size={16} /></button>
-          </div>
+        <CollapsibleCard
+          label="Consultoria"
+          name={consultoria!.name}
+          price={consultoriaIsMensal ? consultoria!.priceFormatted : formatCurrency(getConsultoriaPixTotal(consultoria!))}
+          period={consultoriaIsMensal ? '/mês' : ' à vista'}
+          onRemove={() => cart.removePlan(consultoria!.id)}
+        >
           <ul className="space-y-1.5 mb-3">
             {consultoria!.features.slice(0, 3).map((f) => (
               <li key={f} className="flex items-start gap-2 text-xs text-[#9C958A]"><Check size={12} className="mt-0.5 text-[#A31631] flex-shrink-0" />{f}</li>
             ))}
             {consultoria!.features.length > 3 && <li className="text-xs text-[#9C958A]">+{consultoria!.features.length - 3} recursos inclusos</li>}
           </ul>
-          {consultoriaIsMensal ? (
-            <div className="text-right">
-              <span className="text-xl font-bold text-[#0E0E0F]">R$ {consultoria!.priceFormatted}</span>
-              <span className="text-xs text-[#9C958A]">/mês</span>
-            </div>
-          ) : (
-            <div className="space-y-1.5">
+          {!consultoriaIsMensal && (
+            <div className="space-y-1.5 mb-3">
               <div className="flex items-baseline justify-between text-xs text-[#9C958A]">
                 <span>{consultoria!.months}x de R$ {consultoria!.priceFormatted}</span>
                 <span>R$ {formatCurrency(getConsultoriaTotal(consultoria!))}</span>
@@ -269,36 +291,33 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
                 <span>Desconto Pix (3%)</span>
                 <span>- R$ {formatCurrency(getConsultoriaPixDiscount(consultoria!))}</span>
               </div>
-              <div className="flex items-baseline justify-between pt-1 border-t border-[#0E0E0F]/5">
-                <span className="text-xs font-medium text-[#0E0E0F]">Total via Pix</span>
-                <span className="text-lg font-bold text-[#0E0E0F]">R$ {formatCurrency(getConsultoriaPixTotal(consultoria!))}</span>
-              </div>
             </div>
           )}
-          <div className="flex items-start gap-2 rounded-lg bg-[#A31631]/5 border border-[#A31631]/10 px-3 py-2 mt-3 text-[11px] text-[#9C958A] leading-relaxed">
+          <div className="flex items-start gap-2 rounded-lg bg-[#A31631]/5 border border-[#A31631]/10 px-3 py-2 text-[11px] text-[#9C958A] leading-relaxed">
             <Check size={12} className="mt-0.5 text-[#A31631] flex-shrink-0" />
-            <span><strong className="text-[#0E0E0F]">Sistema incluso</strong> durante o período da consultoria. Necessário integração dos dados para início.</span>
+            <span><strong className="text-[#0E0E0F]">Sistema incluso</strong> durante o período da consultoria.</span>
           </div>
           <PlanSelector plans={consultoriaPlans} currentPlan={consultoria!} onSelect={cart.addPlan} label="consultoria" />
-        </div>
+        </CollapsibleCard>
       )}
 
-      {/* Addons (Foozi, etc.) */}
+      {/* Addons */}
       {cart.addons.map((addon) => (
-        <div key={addon.id} className="rounded-xl bg-white p-4 border border-[#A31631]/20">
-          <div className="flex items-start justify-between mb-2">
-            <div>
-              <span className="text-[10px] font-medium uppercase tracking-wider text-[#A31631]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>Addon</span>
-              <h3 className="font-semibold text-[#0E0E0F] text-sm">{addon.name}</h3>
-            </div>
-            <button type="button" onClick={() => cart.removeAddon(addon.id)} className="p-1 text-[#9C958A] hover:text-[#A31631] transition-colors"><X size={16} /></button>
-          </div>
+        <CollapsibleCard
+          key={addon.id}
+          label="Addon"
+          name={addon.name}
+          price="—"
+          period=""
+          borderClass="border-[#A31631]/20"
+          onRemove={() => cart.removeAddon(addon.id)}
+        >
           <p className="text-xs text-[#9C958A] leading-relaxed mb-2">{addon.description}</p>
           <div className="flex items-center gap-2 rounded-lg bg-[#A31631]/5 border border-[#A31631]/10 px-3 py-2 text-[11px] text-[#9C958A] leading-relaxed">
             <Check size={12} className="mt-0.5 text-[#A31631] flex-shrink-0" />
-            <span><strong className="text-[#0E0E0F]">Consultor entrará em contato</strong> para ativar a integração e configurar o atendimento.</span>
+            <span><strong className="text-[#0E0E0F]">Consultor entrará em contato</strong> para ativar a integração.</span>
           </div>
-        </div>
+        </CollapsibleCard>
       ))}
 
       {/* Upsells */}
@@ -313,7 +332,6 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
         </button>
       )}
 
-      {/* Consultoria recolhida (quando tem consultores) */}
       {hasConsultants && !hasConsultoria && (
         <div>
           <button type="button" onClick={() => setConsultoriaExpanded(!consultoriaExpanded)}
@@ -355,27 +373,57 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
         </button>
       )}
 
-      {/* Totais */}
-      <div className="border-t border-[#0E0E0F]/10 pt-4 space-y-2">
-        {hasSaas && (
-          <div className="flex items-baseline justify-between text-sm text-[#9C958A]">
-            <span>Sistema</span><span>R$ {formatCurrency(saasMensal)}/mês</span>
+      {/* ─── TOTAIS SEPARADOS ─── */}
+      <div className="border-t border-[#0E0E0F]/10 pt-4 space-y-4">
+
+        {/* Recorrente mensal */}
+        {totalMensal > 0 && (
+          <div className="space-y-2">
+            <p className="text-[10px] font-medium text-[#9C958A] uppercase tracking-wider" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+              Recorrente mensal
+            </p>
+            {hasSaas && (
+              <div className="flex items-baseline justify-between text-sm text-[#9C958A]">
+                <span>{saas!.name}</span><span>R$ {formatCurrency(saas!.price)}/mês</span>
+              </div>
+            )}
+            {modulos.map((mod) => (
+              <div key={mod.id} className="flex items-baseline justify-between text-sm text-[#9C958A]">
+                <span>{mod.name}</span><span>R$ {formatCurrency(mod.price)}/mês</span>
+              </div>
+            ))}
+            {hasConsultoria && consultoriaIsMensal && (
+              <div className="flex items-baseline justify-between text-sm text-[#9C958A]">
+                <span>{consultoria!.name}</span><span>R$ {formatCurrency(consultoria!.price)}/mês</span>
+              </div>
+            )}
+            <div className="flex items-baseline justify-between pt-2 border-t border-[#0E0E0F]/5">
+              <span className="text-sm font-semibold text-[#0E0E0F]">Total mensal</span>
+              <span className="text-lg font-bold text-[#0E0E0F]">R$ {formatCurrency(totalMensal)}/mês</span>
+            </div>
           </div>
         )}
-        {modulos.map((mod) => (
-          <div key={mod.id} className="flex items-baseline justify-between text-sm text-[#9C958A]">
-            <span>{mod.name}</span><span>R$ {formatCurrency(mod.price)}/mês</span>
-          </div>
-        ))}
-        {cart.consultants.map((c) => (
-          <div key={c.id} className="flex items-baseline justify-between text-sm text-[#9C958A]">
-            <span>Sessão ({c.name.split(' ')[0]})</span><span>R$ {formatCurrency(c.hourlyRate)}/hora</span>
-          </div>
-        ))}
-        {hasConsultoria && (
-          <div className="flex items-baseline justify-between text-sm text-[#9C958A]">
-            <span>Consultoria{consultoriaIsMensal ? '' : ' (Pix à vista)'}</span>
-            <span>{consultoriaIsMensal ? `R$ ${formatCurrency(consultoriaMensal)}/mês` : `R$ ${formatCurrency(consultoriaPixFinal)}`}</span>
+
+        {/* Avulso / à parte */}
+        {totalAvulso > 0 && (
+          <div className="space-y-2">
+            <p className="text-[10px] font-medium text-[#9C958A] uppercase tracking-wider" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+              Pagamento avulso
+            </p>
+            {cart.consultants.map((c) => (
+              <div key={c.id} className="flex items-baseline justify-between text-sm text-[#9C958A]">
+                <span>Sessão ({c.name.split(' ')[0]})</span><span>R$ {formatCurrency(c.hourlyRate)}/hora</span>
+              </div>
+            ))}
+            {hasConsultoria && !consultoriaIsMensal && (
+              <div className="flex items-baseline justify-between text-sm text-[#9C958A]">
+                <span>{consultoria!.name} (Pix à vista)</span><span>R$ {formatCurrency(consultoriaAvulso)}</span>
+              </div>
+            )}
+            <div className="flex items-baseline justify-between pt-2 border-t border-[#0E0E0F]/5">
+              <span className="text-sm font-semibold text-[#0E0E0F]">Total à parte</span>
+              <span className="text-lg font-bold text-[#0E0E0F]">R$ {formatCurrency(totalAvulso)}</span>
+            </div>
           </div>
         )}
       </div>
