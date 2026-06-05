@@ -7,7 +7,6 @@ import { getConsultantById } from '../data/consultants'
 import { useCart } from '../stores/useCartStore'
 import { useCheckoutForm } from '../hooks/useCheckoutForm'
 import { processPayment } from '../services/payment'
-import { formatCurrency } from '../utils/formatters'
 import { stripePromise } from '../lib/stripe'
 import { CheckoutHeader } from '../components/checkout/CheckoutHeader'
 import { ContactForm } from '../components/checkout/ContactForm'
@@ -19,7 +18,7 @@ import { StripeCardForm } from '../components/checkout/StripeCardForm'
 export function CheckoutPage() {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
-  const { form, errors, isProcessing, setIsProcessing, updateField, setPaymentMethod, validate } = useCheckoutForm()
+  const { form, errors, isProcessing, setIsProcessing, updateField, setPaymentMethod, setAvulsoMethod, validate } = useCheckoutForm()
   const cart = useCart()
 
   // Processar URL params apenas na primeira carga
@@ -64,13 +63,13 @@ export function CheckoutPage() {
   const modulos = cart.plans.filter((p) => p.type === 'modulo')
   const hasSaas = !!saas
   const hasConsultoria = !!consultoria
-  const hasModulos = modulos.length > 0
   const hasConsultants = cart.consultants.length > 0
 
   const consultoriaIsMensal = form.paymentMethod === 'cartao'
   const allConsultantsHaveSlots = cart.consultants.every((c) => !!c.slot)
   const canSubmit = !hasConsultants || allConsultantsHaveSlots
   const isCartao = form.paymentMethod === 'cartao'
+  const hasAvulso = hasConsultants || (hasConsultoria && !consultoriaIsMensal)
 
   // Calcular total em centavos para o Stripe
   const saasIsIncluded = hasConsultoria && saas?.id === 'saas-1'
@@ -81,24 +80,7 @@ export function CheckoutPage() {
   const totalReais = saasPrice + modulosPrice + consultoriaPrice + sessaoPrice
   const totalCents = totalReais * 100
 
-  const buildButtonText = () => {
-    const parts: string[] = []
-    if (hasSaas && !saasIsIncluded) parts.push(`R$ ${formatCurrency(saas!.price)}/mês`)
-    if (hasModulos) {
-      parts.push(`R$ ${formatCurrency(modulosPrice)}/mês`)
-    }
-    if (hasConsultants) {
-      parts.push(`Sessão R$ ${formatCurrency(sessaoPrice)}`)
-    }
-    if (hasConsultoria) {
-      if (consultoriaIsMensal) {
-        parts.push(`R$ ${formatCurrency(consultoria!.price)}/mês`)
-      } else {
-        parts.push(`Pix R$ ${formatCurrency(getConsultoriaPixTotal(consultoria!))}`)
-      }
-    }
-    return `Finalizar pedido — ${parts.join(' + ')}`
-  }
+  const buttonText = canSubmit ? 'Finalizar o pedido' : 'Selecione os horários dos mentores'
 
   const navigateToConfirmation = (orderId: string) => {
     navigate('/confirmacao', {
@@ -195,6 +177,9 @@ export function CheckoutPage() {
               onSelect={setPaymentMethod}
               hasSaas={hasSaas}
               hasConsultoria={hasConsultoria || hasConsultants}
+              hasAvulso={hasAvulso && isCartao}
+              avulsoMethod={form.avulsoMethod}
+              onAvulsoMethodChange={setAvulsoMethod}
             />
 
             <div className="lg:hidden">
@@ -212,7 +197,7 @@ export function CheckoutPage() {
                   totalCents={totalCents}
                   customerEmail={form.email}
                   customerName={form.nome}
-                  buttonText={canSubmit ? buildButtonText() : 'Selecione os horários dos mentores'}
+                  buttonText={buttonText}
                 />
               </Elements>
             ) : (
@@ -240,10 +225,8 @@ export function CheckoutPage() {
                       <Loader2 size={20} className="animate-spin" />
                       Processando...
                     </>
-                  ) : !canSubmit ? (
-                    'Selecione os horários dos mentores'
                   ) : (
-                    buildButtonText()
+                    buttonText
                   )}
                 </button>
               </form>

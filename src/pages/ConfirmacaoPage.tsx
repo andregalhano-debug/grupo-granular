@@ -54,9 +54,9 @@ export function ConfirmacaoPage() {
           </div>
           <h1 className="text-2xl sm:text-3xl font-bold text-[#0E0E0F]">Pedido confirmado!</h1>
           <p className="text-[#9C958A] text-sm sm:text-base max-w-md mx-auto leading-relaxed">
-            Obrigado, <strong className="text-[#0E0E0F]">{firstName}</strong>! Um consultor Granular
+            Obrigado, <strong className="text-[#0E0E0F]">{firstName}</strong>! Um especialista Granular
             entrará em contato pelo WhatsApp <strong className="text-[#0E0E0F]">{state.whatsapp}</strong> para
-            combinar os próximos passos.
+            iniciar a implantação conforme o cronograma abaixo.
           </p>
         </div>
 

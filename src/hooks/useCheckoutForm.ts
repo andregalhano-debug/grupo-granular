@@ -9,6 +9,7 @@ interface FormState {
   whatsapp: string
   email: string
   paymentMethod: PaymentMethod
+  avulsoMethod: PaymentMethod
 }
 
 interface FormErrors {
@@ -23,6 +24,7 @@ export function useCheckoutForm() {
     whatsapp: '',
     email: '',
     paymentMethod: 'cartao',
+    avulsoMethod: 'cartao',
   })
   const [errors, setErrors] = useState<FormErrors>({})
   const [isProcessing, setIsProcessing] = useState(false)
@@ -37,6 +39,10 @@ export function useCheckoutForm() {
 
   const setPaymentMethod = useCallback((method: PaymentMethod) => {
     setForm((prev) => ({ ...prev, paymentMethod: method }))
+  }, [])
+
+  const setAvulsoMethod = useCallback((method: PaymentMethod) => {
+    setForm((prev) => ({ ...prev, avulsoMethod: method }))
   }, [])
 
   const validate = useCallback((): boolean => {
@@ -58,6 +64,7 @@ export function useCheckoutForm() {
     setIsProcessing,
     updateField,
     setPaymentMethod,
+    setAvulsoMethod,
     validate,
   }
 }
