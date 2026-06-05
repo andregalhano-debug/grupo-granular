@@ -3,6 +3,7 @@ import { useDashboardTab } from '../hooks/useDashboardTab'
 import { FadeIn } from '../components/FadeIn'
 import { DashboardHeader } from '../components/painel-consultor/DashboardHeader'
 import { DashboardSidebar } from '../components/painel-consultor/DashboardSidebar'
+import { WeeklyOverview } from '../components/painel-consultor/WeeklyOverview'
 import { AgendaView } from '../components/painel-consultor/AgendaView'
 import { BriefingView } from '../components/painel-consultor/BriefingView'
 import { PreparationView } from '../components/painel-consultor/PreparationView'
@@ -19,6 +20,7 @@ export function PainelConsultorPage() {
       <DashboardSidebar activeTab={tab} onTabChange={setTab} />
 
       <main className="pt-28 lg:pt-20 lg:ml-60 p-4 sm:p-6 lg:p-8">
+        <WeeklyOverview />
         <FadeIn key={tab}>
           {tab === 'agenda' && <AgendaView />}
           {tab === 'briefings' && <BriefingView />}
