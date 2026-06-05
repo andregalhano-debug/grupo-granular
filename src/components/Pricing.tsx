@@ -268,7 +268,7 @@ export function Pricing() {
         <FadeIn delay={50}>
           <div className="max-w-6xl mx-auto mb-10 rounded-xl bg-[#0E0E0F]/[0.03] border border-[#9C958A]/15 p-5">
             <p className="text-sm text-[#0E0E0F] leading-relaxed">
-              <strong>Todos os temas estão disponíveis em qualquer pacote.</strong>{' '}
+              <strong>Todos os blocos estão disponíveis em qualquer pacote.</strong>{' '}
               Após o diagnóstico inicial, consultor e cliente definem juntos quais blocos serão priorizados — operação, financeiro, estoque, cardápio, iFood ou RH — de acordo com as necessidades do negócio e o tempo contratado.
             </p>
             <div className="flex flex-wrap gap-4 mt-3 text-xs text-[#9C958A]">
