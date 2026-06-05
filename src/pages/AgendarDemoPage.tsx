@@ -112,12 +112,12 @@ export function AgendarDemoPage() {
       </header>
 
       <main className="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
-        <div className="mb-8">
-          <h1 className="text-2xl font-bold text-[#0E0E0F] mb-1">Agendar demonstração</h1>
-          <p className="text-sm text-[#9C958A]">Escolha o melhor dia e horário para conhecer a plataforma.</p>
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-xl sm:text-2xl font-bold text-[#0E0E0F] mb-1">Agendar demonstração</h1>
+          <p className="text-xs sm:text-sm text-[#9C958A]">Escolha o melhor dia e horário para conhecer a plataforma.</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="grid lg:grid-cols-2 gap-8">
+        <form onSubmit={handleSubmit} className="grid lg:grid-cols-2 gap-6 sm:gap-8">
           {/* Dados */}
           <div className="space-y-5">
             <h2 className="text-sm font-bold text-[#0E0E0F]">Seus dados</h2>
@@ -125,7 +125,7 @@ export function AgendarDemoPage() {
             <div>
               <label className="block text-xs font-medium text-[#0E0E0F] mb-1.5">Nome completo</label>
               <input type="text" value={name} onChange={(e) => setName(e.target.value)}
-                className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.name ? 'border-red-400' : 'border-[#9C958A]/20 focus:border-[#A31631]'}`}
+                className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border text-sm outline-none transition-colors ${errors.name ? 'border-red-400' : 'border-[#9C958A]/20 focus:border-[#A31631]'}`}
                 placeholder="Seu nome" />
               {errors.name && <p className="text-xs text-red-500 mt-1">{errors.name}</p>}
             </div>
@@ -133,7 +133,7 @@ export function AgendarDemoPage() {
             <div>
               <label className="block text-xs font-medium text-[#0E0E0F] mb-1.5">E-mail</label>
               <input type="email" value={email} onChange={(e) => setEmail(e.target.value)}
-                className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.email ? 'border-red-400' : 'border-[#9C958A]/20 focus:border-[#A31631]'}`}
+                className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border text-sm outline-none transition-colors ${errors.email ? 'border-red-400' : 'border-[#9C958A]/20 focus:border-[#A31631]'}`}
                 placeholder="seu@email.com" />
               {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email}</p>}
             </div>
@@ -141,7 +141,7 @@ export function AgendarDemoPage() {
             <div>
               <label className="block text-xs font-medium text-[#0E0E0F] mb-1.5">WhatsApp</label>
               <input type="tel" value={whatsapp} onChange={(e) => setWhatsapp(e.target.value)}
-                className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.whatsapp ? 'border-red-400' : 'border-[#9C958A]/20 focus:border-[#A31631]'}`}
+                className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border text-sm outline-none transition-colors ${errors.whatsapp ? 'border-red-400' : 'border-[#9C958A]/20 focus:border-[#A31631]'}`}
                 placeholder="(31) 99999-9999" />
               {errors.whatsapp && <p className="text-xs text-red-500 mt-1">{errors.whatsapp}</p>}
             </div>
@@ -149,7 +149,7 @@ export function AgendarDemoPage() {
             <div>
               <label className="block text-xs font-medium text-[#0E0E0F] mb-1.5">Empresa</label>
               <input type="text" value={company} onChange={(e) => setCompany(e.target.value)}
-                className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.company ? 'border-red-400' : 'border-[#9C958A]/20 focus:border-[#A31631]'}`}
+                className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border text-sm outline-none transition-colors ${errors.company ? 'border-red-400' : 'border-[#9C958A]/20 focus:border-[#A31631]'}`}
                 placeholder="Nome do restaurante ou rede" />
               {errors.company && <p className="text-xs text-red-500 mt-1">{errors.company}</p>}
             </div>
@@ -157,7 +157,7 @@ export function AgendarDemoPage() {
             <div>
               <label className="block text-xs font-medium text-[#0E0E0F] mb-1.5">Número de unidades</label>
               <input type="text" value={units} onChange={(e) => setUnits(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-[#9C958A]/20 text-sm outline-none focus:border-[#A31631] transition-colors"
+                className="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-[#9C958A]/20 text-sm outline-none focus:border-[#A31631] transition-colors"
                 placeholder="Ex: 3" />
             </div>
           </div>
@@ -226,7 +226,7 @@ export function AgendarDemoPage() {
 
             <button
               type="submit"
-              className="w-full flex items-center justify-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium py-4 px-8 rounded-xl text-sm transition-colors cursor-pointer"
+              className="w-full flex items-center justify-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium py-3.5 sm:py-4 px-6 sm:px-8 rounded-xl text-sm transition-colors cursor-pointer"
             >
               <CalendarDays size={16} />
               Confirmar agendamento

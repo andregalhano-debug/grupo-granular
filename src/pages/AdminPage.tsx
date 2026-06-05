@@ -26,7 +26,7 @@ function AdminAuth({ onAuth }: { onAuth: () => void }) {
 
   return (
     <div className="min-h-screen bg-[#F7F7F7] flex items-center justify-center px-4">
-      <form onSubmit={handleSubmit} className="w-full max-w-sm bg-white rounded-2xl border border-[#0E0E0F]/10 p-8 text-center">
+      <form onSubmit={handleSubmit} className="w-full max-w-sm bg-white rounded-2xl border border-[#0E0E0F]/10 p-6 sm:p-8 text-center mx-4">
         <Lock size={32} className="text-[#A31631] mx-auto mb-4" />
         <h1 className="text-xl font-bold text-[#0E0E0F] mb-1">Admin Granular</h1>
         <p className="text-xs text-[#9C958A] mb-6">Acesso restrito à equipe.</p>
@@ -87,10 +87,10 @@ function BookingsView() {
                   {b.status}
                 </span>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs text-[#9C958A] mb-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-1.5 sm:gap-2 text-xs text-[#9C958A] mb-3">
                 <div><strong className="text-[#0E0E0F]">Data:</strong> {b.date}</div>
                 <div><strong className="text-[#0E0E0F]">Horário:</strong> {b.time}</div>
-                <div><strong className="text-[#0E0E0F]">Email:</strong> {b.email}</div>
+                <div className="truncate"><strong className="text-[#0E0E0F]">Email:</strong> {b.email}</div>
                 <div><strong className="text-[#0E0E0F]">WhatsApp:</strong> {b.whatsapp}</div>
               </div>
               {b.status === 'pendente' && (
@@ -187,7 +187,7 @@ function CalendarView() {
       <h2 className="text-lg font-bold text-[#0E0E0F]">Google Agenda</h2>
 
       {connected ? (
-        <div className="rounded-xl bg-green-50 border border-green-200 p-6 text-center">
+        <div className="rounded-xl bg-green-50 border border-green-200 p-4 sm:p-6 text-center">
           <Check size={32} className="text-green-500 mx-auto mb-3" />
           <p className="text-sm font-semibold text-green-800 mb-1">Google Agenda conectado</p>
           <p className="text-xs text-green-600 mb-4">As demos agendadas serão sincronizadas automaticamente.</p>
@@ -197,7 +197,7 @@ function CalendarView() {
           </button>
         </div>
       ) : (
-        <div className="rounded-xl bg-white border border-[#0E0E0F]/10 p-6 text-center">
+        <div className="rounded-xl bg-white border border-[#0E0E0F]/10 p-4 sm:p-6 text-center">
           <CalendarDays size={32} className="text-[#9C958A]/30 mx-auto mb-3" />
           <p className="text-sm font-semibold text-[#0E0E0F] mb-1">Conecte seu Google Agenda</p>
           <p className="text-xs text-[#9C958A] mb-4">Sincronize automaticamente os agendamentos de demonstração com seu calendário.</p>
@@ -262,10 +262,10 @@ export function AdminPage() {
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 py-6">
         {/* Tabs */}
-        <div className="flex gap-2 mb-8 overflow-x-auto pb-1">
+        <div className="flex gap-2 mb-6 sm:mb-8 overflow-x-auto pb-1 -mx-1 px-1">
           {tabs.map((t) => (
             <button key={t.id} type="button" onClick={() => setTab(t.id)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors cursor-pointer ${
+              className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium whitespace-nowrap transition-colors cursor-pointer ${
                 tab === t.id
                   ? 'bg-[#A31631]/10 text-[#A31631]'
                   : 'text-[#9C958A] hover:bg-[#F7F7F7] hover:text-[#0E0E0F]'
