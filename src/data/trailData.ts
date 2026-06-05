@@ -17,94 +17,115 @@ export interface TrailModule {
 }
 
 export const trailModules: TrailModule[] = [
+  // ─── MÓDULO 1: MAPA MENTAL ───
+  {
+    id: 'mod-0',
+    title: '1. Mapa Mental — Visão Geral',
+    description: 'Entenda de forma rápida e visual como a Granular funciona e se conecta.',
+    lessons: [
+      {
+        id: 'l-0-1',
+        title: 'O ecossistema Granular em 1 minuto',
+        type: 'reading',
+        durationMinutes: 1,
+        content: `**A Granular é o sistema operacional de food service.** Tudo que o restaurante precisa, em um lugar só.\n\n**Mapa do ecossistema:**\n\n**ENTRADA DE DADOS**\niFood (pedidos) → Granular\nOmie (financeiro) → Granular\nFoozi (+2k fornecedores) → Granular\nEquipe (checklists, estoque) → Granular\n\n**PROCESSAMENTO**\nGranular = 26 módulos + 15 agentes de IA + 92 tabelas\n\n**SAÍDA DE VALOR**\nDashboard → Dono vê KPIs em tempo real\nKDS → Cozinha recebe pedidos organizados\nRelatórios → Decisões baseadas em dados\nAlertas IA → Problemas antes de acontecer\nDRE automático → Saúde financeira sem planilha\n\n**QUEM USA:**\n- Dono/gestor → Dashboard, DRE, relatórios\n- Cozinha → KDS, fichas técnicas\n- Estoquista → Movimentações, contagem, NF-e\n- RH → Escalas, documentos, contratação\n- Consultor → Painel com briefings de IA`,
+      },
+      {
+        id: 'l-0-2',
+        title: 'Os 26 módulos — resumo rápido',
+        type: 'reading',
+        durationMinutes: 1,
+        content: `**Módulos do sistema Maestro Food (produção):**\n\n| # | Módulo | O que faz |\n|---|--------|-----------|\n| 1 | Dashboard | KPIs consolidados, visão geral |\n| 2 | Operações | Gestão do dia a dia |\n| 3 | Cardápio | Itens, preços, categorias |\n| 4 | iFood | 6 sub-abas: pedidos, métricas, ranking, avaliações |\n| 5 | Financeiro | DRE, CMV, contas, conciliação, orçamento |\n| 6 | Estoque | Dashboard, itens, movimentações, NF-e, curva ABC, alertas |\n| 7 | Produção | Fichas técnicas, ordens, separação, precificação |\n| 8 | Pedidos | Kanban de pedidos em tempo real |\n| 9 | KDS | Tela da cozinha por estação |\n| 10 | CRM | Clientes, segmentação RFMTP, churn |\n| 11 | SLA | Gestão de nível de serviço |\n| 12 | 15 IAs | Johny (CEO), CFO, DIANA, MIDAS, TYCHE + 10 |\n| 13 | Vendas IA | Inteligência de vendas e margem |\n| 14 | Checklists | Templates, agendamento, fotos, scores |\n| 15 | Admin | Usuários, permissões, integrações |\n| 16 | Mobile | App React Native (12 telas) |\n\n**Stack:** React + TypeScript + Supabase (PostgreSQL) + Vercel\n**Integrações:** iFood (API + scraping diário 22:30) + Omie (ERP) + Foozi`,
+      },
+    ],
+  },
+
+  // ─── MÓDULO 2: SISTEMA NA PRÁTICA ───
   {
     id: 'mod-1',
-    title: '1. Conheça a Granular',
-    description: 'Visão geral da plataforma, módulos e como a tecnologia transforma a operação.',
+    title: '2. Sistema na Prática',
+    description: 'Como navegar, o que cada tela faz e o fluxo diário dentro do Maestro.',
     lessons: [
       {
         id: 'l-1-1',
-        title: 'O que é a Granular e para quem serve',
+        title: 'Estoque — o coração da operação',
         type: 'reading',
-        durationMinutes: 3,
-        content: `A Granular é uma plataforma completa de gestão para food service — restaurantes, dark kitchens, redes de franquias e operações de delivery. Nosso objetivo é simples: dar ao operador visibilidade total do negócio, eliminando planilhas e unificando estoque, financeiro, produção, pessoas e vendas em um só lugar.\n\n**Para quem serve:**\n- Donos de restaurantes e dark kitchens que querem sair das planilhas\n- Redes com múltiplas unidades que precisam de visão consolidada e benchmark\n- Operações de delivery que dependem de iFood e precisam de controle de margem\n- Gestores que querem tomar decisões baseadas em dados, não em intuição\n\n**Módulos disponíveis:**\n1. **Estoque Inteligente** — controle de insumos, compras, inventário e alertas de reposição\n2. **Produção & Fichas Técnicas** — custo por porção, rendimento e simulador de preço\n3. **KDS (Kitchen Display)** — painel digital para cozinha com fila de pedidos em tempo real\n4. **Financeiro & DRE** — DRE automático, contas a pagar/receber, conciliação bancária\n5. **iFood & Pedidos** — gestão centralizada de todos os IDs e marcas\n6. **CRM & Clientes** — base unificada com histórico e segmentação\n7. **Checklists Operacionais** — rotinas digitalizadas com fotos e evidências\n8. **15 Agentes de IA** — compras, precificação, previsão de demanda e mais\n9. **Pessoas (RH)** — recrutamento, escalas, documentos, desempenho\n10. **Relatórios** — gerenciais automatizados com visão multi-lojas\n11. **Emissão de NF** — NF-e e NFC-e integradas ao fluxo`,
+        durationMinutes: 1,
+        content: `O estoque é onde tudo começa. Sem controle aqui, CMV explode.\n\n**O que o módulo faz:**\n- Dashboard com Valor Parado, CMV%, Cobertura e Desperdício\n- Curva ABC automática (20% dos itens = 80% do custo)\n- Alertas preditivos de ruptura\n- Movimentações de entrada/saída com NF-e\n- Etiquetas com data de validade\n\n**Controle por classe:**\n- **Classe A** (20% itens, 80% custo): controle DIÁRIO\n- **Classe B** (30% itens, 15% custo): controle SEMANAL\n- **Classe C** (50% itens, 5% custo): controle MENSAL\n\n**Regras de ouro:**\n- Proteína: giro máx 5 dias. Frango: 2-3 dias (crítico)\n- Hortifruti folhas: 2-3 dias, compra diária\n- FIFO sempre: etiquete tudo com data de recebimento\n- Perda aceitável: <2% do faturamento\n- Acuracidade: >95%`,
       },
       {
         id: 'l-1-2',
-        title: 'Navegando pelo painel e primeiros passos',
+        title: 'Financeiro, DRE e precificação',
         type: 'reading',
-        durationMinutes: 4,
-        content: `Ao acessar a Granular, o consultor encontra o **Painel do Consultor** — sua central de trabalho.\n\n**Agenda:** Veja as sessões do dia e da semana. Cada sessão mostra o cliente, horário, tipo (diagnóstico, primeira sessão ou acompanhamento) e status.\n\n**Briefings:** Antes de cada sessão, a IA gera um briefing completo do cliente: métricas-chave, tendências, pontos de dor identificados e abordagem recomendada. Use isso para chegar preparado.\n\n**Preparação:** Itens de ação da sessão anterior, dados-chave atualizados e tópicos sugeridos para a conversa.\n\n**Modelo de Consultoria:** Nossa metodologia padrão em 4 fases:\n1. **Diagnóstico** (20 min) — entender a situação e alinhar expectativas\n2. **Análise** (15 min) — comparar benchmarks, priorizar e identificar quick wins\n3. **Plano de Ação** (15 min) — definir 3-5 ações com prazos, responsáveis e métricas\n4. **Acompanhamento** (10 min) — resumir, confirmar próximos passos e agendar follow-up\n\n**Dica:** Sempre inicie pela agenda do dia. Os briefings de IA são atualizados automaticamente com os dados mais recentes do cliente.`,
+        durationMinutes: 1,
+        content: `O módulo financeiro gera o DRE automaticamente. O consultor precisa saber ler.\n\n**DRE típico dark kitchen (% faturamento):**\n- Receita Bruta: 100%\n- Impostos Simples: -6 a -12%\n- CMV (alimentos + embalagens): -28 a -33%\n- Mão de obra: -20 a -25%\n- Taxas iFood: -12 a -18%\n- Ocupação: -8 a -12%\n- **EBITDA saudável: 8-18%**\n- **Lucro líquido: 5-15%**\n\n**Precificação — Método Markup:**\nPreço = Custo do Prato ÷ (1 - Markup)\nMultiplicador rápido: **3.5x** (seguro) a **4x** (confortável). Nunca abaixo de 3x.\n\n**Atenção fluxo de caixa:**\niFood repassa em 15-30 dias. Fornecedor cobra em 7-28 dias. Salário dia 5. Gap de 15-30 dias exige capital de giro.\n\n**Quando matar uma marca:** margem contribuição negativa 3+ meses, <10 pedidos/dia, nota <4.0.`,
+      },
+      {
+        id: 'l-1-3',
+        title: 'iFood, KDS e fluxo de pedidos',
+        type: 'reading',
+        durationMinutes: 1,
+        content: `**Algoritmo iFood (ordem de peso estimada):**\n1. Nota da loja (>4.5 bom, >4.7 excelente)\n2. Tempo de preparo (menor = melhor, meta <15 min)\n3. Taxa cancelamento (<3% mínimo, <1.5% top)\n4. Volume de pedidos recente\n5. Conversão (visualizações → pedidos)\n6. Investimento em promoções\n\n**KDS — Kitchen Display System:**\nSubstitui comandas de papel. Pedidos entram em tempo real por estação:\n- Grelha, Frituras, Frios, Montagem, Expedição\n- Cada estação vê só o que é dela\n- Alertas visuais de atraso\n\n**Multi-marca (modelo Grupo Vista — 8 marcas):**\n- 8 marcas = 8 posições no ranking iFood\n- Insumos compartilhados, cardápios diferentes\n- Máx 12-15 itens por marca no iFood\n- Monitorar canibalização entre marcas via agente TYCHE\n\n**Cardápio otimizado:**\n- Item âncora no topo (best-seller + boa margem)\n- Combo logo abaixo (+20-30% ticket)\n- Foto em tudo (30% menos vendas sem foto)`,
+      },
+      {
+        id: 'l-1-4',
+        title: 'Pessoas, Checklists e os 15 agentes de IA',
+        type: 'reading',
+        durationMinutes: 1,
+        content: `**Módulo Pessoas (RH):**\nRecrutamento → Entrevistas → Contratação → Escalas → Desempenho\n- Custo real CLT: salário × 1.6 a 1.8\n- Escala 6x1, 2 turnos de 4 pessoas (operação 12h)\n- Turnover do setor: 60-100% ao ano\n\n**Checklists Operacionais:**\nSubstituem ferramentas como Konklui (economia R$ 199/mês)\n- Templates personalizados por unidade\n- Agendamento automático (abertura, fechamento, limpeza)\n- Exigência de foto como evidência\n- Score por equipe — gamificação\n\n**15 Agentes de IA (os diferenciais):**\n\n| Agente | Função | Substitui |\n|--------|--------|----------|\n| Johny (CEO) | Gestão operacional | Gerente (R$ 4-6k) |\n| CFO | Análise financeira | Analista (R$ 3-5k) |\n| Estoque | Gestão de insumos | Gerente estoque (R$ 2.5-3.5k) |\n| DIANA | Previsão de demanda | Analista dados |\n| MIDAS | Inteligência de vendas | Analista dados |\n| TYCHE | Canibalização entre marcas | Analista dados |\n\n**Economia total com IA: R$ 14.500-21.500/mês**\nIA opera 24/7 e nunca falta.`,
       },
     ],
   },
+
+  // ─── MÓDULO 3: METODOLOGIA 5S ───
   {
     id: 'mod-2',
-    title: '2. Metodologia 5S na Operação',
-    description: 'Aplique os 5 sensos para organizar, padronizar e disciplinar a operação do cliente.',
+    title: '3. Metodologia 5S Aplicada',
+    description: 'Os 5 sensos aplicados à operação de food service.',
     lessons: [
       {
         id: 'l-2-1',
-        title: 'SEIRI — Senso de Utilização',
+        title: 'SEIRI (Utilização) e SEITON (Organização)',
         type: 'reading',
-        durationMinutes: 4,
-        content: `O primeiro S foca em separar o necessário do desnecessário. Na operação de food service, isso significa:\n\n**Na cozinha:**\n- Remover equipamentos que não são usados (ocupam espaço e acumulam sujeira)\n- Identificar insumos parados há mais de 15 dias (potencial desperdício)\n- Eliminar utensílios duplicados ou quebrados\n\n**No estoque:**\n- Aplicar a **Curva ABC**: 20% dos itens geram 80% do faturamento — foque neles\n- Estoque perecível: giro máximo 5 dias para proteínas, 3 dias para hortifruti\n- Identificar itens com baixo giro e avaliar retirada do cardápio\n\n**No cardápio:**\n- **Cardápio enxuto = menos estoque = menos desperdício = mais margem**\n- Cada item no cardápio custa: insumo, espaço, tempo de preparo e complexidade\n- Se um prato vende menos de 5% do total, questione se deve continuar\n\n**Na Granular:** Use o módulo de Estoque Inteligente para identificar itens Classe C e o relatório de CMV por produto para encontrar o que está sobrando.\n\n**Como avaliar no cliente:**\n- [ ] Existem equipamentos não utilizados na cozinha?\n- [ ] Há insumos parados há mais de 15 dias?\n- [ ] O cardápio tem itens que vendem menos de 5% do total?\n- [ ] O estoque tem produtos vencidos ou próximos do vencimento?`,
+        durationMinutes: 1,
+        content: `**SEIRI — Separar o necessário do desnecessário**\n\nNa cozinha: remover equipamentos não usados, identificar insumos parados >15 dias.\nNo cardápio: item que vende <5% do total — questione se deve continuar. Cardápio enxuto = menos estoque = mais margem.\nNo estoque: Curva ABC — foque nos 20% que geram 80% do custo.\n\n**SEITON — Cada coisa no seu lugar**\n\nCozinha organizada por estação (chapa, fritura, montagem, expedição).\nMise en place: tudo cortado e posicionado ANTES de abrir.\nEstoque: PVPS (Primeiro que Vence, Primeiro que Sai), etiquetas com data, zonas definidas.\n\n**Na Granular:**\n- Estoque Inteligente identifica itens Classe C e giro baixo\n- Checklists digitalizam a rotina de organização diária\n- Fichas Técnicas padronizam mise en place por estação\n\n**Checklist de avaliação:**\n- [ ] Equipamentos não utilizados na cozinha?\n- [ ] Insumos parados há mais de 15 dias?\n- [ ] Mise en place feito antes de abrir?\n- [ ] Estoque etiquetado com datas?`,
       },
       {
         id: 'l-2-2',
-        title: 'SEITON — Senso de Organização',
+        title: 'SEISO (Limpeza) e SEIKETSU (Padronização)',
         type: 'reading',
-        durationMinutes: 4,
-        content: `Após eliminar o desnecessário, organize o que ficou. Cada coisa no seu lugar.\n\n**Na cozinha:**\n- Organização por estação de trabalho (chapa, fritura, montagem, expedição)\n- **Mise en place**: tudo cortado, porcionado e posicionado ANTES de abrir\n- Utensílios na altura certa, insumos do dia na geladeira de linha (não no estoque geral)\n\n**No estoque:**\n- PVPS (Primeiro que Vence, Primeiro que Sai) — etiquetas com data visível\n- Zonas definidas: refrigerado, congelado, secos, descartáveis, limpeza\n- Prateleiras identificadas por categoria\n\n**Nos processos:**\n- Rotina de abertura padronizada (checklist no sistema)\n- Rotina de fechamento padronizada (checklist no sistema)\n- Escala visível e acessível para toda equipe\n\n**Na Granular:** Use os Checklists Operacionais para digitalizar as rotinas de abertura e fechamento. O módulo de Produção organiza as fichas técnicas por estação.\n\n**Rotina de abertura sugerida:**\n1. Verificar estoque crítico (alertas no Maestro)\n2. Conferir escalas — quem está, quem faltou\n3. Iniciar mise en place por estação\n4. Verificar equipamentos (geladeira, chapa, fritadeira — temperaturas ok?)\n5. Abrir marcas no iFood no horário correto\n6. Verificar promoções ativas`,
+        durationMinutes: 1,
+        content: `**SEISO — Limpeza como prevenção**\n\nDiário: bancadas a cada troca de insumo, piso entre picos.\nSemanal: coifas, exaustores, geladeiras por dentro.\nImpacto: nota iFood >4.5, vigilância sanitária (multa até R$ 75k), vida útil equipamento 2-3x maior.\n\n**SEIKETSU — Tornar os 3 primeiros S's rotina**\n\nFicha técnica é lei: sem ficha = sem controle de CMV.\nCada prato: ingredientes, quantidades, modo de preparo, foto do prato final.\n\n**Benchmarks que o consultor PRECISA saber:**\n\n| Indicador | Ideal | Alerta | Crítico |\n|-----------|-------|--------|----------|\n| CMV | 28-32% | 33-36% | >36% |\n| Prime Cost | 55-60% | 61-65% | >65% |\n| Margem Operacional | >15% | 10-14% | <10% |\n| Nota iFood | >4.5 | 4.0-4.4 | <4.0 |\n| Cancelamento | <3% | 3-5% | >5% |\n\n**Regra dos 3 terços:** 1/3 CMV + 1/3 mão de obra + 1/3 despesas/lucro.`,
       },
       {
         id: 'l-2-3',
-        title: 'SEISO — Senso de Limpeza',
+        title: 'SHITSUKE (Disciplina) — manter sem supervisão',
         type: 'reading',
-        durationMinutes: 3,
-        content: `Limpeza como prevenção, não como reação. Ambiente limpo reduz contaminação, melhora a nota da vigilância sanitária e aumenta a vida útil dos equipamentos.\n\n**Protocolo diário:**\n- Limpeza de bancadas a cada troca de insumo\n- Piso da cozinha: varrer entre picos, lavar no fechamento\n- Equipamentos: limpar externamente a cada turno\n- Geladeiras: verificar temperatura e organização a cada abertura\n\n**Protocolo semanal:**\n- Limpeza profunda de coifas, exaustores e fritadeiras\n- Limpeza interna de geladeiras e freezers\n- Verificar armadilhas de pragas\n\n**Na Granular:** Crie checklists de limpeza com exigência de foto como evidência. O gestor da rede consegue verificar remotamente se a rotina foi cumprida em todas as unidades.\n\n**Impacto nos KPIs:**\n- Nota iFood > 4.5 depende de higiene percebida pelo cliente\n- Vigilância sanitária: multa pode chegar a R$ 75 mil\n- Equipamento limpo = vida útil 2-3x maior`,
-      },
-      {
-        id: 'l-2-4',
-        title: 'SEIKETSU — Senso de Padronização',
-        type: 'reading',
-        durationMinutes: 4,
-        content: `Padronizar é tornar os 3 primeiros S's parte da rotina, não esforço pontual.\n\n**Fichas técnicas são lei:**\n- Sem ficha técnica, não existe controle de CMV\n- Cada prato deve ter: ingredientes, quantidades exatas, modo de preparo, foto do prato final\n- Custo por porção calculado automaticamente no sistema\n- Se o preço do insumo muda, o custo da ficha atualiza em tempo real\n\n**Benchmarks que o consultor deve conhecer:**\n\n| Indicador | Ideal | Alerta | Crítico |\n|-----------|-------|--------|----------|\n| CMV | 28-32% | 33-36% | >36% |\n| Labor Cost | 20-25% | 26-30% | >30% |\n| Prime Cost (CMV + Labor) | 55-60% | 61-65% | >65% |\n| Margem Operacional | >15% | 10-14% | <10% |\n| Nota iFood | >4.5 | 4.0-4.4 | <4.0 |\n| Taxa cancelamento | <3% | 3-5% | >5% |\n\n**Regra dos 3 terços:** 1/3 CMV + 1/3 mão de obra + 1/3 despesas/lucro\n\n**Na Granular:** O módulo de Produção & Fichas Técnicas garante que todas as unidades sigam o mesmo padrão. O DRE automático compara os indicadores reais com os benchmarks.`,
-      },
-      {
-        id: 'l-2-5',
-        title: 'SHITSUKE — Senso de Disciplina',
-        type: 'reading',
-        durationMinutes: 3,
-        content: `O último S é o mais difícil e o mais importante: manter a disciplina sem precisar de supervisão constante.\n\n**Como construir disciplina na operação:**\n1. **Rituais diários** — abertura e fechamento sempre com checklist\n2. **Rituais semanais** — reunião de 15 min com a equipe (números da semana + ações)\n3. **Visibilidade** — painel com KPIs acessível a todos (meta do dia, pedidos, nota)\n4. **Reconhecimento** — bonificar equipes que mantêm padrão (% do faturamento ou meta de desperdício)\n5. **Plano de carreira simples** — auxiliar → cozinheiro → chefe (motivação natural)\n\n**Como reduzir turnover (60-100% ao ano no setor):**\n- Salário competitivo (pesquisar mercado local)\n- Escala justa (folgas respeitadas, sem hora extra abusiva)\n- Ambiente organizado (resultado dos outros 4S's)\n- Bonificação por resultado\n\n**Na Granular:** Os Checklists garantem que rituais sejam cumpridos com evidência. O módulo de Pessoas (RH) acompanha desempenho, escala e plano de carreira. Os Relatórios semanais automatizados alimentam a reunião de equipe sem esforço manual.\n\n**O papel do consultor:** Seu trabalho é criar o sistema (5S + Granular) e garantir que o dono consiga manter sozinho após a consultoria. Se depender de você para funcionar, não é sustentável.`,
+        durationMinutes: 1,
+        content: `O 5º S é o mais difícil: manter a disciplina quando ninguém está olhando.\n\n**Como construir:**\n1. Rituais diários — abertura e fechamento sempre com checklist\n2. Rituais semanais — reunião de 15 min (números + ações)\n3. Visibilidade — painel com KPIs acessível a todos\n4. Reconhecimento — bonificar equipes que mantêm padrão\n5. Carreira simples — auxiliar → cozinheiro → chefe\n\n**Reduzir turnover (60-100% ao ano):**\n- Salário competitivo\n- Escala justa (folgas respeitadas)\n- Ambiente organizado (resultado dos outros 4S's)\n- Bonificação por resultado\n\n**O papel do consultor:**\nCriar o sistema (5S + Granular) e garantir que o dono consiga manter SOZINHO após a consultoria. Se depender de você, não é sustentável.\n\n**Na Granular:** Checklists garantem rituais com evidência. Relatórios semanais automáticos alimentam a reunião. Módulo Pessoas acompanha desempenho e carreira.`,
       },
     ],
   },
+
+  // ─── MÓDULO 4: PLAYBOOKS ───
   {
     id: 'mod-3',
-    title: '3. Playbooks de Consultoria',
-    description: 'Diagnósticos rápidos e planos de ação para os problemas mais comuns.',
+    title: '4. Playbooks — Diagnóstico Rápido',
+    description: 'O que fazer quando o cliente traz um problema. Decisões em minutos.',
     lessons: [
       {
         id: 'l-3-1',
-        title: 'CMV alto e margem apertada',
+        title: 'CMV alto e queda de vendas',
         type: 'reading',
-        durationMinutes: 4,
-        content: `Quando o cliente reclama que "sobra pouco no final do mês", o CMV quase sempre é o vilão.\n\n**Diagnóstico (nessa ordem):**\n1. Verificar se houve aumento de preço de fornecedor (comparar NF-e)\n2. Verificar se ficha técnica está sendo seguida (porcionamento na cozinha)\n3. Verificar desperdício (contagem de lixo vs produção)\n4. Verificar se há furto (contagem física vs sistema)\n5. Verificar se mix de vendas mudou (vendendo mais itens de CMV alto)\n\n**Ações imediatas:**\n- Renegociar com fornecedor ou buscar alternativo (sempre 3 cotações)\n- Retreinar equipe no porcionamento (balança obrigatória)\n- Revisar ficha técnica — substituir insumo caro por alternativa\n- Ajustar preço de venda (markup 3.5x do novo custo)\n- Se mix mudou: promover itens de maior margem no iFood\n\n**Na Granular:** O módulo de Estoque mostra o CMV real atualizado a cada venda. O comparativo de custo fiscal vs custo móvel identifica drift de preço de fornecedor. A IA de precificação sugere ajustes de preço automaticamente.\n\n**Preço mínimo delivery:** Ticket mínimo deve cobrir embalagem + taxa + margem — nunca abaixo de R$ 25.\n\n**Promoção que dá prejuízo não é promoção:** Sempre calcular margem REAL após desconto.`,
+        durationMinutes: 1,
+        content: `**CMV subiu acima de 33%? Diagnóstico nessa ordem:**\n1. Fornecedor aumentou preço? (comparar NF-e)\n2. Ficha técnica está sendo seguida? (porcionamento)\n3. Desperdício? (contagem de lixo vs produção)\n4. Furto? (contagem física vs sistema)\n5. Mix de vendas mudou? (mais itens de CMV alto)\n\n**Ações:** 3 cotações, retreinar porcionamento (balança), revisar ficha, ajustar preço (markup 3.5x), promover itens de maior margem.\n\n**Vendas caíram mais de 15%?**\n1. Sazonal? (Jan/Jul = normal -10-20%)\n2. Concorrente novo?\n3. Nota iFood caiu? (<4.5 = ranking despenca)\n4. Tempo preparo aumentou?\n\n**Ações:** Cupom recompra 15+ dias inativos, combo agressivo (desconto aparente, margem real ok), reduzir tempo preparo, destaque iFood 7 dias.\n\n**Na Granular:** CMV atualizado a cada venda. IA de precificação sugere ajustes. Relatório compara custo fiscal vs custo móvel.`,
       },
       {
         id: 'l-3-2',
-        title: 'Queda de vendas e nota iFood baixa',
+        title: 'Nota iFood baixa e gestão de crises',
         type: 'reading',
-        durationMinutes: 4,
-        content: `**Diagnóstico de queda de vendas:**\n1. É sazonal? (janeiro, julho = normal cair 10-20%)\n2. Concorrente novo na região?\n3. Nota iFood caiu? (abaixo de 4.5 = queda de ranking)\n4. Tempo de preparo aumentou? (iFood penaliza)\n5. Promoção do concorrente atraiu clientes?\n\n**Ações para vendas:**\n- Ativar cupom de recompra para clientes inativos 15+ dias\n- Criar combo agressivo (aparente desconto, margem real ok)\n- Reduzir tempo de preparo (revisar mise en place)\n- Investir em destaque iFood por 7 dias (testar ROI)\n\n**Diagnóstico nota iFood baixa (<4.5):**\n1. Ler TODAS as avaliações negativas dos últimos 7 dias\n2. Classificar: atraso? frio? errado? qualidade? porção?\n3. Identificar o problema #1 (>30% das reclamações)\n\n**Ações por problema:**\n- **Atraso**: Reduzir cardápio temporariamente, aumentar mise en place\n- **Frio**: Trocar embalagem (térmica), reduzir tempo no balcão\n- **Pedido errado**: Implementar dupla conferência antes de selar\n- **Porção pequena**: Revisar ficha técnica, padronizar com balança\n\n**Na Granular:** O módulo iFood & Pedidos consolida avaliações e métricas. A IA identifica padrões de reclamação e sugere ações. O KDS ajuda a reduzir tempo de preparo organizando a fila por prioridade.`,
-      },
-      {
-        id: 'l-3-3',
-        title: 'Gestão de pessoas e turnover',
-        type: 'reading',
-        durationMinutes: 4,
-        content: `O setor de food service tem turnover de 60-100% ao ano. Cada saída custa 1.5-2x o salário mensal.\n\n**Custo real de um funcionário (CLT):**\n- Salário base: R$ 1.800 (cozinheiro BH, 2025)\n- Custo real mensal (com encargos): ~R$ 2.450 (1.36x)\n- Custo total (com benefícios): ~R$ 2.950/mês\n- **Regra rápida:** salário × 1.6 a 1.8\n\n**Produtividade por função:**\n\n| Função | Meta pedidos/hora | Salário BH |\n|--------|-------------------|------------|\n| Chapeiro | 8-12 | R$ 1.800-2.200 |\n| Fritador | 10-15 | R$ 1.600-1.900 |\n| Montador/expedição | 12-18 | R$ 1.500-1.800 |\n| Auxiliar | Apoio geral | R$ 1.412-1.600 |\n| Cozinheiro chefe | Supervisão + preparo | R$ 2.500-3.500 |\n\n**Escala ideal (operação 12h, 10h-22h):**\n- 2 turnos de 4 pessoas cada\n- Escala 6x1 (6 trabalhando, 1 folga)\n- 1 folguista para cada 6 funcionários\n\n**Na Granular:** O módulo Pessoas (RH) faz recrutamento, controle de entrevistas, escalas inteligentes, custo real por colaborador e gestão de turnover. O consultor usa esses dados para diagnosticar se o cliente está gastando demais com pessoas ou se tem equipe subdimensionada.\n\n**Plano de carreira simples:** auxiliar → cozinheiro → chefe. Isso reduz turnover em até 60%.`,
+        durationMinutes: 1,
+        content: `**Nota iFood abaixo de 4.5?**\n1. Ler TODAS as avaliações negativas dos últimos 7 dias\n2. Classificar: atraso? frio? errado? qualidade? porção?\n3. O problema #1 (>30% das reclamações) é o foco\n\n**Ações por problema:**\n- **Atraso (40% das reclamações):** reduzir cardápio, aumentar mise en place\n- **Frio (20%):** trocar embalagem térmica, reduzir tempo no balcão\n- **Pedido errado (15%):** dupla conferência antes de selar\n- **Porção pequena (10%):** revisar ficha, padronizar com balança\n- **Qualidade (15%):** retreinar cozinheiro, revisar insumos\n\n**Funcionário faltou?**\n1. Redistribuir funções\n2. Reduzir cardápio (manter 3 marcas de maior margem)\n3. Aumentar tempo preparo no iFood (evitar cancelamento)\n\n**Fornecedor aumentou preço?**\nNUNCA aceitar de primeira. 3 cotações. Negociar volume. À vista = 3-8% desconto. Se inevitável: repassar ao preço IMEDIATAMENTE.\n\n**Responder TODAS as avaliações negativas em <24h.**`,
       },
     ],
   },
