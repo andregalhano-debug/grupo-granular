@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { Smartphone, Shield, BarChart3, X, ChevronRight } from 'lucide-react'
+import { Smartphone, Shield, BarChart3, X, ChevronRight, CalendarDays } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
 import { modulesData } from '../data/modulesData'
@@ -189,13 +189,24 @@ export function Modules() {
                       </Link>
                     </div>
                   ) : (
-                    <Link
-                      to="/checkout?plano=saas-2"
-                      className="inline-flex items-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors self-start"
-                    >
-                      Começar Agora
-                      <ChevronRight size={16} />
-                    </Link>
+                    <div className="flex flex-wrap items-center gap-3 self-start">
+                      <Link
+                        to="/checkout?plano=saas-2"
+                        className="inline-flex items-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors"
+                      >
+                        Começar Agora
+                        <ChevronRight size={16} />
+                      </Link>
+                      <a
+                        href="https://wa.me/5531999999999?text=Olá! Gostaria de agendar uma demonstração da Granular."
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 border border-[#A31631] text-[#A31631] hover:bg-[#A31631]/5 font-medium px-6 py-3 rounded-xl text-sm transition-colors"
+                      >
+                        <CalendarDays size={16} />
+                        Agendar demonstração
+                      </a>
+                    </div>
                   )}
                 </div>
 
@@ -232,13 +243,22 @@ export function Modules() {
           ))}
         </FadeIn>
 
-        <FadeIn delay={500} className="text-center mt-10">
+        <FadeIn delay={500} className="flex flex-wrap items-center justify-center gap-4 mt-10">
           <Link
             to="/checkout?plano=saas-2"
             className="inline-flex items-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-8 py-4 rounded-xl text-base transition-colors"
           >
             Começar Agora
           </Link>
+          <a
+            href="https://wa.me/5531999999999?text=Olá! Gostaria de agendar uma demonstração da Granular."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 border border-[#A31631] text-[#A31631] hover:bg-[#A31631]/5 font-medium px-8 py-4 rounded-xl text-base transition-colors"
+          >
+            <CalendarDays size={18} />
+            Agendar demonstração
+          </a>
         </FadeIn>
       </div>
 

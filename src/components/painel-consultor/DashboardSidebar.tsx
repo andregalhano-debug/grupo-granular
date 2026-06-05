@@ -1,4 +1,5 @@
-import { CalendarDays, FileText, Zap, ClipboardList } from 'lucide-react'
+import { CalendarDays, FileText, Zap, ClipboardList, BookOpen } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import type { DashboardTab } from '../../hooks/useDashboardTab'
 import { mockSessions } from '../../data/dashboardMock'
 
@@ -37,6 +38,16 @@ export function DashboardSidebar({ activeTab, onTabChange }: DashboardSidebarPro
               {tab.label}
             </button>
           ))}
+
+          <div className="pt-2 mt-2 border-t border-[#0E0E0F]/5">
+            <Link
+              to="/trilha"
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-[#9C958A] hover:text-[#A31631] hover:bg-[#A31631]/5 transition-all"
+            >
+              <BookOpen size={18} />
+              Trilha de Conhecimento
+            </Link>
+          </div>
         </nav>
 
         {/* Stats */}
@@ -65,6 +76,13 @@ export function DashboardSidebar({ activeTab, onTabChange }: DashboardSidebarPro
               {tab.label}
             </button>
           ))}
+          <Link
+            to="/trilha"
+            className="flex items-center gap-1.5 px-4 py-3 text-xs font-medium whitespace-nowrap text-[#9C958A] border-b-2 border-transparent hover:text-[#A31631] transition-colors"
+          >
+            <BookOpen size={14} />
+            Trilha
+          </Link>
         </div>
       </div>
     </>
