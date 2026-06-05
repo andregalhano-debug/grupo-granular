@@ -28,7 +28,7 @@ export function Testimonials() {
             Quem usa, recomenda
           </h2>
           <p className="text-[#9C958A] text-base sm:text-lg max-w-2xl mx-auto">
-            Veja o que nossos clientes dizem sobre a Granular.
+            Veja o que dizem sobre a Granular.
           </p>
         </FadeIn>
 

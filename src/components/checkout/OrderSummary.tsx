@@ -258,6 +258,24 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
         </div>
       )}
 
+      {/* Addons (Foozi, etc.) */}
+      {cart.addons.map((addon) => (
+        <div key={addon.id} className="rounded-xl bg-white p-4 border border-[#A31631]/20">
+          <div className="flex items-start justify-between mb-2">
+            <div>
+              <span className="text-[10px] font-medium uppercase tracking-wider text-[#A31631]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>Addon</span>
+              <h3 className="font-semibold text-[#0E0E0F] text-sm">{addon.name}</h3>
+            </div>
+            <button type="button" onClick={() => cart.removeAddon(addon.id)} className="p-1 text-[#9C958A] hover:text-[#A31631] transition-colors"><X size={16} /></button>
+          </div>
+          <p className="text-xs text-[#9C958A] leading-relaxed mb-2">{addon.description}</p>
+          <div className="flex items-center gap-2 rounded-lg bg-[#A31631]/5 border border-[#A31631]/10 px-3 py-2 text-[11px] text-[#9C958A] leading-relaxed">
+            <Check size={12} className="mt-0.5 text-[#A31631] flex-shrink-0" />
+            <span><strong className="text-[#0E0E0F]">Consultor entrará em contato</strong> para ativar a integração e configurar o atendimento.</span>
+          </div>
+        </div>
+      ))}
+
       {/* Upsells */}
       {hasSaas && !hasConsultoria && !hasConsultants && (
         <button type="button" onClick={() => cart.addPlan(upsellConsultoria)}

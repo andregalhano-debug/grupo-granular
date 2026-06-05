@@ -26,6 +26,7 @@ export function CheckoutPage() {
     const consultorId = searchParams.get('consultor')
     const slot = searchParams.get('slot')
     const planoId = searchParams.get('plano')
+    const addon = searchParams.get('addon')
 
     if (consultorId) {
       const c = getConsultantById(consultorId)
@@ -39,6 +40,15 @@ export function CheckoutPage() {
     } else if (planoId) {
       const plan = getPlanById(planoId)
       if (plan) cart.addPlan(plan)
+    }
+
+    // Addon Foozi
+    if (addon === 'foozi') {
+      cart.addAddon({
+        id: 'foozi',
+        name: 'Foozi — Atendimento Digital & BPO',
+        description: 'Plataforma de atendimento via WhatsApp, chatbot e central terceirizada',
+      })
     }
 
     // Se carrinho vazio e sem params, adicionar plano popular

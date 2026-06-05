@@ -1,15 +1,27 @@
+import { useState, useRef, useEffect } from 'react'
+import { X, ChevronRight, Plus, Star } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
-import { Plus } from 'lucide-react'
-
-const integrations = [
-  { name: 'iFood', logo: 'https://logodownload.org/wp-content/uploads/2017/05/ifood-logo-0.png' },
-  { name: 'Saipos', logo: '/logos/saipos.svg' },
-  { name: 'Open Delivery', logo: '/logos/opendelivery.webp' },
-  { name: 'Omie', logo: '/logos/omie.png' },
-  { name: 'Foozi', logo: '/logos/foozi.svg' },
-]
+import { integrationsData } from '../data/integrationsData'
 
 export function Integrations() {
+  const [openIndex, setOpenIndex] = useState<number | null>(null)
+  const detailRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (openIndex !== null && detailRef.current) {
+      setTimeout(() => {
+        detailRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      }, 100)
+    }
+  }, [openIndex])
+
+  const handleToggle = (i: number) => {
+    setOpenIndex(openIndex === i ? null : i)
+  }
+
+  const openIntegration = openIndex !== null ? integrationsData[openIndex] : null
+
   return (
     <section id="integracoes" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-[#F7F7F7]">
       <div className="max-w-7xl mx-auto">
@@ -23,32 +35,178 @@ export function Integrations() {
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#0E0E0F] mb-4">
             Integrações que potencializam sua operação
           </h2>
-          <p className="text-[#9C958A] text-base sm:text-lg max-w-2xl mx-auto">
+          <p className="text-[#9C958A] text-base sm:text-lg max-w-2xl mx-auto mb-6">
             Conecte as ferramentas que você já usa ao ecossistema Granular.
           </p>
+          <div className="inline-flex items-center gap-3 bg-white border border-[#A31631]/15 rounded-xl px-5 py-3 shadow-sm">
+            <img
+              src="https://logodownload.org/wp-content/uploads/2017/05/ifood-logo-0.png"
+              alt="iFood"
+              className="w-6 h-6 object-contain"
+            />
+            <p className="text-sm text-[#0E0E0F]">
+              Ativação com <strong>1 clique</strong> direto no{' '}
+              <span className="text-[#A31631] font-semibold">Portal do Parceiro iFood</span>
+            </p>
+          </div>
         </FadeIn>
 
-        <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-8">
-          {integrations.map((item, i) => (
+        <div className="flex flex-wrap items-stretch justify-center gap-4 sm:gap-6">
+          {integrationsData.map((item, i) => (
             <FadeIn key={item.name} delay={i * 100}>
-              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-white border border-[#9C958A]/20 shadow-sm flex items-center justify-center hover:shadow-lg hover:border-[#A31631]/20 transition-all duration-300 overflow-hidden p-4">
+              <button
+                onClick={() => handleToggle(i)}
+                className={`group relative flex flex-col items-center justify-center rounded-2xl border p-5 transition-all duration-300 cursor-pointer ${
+                  item.highlight ? 'w-28 h-28 sm:w-36 sm:h-36' : 'w-20 h-20 sm:w-24 sm:h-24'
+                } ${
+                  openIndex === i
+                    ? 'border-[#A31631] bg-white shadow-lg shadow-[#A31631]/10'
+                    : item.highlight
+                    ? 'border-[#A31631]/30 bg-white shadow-md hover:shadow-lg hover:border-[#A31631]/50'
+                    : 'border-[#9C958A]/20 bg-white shadow-sm hover:shadow-lg hover:border-[#A31631]/20'
+                }`}
+              >
+                {item.highlight && (
+                  <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 flex items-center gap-1 bg-[#A31631] text-white text-[9px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full whitespace-nowrap">
+                    <Star size={10} className="fill-white" />
+                    Parceiro
+                  </span>
+                )}
                 <img
                   src={item.logo}
                   alt={item.name}
-                  className="w-full h-full object-contain"
+                  className={`object-contain ${item.highlight ? 'w-16 h-16 sm:w-20 sm:h-20' : 'w-full h-full'}`}
                 />
-              </div>
+                {item.highlight && (
+                  <span className="text-[10px] text-[#9C958A] mt-1 font-medium">Saiba mais</span>
+                )}
+              </button>
             </FadeIn>
           ))}
 
           {/* Em breve */}
-          <FadeIn delay={integrations.length * 100}>
+          <FadeIn delay={integrationsData.length * 100}>
             <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl border-2 border-dashed border-[#9C958A]/30 flex items-center justify-center">
               <Plus size={28} className="text-[#9C958A]/40" />
             </div>
           </FadeIn>
         </div>
+
+        {/* Painel expandido inline */}
+        {openIntegration && (
+          <div
+            ref={detailRef}
+            className="mt-6 overflow-hidden"
+            style={{ animation: 'integrationSlideDown 0.4s ease forwards' }}
+          >
+            <div className={`rounded-2xl border overflow-hidden ${
+              openIntegration.highlight
+                ? 'border-[#A31631]/30 bg-white shadow-xl shadow-[#A31631]/10'
+                : 'border-[#A31631]/20 bg-white shadow-xl shadow-[#A31631]/5'
+            }`}>
+              {/* Header */}
+              <div className="flex items-center justify-between px-6 sm:px-8 py-5 border-b border-[#0E0E0F]/5">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-[#F7F7F7] flex items-center justify-center overflow-hidden p-2">
+                    <img src={openIntegration.logo} alt={openIntegration.name} className="w-full h-full object-contain" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <h3 className="text-lg font-bold text-[#0E0E0F]">{openIntegration.name}</h3>
+                      {openIntegration.highlight && (
+                        <span className="flex items-center gap-1 bg-[#A31631]/10 text-[#A31631] text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full">
+                          <Star size={10} className="fill-[#A31631]" />
+                          Parceiro estratégico
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-sm text-[#9C958A]">{openIntegration.desc}</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setOpenIndex(null)}
+                  className="p-2 rounded-lg hover:bg-[#F7F7F7] text-[#9C958A] hover:text-[#0E0E0F] transition-colors"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
+              {/* Conteúdo */}
+              <div className="p-6 sm:p-8">
+                <p className="text-sm text-[#0E0E0F] leading-relaxed mb-6">
+                  {openIntegration.detailText}
+                </p>
+
+                <div className="mb-6">
+                  <p
+                    className="text-[10px] font-medium text-[#9C958A] uppercase tracking-wider mb-3"
+                    style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                  >
+                    Recursos da integração
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {openIntegration.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="text-xs bg-[#A31631]/10 text-[#A31631] px-3 py-1.5 rounded-full font-medium"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* CTA especial para Foozi */}
+                {openIntegration.highlight && openIntegration.ctaLink && (
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-5 rounded-xl bg-[#A31631]/5 border border-[#A31631]/10">
+                    <div className="flex-1">
+                      <p className="text-sm font-semibold text-[#0E0E0F] mb-1">
+                        Granular + Foozi: gestão e atendimento em um só lugar
+                      </p>
+                      <p className="text-xs text-[#9C958A] leading-relaxed">
+                        Contrate o sistema Granular com a Foozi já inclusa e tenha operação completa — da gestão de estoque e financeiro ao atendimento profissional via WhatsApp e BPO.
+                      </p>
+                    </div>
+                    <Link
+                      to={openIntegration.ctaLink}
+                      className="inline-flex items-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors whitespace-nowrap flex-shrink-0"
+                    >
+                      {openIntegration.ctaLabel}
+                      <ChevronRight size={16} />
+                    </Link>
+                  </div>
+                )}
+
+                {/* CTA genérico para outras integrações */}
+                {!openIntegration.highlight && (
+                  <Link
+                    to="/checkout?plano=saas-2"
+                    className="inline-flex items-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors"
+                  >
+                    Começar Agora
+                    <ChevronRight size={16} />
+                  </Link>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
+
+      <style>{`
+        @keyframes integrationSlideDown {
+          from {
+            opacity: 0;
+            max-height: 0;
+            transform: translateY(-12px);
+          }
+          to {
+            opacity: 1;
+            max-height: 1200px;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
     </section>
   )
 }
