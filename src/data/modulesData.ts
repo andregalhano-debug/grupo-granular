@@ -1,4 +1,4 @@
-import { Package, ChefHat, Monitor, TrendingUp, ShoppingBag, Users, ClipboardCheck, Bot, UserCog, FileBarChart, FileText, Plug, Headphones } from 'lucide-react'
+import { Package, ChefHat, Monitor, TrendingUp, ShoppingBag, Users, ClipboardCheck, Bot, UserCog, FileBarChart, Plug, Headphones } from 'lucide-react'
 
 export interface ModuleDetail {
   icon: typeof Package
@@ -90,14 +90,6 @@ export const modulesData: ModuleDetail[] = [
     desc: 'Relatórios gerenciais automatizados com insights acionáveis para tomada de decisão.',
     features: ['Relatórios semanais', 'Análises comparativas', 'Indicadores de performance', 'Exportação de dados', 'Visão multi-lojas'],
     detailText: 'Receba relatórios gerenciais automatizados com os principais indicadores da sua operação. Compare performance entre unidades, acompanhe a evolução de vendas, CMV, ticket médio e muito mais. Dados consolidados e prontos para decisão — sem precisar montar planilhas manualmente.',
-    screenshot: '',
-  },
-  {
-    icon: FileText,
-    title: 'Emissão de NF',
-    desc: 'Emissão de notas fiscais eletrônicas integrada ao fluxo de vendas e compras.',
-    features: ['NF-e e NFC-e', 'Emissão automática', 'Gestão de certificados', 'Consulta e cancelamento', 'Relatório fiscal'],
-    detailText: 'Emita notas fiscais eletrônicas (NF-e e NFC-e) diretamente pelo sistema, integradas ao fluxo de vendas e compras. Gerencie certificados digitais, consulte notas emitidas, faça cancelamentos quando necessário e mantenha toda a documentação fiscal organizada para contabilidade e auditorias.',
     screenshot: '',
   },
   {
