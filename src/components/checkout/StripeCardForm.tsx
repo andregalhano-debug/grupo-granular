@@ -25,6 +25,44 @@ interface StripeCardFormProps {
   buttonText: string
 }
 
+function CardBrands() {
+  return (
+    <div className="flex items-center gap-1">
+      {/* Visa */}
+      <svg className="h-6 w-auto" viewBox="0 0 38 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="38" height="24" rx="4" fill="#F6F9FC" stroke="#E0E6EB"/>
+        <path d="M16.11 16.46h-2.57l1.6-9.92h2.58l-1.6 9.92z" fill="#3C58BF"/>
+        <path d="M25.68 6.74c-.5-.2-1.3-.42-2.3-.42-2.53 0-4.31 1.35-4.33 3.28-.02 1.43 1.28 2.23 2.25 2.7.99.49 1.33.8 1.32 1.23-.01.67-.79.97-1.52.97-1.02 0-1.56-.15-2.39-.52l-.33-.16-.36 2.2c.6.27 1.7.51 2.84.52 2.69 0 4.44-1.33 4.46-3.39.01-1.13-.67-1.99-2.15-2.7-.9-.46-1.45-.77-1.44-1.23 0-.41.46-.85 1.47-.85.84-.01 1.45.18 1.92.38l.23.12.35-2.13z" fill="#3C58BF"/>
+        <path d="M29.86 6.54h-1.98c-.61 0-1.07.18-1.34.82l-3.8 9.1h2.69l.54-1.48h3.28l.31 1.48h2.37l-2.07-9.92zm-3.16 6.38l1.36-3.68.78 3.68h-2.14z" fill="#3C58BF"/>
+        <path d="M13.09 6.54l-2.51 6.76-.27-1.36c-.47-1.58-1.92-3.3-3.55-4.15l2.29 8.66h2.71l4.03-9.9h-2.7z" fill="#3C58BF"/>
+        <path d="M8.43 6.54H4.37l-.03.19c3.21.82 5.33 2.8 6.21 5.18l-.9-4.53c-.15-.62-.6-.82-1.22-.84z" fill="#F9A51A"/>
+      </svg>
+      {/* Mastercard */}
+      <svg className="h-6 w-auto" viewBox="0 0 38 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="38" height="24" rx="4" fill="#F6F9FC" stroke="#E0E6EB"/>
+        <circle cx="15" cy="12" r="7" fill="#EB001B"/>
+        <circle cx="23" cy="12" r="7" fill="#F79E1B"/>
+        <path d="M19 7.44A6.98 6.98 0 0 1 21.5 12 6.98 6.98 0 0 1 19 16.56 6.98 6.98 0 0 1 16.5 12 6.98 6.98 0 0 1 19 7.44z" fill="#FF5F00"/>
+      </svg>
+      {/* Amex */}
+      <svg className="h-6 w-auto" viewBox="0 0 38 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="38" height="24" rx="4" fill="#2557D6"/>
+        <text x="19" y="14" textAnchor="middle" fill="white" fontSize="7" fontWeight="bold" fontFamily="Arial">AMEX</text>
+      </svg>
+      {/* Elo */}
+      <svg className="h-6 w-auto" viewBox="0 0 38 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="38" height="24" rx="4" fill="#F6F9FC" stroke="#E0E6EB"/>
+        <text x="19" y="14" textAnchor="middle" fill="#0066CC" fontSize="8" fontWeight="bold" fontFamily="Arial">elo</text>
+      </svg>
+      {/* Hiper */}
+      <svg className="h-6 w-auto" viewBox="0 0 38 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="38" height="24" rx="4" fill="#F6F9FC" stroke="#E0E6EB"/>
+        <text x="19" y="14" textAnchor="middle" fill="#F37421" fontSize="6.5" fontWeight="bold" fontFamily="Arial">Hiper</text>
+      </svg>
+    </div>
+  )
+}
+
 export function StripeCardForm({
   onPaymentSuccess,
   isProcessing,
@@ -55,7 +93,6 @@ export function StripeCardForm({
         return
       }
 
-      // Criar PaymentMethod
       const { error, paymentMethod } = await stripe.createPaymentMethod({
         type: 'card',
         card: cardNumber,
@@ -74,33 +111,28 @@ export function StripeCardForm({
       if (paymentMethod) {
         onPaymentSuccess(paymentMethod.id)
       }
-    } catch (err) {
+    } catch {
       setCardError('Erro inesperado. Tente novamente.')
       setIsProcessing(false)
     }
   }
 
   return (
-    <div className="space-y-5">
-      <div className="flex items-center justify-between">
+    <div className="space-y-4 sm:space-y-5">
+      {/* Header com bandeiras */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
         <div className="flex items-center gap-2">
           <CreditCard size={16} className="text-[#0E0E0F]" />
           <span className="text-sm font-medium text-[#0E0E0F]">Dados do cartão</span>
         </div>
-        <div className="flex items-center gap-1.5">
-          {/* Bandeiras */}
-          <img src="https://js.stripe.com/v3/fingerprinted/img/visa-729c05c240c4bdb47b03ac81d9945bfe.svg" alt="Visa" className="h-6" />
-          <img src="https://js.stripe.com/v3/fingerprinted/img/mastercard-4d8844094130711885b5e41b28c9848f.svg" alt="Mastercard" className="h-6" />
-          <img src="https://js.stripe.com/v3/fingerprinted/img/amex-a49b82f46c5cd6a96a6e418a6ca1571c.svg" alt="Amex" className="h-6" />
-          <span className="text-[10px] text-[#9C958A] ml-1">+ Elo, Hiper</span>
-        </div>
+        <CardBrands />
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
         {/* Número do cartão */}
         <div>
           <label className="block text-xs font-medium text-[#0E0E0F] mb-1.5">Número do cartão</label>
-          <div className="px-3 sm:px-4 py-3 rounded-xl border border-[#9C958A]/20 focus-within:border-[#A31631] transition-colors bg-white">
+          <div className="px-3 py-2.5 sm:py-3 rounded-xl border border-[#9C958A]/20 focus-within:border-[#A31631] transition-colors bg-white">
             <CardNumberElement
               options={elementStyle}
               onChange={(e) => {
@@ -112,11 +144,11 @@ export function StripeCardForm({
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 gap-2 sm:gap-3">
           {/* Validade */}
           <div>
             <label className="block text-xs font-medium text-[#0E0E0F] mb-1.5">Validade</label>
-            <div className="px-3 sm:px-4 py-3 rounded-xl border border-[#9C958A]/20 focus-within:border-[#A31631] transition-colors bg-white">
+            <div className="px-3 py-2.5 sm:py-3 rounded-xl border border-[#9C958A]/20 focus-within:border-[#A31631] transition-colors bg-white">
               <CardExpiryElement
                 options={elementStyle}
                 onChange={(e) => {
@@ -129,7 +161,7 @@ export function StripeCardForm({
           {/* CVC */}
           <div>
             <label className="block text-xs font-medium text-[#0E0E0F] mb-1.5">CVV</label>
-            <div className="px-3 sm:px-4 py-3 rounded-xl border border-[#9C958A]/20 focus-within:border-[#A31631] transition-colors bg-white">
+            <div className="px-3 py-2.5 sm:py-3 rounded-xl border border-[#9C958A]/20 focus-within:border-[#A31631] transition-colors bg-white">
               <CardCvcElement
                 options={elementStyle}
                 onChange={(e) => {
@@ -150,15 +182,15 @@ export function StripeCardForm({
 
         {/* Segurança */}
         <div className="flex items-center gap-2 text-[10px] text-[#9C958A]">
-          <Lock size={10} />
-          Pagamento processado com segurança pela Stripe. Seus dados não ficam em nossos servidores.
+          <Lock size={10} className="flex-shrink-0" />
+          Pagamento processado com segurança pela Stripe.
         </div>
 
         {/* Botão de pagar */}
         <button
           type="submit"
           disabled={!stripe || !allComplete || isProcessing}
-          className="w-full flex items-center justify-center gap-2 bg-[#A31631] hover:bg-[#7A1025] disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium py-4 px-8 rounded-xl text-sm transition-colors cursor-pointer"
+          className="w-full flex items-center justify-center gap-2 bg-[#A31631] hover:bg-[#7A1025] disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium py-3.5 sm:py-4 px-6 sm:px-8 rounded-xl text-sm transition-colors cursor-pointer"
         >
           {isProcessing ? (
             <>
