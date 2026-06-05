@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, BookOpen } from 'lucide-react'
 import { GranularLogo } from '../GranularLogo'
 import { mockConsultantName } from '../../data/dashboardMock'
 
@@ -26,6 +26,10 @@ export function DashboardHeader() {
         </div>
 
         <div className="flex items-center gap-4">
+          <Link to="/trilha" className="flex items-center gap-1.5 text-xs font-medium text-[#A31631] hover:text-[#7A1025] transition-colors px-3 py-1.5 rounded-lg bg-[#A31631]/5 hover:bg-[#A31631]/10">
+            <BookOpen size={14} />
+            <span className="hidden sm:inline">Trilha</span>
+          </Link>
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-full bg-[#A31631]/10 flex items-center justify-center">
               <span className="text-xs font-bold text-[#A31631]">{getInitials(mockConsultantName)}</span>
