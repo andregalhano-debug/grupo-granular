@@ -44,7 +44,7 @@ function getInitials(name: string): string {
   return name.split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase()
 }
 
-function CollapsibleCard({ label, name, price, period, borderClass, children, onRemove, forceCollapsed }: {
+function CollapsibleCard({ label, name, price, period, borderClass, children, onRemove, forceToggle }: {
   label: string
   name: string
   price: string
@@ -52,13 +52,13 @@ function CollapsibleCard({ label, name, price, period, borderClass, children, on
   borderClass?: string
   children: React.ReactNode
   onRemove?: () => void
-  forceCollapsed?: number
+  forceToggle?: { count: number; expand: boolean }
 }) {
   const [expanded, setExpanded] = useState(false)
 
   useEffect(() => {
-    if (forceCollapsed !== undefined && forceCollapsed > 0) setExpanded(false)
-  }, [forceCollapsed])
+    if (forceToggle && forceToggle.count > 0) setExpanded(forceToggle.expand)
+  }, [forceToggle])
 
   return (
     <div className={`rounded-xl bg-white border transition-all ${borderClass || 'border-[#0E0E0F]/5'}`}>
@@ -102,7 +102,7 @@ function CollapsibleCard({ label, name, price, period, borderClass, children, on
   )
 }
 
-function ConsultantSlotCard({ cartConsultant, forceCollapsed }: { cartConsultant: { id: string; name: string; title: string; rating: number; hourlyRate: number; slot: string | null }; forceCollapsed?: number }) {
+function ConsultantSlotCard({ cartConsultant, forceToggle }: { cartConsultant: { id: string; name: string; title: string; rating: number; hourlyRate: number; slot: string | null }; forceToggle?: { count: number; expand: boolean } }) {
   const cart = useCart()
   const c = cartConsultant
   const [slotsExpanded, setSlotsExpanded] = useState(false)
@@ -131,7 +131,7 @@ function ConsultantSlotCard({ cartConsultant, forceCollapsed }: { cartConsultant
       price={String(c.hourlyRate)}
       period="/hora"
       borderClass={needsSlot ? 'border-amber-300' : 'border-[#A31631]/20'}
-      forceCollapsed={forceCollapsed}
+      forceToggle={forceToggle}
       onRemove={() => cart.removeConsultant(c.id)}
     >
       <div className="flex items-center gap-3 mb-3">
@@ -200,7 +200,8 @@ function ConsultantSlotCard({ cartConsultant, forceCollapsed }: { cartConsultant
 export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
   const cart = useCart()
   const [consultoriaExpanded, setConsultoriaExpanded] = useState(false)
-  const [collapseAll, setCollapseAll] = useState(0)
+  const [toggleAll, setToggleAll] = useState({ count: 0, expand: false })
+  const allExpanded = toggleAll.expand
 
   const saas = cart.plans.find((p) => p.type === 'saas')
   const consultoria = cart.plans.find((p) => p.type === 'consultoria')
@@ -234,11 +235,11 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
         <h2 className="text-lg font-bold text-[#0E0E0F]">Resumo do pedido</h2>
         <button
           type="button"
-          onClick={() => setCollapseAll((c) => c + 1)}
+          onClick={() => setToggleAll((prev) => ({ count: prev.count + 1, expand: !prev.expand }))}
           className="flex items-center gap-1.5 text-[10px] font-medium text-[#9C958A] hover:text-[#A31631] transition-colors cursor-pointer px-2 py-1 rounded-lg hover:bg-[#A31631]/5"
         >
           <ChevronsDownUp size={12} />
-          Recolher todos
+          {allExpanded ? 'Recolher todos' : 'Expandir todos'}
         </button>
       </div>
 
@@ -249,7 +250,7 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
           name={saas.name}
           price={saasIsIncluded ? 'Incluso' : saas.priceFormatted}
           period={saasIsIncluded ? '' : '/mês'}
-          forceCollapsed={collapseAll}
+          forceToggle={toggleAll}
           borderClass={saasIsIncluded ? 'border-green-200' : undefined}
           onRemove={(!saasIsIncluded && (cart.plans.length > 1 || hasConsultants)) ? () => cart.removePlan(saas.id) : undefined}
         >
@@ -298,7 +299,7 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
           price={mod.priceFormatted}
           period="/mês"
           borderClass="border-[#A31631]/20"
-          forceCollapsed={collapseAll}
+          forceToggle={toggleAll}
           onRemove={() => cart.removePlan(mod.id)}
         >
           <p className="text-xs text-[#9C958A] mb-2">{mod.subtitle}</p>
@@ -313,7 +314,7 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
 
       {/* Sessões com consultores */}
       {cart.consultants.map((c) => (
-        <ConsultantSlotCard key={c.id} cartConsultant={c} forceCollapsed={collapseAll} />
+        <ConsultantSlotCard key={c.id} cartConsultant={c} forceToggle={toggleAll} />
       ))}
 
       {/* Consultoria */}
@@ -323,7 +324,7 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
           name={consultoria!.name}
           price={consultoriaIsMensal ? consultoria!.priceFormatted : formatCurrency(getConsultoriaPixTotal(consultoria!))}
           period={consultoriaIsMensal ? '/mês' : ' à vista'}
-          forceCollapsed={collapseAll}
+          forceToggle={toggleAll}
           onRemove={() => cart.removePlan(consultoria!.id)}
         >
           <ul className="space-y-1.5 mb-3">
@@ -361,7 +362,7 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
           price="—"
           period=""
           borderClass="border-[#A31631]/20"
-          forceCollapsed={collapseAll}
+          forceToggle={toggleAll}
           onRemove={() => cart.removeAddon(addon.id)}
         >
           <p className="text-xs text-[#9C958A] leading-relaxed mb-2">{addon.description}</p>

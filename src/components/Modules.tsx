@@ -331,15 +331,13 @@ export function Modules() {
           >
             Começar Agora
           </Link>
-          <a
-            href="https://wa.me/5531999999999?text=Olá! Gostaria de agendar uma demonstração da Granular."
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            to="/agendar-demo"
             className="inline-flex items-center gap-2 border border-[#A31631] text-[#A31631] hover:bg-[#A31631]/5 font-medium px-8 py-4 rounded-xl text-base transition-colors"
           >
             <CalendarDays size={18} />
             Agendar demonstração
-          </a>
+          </Link>
         </FadeIn>
       </div>
 
