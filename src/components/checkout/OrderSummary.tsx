@@ -210,12 +210,17 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
   const hasConsultants = cart.consultants.length > 0
 
   const upsellSaas = saasPlans.find((p) => p.popular) || saasPlans[0]
+  const modulo1 = saasPlans.find((p) => p.id === 'saas-1')!
 
   const consultoriaIsMensal = paymentMethod === 'cartao'
 
+  // Módulo 1 incluso na consultoria — se saas-1 selecionado, preço é 0
+  const saasIsIncluded = hasConsultoria && saas?.id === 'saas-1'
+  const saasEffectivePrice = saasIsIncluded ? 0 : (saas ? saas.price : 0)
+
   // Cálculos de totais
   const totalMensal =
-    (saas ? saas.price : 0) +
+    saasEffectivePrice +
     modulos.reduce((sum, m) => sum + m.price, 0) +
     (hasConsultoria && consultoriaIsMensal ? consultoria!.price : 0)
 
@@ -240,21 +245,48 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
       {/* Sistema */}
       {saas && (
         <CollapsibleCard
-          label="Sistema"
+          label={saasIsIncluded ? 'Sistema — Incluso na consultoria' : 'Sistema'}
           name={saas.name}
-          price={saas.priceFormatted}
-          period="/mês"
+          price={saasIsIncluded ? 'Incluso' : saas.priceFormatted}
+          period={saasIsIncluded ? '' : '/mês'}
           forceCollapsed={collapseAll}
-          onRemove={(cart.plans.length > 1 || hasConsultants) ? () => cart.removePlan(saas.id) : undefined}
+          borderClass={saasIsIncluded ? 'border-green-200' : undefined}
+          onRemove={(!saasIsIncluded && (cart.plans.length > 1 || hasConsultants)) ? () => cart.removePlan(saas.id) : undefined}
         >
+          {saasIsIncluded && (
+            <div className="flex items-start gap-2 rounded-lg bg-green-50 border border-green-200 px-3 py-2 mb-3 text-[11px] text-green-700 leading-relaxed">
+              <Check size={12} className="mt-0.5 text-green-600 flex-shrink-0" />
+              <span><strong>Módulo 1 incluso</strong> durante o período da consultoria. Ao final, você poderá continuar utilizando o sistema no mesmo cartão já autorizado, escolhendo o módulo que preferir.</span>
+            </div>
+          )}
           <ul className="space-y-1.5 mb-3">
             {saas.features.slice(0, 3).map((f) => (
               <li key={f} className="flex items-start gap-2 text-xs text-[#9C958A]"><Check size={12} className="mt-0.5 text-[#A31631] flex-shrink-0" />{f}</li>
             ))}
             {saas.features.length > 3 && <li className="text-xs text-[#9C958A]">+{saas.features.length - 3} recursos inclusos</li>}
           </ul>
+          {hasConsultoria && saas.id !== 'saas-1' && (
+            <div className="flex items-start gap-2 rounded-lg bg-green-50 border border-green-200 px-3 py-2 mb-3 text-[11px] text-green-700 leading-relaxed">
+              <Check size={12} className="mt-0.5 text-green-600 flex-shrink-0" />
+              <span>Módulo 1 já incluso na consultoria. Você está fazendo <strong>upgrade para {saas.name}</strong> com recursos adicionais.</span>
+            </div>
+          )}
           <PlanSelector plans={saasPlans} currentPlan={saas} onSelect={cart.addPlan} label="pacote" />
         </CollapsibleCard>
+      )}
+
+      {/* Módulo 1 incluso (quando tem consultoria mas não selecionou sistema) */}
+      {!hasSaas && hasConsultoria && (
+        <div className="rounded-xl bg-green-50 border border-green-200 p-4">
+          <div className="flex items-start gap-3">
+            <Check size={16} className="text-green-600 mt-0.5 flex-shrink-0" />
+            <div>
+              <p className="text-sm font-medium text-green-800">Módulo 1 incluso na consultoria</p>
+              <p className="text-xs text-green-600 mt-1">{modulo1.subtitle} — R$ {modulo1.priceFormatted}/mês incluso durante o período.</p>
+              <p className="text-[11px] text-green-600/80 mt-1">Ao finalizar a consultoria, o sistema continua ativo no cartão já autorizado. Você poderá fazer upgrade a qualquer momento.</p>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Módulos avulsos */}
@@ -312,9 +344,9 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
               </div>
             </div>
           )}
-          <div className="flex items-start gap-2 rounded-lg bg-[#A31631]/5 border border-[#A31631]/10 px-3 py-2 text-[11px] text-[#9C958A] leading-relaxed">
-            <Check size={12} className="mt-0.5 text-[#A31631] flex-shrink-0" />
-            <span><strong className="text-[#0E0E0F]">Sistema incluso</strong> durante o período da consultoria.</span>
+          <div className="flex items-start gap-2 rounded-lg bg-green-50 border border-green-200 px-3 py-2 text-[11px] text-green-700 leading-relaxed">
+            <Check size={12} className="mt-0.5 text-green-600 flex-shrink-0" />
+            <span><strong>Módulo 1 do sistema incluso</strong> durante o período da consultoria. Módulos 2 e 3 podem ser contratados à parte. Ao final, o sistema continua no cartão já autorizado.</span>
           </div>
           <PlanSelector plans={consultoriaPlans} currentPlan={consultoria!} onSelect={cart.addPlan} label="consultoria" />
         </CollapsibleCard>
@@ -340,8 +372,8 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
         </CollapsibleCard>
       ))}
 
-      {/* Adicionar Sistema — sempre visível quando não tem */}
-      {!hasSaas && (
+      {/* Adicionar/Upgrade Sistema — sempre visível quando não tem */}
+      {!hasSaas && !hasConsultoria && (
         <button type="button" onClick={() => cart.addPlan(upsellSaas)}
           className="w-full flex items-center gap-3 rounded-xl border border-dashed border-[#A31631]/30 bg-[#A31631]/5 p-4 text-left hover:bg-[#A31631]/10 transition-colors cursor-pointer">
           <div className="w-8 h-8 rounded-lg bg-[#A31631]/10 flex items-center justify-center flex-shrink-0"><Plus size={16} className="text-[#A31631]" /></div>
@@ -350,6 +382,27 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
             <p className="text-xs text-[#9C958A]">{upsellSaas.name} — R$ {upsellSaas.priceFormatted}/mês</p>
           </div>
         </button>
+      )}
+
+      {/* Upgrade de módulo — quando tem consultoria (Módulo 1 já incluso) */}
+      {!hasSaas && hasConsultoria && (
+        <div className="space-y-2">
+          <p className="text-[10px] font-medium text-[#9C958A] uppercase tracking-wider" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+            Upgrade de sistema (opcional)
+          </p>
+          {saasPlans.filter((p) => p.id !== 'saas-1').map((plan) => (
+            <button key={plan.id} type="button" onClick={() => cart.addPlan(plan)}
+              className="w-full flex items-center justify-between gap-3 rounded-xl border border-dashed border-[#A31631]/30 bg-[#A31631]/5 p-4 text-left hover:bg-[#A31631]/10 transition-colors cursor-pointer">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg bg-[#A31631]/10 flex items-center justify-center flex-shrink-0"><Plus size={16} className="text-[#A31631]" /></div>
+                <div>
+                  <p className="text-sm font-medium text-[#0E0E0F]">{plan.name} — {plan.subtitle}</p>
+                  <p className="text-xs text-[#9C958A]">R$ {plan.priceFormatted}/mês adicional</p>
+                </div>
+              </div>
+            </button>
+          ))}
+        </div>
       )}
 
       {/* Adicionar Consultoria — sempre visível quando não tem */}
@@ -394,7 +447,17 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
             </p>
             {hasSaas && (
               <div className="flex items-baseline justify-between text-sm text-[#9C958A]">
-                <span>{saas!.name}</span><span>R$ {formatCurrency(saas!.price)}/mês</span>
+                <span>{saas!.name}</span>
+                {saasIsIncluded ? (
+                  <span className="text-green-600 font-medium">Incluso</span>
+                ) : (
+                  <span>R$ {formatCurrency(saas!.price)}/mês</span>
+                )}
+              </div>
+            )}
+            {!hasSaas && hasConsultoria && (
+              <div className="flex items-baseline justify-between text-sm text-green-600">
+                <span>Módulo 1</span><span className="font-medium">Incluso</span>
               </div>
             )}
             {modulos.map((mod) => (
