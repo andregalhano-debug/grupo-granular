@@ -1,4 +1,4 @@
-import { Package, ChefHat, Monitor, TrendingUp, ShoppingBag, Users, ClipboardCheck, Bot, UserCog, FileBarChart, FileText, Plug } from 'lucide-react'
+import { Package, ChefHat, Monitor, TrendingUp, ShoppingBag, Users, ClipboardCheck, Bot, UserCog, FileBarChart, FileText, Plug, Headphones } from 'lucide-react'
 
 export interface ModuleDetail {
   icon: typeof Package
@@ -107,5 +107,14 @@ export const modulesData: ModuleDetail[] = [
     features: ['iFood', 'Saipos', 'Omie', 'Open Delivery', 'Foozi'],
     detailText: 'Integre as principais plataformas do mercado ao ecossistema Granular. Receba pedidos do iFood automaticamente, sincronize dados financeiros com o Omie, conecte-se ao padrão Open Delivery e centralize toda a operação em um único lugar. Novas integrações são adicionadas continuamente para acompanhar a evolução do seu negócio.',
     screenshot: '',
+  },
+  {
+    icon: Headphones,
+    title: 'Foozi — Atendimento & Compras',
+    desc: 'Atendimento digital, BPO e acesso a +2.000 fornecedores para food service.',
+    features: ['WhatsApp', 'Chatbot', 'BPO de atendimento', '+2.000 fornecedores', 'Executivo de compras', 'Cotação e negociação', 'Central terceirizada', 'Gestão na Granular'],
+    detailText: 'A Foozi é parceira estratégica da Granular em atendimento digital, BPO e gestão de compras para food service. Com a integração, sua operação ganha atendimento profissional via WhatsApp, chatbot inteligente e uma central terceirizada. Além disso, você acessa uma base de mais de 2.000 fornecedores homologados para o fluxo de compras — cotação, negociação e pedidos gerenciados diretamente na Granular.',
+    screenshot: '',
+    standalone: true,
   },
 ]

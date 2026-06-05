@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Monitor, Users, ArrowRight, ArrowLeft } from 'lucide-react'
+import { Monitor, Users, ArrowRight, ArrowLeft, Settings } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { GranularLogo } from '../components/GranularLogo'
 import { FadeIn } from '../components/FadeIn'
@@ -37,7 +37,7 @@ export function LoginPage() {
             </p>
           </FadeIn>
 
-          <div className="grid sm:grid-cols-2 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Login Sistema — Cliente */}
             <FadeIn delay={100}>
               <a
@@ -90,6 +90,26 @@ export function LoginPage() {
                   <ArrowRight size={16} />
                 </div>
               </a>
+            </FadeIn>
+
+            {/* Admin */}
+            <FadeIn delay={300}>
+              <Link
+                to="/admin"
+                className="group block rounded-2xl border border-[#9C958A]/20 bg-white p-8 hover:border-[#A31631]/30 hover:shadow-lg hover:shadow-[#A31631]/5 transition-all h-full"
+              >
+                <div className="w-14 h-14 rounded-xl bg-[#9C958A]/10 flex items-center justify-center mb-5">
+                  <Settings size={28} className="text-[#9C958A]" />
+                </div>
+                <h2 className="text-lg font-bold text-[#0E0E0F] mb-2">Administração</h2>
+                <p className="text-sm text-[#9C958A] leading-relaxed mb-6">
+                  Gerencie agendas de demonstração, configure horários disponíveis e integre com o Google Agenda.
+                </p>
+                <div className="flex items-center gap-2 text-sm font-medium text-[#A31631] group-hover:gap-3 transition-all">
+                  Acessar admin
+                  <ArrowRight size={16} />
+                </div>
+              </Link>
             </FadeIn>
           </div>
         </div>

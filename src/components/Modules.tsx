@@ -1,8 +1,10 @@
 import { useState, useRef, useEffect } from 'react'
-import { Smartphone, Shield, BarChart3, X, ChevronRight, CalendarDays } from 'lucide-react'
+import { Smartphone, Shield, BarChart3, X, ChevronRight, CalendarDays, Check } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
 import { modulesData } from '../data/modulesData'
+
+type FooziOption = 'executivo' | 'sistema'
 
 const badges = [
   { icon: Smartphone, text: 'Versão mobile nativa' },
@@ -13,6 +15,7 @@ const badges = [
 export function Modules() {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
   const [lightbox, setLightbox] = useState<string | null>(null)
+  const [fooziOption, setFooziOption] = useState<FooziOption>('executivo')
   const detailRef = useRef<HTMLDivElement>(null)
   const sectionRef = useRef<HTMLElement>(null)
 
@@ -81,12 +84,19 @@ export function Modules() {
               <button
                 data-module
                 onClick={() => handleToggle(i)}
-                className={`group rounded-2xl border p-6 transition-all duration-300 h-full w-full text-left cursor-pointer ${
+                className={`group relative rounded-2xl border p-6 transition-all duration-300 h-full w-full text-left cursor-pointer ${
                   openIndex === i
                     ? 'border-[#A31631] bg-[#A31631]/5 shadow-lg shadow-[#A31631]/10'
-                    : 'border-[#9C958A]/20 bg-[#F7F7F7] hover:border-[#A31631]/20 hover:shadow-lg hover:shadow-[#A31631]/5'
+                    : mod.standalone
+                      ? 'border-[#A31631]/20 bg-[#F7F7F7] hover:border-[#A31631]/20 hover:shadow-lg hover:shadow-[#A31631]/5'
+                      : 'border-[#9C958A]/20 bg-[#F7F7F7] hover:border-[#A31631]/20 hover:shadow-lg hover:shadow-[#A31631]/5'
                 }`}
               >
+                {mod.standalone && (
+                  <span className="absolute -top-2 right-3 text-[9px] font-bold uppercase tracking-wider bg-[#A31631] text-white px-2.5 py-0.5 rounded-full">
+                    Disponível avulso
+                  </span>
+                )}
                 <div className="flex items-start justify-between">
                   <div className="w-11 h-11 rounded-xl bg-[#A31631]/10 flex items-center justify-center mb-4">
                     <mod.icon size={22} className="text-[#A31631]" />
@@ -162,8 +172,8 @@ export function Modules() {
                     </div>
                   </div>
 
-                  {/* Destaque de contratação avulsa para Pessoas (RH) */}
-                  {openModule.standalone ? (
+                  {/* Destaque de contratação avulsa */}
+                  {openModule.standalone && openModule.title.includes('Pessoas') ? (
                     <div className="flex flex-col gap-3 self-start">
                       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-5 rounded-xl bg-[#A31631]/5 border border-[#A31631]/10">
                         <div className="flex-1">
@@ -189,6 +199,77 @@ export function Modules() {
                         Ou veja o Módulo 3 completo (RH + Produção) →
                       </Link>
                     </div>
+                  ) : openModule.standalone && openModule.title.includes('Foozi') ? (
+                    <div className="space-y-3 sm:space-y-4 self-start w-full">
+                      <p className="text-xs sm:text-sm font-semibold text-[#0E0E0F]">
+                        Contrate a Foozi separadamente: escolha a melhor opção
+                      </p>
+
+                      {/* Opção Executivo de Compras */}
+                      <button
+                        type="button"
+                        onClick={() => setFooziOption('executivo')}
+                        className={`w-full text-left rounded-xl border-2 p-5 transition-all cursor-pointer ${
+                          fooziOption === 'executivo'
+                            ? 'border-[#A31631] bg-[#A31631]/5'
+                            : 'border-[#0E0E0F]/10 hover:border-[#A31631]/30'
+                        }`}
+                      >
+                        <div className="flex items-start justify-between mb-2">
+                          <div>
+                            <p className="text-sm font-semibold text-[#0E0E0F]">Executivo de Compras</p>
+                            <p className="text-xs text-[#9C958A]">Executivo dedicado + sistema incluso + rede de fornecedores</p>
+                          </div>
+                          <div className="text-right">
+                            <span className="text-lg font-bold text-[#0E0E0F]">1.500</span>
+                            <span className="text-xs text-[#9C958A]">/mês</span>
+                          </div>
+                        </div>
+                        <div className="flex flex-wrap gap-x-4 gap-y-1 mt-3">
+                          <span className="flex items-center gap-1.5 text-xs text-[#9C958A]"><Check size={12} className="text-[#A31631]" />+2.000 fornecedores</span>
+                          <span className="flex items-center gap-1.5 text-xs text-[#9C958A]"><Check size={12} className="text-[#A31631]" />Executivo dedicado</span>
+                          <span className="flex items-center gap-1.5 text-xs text-[#9C958A]"><Check size={12} className="text-[#A31631]" />Cotação e negociação</span>
+                          <span className="flex items-center gap-1.5 text-xs text-[#9C958A]"><Check size={12} className="text-[#A31631]" />Central terceirizada</span>
+                          <span className="flex items-center gap-1.5 text-xs text-green-600 font-medium"><Check size={12} />Sistema incluso</span>
+                        </div>
+                      </button>
+
+                      {/* Opção somente Sistema */}
+                      <button
+                        type="button"
+                        onClick={() => setFooziOption('sistema')}
+                        className={`w-full text-left rounded-xl border-2 p-5 transition-all cursor-pointer ${
+                          fooziOption === 'sistema'
+                            ? 'border-[#A31631] bg-[#A31631]/5'
+                            : 'border-[#0E0E0F]/10 hover:border-[#A31631]/30'
+                        }`}
+                      >
+                        <div className="flex items-start justify-between mb-2">
+                          <div>
+                            <p className="text-sm font-semibold text-[#0E0E0F]">Somente Sistema Foozi</p>
+                            <p className="text-xs text-[#9C958A]">Plataforma de atendimento integrada à Granular</p>
+                          </div>
+                          <div className="text-right">
+                            <span className="text-lg font-bold text-[#0E0E0F]">350</span>
+                            <span className="text-xs text-[#9C958A]">/mês</span>
+                          </div>
+                        </div>
+                        <div className="flex flex-wrap gap-x-4 gap-y-1 mt-3">
+                          <span className="flex items-center gap-1.5 text-xs text-[#9C958A]"><Check size={12} className="text-[#A31631]" />WhatsApp</span>
+                          <span className="flex items-center gap-1.5 text-xs text-[#9C958A]"><Check size={12} className="text-[#A31631]" />Chatbot</span>
+                          <span className="flex items-center gap-1.5 text-xs text-[#9C958A]"><Check size={12} className="text-[#A31631]" />Pedidos por mensagem</span>
+                          <span className="flex items-center gap-1.5 text-xs text-[#9C958A]"><Check size={12} className="text-[#A31631]" />Acesso a fornecedores</span>
+                        </div>
+                      </button>
+
+                      <Link
+                        to={`/checkout?plano=${fooziOption === 'executivo' ? 'foozi-executivo' : 'foozi-sistema'}`}
+                        className="inline-flex items-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors w-full justify-center"
+                      >
+                        Começar Agora — {fooziOption === 'executivo' ? '1.500' : '350'}/mês
+                        <ChevronRight size={16} />
+                      </Link>
+                    </div>
                   ) : (
                     <div className="flex flex-wrap items-center gap-3 self-start">
                       <Link
@@ -198,15 +279,13 @@ export function Modules() {
                         Começar Agora
                         <ChevronRight size={16} />
                       </Link>
-                      <a
-                        href="https://wa.me/5531999999999?text=Olá! Gostaria de agendar uma demonstração da Granular."
-                        target="_blank"
-                        rel="noopener noreferrer"
+                      <Link
+                        to="/agendar-demo"
                         className="inline-flex items-center gap-2 border border-[#A31631] text-[#A31631] hover:bg-[#A31631]/5 font-medium px-6 py-3 rounded-xl text-sm transition-colors"
                       >
                         <CalendarDays size={16} />
                         Agendar demonstração
-                      </a>
+                      </Link>
                     </div>
                   )}
                 </div>

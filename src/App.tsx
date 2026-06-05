@@ -8,6 +8,8 @@ import { SejaConsultorPage } from './pages/SejaConsultorPage'
 import { LoginPage } from './pages/LoginPage'
 import { PainelConsultorPage } from './pages/PainelConsultorPage'
 import { TrilhaPage } from './pages/TrilhaPage'
+import { AgendarDemoPage } from './pages/AgendarDemoPage'
+import { AdminPage } from './pages/AdminPage'
 import { ChatbotWidget } from './components/chatbot/ChatbotWidget'
 
 function App() {
@@ -22,6 +24,8 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/painel-consultor" element={<PainelConsultorPage />} />
         <Route path="/trilha" element={<TrilhaPage />} />
+        <Route path="/agendar-demo" element={<AgendarDemoPage />} />
+        <Route path="/admin" element={<AdminPage />} />
       </Routes>
       <ChatbotWidget />
     </CartProvider>
