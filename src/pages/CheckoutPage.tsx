@@ -166,6 +166,7 @@ export function CheckoutPage() {
 
             <ContactForm
               nome={form.nome}
+              cpf={form.cpf}
               whatsapp={form.whatsapp}
               email={form.email}
               errors={errors}
