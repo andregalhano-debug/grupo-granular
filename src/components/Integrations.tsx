@@ -7,6 +7,7 @@ import { integrationsData } from '../data/integrationsData'
 export function Integrations() {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
   const detailRef = useRef<HTMLDivElement>(null)
+  const sectionRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
     if (openIndex !== null && detailRef.current) {
@@ -16,6 +17,25 @@ export function Integrations() {
     }
   }, [openIndex])
 
+  // Fechar ao clicar fora do painel
+  useEffect(() => {
+    if (openIndex === null) return
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as Node
+      if (sectionRef.current && !sectionRef.current.contains(target)) {
+        setOpenIndex(null)
+        return
+      }
+      if (detailRef.current && !detailRef.current.contains(target)) {
+        // Verificar se clicou em um dos botões de integração (não fechar nesse caso)
+        const btn = (e.target as HTMLElement).closest('button[data-integration]')
+        if (!btn) setOpenIndex(null)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [openIndex])
+
   const handleToggle = (i: number) => {
     setOpenIndex(openIndex === i ? null : i)
   }
@@ -23,7 +43,7 @@ export function Integrations() {
   const openIntegration = openIndex !== null ? integrationsData[openIndex] : null
 
   return (
-    <section id="integracoes" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-[#F7F7F7]">
+    <section ref={sectionRef} id="integracoes" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-[#F7F7F7]">
       <div className="max-w-7xl mx-auto">
         <FadeIn className="text-center mb-16">
           <p
@@ -55,6 +75,7 @@ export function Integrations() {
           {integrationsData.map((item, i) => (
             <FadeIn key={item.name} delay={i * 100}>
               <button
+                data-integration
                 onClick={() => handleToggle(i)}
                 className={`group relative flex flex-col items-center justify-center rounded-2xl border p-4 transition-all duration-300 cursor-pointer w-24 h-24 sm:w-28 sm:h-28 ${
                   openIndex === i
