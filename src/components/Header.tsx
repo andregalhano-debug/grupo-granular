@@ -9,7 +9,7 @@ const navLinks = [
   { label: 'Integrações', href: '/#integracoes' },
   { label: 'Diferenciais', href: '/#diferenciais' },
   { label: 'Preços', href: '/#precos' },
-  { label: 'Consultores', href: '/consultores' },
+  { label: 'Mentores', href: '/consultores' },
 ]
 
 export function Header() {

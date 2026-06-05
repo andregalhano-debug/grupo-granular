@@ -15,7 +15,7 @@ export function ConsultoresHero() {
           para sua operação
         </h1>
         <p className="text-base sm:text-lg text-[#FAF7F0]/50 max-w-2xl mx-auto">
-          Consultores verificados com experiência real em delivery e food service.
+          Mentores com experiência real em delivery e food service.
         </p>
       </FadeIn>
     </section>
