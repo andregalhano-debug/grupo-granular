@@ -24,6 +24,12 @@ export function Modules() {
     }
   }, [openIndex])
 
+  const scrollToSection = () => {
+    if (sectionRef.current) {
+      sectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }
+
   // Fechar ao clicar fora do painel
   useEffect(() => {
     if (openIndex === null) return
@@ -31,11 +37,15 @@ export function Modules() {
       const target = e.target as Node
       if (sectionRef.current && !sectionRef.current.contains(target)) {
         setOpenIndex(null)
+        scrollToSection()
         return
       }
       if (detailRef.current && !detailRef.current.contains(target)) {
         const btn = (e.target as HTMLElement).closest('button[data-module]')
-        if (!btn) setOpenIndex(null)
+        if (!btn) {
+          setOpenIndex(null)
+          scrollToSection()
+        }
       }
     }
     document.addEventListener('mousedown', handleClickOutside)
@@ -43,7 +53,12 @@ export function Modules() {
   }, [openIndex])
 
   const handleToggle = (i: number) => {
-    setOpenIndex(openIndex === i ? null : i)
+    if (openIndex === i) {
+      setOpenIndex(null)
+      scrollToSection()
+    } else {
+      setOpenIndex(i)
+    }
   }
 
   const openModule = openIndex !== null ? modulesData[openIndex] : null
@@ -112,7 +127,7 @@ export function Modules() {
                   </div>
                 </div>
                 <button
-                  onClick={() => setOpenIndex(null)}
+                  onClick={() => { setOpenIndex(null); scrollToSection() }}
                   className="p-2 rounded-lg hover:bg-[#F7F7F7] text-[#9C958A] hover:text-[#0E0E0F] transition-colors"
                 >
                   <X size={20} />
