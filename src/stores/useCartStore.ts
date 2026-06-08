@@ -85,10 +85,16 @@ export function useCartState(): CartContextValue {
       // Módulos avulsos: evitar duplicata por ID, mas permitir múltiplos módulos diferentes
       if (plan.type === 'modulo') {
         if (prev.some((p) => p.id === plan.id)) return prev
+        // Não adicionar modulo-pessoas se saas-3 já está no carrinho (já inclui RH)
+        if (plan.id === 'modulo-pessoas' && prev.some((p) => p.id === 'saas-3')) return prev
         return [...prev, plan]
       }
       // Saas e consultoria: substituir o existente do mesmo tipo
-      const filtered = prev.filter((p) => p.type !== plan.type)
+      let filtered = prev.filter((p) => p.type !== plan.type)
+      // Pacote 3 (saas-3) já inclui Pessoas (RH) — remover modulo-pessoas avulso
+      if (plan.id === 'saas-3') {
+        filtered = filtered.filter((p) => p.id !== 'modulo-pessoas')
+      }
       const updated = [...filtered, plan]
       return updated.sort((a, b) => (a.type === 'saas' ? -1 : 1) - (b.type === 'saas' ? -1 : 1))
     })

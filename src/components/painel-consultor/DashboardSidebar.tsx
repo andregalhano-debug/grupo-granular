@@ -1,4 +1,4 @@
-import { CalendarDays, FileText, Zap, ClipboardList, BookOpen } from 'lucide-react'
+import { CalendarDays, CalendarRange, FileText, Zap, ClipboardList, BookOpen } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import type { DashboardTab } from '../../hooks/useDashboardTab'
 import { mockSessions } from '../../data/dashboardMock'
@@ -10,6 +10,7 @@ interface DashboardSidebarProps {
 
 const tabs = [
   { id: 'agenda' as const, icon: CalendarDays, label: 'Agenda' },
+  { id: 'minha-agenda' as const, icon: CalendarRange, label: 'Minha Agenda' },
   { id: 'briefings' as const, icon: FileText, label: 'Briefings' },
   { id: 'preparacao' as const, icon: Zap, label: 'Preparação' },
   { id: 'modelo' as const, icon: ClipboardList, label: 'Modelo' },

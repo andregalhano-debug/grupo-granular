@@ -1,4 +1,4 @@
-import { Clock } from 'lucide-react'
+import { Clock, Video, CalendarCheck, CalendarX } from 'lucide-react'
 import type { ConsultingSession } from '../../data/dashboardMock'
 import { typeLabels, statusColors } from '../../data/dashboardMock'
 
@@ -39,7 +39,32 @@ export function SessionCard({ session, onClick, compact }: SessionCardProps) {
             </span>
           </div>
           {!compact && (
-            <p className="text-xs text-[#9C958A] mt-2 line-clamp-2">{session.briefing.objective}</p>
+            <>
+              <p className="text-xs text-[#9C958A] mt-2 line-clamp-2">{session.briefing.objective}</p>
+              <div className="flex items-center gap-3 mt-2">
+                <a
+                  href={session.meetLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="inline-flex items-center gap-1.5 text-[10px] font-medium bg-blue-50 text-blue-700 px-2.5 py-1 rounded-full hover:bg-blue-100 transition-colors"
+                >
+                  <Video size={11} />
+                  Google Meet
+                </a>
+                {session.calendarSynced ? (
+                  <span className="inline-flex items-center gap-1 text-[10px] text-green-600">
+                    <CalendarCheck size={11} />
+                    Agenda sincronizada
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center gap-1 text-[10px] text-amber-600">
+                    <CalendarX size={11} />
+                    Aguardando confirmação
+                  </span>
+                )}
+              </div>
+            </>
           )}
         </div>
       </div>

@@ -25,6 +25,8 @@ export interface ConsultingSession {
   duration: number
   type: 'primeira-sessao' | 'acompanhamento' | 'diagnostico'
   status: 'confirmada' | 'pendente' | 'em-andamento'
+  meetLink: string
+  calendarSynced: boolean
   briefing: {
     objective: string
     keyMetrics: { label: string; value: string; trend?: 'up' | 'down' | 'neutral' }[]
@@ -70,6 +72,8 @@ export const mockSessions: ConsultingSession[] = [
     },
     date: dateOffset(0), time: '09:00', duration: 60,
     type: 'primeira-sessao', status: 'confirmada',
+    meetLink: 'https://meet.google.com/abc-defg-hij',
+    calendarSynced: true,
     briefing: {
       objective: 'Reduzir tempo de preparo e recuperar nota no iFood',
       keyMetrics: [
@@ -110,6 +114,8 @@ export const mockSessions: ConsultingSession[] = [
     },
     date: dateOffset(0), time: '14:00', duration: 60,
     type: 'acompanhamento', status: 'confirmada',
+    meetLink: 'https://meet.google.com/klm-nopq-rst',
+    calendarSynced: true,
     briefing: {
       objective: 'Acompanhar fichas técnicas e reduzir CMV para 32%',
       keyMetrics: [
@@ -155,6 +161,8 @@ export const mockSessions: ConsultingSession[] = [
     },
     date: dateOffset(1), time: '10:00', duration: 60,
     type: 'diagnostico', status: 'confirmada',
+    meetLink: 'https://meet.google.com/uvw-xyza-bcd',
+    calendarSynced: true,
     briefing: {
       objective: 'Diagnóstico completo: rankeamento iFood, cancelamentos e embalagens',
       keyMetrics: [
@@ -195,6 +203,8 @@ export const mockSessions: ConsultingSession[] = [
     },
     date: dateOffset(2), time: '11:00', duration: 60,
     type: 'primeira-sessao', status: 'pendente',
+    meetLink: 'https://meet.google.com/efg-hijk-lmn',
+    calendarSynced: false,
     briefing: {
       objective: 'Estruturar operação de delivery e adaptar cardápio',
       keyMetrics: [
@@ -235,6 +245,8 @@ export const mockSessions: ConsultingSession[] = [
     },
     date: dateOffset(3), time: '15:00', duration: 60,
     type: 'acompanhamento', status: 'confirmada',
+    meetLink: 'https://meet.google.com/opq-rstu-vwx',
+    calendarSynced: true,
     briefing: {
       objective: 'Otimizar custo de entrega e consolidar checklist de qualidade',
       keyMetrics: [

@@ -5,6 +5,7 @@ import { DashboardHeader } from '../components/painel-consultor/DashboardHeader'
 import { DashboardSidebar } from '../components/painel-consultor/DashboardSidebar'
 import { WeeklyOverview } from '../components/painel-consultor/WeeklyOverview'
 import { AgendaView } from '../components/painel-consultor/AgendaView'
+import { MinhaAgendaView } from '../components/painel-consultor/MinhaAgendaView'
 import { BriefingView } from '../components/painel-consultor/BriefingView'
 import { PreparationView } from '../components/painel-consultor/PreparationView'
 import { ConsultationTemplate } from '../components/painel-consultor/ConsultationTemplate'
@@ -23,6 +24,7 @@ export function PainelConsultorPage() {
         <WeeklyOverview />
         <FadeIn key={tab}>
           {tab === 'agenda' && <AgendaView />}
+          {tab === 'minha-agenda' && <MinhaAgendaView />}
           {tab === 'briefings' && <BriefingView />}
           {tab === 'preparacao' && <PreparationView />}
           {tab === 'modelo' && <ConsultationTemplate />}

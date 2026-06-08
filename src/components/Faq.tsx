@@ -53,8 +53,13 @@ const faqs = [
   },
 ]
 
+const VISIBLE_COUNT = 3
+
 export function Faq() {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
+  const [expanded, setExpanded] = useState(false)
+
+  const visibleFaqs = expanded ? faqs : faqs.slice(0, VISIBLE_COUNT)
 
   return (
     <section id="faq" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-white">
@@ -69,7 +74,7 @@ export function Faq() {
         </FadeIn>
 
         <div className="space-y-2">
-          {faqs.map((faq, i) => (
+          {visibleFaqs.map((faq, i) => (
             <FadeIn key={i} delay={i * 30}>
               <div className="rounded-xl border border-[#9C958A]/15 overflow-hidden">
                 <button
@@ -92,6 +97,19 @@ export function Faq() {
             </FadeIn>
           ))}
         </div>
+
+        {!expanded && (
+          <FadeIn delay={VISIBLE_COUNT * 30}>
+            <button
+              type="button"
+              onClick={() => setExpanded(true)}
+              className="mt-6 mx-auto flex items-center gap-2 text-sm font-medium text-[#A31631] hover:text-[#8B1229] transition-colors cursor-pointer"
+            >
+              Ver mais {faqs.length - VISIBLE_COUNT} perguntas
+              <ChevronDown size={16} />
+            </button>
+          </FadeIn>
+        )}
       </div>
     </section>
   )

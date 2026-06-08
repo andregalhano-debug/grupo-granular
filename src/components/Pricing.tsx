@@ -1,7 +1,7 @@
-import { Check, Minus, Monitor, Handshake } from 'lucide-react'
+import { Check, Minus, Monitor, Handshake, ChevronRight, Users, ShoppingCart, GraduationCap } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
-import { saasPlans, consultoriaPlans, type Plan } from '../data/plans'
+import { saasPlans, consultoriaPlans, saasAddonFeatures, consultoriaAddonFeatures, type Plan } from '../data/plans'
 
 const saasCapacity: Record<string, string> = {
   'saas-1': 'Até 3 IDs e 3k pedidos/mês',
@@ -35,9 +35,11 @@ function getAllFeatures(plans: Plan[]): string[] {
 function MobileCards({
   plans,
   capacity,
+  addonFeatures = [],
 }: {
   plans: Plan[]
   capacity?: Record<string, string>
+  addonFeatures?: string[]
 }) {
   const allFeatures = getAllFeatures(plans)
 
@@ -98,6 +100,14 @@ function MobileCards({
                   </li>
                 )
               })}
+              {/* Addon features — sempre com traço (contratação avulsa) */}
+              {addonFeatures.map((feature) => (
+                <li key={feature} className="flex items-center gap-3 text-sm pt-2 border-t border-dashed border-[#9C958A]/20 mt-2">
+                  <Minus size={14} className="text-[#9C958A]/40 flex-shrink-0 ml-0.5" />
+                  <span className="text-[#9C958A]/60 italic">{feature}</span>
+                  <span className="text-[9px] font-medium uppercase tracking-wider text-[#A31631] bg-[#A31631]/10 px-2 py-0.5 rounded-full whitespace-nowrap">Avulso</span>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -120,9 +130,11 @@ function MobileCards({
 function DesktopTable({
   plans,
   capacity,
+  addonFeatures = [],
 }: {
   plans: Plan[]
   capacity?: Record<string, string>
+  addonFeatures?: string[]
 }) {
   const allFeatures = getAllFeatures(plans)
 
@@ -194,6 +206,44 @@ function DesktopTable({
         </div>
       ))}
 
+      {/* Addon features — linhas avulsas com traço em todos os planos */}
+      {addonFeatures.length > 0 && (
+        <>
+          {/* Separador visual */}
+          <div className="grid gap-0" style={{ gridTemplateColumns: `1.5fr repeat(${plans.length}, 1fr)` }}>
+            <div className="px-4 py-1 border-t-2 border-dashed border-[#9C958A]/20" />
+            {plans.map((plan) => (
+              <div key={plan.id} className="px-4 py-1 border-t-2 border-dashed border-[#9C958A]/20 border-x border-x-[#9C958A]/10" />
+            ))}
+          </div>
+          {addonFeatures.map((feature, idx) => {
+            const rowIdx = allFeatures.length + idx
+            return (
+              <div
+                key={feature}
+                className="grid gap-0"
+                style={{ gridTemplateColumns: `1.5fr repeat(${plans.length}, 1fr)` }}
+              >
+                <div className={`flex items-center gap-2 px-4 py-3 text-sm ${rowIdx % 2 === 0 ? 'bg-[#F7F7F7]' : 'bg-white'}`}>
+                  <span className="text-[#0E0E0F]/70 italic">{feature}</span>
+                  <span className="text-[9px] font-bold uppercase tracking-wider text-[#A31631] bg-[#A31631]/10 px-2 py-0.5 rounded-full whitespace-nowrap">Avulso</span>
+                </div>
+                {plans.map((plan) => (
+                  <div
+                    key={plan.id}
+                    className={`flex items-center justify-center px-4 py-3 ${
+                      rowIdx % 2 === 0 ? 'bg-[#F7F7F7] border-x border-[#9C958A]/10' : 'bg-white border-x border-[#9C958A]/10'
+                    }`}
+                  >
+                    <Minus size={16} className="text-[#9C958A]/40" />
+                  </div>
+                ))}
+              </div>
+            )
+          })}
+        </>
+      )}
+
       {/* CTAs */}
       <div className="grid gap-0" style={{ gridTemplateColumns: `1.5fr repeat(${plans.length}, 1fr)` }}>
         <div className="p-4" />
@@ -244,9 +294,45 @@ export function Pricing() {
           </div>
         </FadeIn>
 
-        <FadeIn delay={100} className="mb-24">
-          <DesktopTable plans={saasPlans} capacity={saasCapacity} />
-          <MobileCards plans={saasPlans} capacity={saasCapacity} />
+        <FadeIn delay={100} className="mb-8">
+          <DesktopTable plans={saasPlans} capacity={saasCapacity} addonFeatures={saasAddonFeatures} />
+          <MobileCards plans={saasPlans} capacity={saasCapacity} addonFeatures={saasAddonFeatures} />
+        </FadeIn>
+
+        {/* CTAs avulsos — Sistema */}
+        <FadeIn delay={150} className="mb-24">
+          <div className="max-w-6xl mx-auto grid sm:grid-cols-2 gap-4 mt-6">
+            <div className="rounded-2xl border border-[#A31631]/15 bg-white p-5 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <div className="w-11 h-11 rounded-xl bg-[#A31631]/10 flex items-center justify-center flex-shrink-0">
+                <Users size={22} className="text-[#A31631]" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-bold text-[#0E0E0F] mb-0.5">Gestão de Pessoas (RH)</p>
+                <p className="text-xs text-[#9C958A]">Contrate o módulo avulso — ideal para quem já tem ERP</p>
+              </div>
+              <Link
+                to="/checkout?plano=modulo-pessoas"
+                className="inline-flex items-center gap-1.5 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-5 py-2.5 rounded-xl text-sm transition-colors whitespace-nowrap flex-shrink-0"
+              >
+                R$ 599/mês <ChevronRight size={14} />
+              </Link>
+            </div>
+            <div className="rounded-2xl border border-[#A31631]/15 bg-white p-5 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <div className="w-11 h-11 rounded-xl bg-[#A31631]/10 flex items-center justify-center flex-shrink-0">
+                <ShoppingCart size={22} className="text-[#A31631]" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-bold text-[#0E0E0F] mb-0.5">Executivo de Compras</p>
+                <p className="text-xs text-[#9C958A]">BPO dedicado + sistema Foozi incluso + rede de fornecedores</p>
+              </div>
+              <Link
+                to="/checkout?plano=foozi-executivo"
+                className="inline-flex items-center gap-1.5 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-5 py-2.5 rounded-xl text-sm transition-colors whitespace-nowrap flex-shrink-0"
+              >
+                R$ 1.500/mês <ChevronRight size={14} />
+              </Link>
+            </div>
+          </div>
         </FadeIn>
 
         {/* CONSULTORIA */}
@@ -266,16 +352,49 @@ export function Pricing() {
         </FadeIn>
 
         <FadeIn delay={50}>
-          <div className="max-w-6xl mx-auto mb-10 rounded-xl bg-[#0E0E0F]/[0.03] border border-[#9C958A]/15 p-4 sm:p-5">
+          <div className="max-w-6xl mx-auto mb-6 rounded-xl bg-[#0E0E0F]/[0.03] border border-[#9C958A]/15 p-4 sm:p-5">
             <p className="text-xs sm:text-sm text-[#0E0E0F] leading-relaxed">
               Após o diagnóstico inicial, mentor e cliente definem juntos quais blocos serão priorizados — de acordo com as necessidades do negócio e o tempo contratado.
             </p>
           </div>
         </FadeIn>
 
-        <FadeIn delay={100}>
-          <DesktopTable plans={consultoriaPlans} />
-          <MobileCards plans={consultoriaPlans} />
+        {/* Nota: Consultoria vs Mentoria */}
+        <FadeIn delay={70}>
+          <div className="max-w-6xl mx-auto mb-10 rounded-xl border border-[#A31631]/15 bg-[#A31631]/[0.03] p-4 sm:p-5">
+            <p className="text-xs sm:text-sm font-semibold text-[#0E0E0F] mb-1.5">Consultoria vs Mentoria — qual a diferença?</p>
+            <p className="text-xs sm:text-sm text-[#0E0E0F]/80 leading-relaxed">
+              <strong>Consultoria:</strong> o especialista analisa sua operação, monta o plano de ação e acompanha a execução com você ao longo do período contratado. Foco em <em>fazer acontecer</em>.
+              <br />
+              <strong>Mentoria:</strong> sessões sob demanda com especialistas em áreas específicas (cardápio, iFood, financeiro, etc.) para tirar dúvidas pontuais e receber direcionamento estratégico. Foco em <em>orientar decisões</em>. Contratada à parte, sem vínculo de prazo.
+            </p>
+          </div>
+        </FadeIn>
+
+        <FadeIn delay={100} className="mb-8">
+          <DesktopTable plans={consultoriaPlans} addonFeatures={consultoriaAddonFeatures} />
+          <MobileCards plans={consultoriaPlans} addonFeatures={consultoriaAddonFeatures} />
+        </FadeIn>
+
+        {/* CTA avulso — Mentoria */}
+        <FadeIn delay={150}>
+          <div className="max-w-6xl mx-auto mt-6">
+            <div className="rounded-2xl border border-[#A31631]/15 bg-white p-5 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <div className="w-11 h-11 rounded-xl bg-[#A31631]/10 flex items-center justify-center flex-shrink-0">
+                <GraduationCap size={22} className="text-[#A31631]" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-bold text-[#0E0E0F] mb-0.5">Mentoria Especialistas</p>
+                <p className="text-xs text-[#9C958A]">Sessões sob demanda com especialistas em áreas específicas do food service. Contratada à parte.</p>
+              </div>
+              <Link
+                to="/agendar-demo"
+                className="inline-flex items-center gap-1.5 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-5 py-2.5 rounded-xl text-sm transition-colors whitespace-nowrap flex-shrink-0"
+              >
+                Saiba mais <ChevronRight size={14} />
+              </Link>
+            </div>
+          </div>
         </FadeIn>
       </div>
     </section>

@@ -1,12 +1,12 @@
 import { Check, Plus, X, ChevronDown, CalendarDays, Star, AlertCircle, ChevronsDownUp } from 'lucide-react'
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { saasPlans, consultoriaPlans, getConsultoriaTotal, getConsultoriaPixTotal, getConsultoriaPixDiscount } from '../../data/plans'
 import type { Plan } from '../../data/plans'
 import { getConsultantById } from '../../data/consultants'
-import type { TimeSlot } from '../../data/consultants'
 import { formatCurrency } from '../../utils/formatters'
 import { useCart } from '../../stores/useCartStore'
 import type { PaymentMethod } from '../../hooks/useCheckoutForm'
+import { MiniCalendar } from '../MiniCalendar'
 
 interface OrderSummaryProps {
   paymentMethod: PaymentMethod
@@ -105,23 +105,8 @@ function CollapsibleCard({ label, name, price, period, borderClass, children, on
 function ConsultantSlotCard({ cartConsultant, forceToggle }: { cartConsultant: { id: string; name: string; title: string; rating: number; hourlyRate: number; slot: string | null }; forceToggle?: { count: number; expand: boolean } }) {
   const cart = useCart()
   const c = cartConsultant
-  const [slotsExpanded, setSlotsExpanded] = useState(false)
 
   const consultant = getConsultantById(c.id)
-  const slotsByDate = useMemo(() => {
-    if (!consultant) return new Map<string, TimeSlot[]>()
-    const map = new Map<string, TimeSlot[]>()
-    for (const slot of consultant.slots) {
-      const list = map.get(slot.date) || []
-      list.push(slot)
-      map.set(slot.date, list)
-    }
-    return map
-  }, [consultant])
-
-  const entries = Array.from(slotsByDate.entries())
-  const visibleEntries = slotsExpanded ? entries : entries.slice(0, 1)
-  const hiddenCount = entries.length - 1
   const needsSlot = !c.slot
 
   return (
@@ -165,31 +150,13 @@ function ConsultantSlotCard({ cartConsultant, forceToggle }: { cartConsultant: {
             <AlertCircle size={14} className="flex-shrink-0" />
             Selecione uma data e horário para continuar
           </div>
-          {visibleEntries.map(([date, slots]) => (
-            <div key={date}>
-              <p className="text-[10px] font-medium text-[#0E0E0F] mb-1.5 capitalize">{date}</p>
-              <div className="flex flex-wrap gap-1.5">
-                {slots.map((slot) => {
-                  const key = `${date}-${slot.time}`
-                  return (
-                    <button key={key} type="button" disabled={!slot.available} onClick={() => cart.updateConsultantSlot(c.id, key)}
-                      className={`px-2.5 py-1 rounded-md text-[10px] font-medium transition-all cursor-pointer ${!slot.available ? 'bg-[#F7F7F7] text-[#9C958A]/40 cursor-not-allowed line-through' : 'border border-[#9C958A]/20 text-[#0E0E0F] hover:border-[#A31631]/40 hover:bg-[#A31631]/5'}`}>
-                      {slot.time}
-                    </button>
-                  )
-                })}
-              </div>
-            </div>
-          ))}
-          {!slotsExpanded && hiddenCount > 0 && (
-            <button type="button" onClick={() => setSlotsExpanded(true)} className="w-full flex items-center justify-center gap-1 text-[10px] font-medium text-[#A31631] hover:bg-[#A31631]/5 py-1.5 rounded-md transition-colors cursor-pointer">
-              +{hiddenCount} {hiddenCount === 1 ? 'dia' : 'dias'} <ChevronDown size={12} />
-            </button>
-          )}
-          {slotsExpanded && (
-            <button type="button" onClick={() => setSlotsExpanded(false)} className="w-full flex items-center justify-center gap-1 text-[10px] font-medium text-[#9C958A] hover:bg-[#F7F7F7] py-1.5 rounded-md transition-colors cursor-pointer">
-              Recolher <ChevronDown size={12} className="rotate-180" />
-            </button>
+          {consultant && (
+            <MiniCalendar
+              slots={consultant.slots}
+              selectedSlot={c.slot}
+              onSelectSlot={(key) => cart.updateConsultantSlot(c.id, key)}
+              compact
+            />
           )}
         </div>
       )}
@@ -270,6 +237,12 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
             <div className="flex items-start gap-2 rounded-lg bg-green-50 border border-green-200 px-3 py-2 mb-3 text-[11px] text-green-700 leading-relaxed">
               <Check size={12} className="mt-0.5 text-green-600 flex-shrink-0" />
               <span>Módulo 1 já incluso na consultoria. Você está fazendo <strong>upgrade para {saas.name}</strong> com recursos adicionais.</span>
+            </div>
+          )}
+          {saas.id === 'saas-3' && (
+            <div className="flex items-start gap-2 rounded-lg bg-green-50 border border-green-200 px-3 py-2 mb-3 text-[11px] text-green-700 leading-relaxed">
+              <Check size={12} className="mt-0.5 text-green-600 flex-shrink-0" />
+              <span><strong>Pessoas (RH) já incluso</strong> neste módulo. Não é necessário contratar o módulo avulso.</span>
             </div>
           )}
           <PlanSelector plans={saasPlans} currentPlan={saas} onSelect={cart.addPlan} label="pacote" />
