@@ -10,15 +10,10 @@ export function Hero() {
   return (
     <section id="hero" className="pt-32 sm:pt-40 pb-20 sm:pb-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       <FadeIn className="text-center">
-        {/* Badge */}
-        <div className="inline-flex items-center gap-2 bg-[#A31631]/10 text-[#A31631] px-4 py-2 rounded-full text-xs font-medium mb-8 tracking-widest uppercase" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
-          Consultoria e Gestão em Delivery
-        </div>
-
         {/* Headline */}
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1] text-[#0E0E0F] max-w-4xl mx-auto mb-8">
           Cada pedido é um dado.{' '}
-          <span className="text-[#A31631] italic" style={{ fontFamily: "'Instrument Serif', serif" }}>
+          <span className="text-[#A31631]">
             Cada dado, uma decisão.
           </span>
         </h1>
@@ -63,9 +58,6 @@ export function Hero() {
             Ver Módulos
           </a>
         </div>
-        <p className="text-xs text-[#9C958A] mb-16">
-          Módulos sob demanda. Cancele quando quiser.
-        </p>
       </FadeIn>
 
       {/* Screenshot real do sistema */}
