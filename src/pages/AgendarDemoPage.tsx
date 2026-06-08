@@ -1,38 +1,33 @@
 import { useState, useMemo, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowLeft, CalendarDays, ChevronDown, CheckCircle2, AlertCircle } from 'lucide-react'
+import { ArrowLeft, CalendarDays, CheckCircle2, AlertCircle } from 'lucide-react'
 import { GranularLogo } from '../components/GranularLogo'
 import { generateDemoSlots, saveDemoBooking } from '../data/demoSlots'
-import type { DemoSlot } from '../data/demoSlots'
+import { MiniCalendar } from '../components/MiniCalendar'
+
+const FAIXAS_FATURAMENTO = [
+  'Iniciando Delivery',
+  'Até 50k',
+  'Entre 50k e 150k',
+  '150k a 300k',
+  '300k a 500k',
+  '500k a 1M',
+  'Acima de 1M',
+]
 
 export function AgendarDemoPage() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [whatsapp, setWhatsapp] = useState('')
   const [company, setCompany] = useState('')
-  const [units, setUnits] = useState('')
+  const [faturamento, setFaturamento] = useState('')
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null)
-  const [slotsExpanded, setSlotsExpanded] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
 
   useEffect(() => { window.scrollTo(0, 0) }, [])
 
   const slots = useMemo(() => generateDemoSlots(), [])
-
-  const slotsByDate = useMemo(() => {
-    const map = new Map<string, DemoSlot[]>()
-    for (const slot of slots) {
-      const list = map.get(slot.date) || []
-      list.push(slot)
-      map.set(slot.date, list)
-    }
-    return map
-  }, [slots])
-
-  const entries = Array.from(slotsByDate.entries())
-  const visibleEntries = slotsExpanded ? entries : entries.slice(0, 3)
-  const hiddenCount = entries.length - 3
 
   const validate = () => {
     const e: Record<string, string> = {}
@@ -59,7 +54,7 @@ export function AgendarDemoPage() {
       email: email.trim(),
       whatsapp: whatsapp.trim(),
       company: company.trim(),
-      units: units.trim() || '1',
+      units: faturamento || '-',
       date: slotDate,
       time: slotTime,
       status: 'pendente',
@@ -155,14 +150,21 @@ export function AgendarDemoPage() {
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-[#0E0E0F] mb-1.5">Número de unidades</label>
-              <input type="text" value={units} onChange={(e) => setUnits(e.target.value)}
-                className="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-[#9C958A]/20 text-sm outline-none focus:border-[#A31631] transition-colors"
-                placeholder="Ex: 3" />
+              <label className="block text-xs font-medium text-[#0E0E0F] mb-1.5">Faixa de faturamento</label>
+              <select
+                value={faturamento}
+                onChange={(e) => setFaturamento(e.target.value)}
+                className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border text-sm outline-none transition-colors cursor-pointer border-[#9C958A]/20 focus:border-[#A31631] ${!faturamento ? 'text-[#9C958A]' : 'text-[#0E0E0F]'}`}
+              >
+                <option value="">Selecione a faixa</option>
+                {FAIXAS_FATURAMENTO.map((f) => (
+                  <option key={f} value={f}>{f}</option>
+                ))}
+              </select>
             </div>
           </div>
 
-          {/* Horários */}
+          {/* Horários com MiniCalendar */}
           <div className="space-y-5">
             <h2 className="text-sm font-bold text-[#0E0E0F]">Escolha data e horário</h2>
 
@@ -173,48 +175,12 @@ export function AgendarDemoPage() {
               </div>
             )}
 
-            <div className="space-y-4">
-              {visibleEntries.map(([date, dateSlots]) => (
-                <div key={date}>
-                  <p className="text-xs font-medium text-[#0E0E0F] mb-2 capitalize">{date}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {dateSlots.map((slot) => {
-                      const key = `${date}-${slot.time}`
-                      const isSelected = selectedSlot === key
-                      return (
-                        <button
-                          key={key}
-                          type="button"
-                          disabled={!slot.available}
-                          onClick={() => setSelectedSlot(isSelected ? null : key)}
-                          className={`px-3 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer ${
-                            !slot.available
-                              ? 'bg-[#F7F7F7] text-[#9C958A]/40 cursor-not-allowed line-through'
-                              : isSelected
-                              ? 'bg-[#A31631] text-white shadow-sm'
-                              : 'border border-[#9C958A]/20 text-[#0E0E0F] hover:border-[#A31631]/40 hover:bg-[#A31631]/5'
-                          }`}
-                        >
-                          {slot.time}
-                        </button>
-                      )
-                    })}
-                  </div>
-                </div>
-              ))}
-
-              {!slotsExpanded && hiddenCount > 0 && (
-                <button type="button" onClick={() => setSlotsExpanded(true)}
-                  className="w-full flex items-center justify-center gap-1 text-xs font-medium text-[#A31631] hover:bg-[#A31631]/5 py-2 rounded-lg transition-colors cursor-pointer">
-                  +{hiddenCount} dias <ChevronDown size={14} />
-                </button>
-              )}
-              {slotsExpanded && hiddenCount > 0 && (
-                <button type="button" onClick={() => setSlotsExpanded(false)}
-                  className="w-full flex items-center justify-center gap-1 text-xs font-medium text-[#9C958A] hover:bg-[#F7F7F7] py-2 rounded-lg transition-colors cursor-pointer">
-                  Recolher <ChevronDown size={14} className="rotate-180" />
-                </button>
-              )}
+            <div className="rounded-xl border border-[#9C958A]/15 p-4">
+              <MiniCalendar
+                slots={slots}
+                selectedSlot={selectedSlot}
+                onSelectSlot={(key) => setSelectedSlot(selectedSlot === key ? null : key)}
+              />
             </div>
 
             {selectedSlot && (

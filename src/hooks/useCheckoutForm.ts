@@ -1,12 +1,12 @@
 import { useState, useCallback } from 'react'
-import { validateWhatsApp, validateEmail, validateNome, validateCpf } from '../utils/validators'
-import { formatWhatsApp, formatCpf } from '../utils/formatters'
+import { validateWhatsApp, validateEmail, validateNome } from '../utils/validators'
+import { formatWhatsApp } from '../utils/formatters'
 
 export type PaymentMethod = 'pix' | 'cartao'
 
 interface FormState {
   nome: string
-  cpf: string
+  faturamento: string
   whatsapp: string
   email: string
   paymentMethod: PaymentMethod
@@ -15,7 +15,7 @@ interface FormState {
 
 interface FormErrors {
   nome?: string
-  cpf?: string
+  faturamento?: string
   whatsapp?: string
   email?: string
 }
@@ -23,7 +23,7 @@ interface FormErrors {
 export function useCheckoutForm() {
   const [form, setForm] = useState<FormState>({
     nome: '',
-    cpf: '',
+    faturamento: '',
     whatsapp: '',
     email: '',
     paymentMethod: 'cartao',
@@ -35,8 +35,6 @@ export function useCheckoutForm() {
   const updateField = useCallback((field: keyof FormState, value: string) => {
     if (field === 'whatsapp') {
       value = formatWhatsApp(value)
-    } else if (field === 'cpf') {
-      value = formatCpf(value)
     }
     setForm((prev) => ({ ...prev, [field]: value }))
     setErrors((prev) => ({ ...prev, [field]: undefined }))
@@ -53,11 +51,10 @@ export function useCheckoutForm() {
   const validate = useCallback((): boolean => {
     const newErrors: FormErrors = {}
     const nomeErr = validateNome(form.nome)
-    const cpfErr = validateCpf(form.cpf)
     const whatsErr = validateWhatsApp(form.whatsapp)
     const emailErr = validateEmail(form.email)
     if (nomeErr) newErrors.nome = nomeErr
-    if (cpfErr) newErrors.cpf = cpfErr
+    if (!form.faturamento) newErrors.faturamento = 'Selecione a faixa de faturamento'
     if (whatsErr) newErrors.whatsapp = whatsErr
     if (emailErr) newErrors.email = emailErr
     setErrors(newErrors)
