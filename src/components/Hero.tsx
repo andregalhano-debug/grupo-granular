@@ -61,7 +61,7 @@ export function Hero() {
       </FadeIn>
 
       {/* Screenshot real do sistema */}
-      <FadeIn delay={200}>
+      <FadeIn delay={200} className="mt-20 sm:mt-28">
         <div className="max-w-5xl mx-auto rounded-2xl border border-[#9C958A]/20 overflow-hidden shadow-2xl shadow-black/10">
           {/* Browser Chrome */}
           <div className="bg-[#0E0E0F] px-4 py-3 flex items-center gap-3">
