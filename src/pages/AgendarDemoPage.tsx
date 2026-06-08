@@ -6,9 +6,9 @@ import { generateDemoSlots, saveDemoBooking } from '../data/demoSlots'
 import { MiniCalendar } from '../components/MiniCalendar'
 
 const FAIXAS_FATURAMENTO = [
-  'Iniciando Delivery',
+  'Iniciando no Delivery',
   'Até 50k',
-  'Entre 50k e 150k',
+  '50k a 150k',
   '150k a 300k',
   '300k a 500k',
   '500k a 1M',

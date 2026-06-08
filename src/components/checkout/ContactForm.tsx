@@ -1,9 +1,9 @@
 import { MessageCircle, Mail, User, TrendingUp } from 'lucide-react'
 
 const FAIXAS_FATURAMENTO = [
-  'Iniciando Delivery',
+  'Iniciando no Delivery',
   'Até 50k',
-  'Entre 50k e 150k',
+  '50k a 150k',
   '150k a 300k',
   '300k a 500k',
   '500k a 1M',
@@ -41,27 +41,6 @@ export function ContactForm({ nome, faturamento, whatsapp, email, errors, onUpda
           }`}
         />
         {errors.nome && <p className="text-xs text-[#A31631] mt-1">{errors.nome}</p>}
-      </div>
-
-      {/* Faixa de faturamento */}
-      <div>
-        <label className="flex items-center gap-2 text-sm font-medium text-[#0E0E0F] mb-1.5">
-          <TrendingUp size={16} className="text-[#9C958A]" />
-          Faixa de faturamento
-        </label>
-        <select
-          value={faturamento}
-          onChange={(e) => onUpdate('faturamento', e.target.value)}
-          className={`w-full px-4 py-3 rounded-xl border text-sm bg-white outline-none transition-colors cursor-pointer ${
-            errors.faturamento ? 'border-[#A31631]' : 'border-[#0E0E0F]/15 focus:border-[#A31631]'
-          } ${!faturamento ? 'text-[#9C958A]' : 'text-[#0E0E0F]'}`}
-        >
-          <option value="">Selecione a faixa</option>
-          {FAIXAS_FATURAMENTO.map((f) => (
-            <option key={f} value={f}>{f}</option>
-          ))}
-        </select>
-        {errors.faturamento && <p className="text-xs text-[#A31631] mt-1">{errors.faturamento}</p>}
       </div>
 
       {/* WhatsApp */}
@@ -106,6 +85,27 @@ export function ContactForm({ nome, faturamento, whatsapp, email, errors, onUpda
         ) : (
           <p className="text-xs text-[#9C958A] mt-1">Enviaremos a confirmação do pedido</p>
         )}
+      </div>
+
+      {/* Faixa de faturamento */}
+      <div>
+        <label className="flex items-center gap-2 text-sm font-medium text-[#0E0E0F] mb-1.5">
+          <TrendingUp size={16} className="text-[#9C958A]" />
+          Faixa de faturamento
+        </label>
+        <select
+          value={faturamento}
+          onChange={(e) => onUpdate('faturamento', e.target.value)}
+          className={`w-full px-4 py-3 rounded-xl border text-sm bg-white outline-none transition-colors cursor-pointer ${
+            errors.faturamento ? 'border-[#A31631]' : 'border-[#0E0E0F]/15 focus:border-[#A31631]'
+          } ${!faturamento ? 'text-[#9C958A]' : 'text-[#0E0E0F]'}`}
+        >
+          <option value="">Selecione a faixa</option>
+          {FAIXAS_FATURAMENTO.map((f) => (
+            <option key={f} value={f}>{f}</option>
+          ))}
+        </select>
+        {errors.faturamento && <p className="text-xs text-[#A31631] mt-1">{errors.faturamento}</p>}
       </div>
     </div>
   )
