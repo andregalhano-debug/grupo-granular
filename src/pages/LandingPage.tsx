@@ -35,7 +35,7 @@ export function LandingPage() {
   return (
     <CategoryContext.Provider value={{ accent, accentDark }}>
       <div
-        className="min-h-screen bg-white"
+        className="min-h-screen bg-[var(--accent-05)] transition-colors duration-500"
         style={{
           '--accent': accent,
           '--accent-dark': accentDark,
