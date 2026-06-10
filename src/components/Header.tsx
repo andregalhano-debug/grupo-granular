@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Menu, X, Briefcase } from 'lucide-react'
 import { GranularLogo } from './GranularLogo'
@@ -27,8 +27,15 @@ interface Props {
 
 export function Header({ category }: Props) {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
   const cart = useCart()
   const suffix = category ? categoryName[category] : ''
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-xl border-b border-[#9C958A]/20">
@@ -37,7 +44,10 @@ export function Header({ category }: Props) {
         <a href="/" className="flex items-center gap-3">
           <GranularLogo size={36} color="#0E0E0F" />
           <span className="text-lg font-semibold tracking-tight text-[#0E0E0F]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-            Granular{suffix ? ` ${suffix}` : ''}
+            Granular
+            {scrolled && suffix && (
+              <span className="ml-1 transition-opacity duration-300 opacity-100">{suffix}</span>
+            )}
           </span>
         </a>
 
