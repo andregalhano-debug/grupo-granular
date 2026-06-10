@@ -166,6 +166,25 @@ export const consultoriaAddonFeatures: string[] = [
 
 export const moduloPlans: Plan[] = [
   {
+    id: 'modulo-televendas',
+    type: 'modulo',
+    name: 'Televendas',
+    subtitle: 'Central de vendas por telefone e WhatsApp integrada ao Granular Market',
+    price: 419,
+    priceFormatted: '419',
+    period: '/mês',
+    features: [
+      'Gestão de pedidos por telefone',
+      'Integração WhatsApp Business',
+      'Fila de atendimento digital',
+      'Histórico completo de clientes',
+      'Relatórios de conversão por operador',
+      'Scripts de vendas personalizáveis',
+    ],
+    popular: false,
+    cta: 'Adicionar ao Carrinho',
+  },
+  {
     id: 'modulo-pessoas',
     type: 'modulo',
     name: 'Pessoas (RH)',

@@ -1,4 +1,4 @@
-import { Package, ChefHat, Monitor, TrendingUp, ShoppingBag, Users, ClipboardCheck, Bot, UserCog, FileBarChart, Plug, Headphones } from 'lucide-react'
+import { Package, ChefHat, Monitor, TrendingUp, ShoppingBag, Users, ClipboardCheck, Bot, UserCog, FileBarChart, Plug, Headphones, PhoneCall } from 'lucide-react'
 
 export interface ModuleDetail {
   icon: typeof Package
@@ -113,8 +113,17 @@ export const modulesDataRestaurantes: ModuleDetail[] = [
   },
 ]
 
-// Mercados: réplica da estrutura de Restaurantes — ajustes finos pendentes
+// Mercados: estrutura própria com Televendas como primeiro módulo — ajustes finos pendentes
 export const modulesDataMercados: ModuleDetail[] = [
+  {
+    icon: PhoneCall,
+    title: 'Televendas',
+    desc: 'Central de vendas por telefone e WhatsApp integrada ao Granular Market.',
+    features: ['Pedidos por telefone', 'Integração WhatsApp Business', 'Fila de atendimento', 'Histórico de clientes', 'Relatórios de conversão', 'Operadores simultâneos', 'Scripts de vendas'],
+    detailText: 'Centralize as vendas por telefone e WhatsApp em uma central integrada ao Granular Market. Registre pedidos diretamente no sistema, acesse o histórico de cada cliente, gerencie a fila de atendimento e acompanhe a taxa de conversão por operador. Ideal para atacarejos e supermercados que atendem clientes corporativos e varejistas com pedidos recorrentes.',
+    screenshot: '',
+    standalone: true,
+  },
   {
     icon: ShoppingBag,
     title: 'iFood & Pedidos',
@@ -197,19 +206,11 @@ export const modulesDataMercados: ModuleDetail[] = [
     screenshot: '',
   },
   {
-    icon: Headphones,
-    title: 'Foozi — Atendimento & Compras',
-    desc: 'Atendimento digital, BPO e acesso a +2.000 fornecedores para o varejo alimentar.',
-    features: ['WhatsApp', 'Chatbot', 'BPO de atendimento', '+2.000 fornecedores', 'Executivo de compras', 'Cotação e negociação', 'Central terceirizada', 'Gestão na Granular'],
-    detailText: 'A Foozi é parceira estratégica da Granular em atendimento digital, BPO e gestão de compras. Com a integração, sua operação ganha atendimento profissional via WhatsApp, chatbot inteligente e uma central terceirizada. Além disso, você acessa uma base de mais de 2.000 fornecedores homologados — cotação, negociação e pedidos gerenciados diretamente na Granular.',
-    screenshot: '',
-  },
-  {
     icon: Plug,
     title: 'Integrações',
     desc: 'Conecte seu ecossistema com as principais plataformas do varejo alimentar.',
-    features: ['iFood', 'Saipos', 'Omie', 'Open Delivery', 'Foozi'],
-    detailText: 'Integre as principais plataformas do mercado ao ecossistema Granular. Sincronize dados financeiros com o Omie, conecte-se ao padrão Open Delivery e centralize toda a operação em um único lugar. Novas integrações são adicionadas continuamente.',
+    features: ['iFood', 'Saipos', 'Omie', 'Open Delivery', 'ERP'],
+    detailText: 'Integre as principais plataformas do mercado ao ecossistema Granular Market. Sincronize dados financeiros com o Omie, conecte-se ao padrão Open Delivery e centralize toda a operação em um único lugar. Novas integrações são adicionadas continuamente.',
     screenshot: '',
   },
 ]

@@ -1,7 +1,8 @@
-import { Check, Minus, Monitor, Handshake, ChevronRight, GraduationCap, CalendarDays, Star, Clock, Users } from 'lucide-react'
+import { Check, Minus, Monitor, Handshake, ChevronRight, GraduationCap, CalendarDays, Star, Clock, Users, PhoneCall } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
 import { saasPlans, saasAddonFeatures, type Plan } from '../data/plans'
+import type { Category } from './Modules'
 
 const saasCapacity: Record<string, string> = {
   'saas-1': 'Até 3 IDs e 3k pedidos/mês',
@@ -379,7 +380,11 @@ const sampleMentors = [
   },
 ]
 
-export function Pricing() {
+interface Props {
+  category?: Category
+}
+
+export function Pricing({ category = 'restaurantes' }: Props) {
   return (
     <section id="precos" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-[#F7F7F7]">
       <div className="max-w-7xl mx-auto">
@@ -408,10 +413,96 @@ export function Pricing() {
           </div>
         </FadeIn>
 
-        <FadeIn delay={100} className="mb-8">
-          <DesktopTable plans={saasPlans} capacity={saasCapacity} addonFeatures={saasAddonFeatures} />
-          <MobileCards plans={saasPlans} capacity={saasCapacity} addonFeatures={saasAddonFeatures} />
-        </FadeIn>
+        {category === 'mercados' ? (
+          /* Mercados: Sistema sob consulta */
+          <FadeIn delay={100}>
+            <div className="max-w-6xl mx-auto mb-24">
+              <div className="rounded-2xl border border-[#A31631]/15 bg-white p-6 sm:p-8">
+                <p className="text-base font-bold text-[#0E0E0F] mb-1.5">Sistema Granular Market — Sob consulta</p>
+                <p className="text-sm text-[#9C958A] leading-relaxed mb-6">
+                  O sistema é precificado de acordo com o porte da operação, número de PDVs e módulos contratados. Entre em contato para receber uma proposta personalizada.
+                </p>
+
+                {/* Módulos avulsos */}
+                <div className="mb-6">
+                  <p
+                    className="text-[10px] font-medium text-[#9C958A] uppercase tracking-wider mb-3"
+                    style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                  >
+                    Módulos disponíveis avulso
+                  </p>
+                  <div className="space-y-3">
+                    {/* Televendas */}
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl bg-[#F7F7F7] border border-[#9C958A]/15">
+                      <div className="flex items-center gap-3">
+                        <div className="w-9 h-9 rounded-lg bg-[#A31631]/10 flex items-center justify-center flex-shrink-0">
+                          <PhoneCall size={16} className="text-[#A31631]" />
+                        </div>
+                        <div>
+                          <p className="text-sm font-semibold text-[#0E0E0F]">Televendas</p>
+                          <p className="text-xs text-[#9C958A]">Central de vendas por telefone e WhatsApp</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3 sm:flex-shrink-0">
+                        <div className="text-right">
+                          <span className="text-base font-bold text-[#0E0E0F]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>R$ 419</span>
+                          <span className="text-xs text-[#9C958A]">/mês</span>
+                        </div>
+                        <Link
+                          to="/checkout?plano=modulo-televendas"
+                          className="inline-flex items-center gap-1.5 bg-[#A31631] hover:bg-[#7A1025] text-white text-xs font-medium px-4 py-2 rounded-lg transition-colors whitespace-nowrap"
+                        >
+                          <PhoneCall size={12} />
+                          Adicionar
+                        </Link>
+                      </div>
+                    </div>
+
+                    {/* Pessoas (RH) */}
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl bg-[#F7F7F7] border border-[#9C958A]/15">
+                      <div className="flex items-center gap-3">
+                        <div className="w-9 h-9 rounded-lg bg-[#A31631]/10 flex items-center justify-center flex-shrink-0">
+                          <Users size={16} className="text-[#A31631]" />
+                        </div>
+                        <div>
+                          <p className="text-sm font-semibold text-[#0E0E0F]">Pessoas (RH)</p>
+                          <p className="text-xs text-[#9C958A]">Recrutamento, escalas, documentos e desempenho</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3 sm:flex-shrink-0">
+                        <div className="text-right">
+                          <span className="text-base font-bold text-[#0E0E0F]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>R$ 599</span>
+                          <span className="text-xs text-[#9C958A]">/mês</span>
+                        </div>
+                        <Link
+                          to="/checkout?plano=modulo-pessoas"
+                          className="inline-flex items-center gap-1.5 bg-[#A31631] hover:bg-[#7A1025] text-white text-xs font-medium px-4 py-2 rounded-lg transition-colors whitespace-nowrap"
+                        >
+                          <Users size={12} />
+                          Adicionar
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <Link
+                  to="/agendar-demo"
+                  className="inline-flex items-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors"
+                >
+                  <CalendarDays size={16} />
+                  Agendar Demonstração
+                </Link>
+              </div>
+            </div>
+          </FadeIn>
+        ) : (
+          /* Outros segmentos: tabela padrão */
+          <FadeIn delay={100} className="mb-8">
+            <DesktopTable plans={saasPlans} capacity={saasCapacity} addonFeatures={saasAddonFeatures} />
+            <MobileCards plans={saasPlans} capacity={saasCapacity} addonFeatures={saasAddonFeatures} />
+          </FadeIn>
+        )}
 
         <div className="mb-24" />
 

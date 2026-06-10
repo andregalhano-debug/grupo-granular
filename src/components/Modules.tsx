@@ -1,10 +1,17 @@
 import { useState, useRef, useEffect } from 'react'
-import { Smartphone, Shield, BarChart3, X, ChevronRight, CalendarDays, Clock } from 'lucide-react'
+import { Smartphone, Shield, BarChart3, X, ChevronRight, CalendarDays, Clock, ShoppingCart, UtensilsCrossed, Pill, PawPrint } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
 import { modulesDataRestaurantes, modulesDataMercados } from '../data/modulesData'
 
 export type Category = 'restaurantes' | 'mercados' | 'farmacias' | 'petshop'
+
+const categoryLabels: Record<Category, { emoji: string; label: string; icon: typeof UtensilsCrossed }> = {
+  restaurantes: { emoji: '🍽️', label: 'Restaurantes', icon: UtensilsCrossed },
+  mercados: { emoji: '🛒', label: 'Mercados', icon: ShoppingCart },
+  farmacias: { emoji: '💊', label: 'Farmácias', icon: Pill },
+  petshop: { emoji: '🐾', label: 'Pet Shop', icon: PawPrint },
+}
 
 interface Props {
   category?: Category
@@ -103,9 +110,18 @@ export function Modules({ category = 'restaurantes' }: Props) {
             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#0E0E0F] mb-4">
               Tudo que sua operação precisa, em um só lugar
             </h2>
-            <p className="text-[#9C958A] text-base sm:text-lg max-w-2xl mx-auto">
+            <p className="text-[#9C958A] text-base sm:text-lg max-w-2xl mx-auto mb-6">
               Módulos integrados que eliminam planilhas e unificam sua gestão.
             </p>
+            <a
+              href="#hero"
+              className="inline-flex items-center gap-2 bg-[#F7F7F7] border border-[#9C958A]/20 hover:border-[#A31631]/30 px-4 py-2 rounded-full text-xs text-[#9C958A] transition-colors group"
+            >
+              <span>{categoryLabels[category].emoji}</span>
+              <span className="font-medium text-[#0E0E0F]">{categoryLabels[category].label}</span>
+              <span className="text-[#9C958A]/60">·</span>
+              <span className="text-[#A31631] group-hover:underline">Trocar segmento ↑</span>
+            </a>
           </FadeIn>
           <FadeIn>
             <div className="max-w-2xl mx-auto text-center py-16 px-6 rounded-3xl border-2 border-dashed border-[#9C958A]/25 bg-[#F7F7F7]">
@@ -232,7 +248,27 @@ export function Modules({ category = 'restaurantes' }: Props) {
                   </div>
 
                   {/* CTAs por tipo de módulo */}
-                  {openModule.standalone && openModule.title.includes('Pessoas') ? (
+                  {openModule.standalone && openModule.title.includes('Televendas') ? (
+                    <div className="flex flex-col gap-3 self-start w-full">
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-5 rounded-xl bg-[#A31631]/5 border border-[#A31631]/10">
+                        <div className="flex-1">
+                          <p className="text-sm font-semibold text-[#0E0E0F] mb-1">
+                            Módulo disponível avulso
+                          </p>
+                          <p className="text-xs text-[#9C958A] leading-relaxed">
+                            O módulo Televendas pode ser contratado de forma independente por <strong className="text-[#0E0E0F]">R$ 419/mês</strong>. Central de vendas por telefone e WhatsApp totalmente integrada ao Granular Market.
+                          </p>
+                        </div>
+                        <Link
+                          to="/checkout?plano=modulo-televendas"
+                          className="inline-flex items-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors whitespace-nowrap flex-shrink-0"
+                        >
+                          <ShoppingCart size={15} />
+                          Adicionar ao carrinho
+                        </Link>
+                      </div>
+                    </div>
+                  ) : openModule.standalone && openModule.title.includes('Pessoas') ? (
                     <div className="flex flex-col gap-3 self-start">
                       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-5 rounded-xl bg-[#A31631]/5 border border-[#A31631]/10">
                         <div className="flex-1">
@@ -318,9 +354,19 @@ export function Modules({ category = 'restaurantes' }: Props) {
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#0E0E0F] mb-4">
             Tudo que sua operação precisa, em um só lugar
           </h2>
-          <p className="text-[#9C958A] text-base sm:text-lg max-w-2xl mx-auto">
+          <p className="text-[#9C958A] text-base sm:text-lg max-w-2xl mx-auto mb-6">
             Módulos integrados que eliminam planilhas e unificam sua gestão.
           </p>
+          {/* Indicador de segmento ativo + trocar */}
+          <a
+            href="#hero"
+            className="inline-flex items-center gap-2 bg-[#F7F7F7] border border-[#9C958A]/20 hover:border-[#A31631]/30 px-4 py-2 rounded-full text-xs text-[#9C958A] transition-colors group"
+          >
+            <span>{categoryLabels[category].emoji}</span>
+            <span className="font-medium text-[#0E0E0F]">{categoryLabels[category].label}</span>
+            <span className="text-[#9C958A]/60">·</span>
+            <span className="text-[#A31631] group-hover:underline">Trocar segmento ↑</span>
+          </a>
         </FadeIn>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
