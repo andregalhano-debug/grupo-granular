@@ -1,7 +1,6 @@
 import { useState } from 'react'
-import { Plus, Check, Monitor, Handshake, Package, Users, ChevronDown, ExternalLink } from 'lucide-react'
-import { Link } from 'react-router-dom'
-import { saasPlans, consultoriaPlans, moduloPlans, type Plan } from '../../data/plans'
+import { Plus, Check, Monitor, Package, ChevronDown } from 'lucide-react'
+import { saasPlans, moduloPlans, type Plan } from '../../data/plans'
 import { useCart } from '../../stores/useCartStore'
 
 interface QuickAddItemProps {
@@ -64,13 +63,6 @@ export function QuickAddBar() {
       plans: moduloPlans,
       addFn: (plan: Plan) => cart.addPlan(plan),
     },
-    {
-      id: 'mentoria',
-      label: 'Mentoria',
-      icon: Handshake,
-      plans: consultoriaPlans,
-      addFn: (plan: Plan) => cart.addPlan(plan),
-    },
   ]
 
   return (
@@ -126,19 +118,6 @@ export function QuickAddBar() {
             />
           ))}
 
-          {/* Link para mentores (dentro da seção mentoria) */}
-          {openSection === 'mentoria' && (
-            <Link
-              to="/consultores"
-              className="w-full flex items-center justify-between px-3 py-2.5 text-left hover:bg-[#A31631]/5 transition-colors"
-            >
-              <div className="flex items-center gap-2">
-                <Users size={14} className="text-[#A31631]" />
-                <span className="text-xs text-[#0E0E0F]">Escolher mentor para sessão</span>
-              </div>
-              <ExternalLink size={12} className="text-[#9C958A]" />
-            </Link>
-          )}
         </div>
       )}
     </div>

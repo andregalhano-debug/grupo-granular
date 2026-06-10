@@ -1,6 +1,6 @@
-import { Check, Plus, X, ChevronDown, CalendarDays, Star, AlertCircle, ChevronsDownUp, Monitor, Handshake } from 'lucide-react'
+import { Check, Plus, X, ChevronDown, CalendarDays, Star, AlertCircle, ChevronsDownUp, Monitor } from 'lucide-react'
 import { useState, useEffect } from 'react'
-import { saasPlans, consultoriaPlans, getConsultoriaTotal, getConsultoriaPixTotal, getConsultoriaPixDiscount } from '../../data/plans'
+import { saasPlans } from '../../data/plans'
 import type { Plan } from '../../data/plans'
 import { getConsultantById } from '../../data/consultants'
 import { formatCurrency } from '../../utils/formatters'
@@ -165,37 +165,21 @@ function ConsultantSlotCard({ cartConsultant, forceToggle }: { cartConsultant: {
   )
 }
 
-export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
+export function OrderSummary({ paymentMethod: _paymentMethod }: OrderSummaryProps) {
   const cart = useCart()
-  const [consultoriaExpanded, setConsultoriaExpanded] = useState(false)
   const [toggleAll, setToggleAll] = useState({ count: 0, expand: false })
   const allExpanded = toggleAll.expand
 
   const saas = cart.plans.find((p) => p.type === 'saas')
-  const consultoria = cart.plans.find((p) => p.type === 'consultoria')
   const modulos = cart.plans.filter((p) => p.type === 'modulo')
   const hasSaas = !!saas
-  const hasConsultoria = !!consultoria
   const hasConsultants = cart.consultants.length > 0
 
   const upsellSaas = saasPlans.find((p) => p.popular) || saasPlans[0]
-  const modulo1 = saasPlans.find((p) => p.id === 'saas-1')!
-
-  const consultoriaIsMensal = paymentMethod === 'cartao'
-
-  // Módulo 1 incluso na consultoria — se saas-1 selecionado, preço é 0
-  const saasIsIncluded = hasConsultoria && saas?.id === 'saas-1'
-  const saasEffectivePrice = saasIsIncluded ? 0 : (saas ? saas.price : 0)
 
   // Cálculos de totais
-  const totalMensal =
-    saasEffectivePrice +
-    modulos.reduce((sum, m) => sum + m.price, 0) +
-    (hasConsultoria && consultoriaIsMensal ? consultoria!.price : 0)
-
-  const sessaoAvulso = cart.consultants.reduce((sum, c) => sum + c.hourlyRate, 0)
-  const consultoriaAvulso = hasConsultoria && !consultoriaIsMensal ? getConsultoriaPixTotal(consultoria!) : 0
-  const totalAvulso = sessaoAvulso + consultoriaAvulso
+  const totalMensal = (saas ? saas.price : 0) + modulos.reduce((sum, m) => sum + m.price, 0)
+  const totalAvulso = cart.consultants.reduce((sum, c) => sum + c.hourlyRate, 0)
 
   return (
     <div className="space-y-0">
@@ -215,229 +199,92 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
       </div>
 
       {/* ═══════════ SEÇÃO: SISTEMA ═══════════ */}
-      {(hasSaas || modulos.length > 0 || hasConsultoria || (!hasSaas && !hasConsultoria)) && (
-        <div className="space-y-3">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-[#A31631] flex items-center justify-center flex-shrink-0">
-              <Monitor size={16} className="text-white" />
-            </div>
-            <h3 className="text-sm font-bold text-[#0E0E0F] uppercase tracking-wider">Sistema</h3>
-            <div className="flex-1 h-px bg-[#0E0E0F]/10" />
-          </div>
-
-          {/* Plano de sistema */}
-          {saas && (
-            <CollapsibleCard
-              label={saasIsIncluded ? 'Incluso na mentoria' : 'Plano'}
-              name={saas.name}
-              price={saasIsIncluded ? 'Incluso' : saas.priceFormatted}
-              period={saasIsIncluded ? '' : '/mês'}
-              forceToggle={toggleAll}
-              borderClass={saasIsIncluded ? 'border-green-200' : undefined}
-              onRemove={(!saasIsIncluded && (cart.plans.length > 1 || hasConsultants)) ? () => cart.removePlan(saas.id) : undefined}
-            >
-              {saasIsIncluded && (
-                <div className="flex items-start gap-2 rounded-lg bg-green-50 border border-green-200 px-3 py-2 mb-3 text-[11px] text-green-700 leading-relaxed">
-                  <Check size={12} className="mt-0.5 text-green-600 flex-shrink-0" />
-                  <span><strong>Módulo 1 incluso</strong> durante o período da mentoria. Ao final, continue utilizando o sistema no cartão já autorizado.</span>
-                </div>
-              )}
-              <ul className="space-y-1.5 mb-3">
-                {saas.features.slice(0, 3).map((f) => (
-                  <li key={f} className="flex items-start gap-2 text-xs text-[#9C958A]"><Check size={12} className="mt-0.5 text-[#A31631] flex-shrink-0" />{f}</li>
-                ))}
-                {saas.features.length > 3 && <li className="text-xs text-[#9C958A]">+{saas.features.length - 3} recursos inclusos</li>}
-              </ul>
-              {hasConsultoria && saas.id !== 'saas-1' && (
-                <div className="flex items-start gap-2 rounded-lg bg-green-50 border border-green-200 px-3 py-2 mb-3 text-[11px] text-green-700 leading-relaxed">
-                  <Check size={12} className="mt-0.5 text-green-600 flex-shrink-0" />
-                  <span>Módulo 1 já incluso na mentoria. Upgrade para <strong>{saas.name}</strong>.</span>
-                </div>
-              )}
-              {saas.id === 'saas-3' && (
-                <div className="flex items-start gap-2 rounded-lg bg-green-50 border border-green-200 px-3 py-2 mb-3 text-[11px] text-green-700 leading-relaxed">
-                  <Check size={12} className="mt-0.5 text-green-600 flex-shrink-0" />
-                  <span><strong>Pessoas (RH) já incluso</strong> neste módulo.</span>
-                </div>
-              )}
-              <PlanSelector plans={saasPlans} currentPlan={saas} onSelect={cart.addPlan} label="pacote" />
-            </CollapsibleCard>
-          )}
-
-          {/* Módulo 1 incluso (consultoria sem sistema) */}
-          {!hasSaas && hasConsultoria && (
-            <div className="rounded-xl bg-green-50 border border-green-200 p-4">
-              <div className="flex items-start gap-3">
-                <Check size={16} className="text-green-600 mt-0.5 flex-shrink-0" />
-                <div>
-                  <p className="text-sm font-medium text-green-800">Módulo 1 incluso na mentoria</p>
-                  <p className="text-xs text-green-600 mt-1">{modulo1.subtitle} — R$ {modulo1.priceFormatted}/mês incluso durante o período.</p>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Módulos avulsos */}
-          {modulos.map((mod) => (
-            <CollapsibleCard
-              key={mod.id}
-              label="Módulo avulso"
-              name={mod.name}
-              price={mod.priceFormatted}
-              period="/mês"
-              borderClass="border-[#A31631]/20"
-              forceToggle={toggleAll}
-              onRemove={() => cart.removePlan(mod.id)}
-            >
-              <p className="text-xs text-[#9C958A] mb-2">{mod.subtitle}</p>
-              <ul className="space-y-1.5">
-                {mod.features.slice(0, 4).map((f) => (
-                  <li key={f} className="flex items-start gap-2 text-xs text-[#9C958A]"><Check size={12} className="mt-0.5 text-[#A31631] flex-shrink-0" />{f}</li>
-                ))}
-                {mod.features.length > 4 && <li className="text-xs text-[#9C958A]">+{mod.features.length - 4} recursos inclusos</li>}
-              </ul>
-            </CollapsibleCard>
-          ))}
-
-          {/* Addons (sistema) */}
-          {cart.addons.map((addon) => (
-            <CollapsibleCard
-              key={addon.id}
-              label="Addon"
-              name={addon.name}
-              price="—"
-              period=""
-              borderClass="border-[#A31631]/20"
-              forceToggle={toggleAll}
-              onRemove={() => cart.removeAddon(addon.id)}
-            >
-              <p className="text-xs text-[#9C958A] leading-relaxed mb-2">{addon.description}</p>
-              <div className="flex items-center gap-2 rounded-lg bg-[#A31631]/5 border border-[#A31631]/10 px-3 py-2 text-[11px] text-[#9C958A] leading-relaxed">
-                <Check size={12} className="mt-0.5 text-[#A31631] flex-shrink-0" />
-                <span><strong className="text-[#0E0E0F]">Consultor entrará em contato</strong> para ativar a integração.</span>
-              </div>
-            </CollapsibleCard>
-          ))}
-
-          {/* Adicionar Sistema */}
-          {!hasSaas && !hasConsultoria && (
-            <button type="button" onClick={() => cart.addPlan(upsellSaas)}
-              className="w-full flex items-center gap-3 rounded-xl border border-dashed border-[#A31631]/30 bg-[#A31631]/5 p-4 text-left hover:bg-[#A31631]/10 transition-colors cursor-pointer">
-              <div className="w-8 h-8 rounded-lg bg-[#A31631]/10 flex items-center justify-center flex-shrink-0"><Plus size={16} className="text-[#A31631]" /></div>
-              <div>
-                <p className="text-sm font-medium text-[#0E0E0F]">Adicionar Sistema</p>
-                <p className="text-xs text-[#9C958A]">{upsellSaas.name} — R$ {upsellSaas.priceFormatted}/mês</p>
-              </div>
-            </button>
-          )}
-
-          {/* Upgrade de módulo */}
-          {!hasSaas && hasConsultoria && (
-            <div className="space-y-2">
-              <p className="text-[10px] font-medium text-[#9C958A] uppercase tracking-wider" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
-                Upgrade de sistema (opcional)
-              </p>
-              {saasPlans.filter((p) => p.id !== 'saas-1').map((plan) => (
-                <button key={plan.id} type="button" onClick={() => cart.addPlan(plan)}
-                  className="w-full flex items-center justify-between gap-3 rounded-xl border border-dashed border-[#A31631]/30 bg-[#A31631]/5 p-4 text-left hover:bg-[#A31631]/10 transition-colors cursor-pointer">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-[#A31631]/10 flex items-center justify-center flex-shrink-0"><Plus size={16} className="text-[#A31631]" /></div>
-                    <div>
-                      <p className="text-sm font-medium text-[#0E0E0F]">{plan.name} — {plan.subtitle}</p>
-                      <p className="text-xs text-[#9C958A]">R$ {plan.priceFormatted}/mês</p>
-                    </div>
-                  </div>
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* ═══════════ SEÇÃO: MENTORIA ═══════════ */}
       <div className="space-y-3">
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-lg bg-[#A31631] flex items-center justify-center flex-shrink-0">
-            <Handshake size={16} className="text-white" />
+            <Monitor size={16} className="text-white" />
           </div>
-          <h3 className="text-sm font-bold text-[#0E0E0F] uppercase tracking-wider">Mentoria</h3>
+          <h3 className="text-sm font-bold text-[#0E0E0F] uppercase tracking-wider">Sistema</h3>
           <div className="flex-1 h-px bg-[#0E0E0F]/10" />
         </div>
 
-        {/* Plano de consultoria/mentoria */}
-        {hasConsultoria && (
+        {/* Plano de sistema */}
+        {saas && (
           <CollapsibleCard
-            label="Mentoria"
-            name={consultoria!.name}
-            price={consultoriaIsMensal ? consultoria!.priceFormatted : formatCurrency(getConsultoriaPixTotal(consultoria!))}
-            period={consultoriaIsMensal ? '/mês' : ' à vista'}
+            label="Plano"
+            name={saas.name}
+            price={saas.priceFormatted}
+            period="/mês"
             forceToggle={toggleAll}
-            onRemove={() => cart.removePlan(consultoria!.id)}
+            onRemove={cart.plans.length > 1 || hasConsultants ? () => cart.removePlan(saas.id) : undefined}
           >
             <ul className="space-y-1.5 mb-3">
-              {consultoria!.features.slice(0, 3).map((f) => (
+              {saas.features.slice(0, 3).map((f) => (
                 <li key={f} className="flex items-start gap-2 text-xs text-[#9C958A]"><Check size={12} className="mt-0.5 text-[#A31631] flex-shrink-0" />{f}</li>
               ))}
-              {consultoria!.features.length > 3 && <li className="text-xs text-[#9C958A]">+{consultoria!.features.length - 3} recursos inclusos</li>}
+              {saas.features.length > 3 && <li className="text-xs text-[#9C958A]">+{saas.features.length - 3} recursos inclusos</li>}
             </ul>
-            {!consultoriaIsMensal && (
-              <div className="space-y-1.5 mb-3">
-                <div className="flex items-baseline justify-between text-xs text-[#9C958A]">
-                  <span>{consultoria!.months}x de R$ {consultoria!.priceFormatted}</span>
-                  <span>R$ {formatCurrency(getConsultoriaTotal(consultoria!))}</span>
-                </div>
-                <div className="flex items-baseline justify-between text-xs text-green-600 font-medium">
-                  <span>Desconto Pix (3%)</span>
-                  <span>- R$ {formatCurrency(getConsultoriaPixDiscount(consultoria!))}</span>
-                </div>
-              </div>
-            )}
-            <div className="flex items-start gap-2 rounded-lg bg-green-50 border border-green-200 px-3 py-2 text-[11px] text-green-700 leading-relaxed">
-              <Check size={12} className="mt-0.5 text-green-600 flex-shrink-0" />
-              <span><strong>Módulo 1 do sistema incluso</strong> durante o período. Módulos 2 e 3 à parte.</span>
-            </div>
-            <PlanSelector plans={consultoriaPlans} currentPlan={consultoria!} onSelect={cart.addPlan} label="mentoria" />
+            <PlanSelector plans={saasPlans} currentPlan={saas} onSelect={cart.addPlan} label="pacote" />
           </CollapsibleCard>
         )}
+
+        {/* Módulos avulsos */}
+        {modulos.map((mod) => (
+          <CollapsibleCard
+            key={mod.id}
+            label="Módulo avulso"
+            name={mod.name}
+            price={mod.priceFormatted}
+            period="/mês"
+            borderClass="border-[#A31631]/20"
+            forceToggle={toggleAll}
+            onRemove={() => cart.removePlan(mod.id)}
+          >
+            <p className="text-xs text-[#9C958A] mb-2">{mod.subtitle}</p>
+            <ul className="space-y-1.5">
+              {mod.features.slice(0, 4).map((f) => (
+                <li key={f} className="flex items-start gap-2 text-xs text-[#9C958A]"><Check size={12} className="mt-0.5 text-[#A31631] flex-shrink-0" />{f}</li>
+              ))}
+              {mod.features.length > 4 && <li className="text-xs text-[#9C958A]">+{mod.features.length - 4} recursos inclusos</li>}
+            </ul>
+          </CollapsibleCard>
+        ))}
+
+        {/* Addons (sistema) */}
+        {cart.addons.map((addon) => (
+          <CollapsibleCard
+            key={addon.id}
+            label="Addon"
+            name={addon.name}
+            price="—"
+            period=""
+            borderClass="border-[#A31631]/20"
+            forceToggle={toggleAll}
+            onRemove={() => cart.removeAddon(addon.id)}
+          >
+            <p className="text-xs text-[#9C958A] leading-relaxed mb-2">{addon.description}</p>
+            <div className="flex items-center gap-2 rounded-lg bg-[#A31631]/5 border border-[#A31631]/10 px-3 py-2 text-[11px] text-[#9C958A] leading-relaxed">
+              <Check size={12} className="mt-0.5 text-[#A31631] flex-shrink-0" />
+              <span><strong className="text-[#0E0E0F]">Consultor entrará em contato</strong> para ativar a integração.</span>
+            </div>
+          </CollapsibleCard>
+        ))}
 
         {/* Sessões com consultores */}
         {cart.consultants.map((c) => (
           <ConsultantSlotCard key={c.id} cartConsultant={c} forceToggle={toggleAll} />
         ))}
 
-        {/* Adicionar Mentoria */}
-        {!hasConsultoria && (
-          <div>
-            <button type="button" onClick={() => setConsultoriaExpanded(!consultoriaExpanded)}
-              className="w-full flex items-center justify-between gap-2 rounded-xl border border-dashed border-[#A31631]/30 bg-[#A31631]/5 p-4 text-left hover:bg-[#A31631]/10 transition-colors cursor-pointer">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-[#A31631]/10 flex items-center justify-center flex-shrink-0"><Plus size={16} className="text-[#A31631]" /></div>
-                <div>
-                  <p className="text-sm font-medium text-[#0E0E0F]">Adicionar Mentoria</p>
-                  <p className="text-xs text-[#9C958A]">Planos de 1, 3 ou 6 meses</p>
-                </div>
-              </div>
-              <ChevronDown size={16} className={`text-[#9C958A] transition-transform ${consultoriaExpanded ? 'rotate-180' : ''}`} />
-            </button>
-            {consultoriaExpanded && (
-              <div className="mt-2 rounded-xl border border-[#0E0E0F]/10 bg-white shadow-lg overflow-hidden">
-                {consultoriaPlans.map((plan) => (
-                  <button key={plan.id} type="button" onClick={() => { cart.addPlan(plan); setConsultoriaExpanded(false) }}
-                    className="w-full flex items-center justify-between px-4 py-3 text-left text-sm hover:bg-[#F7F7F7] text-[#0E0E0F] transition-colors cursor-pointer">
-                    <div>
-                      <span className="font-medium">{plan.name}</span>
-                      {plan.popular && <span className="ml-2 text-[10px] text-[#A31631] bg-[#A31631]/10 px-2 py-0.5 rounded-full">Popular</span>}
-                    </div>
-                    <span className="text-xs text-[#9C958A]">R$ {plan.priceFormatted}/mês</span>
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-
-        {!hasConsultoria && !hasConsultants && (
-          <p className="text-xs text-[#9C958A] text-center py-2">Nenhuma mentoria adicionada ainda.</p>
+        {/* Adicionar Sistema */}
+        {!hasSaas && (
+          <button type="button" onClick={() => cart.addPlan(upsellSaas)}
+            className="w-full flex items-center gap-3 rounded-xl border border-dashed border-[#A31631]/30 bg-[#A31631]/5 p-4 text-left hover:bg-[#A31631]/10 transition-colors cursor-pointer">
+            <div className="w-8 h-8 rounded-lg bg-[#A31631]/10 flex items-center justify-center flex-shrink-0"><Plus size={16} className="text-[#A31631]" /></div>
+            <div>
+              <p className="text-sm font-medium text-[#0E0E0F]">Adicionar Sistema</p>
+              <p className="text-xs text-[#9C958A]">{upsellSaas.name} — R$ {upsellSaas.priceFormatted}/mês</p>
+            </div>
+          </button>
         )}
       </div>
 
@@ -453,16 +300,7 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
             {hasSaas && (
               <div className="flex items-baseline justify-between text-sm text-[#9C958A]">
                 <span>{saas!.name}</span>
-                {saasIsIncluded ? (
-                  <span className="text-green-600 font-medium">Incluso</span>
-                ) : (
-                  <span>R$ {formatCurrency(saas!.price)}/mês</span>
-                )}
-              </div>
-            )}
-            {!hasSaas && hasConsultoria && (
-              <div className="flex items-baseline justify-between text-sm text-green-600">
-                <span>Módulo 1</span><span className="font-medium">Incluso</span>
+                <span>R$ {formatCurrency(saas!.price)}/mês</span>
               </div>
             )}
             {modulos.map((mod) => (
@@ -470,11 +308,6 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
                 <span>{mod.name}</span><span>R$ {formatCurrency(mod.price)}/mês</span>
               </div>
             ))}
-            {hasConsultoria && consultoriaIsMensal && (
-              <div className="flex items-baseline justify-between text-sm text-[#9C958A]">
-                <span>{consultoria!.name}</span><span>R$ {formatCurrency(consultoria!.price)}/mês</span>
-              </div>
-            )}
             <div className="flex items-baseline justify-between pt-2 border-t border-[#0E0E0F]/5">
               <span className="text-sm font-semibold text-[#0E0E0F]">Total mensal</span>
               <span className="text-lg font-bold text-[#0E0E0F]">R$ {formatCurrency(totalMensal)}/mês</span>
@@ -493,11 +326,6 @@ export function OrderSummary({ paymentMethod }: OrderSummaryProps) {
                 <span>Sessão ({c.name.split(' ')[0]})</span><span>R$ {formatCurrency(c.hourlyRate)}/hora</span>
               </div>
             ))}
-            {hasConsultoria && !consultoriaIsMensal && (
-              <div className="flex items-baseline justify-between text-sm text-[#9C958A]">
-                <span>{consultoria!.name} (Pix à vista)</span><span>R$ {formatCurrency(consultoriaAvulso)}</span>
-              </div>
-            )}
             <div className="flex items-baseline justify-between pt-2 border-t border-[#0E0E0F]/5">
               <span className="text-sm font-semibold text-[#0E0E0F]">Total à parte</span>
               <span className="text-lg font-bold text-[#0E0E0F]">R$ {formatCurrency(totalAvulso)}</span>
