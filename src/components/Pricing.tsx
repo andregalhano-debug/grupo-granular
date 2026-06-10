@@ -593,11 +593,11 @@ export function Pricing({ category = 'restaurantes' }: Props) {
           <div className="max-w-6xl mx-auto mb-10">
             {/* Linha do tempo desktop */}
             <div className="hidden sm:block">
-              <div className="relative flex items-start justify-between gap-4">
+              <div className="relative flex items-stretch justify-between gap-4">
                 {/* Linha conectora */}
                 <div className="absolute top-5 left-[calc(16.66%)] right-[calc(16.66%)] h-0.5 bg-[var(--accent)]/20" />
                 {consultoriaSteps.map((step, idx) => (
-                  <div key={step.months} className="flex-1 flex flex-col items-center">
+                  <div key={step.months} className="flex-1 flex flex-col">
                     {/* Nó */}
                     <div className="relative z-10 flex flex-col items-center mb-5">
                       <div className="w-10 h-10 rounded-full bg-[var(--accent)] flex items-center justify-center shadow-md shadow-[var(--accent-20)] mb-3">
@@ -610,8 +610,8 @@ export function Pricing({ category = 'restaurantes' }: Props) {
                         {step.months}
                       </span>
                     </div>
-                    {/* Card do step */}
-                    <div className={`w-full rounded-2xl border bg-white p-5 ${idx === 2 ? 'border-[var(--accent)]/30 shadow-sm shadow-[var(--accent-05)]' : 'border-[#9C958A]/20'}`}>
+                    {/* Card do step — flex-1 garante mesma altura em todos */}
+                    <div className={`flex-1 w-full rounded-2xl border bg-white p-5 ${idx === 2 ? 'border-[var(--accent)]/30 shadow-sm shadow-[var(--accent-05)]' : 'border-[#9C958A]/20'}`}>
                       {idx === 2 && (
                         <span className="inline-block text-[9px] font-bold uppercase tracking-wider bg-[var(--accent)] text-white px-2.5 py-0.5 rounded-full mb-3">
                           Melhor custo
