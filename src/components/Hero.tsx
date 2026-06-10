@@ -59,14 +59,14 @@ export function Hero({ category, setCategory }: Props) {
         {/* Headline */}
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1] text-[#0E0E0F] max-w-4xl mx-auto mb-8">
           Cada pedido é um dado.{' '}
-          <span className="text-[#A31631]">
+          <span className="text-[var(--accent)]">
             Cada dado, uma decisão.
           </span>
         </h1>
 
         {/* Subtext */}
         <p className="text-base sm:text-lg text-[#9C958A] max-w-2xl mx-auto mb-10 leading-relaxed">
-          Mentoria especializada e gestão completa para delivery, <span className="text-[#A31631] font-semibold whitespace-nowrap">com IA de ponta a ponta</span>.
+          Gestão completa para delivery, <span className="text-[var(--accent)] font-semibold whitespace-nowrap">com IA de ponta a ponta</span>.
         </p>
 
         {/* ── Seleção de categoria — foco principal ── */}
@@ -146,7 +146,7 @@ export function Hero({ category, setCategory }: Props) {
               {mercadoSubs.map((s) => (
                 <span
                   key={s}
-                  className="text-xs bg-[#A31631]/8 text-[#A31631] px-3 py-1 rounded-full border border-[#A31631]/15 font-medium"
+                  className="text-xs bg-[var(--accent-08)] text-[var(--accent)] px-3 py-1 rounded-full border border-[var(--accent-15)] font-medium"
                 >
                   {s}
                 </span>
@@ -221,8 +221,8 @@ export function Hero({ category, setCategory }: Props) {
             ) : (
               <div className="w-full bg-[#F7F7F7] flex items-center justify-center" style={{ minHeight: '340px' }}>
                 <div className="text-center px-6 py-12">
-                  <div className="w-14 h-14 rounded-2xl bg-[#A31631]/10 flex items-center justify-center mx-auto mb-4">
-                    {category === 'mercados' && <ShoppingCart size={28} className="text-[#A31631]" />}
+                  <div className="w-14 h-14 rounded-2xl bg-[var(--accent-10)] flex items-center justify-center mx-auto mb-4">
+                    {category === 'mercados' && <ShoppingCart size={28} className="text-[var(--accent)]" />}
                   </div>
                   <p className="text-sm font-semibold text-[#0E0E0F] mb-1">Screenshot {systemNames[category]}</p>
                   <p className="text-xs text-[#9C958A]">Aguardando validação do print de tela</p>

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Header } from '../components/Header'
 import { Hero } from '../components/Hero'
 import { SocialProof } from '../components/SocialProof'
@@ -17,6 +17,20 @@ import { categoryAccent, withAlpha } from '../data/categoryColors'
 export function LandingPage() {
   const [category, setCategory] = useState<Category>('restaurantes')
   const { primary: accent, dark: accentDark } = categoryAccent[category]
+
+  // Propaga CSS vars para o root do documento — necessário para componentes fora do LandingPage (chatbot, etc.)
+  useEffect(() => {
+    const root = document.documentElement
+    root.style.setProperty('--accent', accent)
+    root.style.setProperty('--accent-dark', accentDark)
+    root.style.setProperty('--accent-05', withAlpha(accent, 5))
+    root.style.setProperty('--accent-08', withAlpha(accent, 8))
+    root.style.setProperty('--accent-10', withAlpha(accent, 10))
+    root.style.setProperty('--accent-15', withAlpha(accent, 15))
+    root.style.setProperty('--accent-20', withAlpha(accent, 20))
+    root.style.setProperty('--accent-30', withAlpha(accent, 30))
+    root.style.setProperty('--accent-40', withAlpha(accent, 40))
+  }, [accent, accentDark])
 
   return (
     <CategoryContext.Provider value={{ accent, accentDark }}>
