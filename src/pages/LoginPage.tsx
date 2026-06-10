@@ -42,18 +42,20 @@ export function LoginPage() {
             <FadeIn delay={100}>
               <a
                 href="https://maestrofood.vercel.app/auth"
-                className="group block rounded-2xl border border-[#9C958A]/20 bg-white p-8 hover:border-[#A31631]/30 hover:shadow-lg hover:shadow-[#A31631]/5 transition-all h-full"
+                className="group flex flex-col rounded-2xl border border-[#9C958A]/20 bg-white p-8 hover:border-[#A31631]/30 hover:shadow-lg hover:shadow-[#A31631]/5 transition-all h-full"
               >
                 <div className="w-14 h-14 rounded-xl bg-[#A31631]/10 flex items-center justify-center mb-5">
                   <Monitor size={28} className="text-[#A31631]" />
                 </div>
                 <h2 className="text-lg font-bold text-[#0E0E0F] mb-2">Sou Cliente</h2>
-                <p className="text-sm text-[#9C958A] leading-relaxed mb-6">
+                <p className="text-sm text-[#9C958A] leading-relaxed">
                   Acesse o sistema Granular para gerenciar sua operação de delivery — dashboard, pedidos, estoque, financeiro e muito mais.
                 </p>
-                <div className="flex items-center gap-2 text-sm font-medium text-[#A31631] group-hover:gap-3 transition-all">
-                  Acessar sistema
-                  <ArrowRight size={16} />
+                <div className="mt-auto pt-6">
+                  <span className="flex items-center justify-center gap-2 w-full px-5 py-3 rounded-xl bg-[#A31631] text-white text-sm font-semibold group-hover:bg-[#8a1229] transition-colors">
+                    Acessar sistema
+                    <ArrowRight size={16} />
+                  </span>
                 </div>
               </a>
             </FadeIn>
@@ -62,7 +64,7 @@ export function LoginPage() {
             <FadeIn delay={200}>
               <a
                 href="/painel-consultor"
-                className="group block rounded-2xl border border-[#9C958A]/20 bg-white p-8 hover:border-[#A31631]/30 hover:shadow-lg hover:shadow-[#A31631]/5 transition-all h-full"
+                className="group flex flex-col rounded-2xl border border-[#9C958A]/20 bg-white p-8 hover:border-[#A31631]/30 hover:shadow-lg hover:shadow-[#A31631]/5 transition-all h-full"
               >
                 <div className="w-14 h-14 rounded-xl bg-[#0E0E0F]/5 flex items-center justify-center mb-5">
                   <Users size={28} className="text-[#0E0E0F]" />
@@ -71,7 +73,7 @@ export function LoginPage() {
                 <p className="text-sm text-[#9C958A] leading-relaxed mb-4">
                   Gerencie seus clientes, atendimentos e agenda. Receba o briefing e resumo automático de cada parceiro com base nas conversas com a IA.
                 </p>
-                <ul className="space-y-1.5 mb-6">
+                <ul className="space-y-1.5">
                   <li className="flex items-center gap-2 text-xs text-[#9C958A]">
                     <span className="w-1 h-1 rounded-full bg-[#9C958A]" />
                     Briefing e resumo dos clientes via IA
@@ -85,9 +87,11 @@ export function LoginPage() {
                     Histórico e dados dos parceiros
                   </li>
                 </ul>
-                <div className="flex items-center gap-2 text-sm font-medium text-[#A31631] group-hover:gap-3 transition-all">
-                  Acessar painel do consultor
-                  <ArrowRight size={16} />
+                <div className="mt-auto pt-6">
+                  <span className="flex items-center justify-center gap-2 w-full px-5 py-3 rounded-xl bg-[#0E0E0F] text-white text-sm font-semibold group-hover:bg-[#2a2a2a] transition-colors">
+                    Acessar painel do consultor
+                    <ArrowRight size={16} />
+                  </span>
                 </div>
               </a>
             </FadeIn>
@@ -96,18 +100,20 @@ export function LoginPage() {
             <FadeIn delay={300}>
               <Link
                 to="/admin"
-                className="group block rounded-2xl border border-[#9C958A]/20 bg-white p-8 hover:border-[#A31631]/30 hover:shadow-lg hover:shadow-[#A31631]/5 transition-all h-full"
+                className="group flex flex-col rounded-2xl border border-[#9C958A]/20 bg-white p-8 hover:border-[#A31631]/30 hover:shadow-lg hover:shadow-[#A31631]/5 transition-all h-full"
               >
                 <div className="w-14 h-14 rounded-xl bg-[#9C958A]/10 flex items-center justify-center mb-5">
                   <Settings size={28} className="text-[#9C958A]" />
                 </div>
                 <h2 className="text-lg font-bold text-[#0E0E0F] mb-2">Administração</h2>
-                <p className="text-sm text-[#9C958A] leading-relaxed mb-6">
+                <p className="text-sm text-[#9C958A] leading-relaxed">
                   Gerencie agendas de demonstração, configure horários disponíveis e integre com o Google Agenda.
                 </p>
-                <div className="flex items-center gap-2 text-sm font-medium text-[#A31631] group-hover:gap-3 transition-all">
-                  Acessar admin
-                  <ArrowRight size={16} />
+                <div className="mt-auto pt-6">
+                  <span className="flex items-center justify-center gap-2 w-full px-5 py-3 rounded-xl bg-[#9C958A] text-white text-sm font-semibold group-hover:bg-[#857f75] transition-colors">
+                    Acessar admin
+                    <ArrowRight size={16} />
+                  </span>
                 </div>
               </Link>
             </FadeIn>

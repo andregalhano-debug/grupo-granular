@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { ArrowRight, UtensilsCrossed, ShoppingCart, Pill, PawPrint, X, Clock } from 'lucide-react'
+import { ArrowRight, UtensilsCrossed, ShoppingCart, Pill, PawPrint, X, Clock, ChevronRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
 import telaSistema from '../assets/Tela Maestro.jpg'
@@ -22,6 +22,14 @@ const systemDescs: Record<Category, string> = {
   mercados: 'Gestão completa do seu mercado — estoque, televendas, financeiro e clientes em um único painel.',
   farmacias: 'Em desenvolvimento. Módulos específicos para o segmento farmacêutico chegando em breve.',
   petshop: 'Em desenvolvimento. Solução completa para clínicas veterinárias e pet shops chegando em breve.',
+}
+
+// Cor de acento por categoria — usada no card ativo e no restante do site via Header
+export const categoryAccent: Record<Category, { primary: string; light: string; border: string }> = {
+  restaurantes: { primary: '#A31631', light: '#A31631/10', border: '#A31631/20' },
+  mercados:     { primary: '#0A4D68', light: '#0A4D68/10', border: '#0A4D68/20' },
+  farmacias:    { primary: '#1B6B3A', light: '#1B6B3A/10', border: '#1B6B3A/20' },
+  petshop:      { primary: '#8B4513', light: '#8B4513/10', border: '#8B4513/20' },
 }
 
 const categories: {
@@ -63,42 +71,69 @@ export function Hero({ category, setCategory }: Props) {
 
         {/* ── Seleção de categoria — foco principal ── */}
         <div className="mb-12">
-          <p
-            className="text-[10px] font-medium text-[#9C958A] uppercase tracking-widest mb-6"
-            style={{ fontFamily: "'JetBrains Mono', monospace" }}
-          >
-            Selecione o seu segmento para começar
-          </p>
+          {/* Prompt proeminente */}
+          <div className="mb-8">
+            <h2 className="text-xl sm:text-2xl font-bold text-[#0E0E0F] mb-2">
+              Para qual segmento você quer ver a solução?
+            </h2>
+            <p className="text-sm text-[#9C958A]">Selecione abaixo para personalizar toda a navegação</p>
+          </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 max-w-3xl mx-auto">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-5 max-w-3xl mx-auto">
             {categories.map((cat) => {
               const isActive = category === cat.id
+              const accent = categoryAccent[cat.id]
               return (
                 <button
                   key={cat.id}
                   onClick={() => setCategory(cat.id)}
-                  className={`relative group rounded-2xl border-2 p-4 sm:p-5 text-left transition-all duration-200 cursor-pointer ${
+                  className={`relative group rounded-2xl border-2 p-5 sm:p-6 text-left transition-all duration-200 cursor-pointer ${
                     isActive
-                      ? 'border-[#A31631] bg-[#A31631]/5 shadow-lg shadow-[#A31631]/10'
+                      ? 'shadow-xl scale-[1.03]'
                       : cat.comingSoon
-                        ? 'border-[#9C958A]/15 bg-[#F7F7F7] opacity-65 hover:opacity-80'
-                        : 'border-[#9C958A]/20 bg-[#F7F7F7] hover:border-[#A31631]/30 hover:bg-white hover:shadow-md'
+                        ? 'border-[#9C958A]/15 bg-[#F7F7F7] opacity-60 hover:opacity-75'
+                        : 'border-[#9C958A]/20 bg-white hover:shadow-lg hover:scale-[1.01]'
                   }`}
+                  style={isActive ? {
+                    borderColor: accent.primary,
+                    backgroundColor: `${accent.primary}0d`,
+                    boxShadow: `0 8px 30px ${accent.primary}20`,
+                  } : {}}
                 >
                   {cat.comingSoon && (
                     <span className="absolute -top-2.5 right-3 text-[9px] font-bold uppercase tracking-wider bg-[#9C958A] text-white px-2 py-0.5 rounded-full">
                       Em breve
                     </span>
                   )}
-                  <div className={`w-9 h-9 rounded-xl flex items-center justify-center mb-3 transition-colors ${
-                    isActive ? 'bg-[#A31631]' : 'bg-[#9C958A]/15 group-hover:bg-[#A31631]/10'
-                  }`}>
-                    <cat.icon size={18} className={isActive ? 'text-white' : 'text-[#9C958A]'} />
+                  {isActive && (
+                    <span
+                      className="absolute -top-2.5 left-3 text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full text-white"
+                      style={{ backgroundColor: accent.primary }}
+                    >
+                      Ativo
+                    </span>
+                  )}
+                  <div
+                    className={`w-10 h-10 rounded-xl flex items-center justify-center mb-4 transition-colors`}
+                    style={isActive
+                      ? { backgroundColor: accent.primary }
+                      : { backgroundColor: '#9C958A20' }
+                    }
+                  >
+                    <cat.icon size={20} className={isActive ? 'text-white' : 'text-[#9C958A]'} />
                   </div>
-                  <p className={`text-sm font-bold mb-0.5 ${isActive ? 'text-[#A31631]' : 'text-[#0E0E0F]'}`}>
+                  <p
+                    className="text-sm font-bold mb-1"
+                    style={isActive ? { color: accent.primary } : { color: '#0E0E0F' }}
+                  >
                     {cat.label}
                   </p>
                   <p className="text-[11px] text-[#9C958A] leading-snug">{cat.description}</p>
+                  {isActive && (
+                    <div className="flex items-center gap-1 mt-3 text-[10px] font-semibold" style={{ color: accent.primary }}>
+                      <ChevronRight size={10} /> Ver solução
+                    </div>
+                  )}
                 </button>
               )
             })}

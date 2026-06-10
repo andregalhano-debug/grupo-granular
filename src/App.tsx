@@ -5,6 +5,8 @@ import { CheckoutPage } from './pages/CheckoutPage'
 import { ConfirmacaoPage } from './pages/ConfirmacaoPage'
 import { ConsultoresPage } from './pages/ConsultoresPage'
 import { SejaConsultorPage } from './pages/SejaConsultorPage'
+import { AssessmentPage } from './pages/AssessmentPage'
+import { PartnerAssessmentPage } from './pages/PartnerAssessmentPage'
 import { LoginPage } from './pages/LoginPage'
 import { PainelConsultorPage } from './pages/PainelConsultorPage'
 import { TrilhaPage } from './pages/TrilhaPage'
@@ -21,6 +23,8 @@ function App() {
         <Route path="/confirmacao" element={<ConfirmacaoPage />} />
         <Route path="/consultores" element={<ConsultoresPage />} />
         <Route path="/seja-consultor" element={<SejaConsultorPage />} />
+        <Route path="/assessment" element={<AssessmentPage />} />
+        <Route path="/diagnostico" element={<PartnerAssessmentPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/painel-consultor" element={<PainelConsultorPage />} />
         <Route path="/trilha" element={<TrilhaPage />} />

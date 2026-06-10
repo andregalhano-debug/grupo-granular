@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Check, Square, ChevronDown, Mic, MicOff, Plus, Calendar, CircleCheck, Circle } from 'lucide-react'
+import { Check, Square, ChevronDown, Mic, MicOff, Plus, Calendar, CircleCheck, Circle, Database, ClipboardList, MessageSquare, PenLine, ListTodo } from 'lucide-react'
 import type { ConsultingSession } from '../../data/dashboardMock'
 import { typeLabels } from '../../data/dashboardMock'
 import { useVoiceNotes } from '../../hooks/useVoiceNotes'
@@ -54,10 +54,13 @@ export function PreparationCard({ session, defaultOpen = false }: PreparationCar
       </button>
 
       {open && (
-        <div className="px-5 pb-5 space-y-5 border-t border-[#0E0E0F]/5 pt-5">
+        <div className="px-5 pb-5 border-t border-[#0E0E0F]/5 pt-5 divide-y divide-[#0E0E0F]/5">
           {/* Dados-chave */}
-          <div>
-            <p className="text-[10px] font-medium text-[#9C958A] uppercase tracking-wider mb-2" style={{ fontFamily: "'JetBrains Mono', monospace" }}>Dados-chave</p>
+          <div className="pb-5">
+            <div className="flex items-center gap-2 mb-3">
+              <Database size={18} className="text-[#A31631]" />
+              <h4 className="text-xs font-bold text-[#0E0E0F] uppercase tracking-wider">Dados-chave</h4>
+            </div>
             <div className="grid grid-cols-2 gap-2">
               {p.keyDataPoints.map((dp) => (
                 <div key={dp.label} className="bg-[#F7F7F7] rounded-lg px-3 py-2">
@@ -70,8 +73,11 @@ export function PreparationCard({ session, defaultOpen = false }: PreparationCar
 
           {/* Ações anteriores */}
           {p.previousActionItems.length > 0 && (
-            <div>
-              <p className="text-[10px] font-medium text-[#9C958A] uppercase tracking-wider mb-2" style={{ fontFamily: "'JetBrains Mono', monospace" }}>Ações anteriores</p>
+            <div className="py-5">
+              <div className="flex items-center gap-2 mb-3">
+                <ClipboardList size={18} className="text-[#A31631]" />
+                <h4 className="text-xs font-bold text-[#0E0E0F] uppercase tracking-wider">Ações Anteriores</h4>
+              </div>
               <div className="space-y-2">
                 {p.previousActionItems.map((item, i) => (
                   <button
@@ -95,8 +101,11 @@ export function PreparationCard({ session, defaultOpen = false }: PreparationCar
           )}
 
           {/* Tópicos sugeridos */}
-          <div>
-            <p className="text-[10px] font-medium text-[#9C958A] uppercase tracking-wider mb-2" style={{ fontFamily: "'JetBrains Mono', monospace" }}>Tópicos sugeridos</p>
+          <div className="py-5">
+            <div className="flex items-center gap-2 mb-3">
+              <MessageSquare size={18} className="text-[#A31631]" />
+              <h4 className="text-xs font-bold text-[#0E0E0F] uppercase tracking-wider">Tópicos Sugeridos</h4>
+            </div>
             <ol className="space-y-1.5">
               {p.suggestedTopics.map((topic, i) => (
                 <li key={i} className="flex items-start gap-2 text-xs text-[#0E0E0F]">
@@ -108,11 +117,12 @@ export function PreparationCard({ session, defaultOpen = false }: PreparationCar
           </div>
 
           {/* ─── ANOTAÇÕES COM IA DE VOZ ─── */}
-          <div className="border-t border-[#0E0E0F]/5 pt-5">
+          <div className="pt-5">
             <div className="flex items-center justify-between mb-3">
-              <p className="text-[10px] font-medium text-[#9C958A] uppercase tracking-wider" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
-                Anotações em tempo real
-              </p>
+              <div className="flex items-center gap-2">
+                <PenLine size={18} className="text-[#A31631]" />
+                <h4 className="text-xs font-bold text-[#0E0E0F] uppercase tracking-wider">Anotações em Tempo Real</h4>
+              </div>
               {voice.isSupported ? (
                 <button
                   type="button"
@@ -165,11 +175,12 @@ export function PreparationCard({ session, defaultOpen = false }: PreparationCar
           </div>
 
           {/* ─── PLANO DE AÇÃO AUTOMÁTICO ─── */}
-          <div className="border-t border-[#0E0E0F]/5 pt-5">
+          <div className="pt-5">
             <div className="flex items-center justify-between mb-3">
-              <p className="text-[10px] font-medium text-[#9C958A] uppercase tracking-wider" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
-                Plano de ação
-              </p>
+              <div className="flex items-center gap-2">
+                <ListTodo size={18} className="text-[#A31631]" />
+                <h4 className="text-xs font-bold text-[#0E0E0F] uppercase tracking-wider">Plano de Ação</h4>
+              </div>
               {voice.actionItems.length > 0 && (
                 <span className="text-xs text-[#9C958A]">{voice.progressPercent}% concluído</span>
               )}

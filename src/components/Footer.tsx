@@ -31,7 +31,7 @@ export function Footer() {
               </span>
             </a>
             <p className="text-sm text-[#9C958A] leading-relaxed mb-4">
-              Consultoria e gestão em delivery, potencializadas por IA.
+              Mentoria especializada e gestão completa para delivery, <span className="text-[#A31631] font-semibold whitespace-nowrap">com IA de ponta a ponta</span>.
             </p>
             <div className="flex items-center gap-3">
               <a

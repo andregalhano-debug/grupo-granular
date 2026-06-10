@@ -9,6 +9,7 @@ import { MinhaAgendaView } from '../components/painel-consultor/MinhaAgendaView'
 import { BriefingView } from '../components/painel-consultor/BriefingView'
 import { PreparationView } from '../components/painel-consultor/PreparationView'
 import { ConsultationTemplate } from '../components/painel-consultor/ConsultationTemplate'
+import { GoogleSetupView } from '../components/painel-consultor/GoogleSetupView'
 
 export function PainelConsultorPage() {
   const { tab, setTab } = useDashboardTab()
@@ -28,6 +29,7 @@ export function PainelConsultorPage() {
           {tab === 'briefings' && <BriefingView />}
           {tab === 'preparacao' && <PreparationView />}
           {tab === 'modelo' && <ConsultationTemplate />}
+          {tab === 'config' && <GoogleSetupView />}
         </FadeIn>
       </main>
     </div>

@@ -37,15 +37,12 @@ export function useSejaConsultorForm() {
     const emailErr = validateEmail(form.email)
     const whatsErr = validateWhatsApp(form.whatsapp)
     if (nomeErr) e.nome = nomeErr
-    if (emailErr) {
-      e.email = emailErr
-    } else if (!form.email.trim().endsWith('@gmail.com') && !form.email.trim().endsWith('@googlemail.com')) {
-      e.email = 'Use um e-mail Google (@gmail.com) para integração com a agenda'
-    }
+    if (emailErr) e.email = emailErr
     if (whatsErr) e.whatsapp = whatsErr
     if (!form.specialty) e.specialty = 'Selecione uma especialidade'
     if (!form.experienceYears || Number(form.experienceYears) < 1) e.experienceYears = 'Informe os anos de experiência'
-    if (form.bio.trim().length < 20) e.bio = 'Descreva sua experiência (mínimo 20 caracteres)'
+    if (!form.linkedin.trim()) e.linkedin = 'Informe seu LinkedIn'
+    else if (!form.linkedin.includes('linkedin.com')) e.linkedin = 'Informe um link válido do LinkedIn'
     setErrors(e)
     return Object.keys(e).length === 0
   }, [form])
@@ -54,9 +51,19 @@ export function useSejaConsultorForm() {
     if (!validate()) return
     setIsProcessing(true)
     await new Promise((r) => setTimeout(r, 1500))
+    // Salva dados do cadastro para o assessment reutilizar
+    localStorage.setItem('granular-consultant-registration', JSON.stringify({
+      nome: form.nome,
+      email: form.email,
+      whatsapp: form.whatsapp,
+      linkedin: form.linkedin,
+      specialty: form.specialty,
+      experienceYears: form.experienceYears,
+      bio: form.bio,
+    }))
     setIsProcessing(false)
     setSubmitted(true)
-  }, [validate])
+  }, [validate, form])
 
   return { form, errors, submitted, isProcessing, updateField, submit }
 }

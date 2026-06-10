@@ -17,7 +17,7 @@ export function LandingPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Header />
+      <Header category={category} />
       <Hero category={category} setCategory={setCategory} />
       <SocialProof />
       <Modules category={category} />

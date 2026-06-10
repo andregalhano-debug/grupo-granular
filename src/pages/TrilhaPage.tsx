@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowLeft, BookOpen, CheckCircle2, Circle, Clock, ChevronDown, Lock, Trophy, X } from 'lucide-react'
+import { ArrowLeft, BookOpen, CheckCircle2, Circle, Clock, ChevronDown, Lock, Trophy, X, User } from 'lucide-react'
 import { trailModules } from '../data/trailData'
 import type { Lesson } from '../data/trailData'
 import { useTrailProgress } from '../hooks/useTrailProgress'
+import { ProfileTab } from '../components/trilha/ProfileTab'
+
+type TrilhaTab = 'trilha' | 'perfil'
 
 function formatTime(seconds: number) {
   const m = Math.floor(seconds / 60)
@@ -162,6 +165,7 @@ function LessonViewer({ lesson, onClose, timeSpent, canComplete, completed, onCo
 
 export function TrilhaPage() {
   const trail = useTrailProgress()
+  const [activeTab, setActiveTab] = useState<TrilhaTab>('trilha')
 
   useEffect(() => { window.scrollTo(0, 0) }, [])
 
@@ -199,20 +203,51 @@ export function TrilhaPage() {
         </div>
       </header>
 
-      {/* Barra de progresso geral */}
+      {/* Tabs + progress */}
       <div className="bg-white border-b border-[#0E0E0F]/5">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-3">
-          <div className="w-full h-2 rounded-full bg-[#0E0E0F]/10 overflow-hidden">
-            <div
-              className="h-full rounded-full bg-[#A31631] transition-all duration-500"
-              style={{ width: `${trail.overallPercent}%` }}
-            />
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+          <div className="flex items-center gap-6 -mb-px">
+            <button
+              type="button"
+              onClick={() => setActiveTab('trilha')}
+              className={`flex items-center gap-2 py-3 text-sm font-medium border-b-2 transition-colors cursor-pointer ${
+                activeTab === 'trilha'
+                  ? 'border-[#A31631] text-[#A31631]'
+                  : 'border-transparent text-[#9C958A] hover:text-[#0E0E0F]'
+              }`}
+            >
+              <BookOpen size={16} /> Trilha
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveTab('perfil')}
+              className={`flex items-center gap-2 py-3 text-sm font-medium border-b-2 transition-colors cursor-pointer ${
+                activeTab === 'perfil'
+                  ? 'border-[#A31631] text-[#A31631]'
+                  : 'border-transparent text-[#9C958A] hover:text-[#0E0E0F]'
+              }`}
+            >
+              <User size={16} /> Meu Perfil
+            </button>
           </div>
         </div>
+        {activeTab === 'trilha' && (
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 py-3">
+            <div className="w-full h-2 rounded-full bg-[#0E0E0F]/10 overflow-hidden">
+              <div
+                className="h-full rounded-full bg-[#A31631] transition-all duration-500"
+                style={{ width: `${trail.overallPercent}%` }}
+              />
+            </div>
+          </div>
+        )}
       </div>
 
-      {/* Módulos */}
+      {/* Conteúdo da tab */}
       <main className="max-w-4xl mx-auto px-4 sm:px-6 py-8 space-y-6">
+        {activeTab === 'perfil' && <ProfileTab />}
+
+        {activeTab === 'trilha' && (<>
         {trail.overallPercent === 100 && (
           <div className="rounded-2xl bg-[#A31631]/5 border border-[#A31631]/20 p-6 text-center">
             <Trophy size={32} className="text-[#A31631] mx-auto mb-3" />
@@ -232,6 +267,7 @@ export function TrilhaPage() {
             />
           )
         })}
+        </>)}
       </main>
 
       {/* Lesson viewer overlay */}

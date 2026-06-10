@@ -40,19 +40,22 @@ export function BriefingCard({ session, defaultOpen = false }: BriefingCardProps
 
       {/* Conteúdo expandível */}
       {open && (
-        <div className="px-5 pb-5 space-y-5 border-t border-[#0E0E0F]/5 pt-5">
+        <div className="px-5 pb-5 border-t border-[#0E0E0F]/5 pt-5 divide-y divide-[#0E0E0F]/5">
           {/* Objetivo */}
-          <div className="flex items-start gap-2">
-            <Target size={16} className="text-[#A31631] mt-0.5 flex-shrink-0" />
+          <div className="flex items-start gap-3 pb-5">
+            <Target size={18} className="text-[#A31631] mt-0.5 flex-shrink-0" />
             <div>
-              <p className="text-[10px] font-medium text-[#9C958A] uppercase tracking-wider mb-1" style={{ fontFamily: "'JetBrains Mono', monospace" }}>Objetivo</p>
+              <h4 className="text-xs font-bold text-[#0E0E0F] uppercase tracking-wider mb-1.5">Objetivo</h4>
               <p className="text-sm font-medium text-[#0E0E0F]">{b.objective}</p>
             </div>
           </div>
 
           {/* Métricas */}
-          <div>
-            <p className="text-[10px] font-medium text-[#9C958A] uppercase tracking-wider mb-2" style={{ fontFamily: "'JetBrains Mono', monospace" }}>Métricas chave</p>
+          <div className="py-5">
+            <div className="flex items-center gap-2 mb-3">
+              <TrendingUp size={18} className="text-[#A31631] flex-shrink-0" />
+              <h4 className="text-xs font-bold text-[#0E0E0F] uppercase tracking-wider">Métrica Chave</h4>
+            </div>
             <div className="grid grid-cols-2 gap-2">
               {b.keyMetrics.map((m) => {
                 const TrendIcon = m.trend ? trendIcons[m.trend] : Minus
@@ -71,10 +74,11 @@ export function BriefingCard({ session, defaultOpen = false }: BriefingCardProps
           </div>
 
           {/* Insights do Chatbot */}
-          <div>
-            <p className="text-[10px] font-medium text-[#9C958A] uppercase tracking-wider mb-2" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
-              <Bot size={12} className="inline mr-1" />Insights da IA
-            </p>
+          <div className="py-5">
+            <div className="flex items-center gap-2 mb-3">
+              <Bot size={18} className="text-[#A31631] flex-shrink-0" />
+              <h4 className="text-xs font-bold text-[#0E0E0F] uppercase tracking-wider">Insights da IA</h4>
+            </div>
             <div className="border-l-2 border-[#A31631]/30 pl-3 space-y-2">
               {b.chatbotInsights.map((insight, i) => (
                 <p key={i} className="text-xs text-[#9C958A] leading-relaxed">{insight}</p>
@@ -83,10 +87,11 @@ export function BriefingCard({ session, defaultOpen = false }: BriefingCardProps
           </div>
 
           {/* Dores */}
-          <div>
-            <p className="text-[10px] font-medium text-[#9C958A] uppercase tracking-wider mb-2" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
-              <AlertTriangle size={12} className="inline mr-1" />Dores principais
-            </p>
+          <div className="py-5">
+            <div className="flex items-center gap-2 mb-3">
+              <AlertTriangle size={18} className="text-[#A31631] flex-shrink-0" />
+              <h4 className="text-xs font-bold text-[#0E0E0F] uppercase tracking-wider">Dores Principais</h4>
+            </div>
             <div className="flex flex-wrap gap-2">
               {c.painPoints.map((p) => (
                 <span key={p} className="text-xs bg-[#A31631]/10 text-[#A31631] px-2.5 py-1 rounded-full">{p}</span>
@@ -95,16 +100,24 @@ export function BriefingCard({ session, defaultOpen = false }: BriefingCardProps
           </div>
 
           {/* Abordagem */}
-          <div className="rounded-xl bg-[#A31631]/5 border border-[#A31631]/10 p-4">
-            <p className="text-[10px] font-medium text-[#A31631] uppercase tracking-wider mb-1" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
-              <Lightbulb size={12} className="inline mr-1" />Abordagem recomendada
-            </p>
-            <p className="text-xs text-[#0E0E0F] leading-relaxed">{b.recommendedApproach}</p>
+          <div className="pt-5">
+            <div className="rounded-xl bg-[#A31631]/5 border border-[#A31631]/10 p-4">
+              <div className="flex items-center gap-2 mb-2">
+                <Lightbulb size={18} className="text-[#A31631] flex-shrink-0" />
+                <h4 className="text-xs font-bold text-[#A31631] uppercase tracking-wider">Abordagem Recomendada</h4>
+              </div>
+              <p className="text-xs text-[#0E0E0F] leading-relaxed">{b.recommendedApproach}</p>
+            </div>
           </div>
 
           {/* Perfil do cliente */}
-          <div>
-            <p className="text-[10px] font-medium text-[#9C958A] uppercase tracking-wider mb-2" style={{ fontFamily: "'JetBrains Mono', monospace" }}>Perfil</p>
+          <div className="pt-5">
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-[18px] h-[18px] rounded-full bg-[#A31631]/10 flex items-center justify-center flex-shrink-0">
+                <span className="text-[8px] font-bold text-[#A31631]">{c.businessName.split(' ').map((n) => n[0]).join('').slice(0, 2)}</span>
+              </div>
+              <h4 className="text-xs font-bold text-[#0E0E0F] uppercase tracking-wider">Perfil</h4>
+            </div>
             <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-xs">
               <div className="flex justify-between"><span className="text-[#9C958A]">Tipo</span><span className="text-[#0E0E0F]">{c.businessType}</span></div>
               <div className="flex justify-between"><span className="text-[#9C958A]">Operação</span><span className="text-[#0E0E0F]">{c.operationType}</span></div>

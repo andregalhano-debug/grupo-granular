@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Menu, X, Briefcase } from 'lucide-react'
 import { GranularLogo } from './GranularLogo'
 import { useCart } from '../stores/useCartStore'
+import type { Category } from './Modules'
 
 const navLinks = [
   { label: 'Módulos', href: '/#modulos' },
@@ -13,19 +14,43 @@ const navLinks = [
   { label: 'FAQ', href: '/#faq' },
 ]
 
-export function Header() {
+const categoryBadge: Record<Category, { emoji: string; label: string; color: string; bg: string }> = {
+  restaurantes: { emoji: '🍽️', label: 'Restaurantes', color: '#A31631', bg: '#A31631/10' },
+  mercados:     { emoji: '🛒', label: 'Mercados',     color: '#0A4D68', bg: '#0A4D68/10' },
+  farmacias:    { emoji: '💊', label: 'Farmácias',    color: '#1B6B3A', bg: '#1B6B3A/10' },
+  petshop:      { emoji: '🐾', label: 'Pet Shop',     color: '#8B4513', bg: '#8B4513/10' },
+}
+
+interface Props {
+  category?: Category
+}
+
+export function Header({ category }: Props) {
   const [menuOpen, setMenuOpen] = useState(false)
   const cart = useCart()
+  const badge = category ? categoryBadge[category] : null
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-xl border-b border-[#9C958A]/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-[72px] flex items-center justify-between">
-        {/* Logo */}
+        {/* Logo + categoria ativa */}
         <a href="/" className="flex items-center gap-3">
           <GranularLogo size={36} color="#0E0E0F" />
-          <span className="text-lg font-semibold tracking-tight text-[#0E0E0F]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-            Granular
-          </span>
+          <div className="flex items-center gap-2">
+            <span className="text-lg font-semibold tracking-tight text-[#0E0E0F]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+              Granular
+            </span>
+            {badge && (
+              <a
+                href="#hero"
+                className="hidden sm:inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border transition-colors hover:opacity-80"
+                style={{ color: badge.color, borderColor: `${badge.color}30`, backgroundColor: `${badge.color}12` }}
+                title="Trocar segmento"
+              >
+                {badge.emoji} {badge.label}
+              </a>
+            )}
+          </div>
         </a>
 
         {/* Desktop Nav */}
@@ -89,6 +114,17 @@ export function Header() {
       {/* Mobile Menu */}
       {menuOpen && (
         <div className="md:hidden bg-white border-t border-[#9C958A]/20 px-4 py-4 space-y-3">
+          {/* Categoria ativa no mobile */}
+          {badge && (
+            <a
+              href="#hero"
+              onClick={() => setMenuOpen(false)}
+              className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider px-3 py-2 rounded-lg border"
+              style={{ color: badge.color, borderColor: `${badge.color}30`, backgroundColor: `${badge.color}12` }}
+            >
+              {badge.emoji} {badge.label} · Trocar segmento
+            </a>
+          )}
           {navLinks.map((link) => (
             <a
               key={link.href}

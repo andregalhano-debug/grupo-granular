@@ -1,0 +1,146 @@
+import { useState } from 'react'
+import { Plus, Check, Monitor, Handshake, Package, Users, ChevronDown, ExternalLink } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { saasPlans, consultoriaPlans, moduloPlans, type Plan } from '../../data/plans'
+import { useCart } from '../../stores/useCartStore'
+
+interface QuickAddItemProps {
+  plan: Plan
+  inCart: boolean
+  onAdd: () => void
+}
+
+function QuickAddItem({ plan, inCart, onAdd }: QuickAddItemProps) {
+  return (
+    <button
+      type="button"
+      onClick={inCart ? undefined : onAdd}
+      disabled={inCart}
+      className={`w-full flex items-center justify-between px-3 py-2.5 text-left transition-colors ${
+        inCart
+          ? 'bg-green-50/50 cursor-default'
+          : 'hover:bg-[#A31631]/5 cursor-pointer'
+      }`}
+    >
+      <div className="flex items-center gap-2 min-w-0">
+        {inCart ? (
+          <Check size={14} className="text-green-500 flex-shrink-0" />
+        ) : (
+          <Plus size={14} className="text-[#A31631] flex-shrink-0" />
+        )}
+        <span className={`text-xs truncate ${inCart ? 'text-green-700' : 'text-[#0E0E0F]'}`}>
+          {plan.name}
+        </span>
+      </div>
+      <span className={`text-[11px] flex-shrink-0 ml-2 ${inCart ? 'text-green-500 font-medium' : 'text-[#9C958A]'}`}>
+        {inCart ? 'No carrinho' : `R$ ${plan.priceFormatted}${plan.period}`}
+      </span>
+    </button>
+  )
+}
+
+export function QuickAddBar() {
+  const cart = useCart()
+  const [openSection, setOpenSection] = useState<string | null>(null)
+
+  const cartPlanIds = new Set(cart.plans.map((p) => p.id))
+
+  const toggleSection = (section: string) => {
+    setOpenSection(openSection === section ? null : section)
+  }
+
+  const sections = [
+    {
+      id: 'sistema',
+      label: 'Sistema',
+      icon: Monitor,
+      plans: saasPlans,
+      addFn: (plan: Plan) => cart.addPlan(plan),
+    },
+    {
+      id: 'modulos',
+      label: 'Módulos',
+      icon: Package,
+      plans: moduloPlans,
+      addFn: (plan: Plan) => cart.addPlan(plan),
+    },
+    {
+      id: 'mentoria',
+      label: 'Mentoria',
+      icon: Handshake,
+      plans: consultoriaPlans,
+      addFn: (plan: Plan) => cart.addPlan(plan),
+    },
+  ]
+
+  return (
+    <div className="rounded-2xl border border-[#A31631]/20 bg-white overflow-hidden mb-4 shadow-sm shadow-[#A31631]/5">
+      <div className="flex items-center gap-2.5 px-4 py-3 bg-[#A31631]/[0.04] border-b border-[#A31631]/10">
+        <div className="w-7 h-7 rounded-lg bg-[#A31631] flex items-center justify-center flex-shrink-0">
+          <Plus size={14} className="text-white" />
+        </div>
+        <p className="text-xs font-bold text-[#0E0E0F] uppercase tracking-wider">
+          Adicionar ao pedido
+        </p>
+      </div>
+
+      {/* Botões de categoria lado a lado */}
+      <div className="flex border-b border-[#0E0E0F]/5">
+        {sections.map((section) => {
+          const isOpen = openSection === section.id
+          const Icon = section.icon
+          const itemsInCart = section.plans.filter((p) => cartPlanIds.has(p.id)).length
+          return (
+            <button
+              key={section.id}
+              type="button"
+              onClick={() => toggleSection(section.id)}
+              className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 text-xs font-medium transition-colors cursor-pointer border-b-2 ${
+                isOpen
+                  ? 'text-[#A31631] border-[#A31631] bg-[#A31631]/[0.03]'
+                  : 'text-[#9C958A] border-transparent hover:text-[#0E0E0F]'
+              }`}
+            >
+              <Icon size={14} />
+              {section.label}
+              {itemsInCart > 0 && (
+                <span className="w-4 h-4 rounded-full bg-green-500 text-white text-[9px] font-bold flex items-center justify-center">
+                  {itemsInCart}
+                </span>
+              )}
+              <ChevronDown size={12} className={`transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+            </button>
+          )
+        })}
+      </div>
+
+      {/* Lista de itens da categoria aberta */}
+      {openSection && (
+        <div className="divide-y divide-[#0E0E0F]/5">
+          {sections.find((s) => s.id === openSection)?.plans.map((plan) => (
+            <QuickAddItem
+              key={plan.id}
+              plan={plan}
+              inCart={cartPlanIds.has(plan.id)}
+              onAdd={() => sections.find((s) => s.id === openSection)?.addFn(plan)}
+            />
+          ))}
+
+          {/* Link para mentores (dentro da seção mentoria) */}
+          {openSection === 'mentoria' && (
+            <Link
+              to="/consultores"
+              className="w-full flex items-center justify-between px-3 py-2.5 text-left hover:bg-[#A31631]/5 transition-colors"
+            >
+              <div className="flex items-center gap-2">
+                <Users size={14} className="text-[#A31631]" />
+                <span className="text-xs text-[#0E0E0F]">Escolher mentor para sessão</span>
+              </div>
+              <ExternalLink size={12} className="text-[#9C958A]" />
+            </Link>
+          )}
+        </div>
+      )}
+    </div>
+  )
+}

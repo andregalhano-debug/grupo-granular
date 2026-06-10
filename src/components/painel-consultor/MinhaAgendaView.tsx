@@ -240,9 +240,10 @@ export function MinhaAgendaView() {
           {displaySessions.length > 0 && (
             <div className="space-y-3">
               {!selectedDate && (
-                <p className="text-[10px] font-medium text-[#9C958A] uppercase tracking-wider" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
-                  Todas as sessões
-                </p>
+                <div className="flex items-center gap-2 mb-1">
+                  <Calendar size={16} className="text-[#A31631]" />
+                  <h4 className="text-xs font-bold text-[#0E0E0F] uppercase tracking-wider">Todas as sessões</h4>
+                </div>
               )}
               {displaySessions.map((s) => {
                 const status = statusColors[s.status]
@@ -259,8 +260,8 @@ export function MinhaAgendaView() {
                         </div>
                         <p className="text-xs text-[#9C958A]">{s.client.name} — {s.client.businessType}</p>
                         <div className="flex items-center gap-3 mt-2">
-                          <span className="flex items-center gap-1 text-xs text-[#9C958A]">
-                            <Clock size={12} /> {s.date} {s.time} ({s.duration} min)
+                          <span className="flex items-center gap-1.5 text-xs font-semibold text-[#0E0E0F] bg-[#F7F7F7] px-2.5 py-1 rounded-lg">
+                            <Clock size={12} className="text-[#A31631]" /> {s.date} {s.time} ({s.duration} min)
                           </span>
                           <span className="text-[10px] font-medium bg-[#A31631]/10 text-[#A31631] px-2 py-0.5 rounded-full">
                             {typeLabels[s.type]}
@@ -289,9 +290,10 @@ export function MinhaAgendaView() {
           {/* Personal events */}
           {displayEvents.length > 0 && (
             <div className="space-y-3">
-              <p className="text-[10px] font-medium text-[#9C958A] uppercase tracking-wider" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
-                Eventos pessoais
-              </p>
+              <div className="flex items-center gap-2 mb-1">
+                <Clock size={16} className="text-blue-500" />
+                <h4 className="text-xs font-bold text-[#0E0E0F] uppercase tracking-wider">Eventos Pessoais</h4>
+              </div>
               {displayEvents.map((ev) => (
                 <div key={ev.id} className="rounded-2xl border border-blue-200 bg-white p-4">
                   <div className="flex items-center justify-between mb-1">
@@ -406,7 +408,7 @@ export function MinhaAgendaView() {
 
           {/* Quick stats */}
           <div className="rounded-2xl border border-[#9C958A]/20 bg-white p-4">
-            <h4 className="text-[10px] font-medium text-[#9C958A] uppercase tracking-wider mb-3" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+            <h4 className="text-xs font-bold text-[#0E0E0F] uppercase tracking-wider mb-3">
               Resumo
             </h4>
             <div className="grid grid-cols-2 gap-3 text-center">

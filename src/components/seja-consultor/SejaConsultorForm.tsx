@@ -38,14 +38,10 @@ export function SejaConsultorForm({ form, errors, isProcessing, onUpdate, onSubm
       {/* Email */}
       <div>
         <label className="flex items-center gap-2 text-sm font-medium text-[#0E0E0F] mb-1.5">
-          <Mail size={16} className="text-[#9C958A]" /> E-mail Google <span className="text-xs text-[#A31631]">*obrigatório</span>
+          <Mail size={16} className="text-[#9C958A]" /> E-mail
         </label>
-        <input type="email" placeholder="seu@gmail.com" value={form.email} onChange={(e) => onUpdate('email', e.target.value)} className={inputClass('email')} />
-        {errors.email ? (
-          <p className="text-xs text-[#A31631] mt-1">{errors.email}</p>
-        ) : (
-          <p className="text-xs text-[#9C958A] mt-1">Necessário para integração com Google Calendar</p>
-        )}
+        <input type="email" placeholder="seu@email.com" value={form.email} onChange={(e) => onUpdate('email', e.target.value)} className={inputClass('email')} />
+        {errors.email && <p className="text-xs text-[#A31631] mt-1">{errors.email}</p>}
       </div>
 
       {/* WhatsApp */}
@@ -83,15 +79,16 @@ export function SejaConsultorForm({ form, errors, isProcessing, onUpdate, onSubm
       {/* LinkedIn */}
       <div>
         <label className="flex items-center gap-2 text-sm font-medium text-[#0E0E0F] mb-1.5">
-          <Link2 size={16} className="text-[#9C958A]" /> LinkedIn <span className="text-xs text-[#9C958A]">(opcional)</span>
+          <Link2 size={16} className="text-[#9C958A]" /> LinkedIn
         </label>
         <input type="url" placeholder="https://linkedin.com/in/seu-perfil" value={form.linkedin} onChange={(e) => onUpdate('linkedin', e.target.value)} className={inputClass('linkedin')} />
+        {errors.linkedin && <p className="text-xs text-[#A31631] mt-1">{errors.linkedin}</p>}
       </div>
 
       {/* Bio */}
       <div>
         <label className="flex items-center gap-2 text-sm font-medium text-[#0E0E0F] mb-1.5">
-          <FileText size={16} className="text-[#9C958A]" /> Sobre você
+          <FileText size={16} className="text-[#9C958A]" /> Sobre você <span className="text-xs text-[#9C958A]">(opcional)</span>
         </label>
         <textarea
           rows={4}

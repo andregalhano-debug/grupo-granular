@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { ChevronDown } from 'lucide-react'
+import { ChevronDown, GraduationCap } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
 
 const faqs = [
@@ -110,6 +111,26 @@ export function Faq() {
             </button>
           </FadeIn>
         )}
+
+        {/* CTA Seja Consultor */}
+        <FadeIn delay={200}>
+          <div className="mt-12 rounded-2xl border border-[#A31631]/15 bg-[#A31631]/[0.03] p-6 sm:p-8 flex flex-col sm:flex-row items-center gap-5 text-center sm:text-left">
+            <div className="w-14 h-14 rounded-xl bg-[#A31631]/10 flex items-center justify-center flex-shrink-0">
+              <GraduationCap size={28} className="text-[#A31631]" />
+            </div>
+            <div className="flex-1">
+              <h3 className="text-base font-bold text-[#0E0E0F] mb-1">Quer fazer parte do time Granular?</h3>
+              <p className="text-sm text-[#9C958A]">Seja um consultor credenciado e ajude operações de delivery a crescerem com inteligência.</p>
+            </div>
+            <Link
+              to="/seja-consultor"
+              className="inline-flex items-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors whitespace-nowrap flex-shrink-0"
+            >
+              Seja Consultor
+              <ChevronDown size={14} className="rotate-[-90deg]" />
+            </Link>
+          </div>
+        </FadeIn>
       </div>
     </section>
   )
