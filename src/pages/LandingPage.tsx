@@ -56,7 +56,7 @@ export function LandingPage() {
         <Differentials />
         <Pricing category={category} />
         <Testimonials />
-        <Faq />
+        <Faq category={category} />
         <CtaSection />
         <Footer />
       </div>

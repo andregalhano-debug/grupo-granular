@@ -1,66 +1,179 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { ChevronDown, GraduationCap } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
+import type { Category } from './Modules'
 
-const faqs = [
-  {
-    q: 'Qual a diferença entre consultoria e mentoria?',
-    a: 'Na Granular, usamos o modelo de mentoria: o mentor não executa por você, ele orienta, diagnostica e constrói junto o plano de ação. A diferença é que o mentor transfere conhecimento para que sua equipe ganhe autonomia, enquanto a consultoria tradicional cria dependência. O objetivo é que, ao final do período, sua operação funcione sem precisar do mentor.',
-  },
-  {
-    q: 'Todos os blocos estão disponíveis em qualquer pacote de mentoria?',
-    a: 'Sim. Operação, financeiro, estoque, cardápio, iFood e RH podem ser trabalhados em qualquer um dos 3 pacotes (1, 3 ou 6 meses). Após o diagnóstico inicial, mentor e cliente definem juntos quais blocos serão priorizados de acordo com a necessidade do negócio e o tempo contratado.',
-  },
-  {
-    q: 'O que está incluso nos pacotes de mentoria?',
-    a: '4 horas mensais de mentoria, diagnóstico completo da operação, plano de ação com metas e responsáveis, relatório semanal de evolução, suporte contínuo durante o período e o Módulo 1 do sistema incluso. A visita in loco é negociada à parte.',
-  },
-  {
-    q: 'O sistema é obrigatório para contratar a mentoria?',
-    a: 'Não. Você pode contratar a mentoria sem o sistema. No entanto, o Módulo 1 já está incluso em todos os pacotes de mentoria para que o mentor tenha acesso aos dados da sua operação e possa fazer um diagnóstico mais preciso.',
-  },
-  {
-    q: 'Posso contratar somente o sistema sem mentoria?',
-    a: 'Sim. O sistema Granular pode ser contratado de forma independente nos Módulos 1, 2 ou 3. Cada módulo amplia as funcionalidades disponíveis, desde dashboard e KDS até estoque, checklist, RH e produção.',
-  },
-  {
-    q: 'Qual a diferença entre os Módulos 1, 2 e 3 do sistema?',
-    a: 'Módulo 1 (R$ 89/mês): Dashboard, operações, KDS e relatórios. Módulo 2 (R$ 489/mês): tudo do 1 + controle de estoque e checklists operacionais. Módulo 3 (R$ 3.899/mês): tudo do 2 + gestão de pessoas (RH), produção com fichas técnicas, CMV e suporte técnico.',
-  },
-  {
-    q: 'O módulo Pessoas (RH) pode ser contratado separadamente?',
-    a: 'Sim. O módulo Pessoas (RH) está disponível de forma avulsa por R$ 599/mês, com recrutamento, controle de entrevistas, escalas, documentos, avaliação de desempenho e gestão de turnover.',
-  },
-  {
-    q: 'O que é a integração com a Foozi?',
-    a: 'A Foozi é nossa parceira em atendimento digital e gestão de compras. Com a integração, você acessa +2.000 fornecedores homologados com cotação e negociação gerenciadas na Granular. Há duas opções: somente o sistema (350/mês) ou com Executivo de Compras dedicado (1.500/mês, sistema incluso).',
-  },
-  {
-    q: 'Como funciona o pagamento?',
-    a: 'O sistema é cobrado mensalmente por cartão de crédito ou Pix. A mentoria pode ser paga no cartão (mensal) ou via Pix à vista com 3% de desconto. Ao final da mentoria, o sistema continua ativo no mesmo cartão já autorizado.',
-  },
-  {
-    q: 'Posso cancelar a qualquer momento?',
-    a: 'Sim. Os planos de sistema podem ser cancelados a qualquer momento. Os pacotes de mentoria têm o período contratado (1, 3 ou 6 meses) com compromisso durante a vigência.',
-  },
-  {
-    q: 'Quanto tempo leva para ver resultados?',
-    a: 'Depende do estado atual da operação, mas clientes com diagnóstico claro e execução do plano de ação costumam ver impacto nos KPIs já nas primeiras semanas. Operações com CMV descontrolado, por exemplo, conseguem reduzir 3-5 pontos percentuais no primeiro mês.',
-  },
-  {
-    q: 'O sistema funciona para qualquer tipo de negócio?',
-    a: 'Sim. O Grupo Granular atende restaurantes, supermercados, atacarejos, farmácias, pet shops, dentre outros segmentos. Com foco na transformação do delivery e da gestão consolidada dos canais e operações. O sistema é multi-loja com visões apartadas e benchmark entre unidades.',
-  },
-]
+interface FaqItem { q: string; a: string }
 
-const VISIBLE_COUNT = 3
+const faqsByCategory: Record<Category, FaqItem[]> = {
+  restaurantes: [
+    {
+      q: 'Qual a diferença entre consultoria e mentoria?',
+      a: 'Na Granular, usamos o modelo de mentoria: o mentor não executa por você, ele orienta, diagnostica e constrói junto o plano de ação. O objetivo é que, ao final do período, sua operação funcione com autonomia — sem criar dependência.',
+    },
+    {
+      q: 'Todos os blocos estão disponíveis em qualquer pacote de mentoria?',
+      a: 'Sim. Operação, financeiro, estoque, cardápio, iFood e RH podem ser trabalhados em qualquer um dos 3 pacotes (1, 3 ou 6 meses). Após o diagnóstico inicial, mentor e cliente definem juntos quais blocos serão priorizados.',
+    },
+    {
+      q: 'O que está incluso nos pacotes de mentoria?',
+      a: '4 horas mensais de mentoria, diagnóstico completo da operação, plano de ação com metas e responsáveis, relatório semanal de evolução, suporte contínuo durante o período e o Módulo 1 do sistema incluso. A visita in loco é negociada à parte.',
+    },
+    {
+      q: 'O sistema é obrigatório para contratar a mentoria?',
+      a: 'Não. Você pode contratar a mentoria sem o sistema. No entanto, o Módulo 1 já está incluso em todos os pacotes de mentoria para que o mentor tenha acesso aos dados da sua operação e faça um diagnóstico mais preciso.',
+    },
+    {
+      q: 'Posso contratar somente o sistema sem mentoria?',
+      a: 'Sim. O Granular Food pode ser contratado de forma independente nos Módulos 1, 2 ou 3. Cada módulo amplia as funcionalidades disponíveis, desde dashboard e KDS até estoque, checklist, RH e produção.',
+    },
+    {
+      q: 'Qual a diferença entre os Módulos 1, 2 e 3 do sistema?',
+      a: 'Módulo 1 (R$ 89/mês): Dashboard, operações, KDS e relatórios. Módulo 2 (R$ 489/mês): tudo do 1 + controle de estoque e checklists operacionais. Módulo 3 (R$ 3.899/mês): tudo do 2 + gestão de pessoas (RH), produção com fichas técnicas, CMV e suporte técnico.',
+    },
+    {
+      q: 'O módulo Pessoas (RH) pode ser contratado separadamente?',
+      a: 'Sim. O módulo Pessoas (RH) está disponível de forma avulsa por R$ 599/mês, com recrutamento, controle de entrevistas, escalas, documentos, avaliação de desempenho e gestão de turnover.',
+    },
+    {
+      q: 'Como funciona o pagamento?',
+      a: 'O sistema é cobrado mensalmente por cartão de crédito ou Pix. A mentoria pode ser paga no cartão (mensal) ou via Pix à vista com 3% de desconto. Ao final da mentoria, o sistema continua ativo no mesmo cartão já autorizado.',
+    },
+    {
+      q: 'Posso cancelar a qualquer momento?',
+      a: 'Sim. Os planos de sistema podem ser cancelados a qualquer momento. Os pacotes de mentoria têm o período contratado (1, 3 ou 6 meses) com compromisso durante a vigência.',
+    },
+    {
+      q: 'Quanto tempo leva para ver resultados?',
+      a: 'Clientes com diagnóstico claro e execução do plano de ação costumam ver impacto nos KPIs já nas primeiras semanas. Operações com CMV descontrolado, por exemplo, conseguem reduzir 3–5 pontos percentuais no primeiro mês.',
+    },
+  ],
 
-export function Faq() {
+  mercados: [
+    {
+      q: 'O que é o Granular Market?',
+      a: 'O Granular Market é a solução de gestão completa para supermercados, atacarejos e atacados. Centraliza operação, financeiro, estoque, televendas e gestão de pessoas em um único painel, com visão multi-loja e benchmark entre unidades.',
+    },
+    {
+      q: 'Como funciona a precificação do sistema para mercados?',
+      a: 'O sistema é precificado sob consulta, de acordo com o porte da operação, número de PDVs e módulos contratados. Agende uma demonstração para receber uma proposta personalizada.',
+    },
+    {
+      q: 'O módulo Televendas está incluso no sistema base?',
+      a: 'Não. O Televendas é um módulo avulso disponível por R$ 419/mês. Ele pode ser contratado de forma independente e integra central de vendas por telefone e WhatsApp diretamente ao Granular Market.',
+    },
+    {
+      q: 'O que o módulo Televendas inclui?',
+      a: 'Central de vendas por telefone e WhatsApp, histórico de pedidos por cliente, catálogo digital integrado, gestão de entregas e relatórios de performance da equipe de televendas — tudo integrado ao painel do Granular Market.',
+    },
+    {
+      q: 'O sistema suporta múltiplos PDVs e filiais?',
+      a: 'Sim. O Granular Market é multi-loja, com visões apartadas por unidade e benchmark consolidado entre filiais. Ideal para redes de supermercados, atacarejos com múltiplos pontos e operações de atacado.',
+    },
+    {
+      q: 'O módulo Pessoas (RH) pode ser contratado separadamente?',
+      a: 'Sim. O módulo Pessoas (RH) está disponível de forma avulsa por R$ 599/mês, com recrutamento, escalas, documentos, avaliação de desempenho e controle de turnover para equipes de mercado.',
+    },
+    {
+      q: 'O sistema funciona para atacarejo e atacado?',
+      a: 'Sim. O Granular Market atende supermercados, atacarejos e atacados. A solução é adaptada ao modelo de operação de cada formato, incluindo gestão de grandes volumes, compras e vendas no atacado.',
+    },
+    {
+      q: 'Como funciona a mentoria para o segmento de mercados?',
+      a: 'A mentoria para mercados foca em rentabilidade, gestão de compras, mix de produtos, perdas e gestão de equipe. Os pacotes são personalizados (1, 3 ou 6 meses) após um diagnóstico inicial da operação.',
+    },
+    {
+      q: 'Como funciona o pagamento?',
+      a: 'O sistema é precificado sob consulta e formalizado em contrato. Módulos avulsos (Televendas e Pessoas) são cobrados mensalmente. Entre em contato para detalhar as condições do seu projeto.',
+    },
+    {
+      q: 'Posso cancelar a qualquer momento?',
+      a: 'Os módulos avulsos podem ser cancelados a qualquer momento. O sistema base e a mentoria seguem os termos do contrato firmado. Nossa equipe orienta as melhores condições para o seu porte.',
+    },
+  ],
+
+  farmacias: [
+    {
+      q: 'Quando o Granular Farma estará disponível?',
+      a: 'O Granular Farma está em desenvolvimento com previsão de lançamento em breve. Estamos construindo módulos específicos para o segmento farmacêutico, incluindo controle de medicamentos, receituário e regulatório. Agende uma demonstração para ser avisado no lançamento.',
+    },
+    {
+      q: 'O que estará incluso no Granular Farma?',
+      a: 'O Granular Farma incluirá gestão de estoque de medicamentos com rastreabilidade, controle de receituário, integração com regulatório, financeiro, gestão de pessoas e relatórios operacionais — tudo em um único painel adaptado ao segmento farmacêutico.',
+    },
+    {
+      q: 'O módulo Pessoas (RH) já está disponível para farmácias?',
+      a: 'Sim. O módulo Pessoas (RH) já pode ser contratado de forma avulsa por R$ 599/mês, independentemente do sistema. Inclui recrutamento, escalas, documentos, avaliação de desempenho e gestão de turnover.',
+    },
+    {
+      q: 'Posso agendar uma demonstração agora?',
+      a: 'Sim. Mesmo com o sistema em desenvolvimento, você pode agendar uma demonstração para conhecer a solução, tirar dúvidas e garantir condições especiais de early adopter no lançamento.',
+    },
+    {
+      q: 'Como funciona a mentoria para o segmento farmacêutico?',
+      a: 'A mentoria Granular já está disponível para farmácias. Nossa equipe de especialistas orienta gestão operacional, financeiro, equipe e processos regulatórios — com pacotes de 1, 3 ou 6 meses, definidos após diagnóstico da operação.',
+    },
+    {
+      q: 'Vocês atendem redes farmacêuticas e drogarias independentes?',
+      a: 'Sim. A solução será adaptada tanto para redes com múltiplas unidades quanto para drogarias independentes. A estrutura multi-loja com visões apartadas e benchmark entre unidades estará disponível desde o lançamento.',
+    },
+  ],
+
+  petshop: [
+    {
+      q: 'Quando o Granular PET estará disponível?',
+      a: 'O Granular PET está em desenvolvimento com previsão de lançamento em breve. Estamos construindo módulos específicos para clínicas veterinárias e pet shops, com foco em agendamentos, prontuários e gestão da operação. Agende uma demonstração para ser avisado no lançamento.',
+    },
+    {
+      q: 'O que estará incluso no Granular PET?',
+      a: 'O Granular PET incluirá gestão de agendamentos (banho, tosa, consultas), prontuário veterinário digital, controle de estoque de produtos e medicamentos, financeiro, gestão de pessoas e relatórios de performance — adaptados à realidade de clínicas e pet shops.',
+    },
+    {
+      q: 'O módulo Pessoas (RH) já está disponível para pet shops?',
+      a: 'Sim. O módulo Pessoas (RH) já pode ser contratado de forma avulsa por R$ 599/mês. Inclui recrutamento, escalas, documentos, avaliação de desempenho e controle de turnover — ideal para equipes de pet shops e clínicas veterinárias.',
+    },
+    {
+      q: 'Posso agendar uma demonstração agora?',
+      a: 'Sim. Mesmo com o sistema em desenvolvimento, você pode agendar uma demonstração para conhecer a solução, tirar dúvidas e garantir condições especiais de early adopter no lançamento.',
+    },
+    {
+      q: 'Como funciona a mentoria para clínicas veterinárias e pet shops?',
+      a: 'A mentoria Granular já está disponível para o segmento. Nossos especialistas orientam gestão da operação, financeiro, atendimento e equipe. Pacotes de 1, 3 ou 6 meses, definidos após diagnóstico inicial do negócio.',
+    },
+    {
+      q: 'Vocês atendem tanto clínicas veterinárias quanto pet shops?',
+      a: 'Sim. O Granular PET atenderá ambos os formatos, com adaptações para as especificidades de cada operação — desde uma clínica veterinária completa até um pet shop focado em serviços de banho e tosa.',
+    },
+  ],
+}
+
+const subtitleByCategory: Record<Category, string> = {
+  restaurantes: 'Tire suas dúvidas sobre sistema, mentoria e módulos.',
+  mercados:     'Tire suas dúvidas sobre o Granular Market, Televendas e módulos.',
+  farmacias:    'Tire suas dúvidas sobre o Granular Farma e o que está por vir.',
+  petshop:      'Tire suas dúvidas sobre o Granular PET e o que está por vir.',
+}
+
+const VISIBLE_COUNT = 4
+
+interface Props {
+  category?: Category
+}
+
+export function Faq({ category = 'restaurantes' }: Props) {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
   const [expanded, setExpanded] = useState(false)
 
+  // Reset ao trocar de categoria
+  useEffect(() => {
+    setOpenIndex(null)
+    setExpanded(false)
+  }, [category])
+
+  const faqs = faqsByCategory[category]
   const visibleFaqs = expanded ? faqs : faqs.slice(0, VISIBLE_COUNT)
+  const remaining = faqs.length - VISIBLE_COUNT
 
   return (
     <section id="faq" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-white">
@@ -70,13 +183,13 @@ export function Faq() {
             Perguntas frequentes
           </h2>
           <p className="text-[#9C958A] text-base sm:text-lg">
-            Tire suas dúvidas sobre sistema, mentoria e integrações.
+            {subtitleByCategory[category]}
           </p>
         </FadeIn>
 
         <div className="space-y-2">
           {visibleFaqs.map((faq, i) => (
-            <FadeIn key={i} delay={i * 30}>
+            <FadeIn key={`${category}-${i}`} delay={i * 30}>
               <div className="rounded-xl border border-[#9C958A]/15 overflow-hidden">
                 <button
                   type="button"
@@ -99,14 +212,14 @@ export function Faq() {
           ))}
         </div>
 
-        {!expanded && (
+        {!expanded && remaining > 0 && (
           <FadeIn delay={VISIBLE_COUNT * 30}>
             <button
               type="button"
               onClick={() => setExpanded(true)}
               className="mt-6 mx-auto flex items-center gap-2 text-sm font-medium text-[var(--accent)] hover:text-[var(--accent-dark)] transition-colors cursor-pointer"
             >
-              Ver mais {faqs.length - VISIBLE_COUNT} perguntas
+              Ver mais {remaining} {remaining === 1 ? 'pergunta' : 'perguntas'}
               <ChevronDown size={16} />
             </button>
           </FadeIn>
@@ -120,7 +233,7 @@ export function Faq() {
             </div>
             <div className="flex-1">
               <h3 className="text-base font-bold text-[#0E0E0F] mb-1">Quer fazer parte do time Granular?</h3>
-              <p className="text-sm text-[#9C958A]">Seja um consultor credenciado e ajude operações de delivery a crescerem com inteligência.</p>
+              <p className="text-sm text-[#9C958A]">Seja um consultor credenciado e ajude operações a crescerem com inteligência.</p>
             </div>
             <Link
               to="/seja-consultor"
