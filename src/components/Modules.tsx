@@ -3,6 +3,7 @@ import { Smartphone, Shield, BarChart3, X, ChevronRight, CalendarDays, Clock, Sh
 import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
 import { modulesDataRestaurantes, modulesDataMercados } from '../data/modulesData'
+import { useCategoryAccent } from '../stores/CategoryContext'
 
 export type Category = 'restaurantes' | 'mercados' | 'farmacias' | 'petshop'
 
@@ -42,6 +43,7 @@ const categoryConfig = {
 }
 
 export function Modules({ category = 'restaurantes' }: Props) {
+  useCategoryAccent() // ensures context is consumed; CSS vars on root drive styling
   const [openIndex, setOpenIndex] = useState<number | null>(null)
   const [lightbox, setLightbox] = useState<string | null>(null)
   const detailRef = useRef<HTMLDivElement>(null)
@@ -115,18 +117,18 @@ export function Modules({ category = 'restaurantes' }: Props) {
             </p>
             <a
               href="#hero"
-              className="inline-flex items-center gap-2 bg-[#F7F7F7] border border-[#9C958A]/20 hover:border-[#A31631]/30 px-4 py-2 rounded-full text-xs text-[#9C958A] transition-colors group"
+              className="inline-flex items-center gap-2 bg-[#F7F7F7] border border-[#9C958A]/20 hover:border-[var(--accent-30)] px-4 py-2 rounded-full text-xs text-[#9C958A] transition-colors group"
             >
               <span>{categoryLabels[category].emoji}</span>
               <span className="font-medium text-[#0E0E0F]">{categoryLabels[category].label}</span>
               <span className="text-[#9C958A]/60">·</span>
-              <span className="text-[#A31631] group-hover:underline">Trocar segmento ↑</span>
+              <span className="text-[var(--accent)] group-hover:underline">Trocar segmento ↑</span>
             </a>
           </FadeIn>
           <FadeIn>
             <div className="max-w-2xl mx-auto text-center py-16 px-6 rounded-3xl border-2 border-dashed border-[#9C958A]/25 bg-[#F7F7F7]">
               <div className="text-5xl mb-6">{cfg.emoji}</div>
-              <div className="inline-flex items-center gap-2 bg-[#A31631]/10 text-[#A31631] px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-5">
+              <div className="inline-flex items-center gap-2 bg-[var(--accent)]/10 text-[var(--accent)] px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-5">
                 <Clock size={12} />
                 Em breve
               </div>
@@ -134,7 +136,7 @@ export function Modules({ category = 'restaurantes' }: Props) {
               <p className="text-[#9C958A] leading-relaxed mb-8">{cfg.desc}</p>
               <Link
                 to="/agendar-demo"
-                className="inline-flex items-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors"
+                className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors"
               >
                 <CalendarDays size={16} />
                 Agendar demonstração
@@ -162,25 +164,25 @@ export function Modules({ category = 'restaurantes' }: Props) {
             onClick={() => handleToggle(i)}
             className={`group relative rounded-2xl border p-6 transition-all duration-300 h-full w-full text-left cursor-pointer ${
               openIndex === i
-                ? 'border-[#A31631] bg-[#A31631]/5 shadow-lg shadow-[#A31631]/10'
+                ? 'border-[var(--accent)] bg-[var(--accent)]/5 shadow-lg shadow-[var(--accent-10)]'
                 : mod.standalone
-                  ? 'border-[#A31631]/20 bg-[#F7F7F7] hover:border-[#A31631]/20 hover:shadow-lg hover:shadow-[#A31631]/5'
-                  : 'border-[#9C958A]/20 bg-[#F7F7F7] hover:border-[#A31631]/20 hover:shadow-lg hover:shadow-[#A31631]/5'
+                  ? 'border-[var(--accent)]/20 bg-[#F7F7F7] hover:border-[var(--accent)]/20 hover:shadow-lg hover:shadow-[var(--accent-05)]'
+                  : 'border-[#9C958A]/20 bg-[#F7F7F7] hover:border-[var(--accent)]/20 hover:shadow-lg hover:shadow-[var(--accent-05)]'
             }`}
           >
             {mod.standalone && (
-              <span className="absolute -top-2 right-3 text-[9px] font-bold uppercase tracking-wider bg-[#A31631] text-white px-2.5 py-0.5 rounded-full">
+              <span className="absolute -top-2 right-3 text-[9px] font-bold uppercase tracking-wider bg-[var(--accent)] text-white px-2.5 py-0.5 rounded-full">
                 Disponível avulso
               </span>
             )}
             <div className="flex items-start justify-between">
-              <div className="w-11 h-11 rounded-xl bg-[#A31631]/10 flex items-center justify-center mb-4">
-                <mod.icon size={22} className="text-[#A31631]" />
+              <div className="w-11 h-11 rounded-xl bg-[var(--accent)]/10 flex items-center justify-center mb-4">
+                <mod.icon size={22} className="text-[var(--accent)]" />
               </div>
               <ChevronRight
                 size={18}
                 className={`text-[#9C958A] transition-transform duration-300 mt-1 ${
-                  openIndex === i ? 'rotate-90 text-[#A31631]' : 'group-hover:text-[#A31631]'
+                  openIndex === i ? 'rotate-90 text-[var(--accent)]' : 'group-hover:text-[var(--accent)]'
                 }`}
               />
             </div>
@@ -199,13 +201,13 @@ export function Modules({ category = 'restaurantes' }: Props) {
             className="col-span-1 sm:col-span-2 lg:col-span-4 overflow-hidden"
             style={{ animation: 'slideDown 0.4s ease forwards' }}
           >
-            <div className="rounded-2xl border border-[#A31631]/20 bg-white shadow-xl shadow-[#A31631]/5 overflow-hidden">
+            <div className="rounded-2xl border border-[var(--accent)]/20 bg-white shadow-xl shadow-[var(--accent-05)] overflow-hidden">
               {/* Header */}
               <div className="flex items-start justify-between px-4 sm:px-8 py-4 sm:py-5 border-b border-[#0E0E0F]/5 gap-3">
                 <div className="flex items-start gap-3 sm:gap-4 min-w-0">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-[#A31631]/10 flex items-center justify-center flex-shrink-0">
-                    <openModule.icon size={20} className="text-[#A31631] sm:hidden" />
-                    <openModule.icon size={24} className="text-[#A31631] hidden sm:block" />
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-[var(--accent)]/10 flex items-center justify-center flex-shrink-0">
+                    <openModule.icon size={20} className="text-[var(--accent)] sm:hidden" />
+                    <openModule.icon size={24} className="text-[var(--accent)] hidden sm:block" />
                   </div>
                   <div className="min-w-0">
                     <h3 className="text-base sm:text-lg font-bold text-[#0E0E0F]">{openModule.title}</h3>
@@ -239,7 +241,7 @@ export function Modules({ category = 'restaurantes' }: Props) {
                       {openModule.features.map((f) => (
                         <span
                           key={f}
-                          className="text-xs bg-[#A31631]/10 text-[#A31631] px-3 py-1.5 rounded-full font-medium"
+                          className="text-xs bg-[var(--accent)]/10 text-[var(--accent)] px-3 py-1.5 rounded-full font-medium"
                         >
                           {f}
                         </span>
@@ -250,7 +252,7 @@ export function Modules({ category = 'restaurantes' }: Props) {
                   {/* CTAs por tipo de módulo */}
                   {openModule.standalone && openModule.title.includes('Televendas') ? (
                     <div className="flex flex-col gap-3 self-start w-full">
-                      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-5 rounded-xl bg-[#A31631]/5 border border-[#A31631]/10">
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-5 rounded-xl bg-[var(--accent)]/5 border border-[var(--accent)]/10">
                         <div className="flex-1">
                           <p className="text-sm font-semibold text-[#0E0E0F] mb-1">
                             Módulo disponível avulso
@@ -261,7 +263,7 @@ export function Modules({ category = 'restaurantes' }: Props) {
                         </div>
                         <Link
                           to="/checkout?plano=modulo-televendas"
-                          className="inline-flex items-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors whitespace-nowrap flex-shrink-0"
+                          className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors whitespace-nowrap flex-shrink-0"
                         >
                           <ShoppingCart size={15} />
                           Adicionar ao carrinho
@@ -270,7 +272,7 @@ export function Modules({ category = 'restaurantes' }: Props) {
                     </div>
                   ) : openModule.standalone && openModule.title.includes('Pessoas') ? (
                     <div className="flex flex-col gap-3 self-start">
-                      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-5 rounded-xl bg-[#A31631]/5 border border-[#A31631]/10">
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-5 rounded-xl bg-[var(--accent)]/5 border border-[var(--accent)]/10">
                         <div className="flex-1">
                           <p className="text-sm font-semibold text-[#0E0E0F] mb-1">
                             Contrate este módulo separadamente
@@ -281,7 +283,7 @@ export function Modules({ category = 'restaurantes' }: Props) {
                         </div>
                         <Link
                           to="/checkout?plano=modulo-pessoas"
-                          className="inline-flex items-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors whitespace-nowrap flex-shrink-0"
+                          className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors whitespace-nowrap flex-shrink-0"
                         >
                           Começar Agora — R$ 599/mês
                           <ChevronRight size={16} />
@@ -289,7 +291,7 @@ export function Modules({ category = 'restaurantes' }: Props) {
                       </div>
                       <Link
                         to="/checkout?plano=saas-3"
-                        className="inline-flex items-center gap-2 text-[#A31631] hover:text-[#7A1025] font-medium text-xs transition-colors self-start"
+                        className="inline-flex items-center gap-2 text-[var(--accent)] hover:text-[var(--accent-dark)] font-medium text-xs transition-colors self-start"
                       >
                         Ou veja o Módulo 3 completo (RH + Produção) →
                       </Link>
@@ -301,14 +303,14 @@ export function Modules({ category = 'restaurantes' }: Props) {
                     <div className="flex flex-wrap items-center gap-3 self-start">
                       <Link
                         to="/checkout?plano=saas-2"
-                        className="inline-flex items-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors"
+                        className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors"
                       >
                         Começar Agora
                         <ChevronRight size={16} />
                       </Link>
                       <Link
                         to="/agendar-demo"
-                        className="inline-flex items-center gap-2 border border-[#A31631] text-[#A31631] hover:bg-[#A31631]/5 font-medium px-6 py-3 rounded-xl text-sm transition-colors"
+                        className="inline-flex items-center gap-2 border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)]/5 font-medium px-6 py-3 rounded-xl text-sm transition-colors"
                       >
                         <CalendarDays size={16} />
                         Agendar demonstração
@@ -360,12 +362,12 @@ export function Modules({ category = 'restaurantes' }: Props) {
           {/* Indicador de segmento ativo + trocar */}
           <a
             href="#hero"
-            className="inline-flex items-center gap-2 bg-[#F7F7F7] border border-[#9C958A]/20 hover:border-[#A31631]/30 px-4 py-2 rounded-full text-xs text-[#9C958A] transition-colors group"
+            className="inline-flex items-center gap-2 bg-[#F7F7F7] border border-[#9C958A]/20 hover:border-[var(--accent-30)] px-4 py-2 rounded-full text-xs text-[#9C958A] transition-colors group"
           >
             <span>{categoryLabels[category].emoji}</span>
             <span className="font-medium text-[#0E0E0F]">{categoryLabels[category].label}</span>
             <span className="text-[#9C958A]/60">·</span>
-            <span className="text-[#A31631] group-hover:underline">Trocar segmento ↑</span>
+            <span className="text-[var(--accent)] group-hover:underline">Trocar segmento ↑</span>
           </a>
         </FadeIn>
 
@@ -376,7 +378,7 @@ export function Modules({ category = 'restaurantes' }: Props) {
         <FadeIn delay={400} className="flex flex-wrap items-center justify-center gap-6 mt-12">
           {badges.map((badge) => (
             <div key={badge.text} className="flex items-center gap-2 text-sm text-[#9C958A]">
-              <badge.icon size={16} className="text-[#A31631]" />
+              <badge.icon size={16} className="text-[var(--accent)]" />
               {badge.text}
             </div>
           ))}
@@ -385,13 +387,13 @@ export function Modules({ category = 'restaurantes' }: Props) {
         <FadeIn delay={500} className="flex flex-wrap items-center justify-center gap-4 mt-10">
           <Link
             to="/checkout?plano=saas-2"
-            className="inline-flex items-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-8 py-4 rounded-xl text-base transition-colors"
+            className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-8 py-4 rounded-xl text-base transition-colors"
           >
             Começar Agora
           </Link>
           <Link
             to="/agendar-demo"
-            className="inline-flex items-center gap-2 border border-[#A31631] text-[#A31631] hover:bg-[#A31631]/5 font-medium px-8 py-4 rounded-xl text-base transition-colors"
+            className="inline-flex items-center gap-2 border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)]/5 font-medium px-8 py-4 rounded-xl text-base transition-colors"
           >
             <CalendarDays size={18} />
             Agendar demonstração

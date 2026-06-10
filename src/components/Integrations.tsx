@@ -2,8 +2,10 @@ import { useState, useRef, useEffect } from 'react'
 import { X, Plus, Info, Handshake } from 'lucide-react'
 import { FadeIn } from './FadeIn'
 import { integrationsData } from '../data/integrationsData'
+import { useCategoryAccent } from '../stores/CategoryContext'
 
 export function Integrations() {
+  const { accent } = useCategoryAccent()
   const [openIndex, setOpenIndex] = useState<number | null>(null)
   const detailRef = useRef<HTMLDivElement>(null)
   const sectionRef = useRef<HTMLElement>(null)
@@ -46,7 +48,7 @@ export function Integrations() {
       <div className="max-w-7xl mx-auto">
         <FadeIn className="text-center mb-16">
           <p
-            className="text-[10px] font-medium text-[#A31631] uppercase tracking-widest mb-4"
+            className="text-[10px] font-medium text-[var(--accent)] uppercase tracking-widest mb-4"
             style={{ fontFamily: "'JetBrains Mono', monospace" }}
           >
             Ecossistema conectado
@@ -57,7 +59,7 @@ export function Integrations() {
           <p className="text-[#9C958A] text-base sm:text-lg max-w-2xl mx-auto mb-6">
             Conecte as ferramentas que você já usa ao ecossistema Granular.
           </p>
-          <div className="inline-flex items-center gap-2 sm:gap-3 bg-white border border-[#A31631]/15 rounded-xl px-3 sm:px-5 py-2.5 sm:py-3 shadow-sm">
+          <div className="inline-flex items-center gap-2 sm:gap-3 bg-white border border-[var(--accent)]/15 rounded-xl px-3 sm:px-5 py-2.5 sm:py-3 shadow-sm">
             <img
               src="https://logodownload.org/wp-content/uploads/2017/05/ifood-logo-0.png"
               alt="iFood"
@@ -65,7 +67,7 @@ export function Integrations() {
             />
             <p className="text-sm text-[#0E0E0F]">
               Ativação com <strong>1 clique</strong> direto no{' '}
-              <span className="text-[#A31631] font-semibold">Portal do Parceiro iFood</span>
+              <span className="text-[var(--accent)] font-semibold">Portal do Parceiro iFood</span>
             </p>
           </div>
         </FadeIn>
@@ -78,9 +80,10 @@ export function Integrations() {
                 onClick={() => handleToggle(i)}
                 className={`group relative flex flex-col items-center justify-center rounded-2xl border p-4 transition-all duration-300 cursor-pointer w-24 h-24 sm:w-28 sm:h-28 ${
                   openIndex === i
-                    ? 'border-[#A31631] bg-white shadow-lg shadow-[#A31631]/10'
-                    : 'border-[#9C958A]/20 bg-white shadow-sm hover:shadow-lg hover:border-[#A31631]/20'
+                    ? 'border-[var(--accent)] bg-white shadow-lg'
+                    : 'border-[#9C958A]/20 bg-white shadow-sm hover:shadow-lg hover:border-[var(--accent-20)]'
                 }`}
+                style={openIndex === i ? { boxShadow: `0 10px 30px ${accent}1a` } : {}}
               >
                 <img
                   src={item.logo}
@@ -89,7 +92,7 @@ export function Integrations() {
                   className="w-12 h-12 sm:w-14 sm:h-14 object-contain"
                 />
                 <span className={`flex items-center gap-1 text-[10px] mt-2 font-medium transition-colors ${
-                  openIndex === i ? 'text-[#A31631]' : 'text-[#9C958A] group-hover:text-[#A31631]'
+                  openIndex === i ? 'text-[var(--accent)]' : 'text-[#9C958A] group-hover:text-[var(--accent)]'
                 }`}>
                   <Info size={10} />
                   Saiba mais
@@ -113,7 +116,7 @@ export function Integrations() {
             className="mt-6 overflow-hidden"
             style={{ animation: 'integrationSlideDown 0.4s ease forwards' }}
           >
-            <div className="rounded-2xl border border-[#A31631]/20 bg-white shadow-xl shadow-[#A31631]/5 overflow-hidden">
+            <div className="rounded-2xl border border-[var(--accent)]/20 bg-white overflow-hidden" style={{ boxShadow: `0 20px 60px ${accent}1a` }}>
               {/* Header */}
               <div className="flex items-start justify-between px-4 sm:px-8 py-4 sm:py-5 border-b border-[#0E0E0F]/5 gap-3">
                 <div className="flex items-start gap-3 sm:gap-4 min-w-0">
@@ -124,7 +127,7 @@ export function Integrations() {
                     <div className="flex flex-wrap items-center gap-2">
                       <h3 className="text-base sm:text-lg font-bold text-[#0E0E0F]">{openIntegration.name}</h3>
                       {openIntegration.partner && (
-                        <span className="flex items-center gap-1 bg-[#A31631]/10 text-[#A31631] text-[9px] sm:text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full">
+                        <span className="flex items-center gap-1 bg-[var(--accent-10)] text-[var(--accent)] text-[9px] sm:text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full">
                           <Handshake size={10} />
                           Parceiro
                         </span>
@@ -158,7 +161,7 @@ export function Integrations() {
                     {openIntegration.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="text-xs bg-[#A31631]/10 text-[#A31631] px-3 py-1.5 rounded-full font-medium"
+                        className="text-xs bg-[var(--accent-10)] text-[var(--accent)] px-3 py-1.5 rounded-full font-medium"
                       >
                         {tag}
                       </span>

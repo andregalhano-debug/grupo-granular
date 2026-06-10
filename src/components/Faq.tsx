@@ -104,7 +104,7 @@ export function Faq() {
             <button
               type="button"
               onClick={() => setExpanded(true)}
-              className="mt-6 mx-auto flex items-center gap-2 text-sm font-medium text-[#A31631] hover:text-[#8B1229] transition-colors cursor-pointer"
+              className="mt-6 mx-auto flex items-center gap-2 text-sm font-medium text-[var(--accent)] hover:text-[var(--accent-dark)] transition-colors cursor-pointer"
             >
               Ver mais {faqs.length - VISIBLE_COUNT} perguntas
               <ChevronDown size={16} />
@@ -114,9 +114,9 @@ export function Faq() {
 
         {/* CTA Seja Consultor */}
         <FadeIn delay={200}>
-          <div className="mt-12 rounded-2xl border border-[#A31631]/15 bg-[#A31631]/[0.03] p-6 sm:p-8 flex flex-col sm:flex-row items-center gap-5 text-center sm:text-left">
-            <div className="w-14 h-14 rounded-xl bg-[#A31631]/10 flex items-center justify-center flex-shrink-0">
-              <GraduationCap size={28} className="text-[#A31631]" />
+          <div className="mt-12 rounded-2xl border border-[var(--accent-15)] bg-[var(--accent-05)] p-6 sm:p-8 flex flex-col sm:flex-row items-center gap-5 text-center sm:text-left">
+            <div className="w-14 h-14 rounded-xl bg-[var(--accent-10)] flex items-center justify-center flex-shrink-0">
+              <GraduationCap size={28} className="text-[var(--accent)]" />
             </div>
             <div className="flex-1">
               <h3 className="text-base font-bold text-[#0E0E0F] mb-1">Quer fazer parte do time Granular?</h3>
@@ -124,7 +124,7 @@ export function Faq() {
             </div>
             <Link
               to="/seja-consultor"
-              className="inline-flex items-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors whitespace-nowrap flex-shrink-0"
+              className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors whitespace-nowrap flex-shrink-0"
             >
               Seja Consultor
               <ChevronDown size={14} className="rotate-[-90deg]" />

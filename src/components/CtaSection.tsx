@@ -13,7 +13,7 @@ export function CtaSection() {
         </p>
         <Link
           to="/checkout?plano=saas-2"
-          className="inline-flex items-center gap-2 bg-white hover:bg-[#F7F7F7] text-[#A31631] font-medium px-8 py-4 rounded-xl text-base transition-colors"
+          className="inline-flex items-center gap-2 bg-white hover:bg-[#F7F7F7] text-[var(--accent)] font-medium px-8 py-4 rounded-xl text-base transition-colors"
         >
           Começar Agora
         </Link>

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
 import { saasPlans, saasAddonFeatures, type Plan } from '../data/plans'
 import type { Category } from './Modules'
+import { useCategoryAccent } from '../stores/CategoryContext'
 
 const saasCapacity: Record<string, string> = {
   'saas-1': 'Até 3 IDs e 3k pedidos/mês',
@@ -66,7 +67,7 @@ function MobileCards({
               <p className="text-xs text-[#9C958A] mb-1">{plan.subtitle}</p>
             )}
             {capacity?.[plan.id] && (
-              <p className="text-[11px] font-medium text-[#A31631] mb-3" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+              <p className="text-[11px] font-medium text-[var(--accent)] mb-3" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
                 {capacity[plan.id]}
               </p>
             )}
@@ -106,7 +107,7 @@ function MobileCards({
                                 <Link
                                   key={cta.link}
                                   to={cta.link}
-                                  className="inline-flex items-center justify-center text-[10px] font-semibold text-white bg-[#A31631] hover:bg-[#7A1025] w-[100px] py-1 rounded-full whitespace-nowrap transition-colors text-center"
+                                  className="inline-flex items-center justify-center text-[10px] font-semibold text-white bg-[var(--accent)] hover:bg-[var(--accent-dark)] w-[100px] py-1 rounded-full whitespace-nowrap transition-colors text-center"
                                 >
                                   {cta.text}
                                 </Link>
@@ -129,7 +130,7 @@ function MobileCards({
                 <li key={feature} className="flex items-center gap-3 text-sm pt-2 border-t border-dashed border-[#9C958A]/20 mt-2">
                   <Minus size={14} className="text-[#9C958A]/40 flex-shrink-0 ml-0.5" />
                   <span className="text-[#9C958A]/60 italic">{feature}</span>
-                  <span className="text-[9px] font-medium uppercase tracking-wider text-[#A31631] bg-[#A31631]/10 px-2 py-0.5 rounded-full whitespace-nowrap">Avulso</span>
+                  <span className="text-[9px] font-medium uppercase tracking-wider text-[var(--accent)] bg-[var(--accent)]/10 px-2 py-0.5 rounded-full whitespace-nowrap">Avulso</span>
                 </li>
               ))}
             </ul>
@@ -139,7 +140,7 @@ function MobileCards({
           <div className="px-4 pb-5">
             <Link
               to={`/checkout?plano=${plan.id}`}
-              className="block text-center font-medium py-3 px-6 rounded-xl text-sm transition-colors border border-[#A31631] text-[#A31631] hover:bg-[#A31631] hover:text-white"
+              className="block text-center font-medium py-3 px-6 rounded-xl text-sm transition-colors border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white"
             >
               {plan.cta}
             </Link>
@@ -181,7 +182,7 @@ function DesktopTable({
               <p className="text-xs text-[#9C958A] mb-2">{plan.subtitle}</p>
             )}
             {capacity?.[plan.id] && (
-              <p className="text-[11px] font-medium text-[#A31631] mb-3" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+              <p className="text-[11px] font-medium text-[var(--accent)] mb-3" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
                 {capacity[plan.id]}
               </p>
             )}
@@ -212,7 +213,7 @@ function DesktopTable({
                     <Link
                       key={cta.link}
                       to={cta.link}
-                      className="inline-flex items-center justify-center text-[10px] font-semibold text-white bg-[#A31631] hover:bg-[#7A1025] w-[100px] py-1 rounded-full whitespace-nowrap transition-colors text-center"
+                      className="inline-flex items-center justify-center text-[10px] font-semibold text-white bg-[var(--accent)] hover:bg-[var(--accent-dark)] w-[100px] py-1 rounded-full whitespace-nowrap transition-colors text-center"
                     >
                       {cta.text}
                     </Link>
@@ -270,7 +271,7 @@ function DesktopTable({
               >
                 <div className={`flex items-center gap-2 px-4 py-3 text-sm ${rowIdx % 2 === 0 ? 'bg-[#F7F7F7]' : 'bg-white'}`}>
                   <span className="text-[#0E0E0F]/70 italic">{feature}</span>
-                  <span className="text-[9px] font-bold uppercase tracking-wider text-[#A31631] bg-[#A31631]/10 px-2 py-0.5 rounded-full whitespace-nowrap">Avulso</span>
+                  <span className="text-[9px] font-bold uppercase tracking-wider text-[var(--accent)] bg-[var(--accent)]/10 px-2 py-0.5 rounded-full whitespace-nowrap">Avulso</span>
                 </div>
                 {plans.map((plan) => (
                   <div
@@ -298,7 +299,7 @@ function DesktopTable({
           >
             <Link
               to={`/checkout?plano=${plan.id}`}
-              className="inline-block w-full font-medium py-3 px-6 rounded-xl text-sm transition-colors border border-[#A31631] text-[#A31631] hover:bg-[#A31631] hover:text-white"
+              className="inline-block w-full font-medium py-3 px-6 rounded-xl text-sm transition-colors border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white"
             >
               {plan.cta}
             </Link>
@@ -385,6 +386,7 @@ interface Props {
 }
 
 export function Pricing({ category = 'restaurantes' }: Props) {
+  useCategoryAccent() // CSS vars on root drive styling
   return (
     <section id="precos" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-[#F7F7F7]">
       <div className="max-w-7xl mx-auto">
@@ -401,7 +403,7 @@ export function Pricing({ category = 'restaurantes' }: Props) {
         <FadeIn>
           <div className="max-w-6xl mx-auto mb-10">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-[#A31631] flex items-center justify-center">
+              <div className="w-12 h-12 rounded-xl bg-[var(--accent)] flex items-center justify-center">
                 <Monitor size={22} className="text-[#F7F7F7]" />
               </div>
               <div>
@@ -417,7 +419,7 @@ export function Pricing({ category = 'restaurantes' }: Props) {
           /* Mercados: Sistema sob consulta (Televendas + Pessoas) */
           <FadeIn delay={100}>
             <div className="max-w-6xl mx-auto mb-24">
-              <div className="rounded-2xl border border-[#A31631]/15 bg-white p-6 sm:p-8">
+              <div className="rounded-2xl border border-[var(--accent)]/15 bg-white p-6 sm:p-8">
                 <p className="text-base font-bold text-[#0E0E0F] mb-1.5">Sistema Granular Market — Sob consulta</p>
                 <p className="text-sm text-[#9C958A] leading-relaxed mb-6">
                   O sistema é precificado de acordo com o porte da operação, número de PDVs e módulos contratados. Entre em contato para receber uma proposta personalizada.
@@ -425,18 +427,18 @@ export function Pricing({ category = 'restaurantes' }: Props) {
 
                 {/* Módulos avulsos */}
                 <div className="mb-6">
-                  <p
-                    className="text-[10px] font-medium text-[#9C958A] uppercase tracking-wider mb-3"
-                    style={{ fontFamily: "'JetBrains Mono', monospace" }}
-                  >
-                    Módulos disponíveis avulso
-                  </p>
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-1 h-5 rounded-full bg-[var(--accent)]" />
+                    <p className="text-sm font-bold text-[var(--accent)] uppercase tracking-wide">
+                      Módulos disponíveis avulso
+                    </p>
+                  </div>
                   <div className="space-y-3">
                     {/* Televendas */}
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl bg-[#F7F7F7] border border-[#9C958A]/15">
                       <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-lg bg-[#A31631]/10 flex items-center justify-center flex-shrink-0">
-                          <PhoneCall size={16} className="text-[#A31631]" />
+                        <div className="w-9 h-9 rounded-lg bg-[var(--accent)]/10 flex items-center justify-center flex-shrink-0">
+                          <PhoneCall size={16} className="text-[var(--accent)]" />
                         </div>
                         <div>
                           <p className="text-sm font-semibold text-[#0E0E0F]">Televendas</p>
@@ -450,7 +452,7 @@ export function Pricing({ category = 'restaurantes' }: Props) {
                         </div>
                         <Link
                           to="/checkout?plano=modulo-televendas"
-                          className="inline-flex items-center gap-1.5 bg-[#A31631] hover:bg-[#7A1025] text-white text-xs font-medium px-4 py-2 rounded-lg transition-colors whitespace-nowrap"
+                          className="inline-flex items-center gap-1.5 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white text-xs font-medium px-4 py-2 rounded-lg transition-colors whitespace-nowrap"
                         >
                           <PhoneCall size={12} />
                           Adicionar
@@ -461,8 +463,8 @@ export function Pricing({ category = 'restaurantes' }: Props) {
                     {/* Pessoas (RH) */}
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl bg-[#F7F7F7] border border-[#9C958A]/15">
                       <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-lg bg-[#A31631]/10 flex items-center justify-center flex-shrink-0">
-                          <Users size={16} className="text-[#A31631]" />
+                        <div className="w-9 h-9 rounded-lg bg-[var(--accent)]/10 flex items-center justify-center flex-shrink-0">
+                          <Users size={16} className="text-[var(--accent)]" />
                         </div>
                         <div>
                           <p className="text-sm font-semibold text-[#0E0E0F]">Pessoas (RH)</p>
@@ -476,7 +478,7 @@ export function Pricing({ category = 'restaurantes' }: Props) {
                         </div>
                         <Link
                           to="/checkout?plano=modulo-pessoas"
-                          className="inline-flex items-center gap-1.5 bg-[#A31631] hover:bg-[#7A1025] text-white text-xs font-medium px-4 py-2 rounded-lg transition-colors whitespace-nowrap"
+                          className="inline-flex items-center gap-1.5 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white text-xs font-medium px-4 py-2 rounded-lg transition-colors whitespace-nowrap"
                         >
                           <Users size={12} />
                           Adicionar
@@ -488,7 +490,7 @@ export function Pricing({ category = 'restaurantes' }: Props) {
 
                 <Link
                   to="/agendar-demo"
-                  className="inline-flex items-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors"
+                  className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors"
                 >
                   <CalendarDays size={16} />
                   Agendar Demonstração
@@ -500,7 +502,7 @@ export function Pricing({ category = 'restaurantes' }: Props) {
           /* Farmácias / Pet Shop: Sistema sob consulta (só Pessoas) */
           <FadeIn delay={100}>
             <div className="max-w-6xl mx-auto mb-24">
-              <div className="rounded-2xl border border-[#A31631]/15 bg-white p-6 sm:p-8">
+              <div className="rounded-2xl border border-[var(--accent)]/15 bg-white p-6 sm:p-8">
                 <p className="text-base font-bold text-[#0E0E0F] mb-1.5">
                   Sistema {category === 'farmacias' ? 'Granular Farma' : 'Granular PET'} — Sob consulta
                 </p>
@@ -510,16 +512,16 @@ export function Pricing({ category = 'restaurantes' }: Props) {
 
                 {/* Módulo avulso */}
                 <div className="mb-6">
-                  <p
-                    className="text-[10px] font-medium text-[#9C958A] uppercase tracking-wider mb-3"
-                    style={{ fontFamily: "'JetBrains Mono', monospace" }}
-                  >
-                    Módulo disponível avulso
-                  </p>
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-1 h-5 rounded-full bg-[var(--accent)]" />
+                    <p className="text-sm font-bold text-[var(--accent)] uppercase tracking-wide">
+                      Módulo disponível avulso
+                    </p>
+                  </div>
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl bg-[#F7F7F7] border border-[#9C958A]/15">
                     <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-lg bg-[#A31631]/10 flex items-center justify-center flex-shrink-0">
-                        <Users size={16} className="text-[#A31631]" />
+                      <div className="w-9 h-9 rounded-lg bg-[var(--accent)]/10 flex items-center justify-center flex-shrink-0">
+                        <Users size={16} className="text-[var(--accent)]" />
                       </div>
                       <div>
                         <p className="text-sm font-semibold text-[#0E0E0F]">Pessoas (RH)</p>
@@ -533,7 +535,7 @@ export function Pricing({ category = 'restaurantes' }: Props) {
                       </div>
                       <Link
                         to="/checkout?plano=modulo-pessoas"
-                        className="inline-flex items-center gap-1.5 bg-[#A31631] hover:bg-[#7A1025] text-white text-xs font-medium px-4 py-2 rounded-lg transition-colors whitespace-nowrap"
+                        className="inline-flex items-center gap-1.5 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white text-xs font-medium px-4 py-2 rounded-lg transition-colors whitespace-nowrap"
                       >
                         <Users size={12} />
                         Adicionar
@@ -544,7 +546,7 @@ export function Pricing({ category = 'restaurantes' }: Props) {
 
                 <Link
                   to="/agendar-demo"
-                  className="inline-flex items-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors"
+                  className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors"
                 >
                   <CalendarDays size={16} />
                   Agendar Demonstração
@@ -566,7 +568,7 @@ export function Pricing({ category = 'restaurantes' }: Props) {
         <FadeIn>
           <div className="max-w-6xl mx-auto mb-6">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-[#A31631] flex items-center justify-center">
+              <div className="w-12 h-12 rounded-xl bg-[var(--accent)] flex items-center justify-center">
                 <Handshake size={22} className="text-[#F7F7F7]" />
               </div>
               <div>
@@ -593,25 +595,25 @@ export function Pricing({ category = 'restaurantes' }: Props) {
             <div className="hidden sm:block">
               <div className="relative flex items-start justify-between gap-4">
                 {/* Linha conectora */}
-                <div className="absolute top-5 left-[calc(16.66%)] right-[calc(16.66%)] h-0.5 bg-[#A31631]/20" />
+                <div className="absolute top-5 left-[calc(16.66%)] right-[calc(16.66%)] h-0.5 bg-[var(--accent)]/20" />
                 {consultoriaSteps.map((step, idx) => (
                   <div key={step.months} className="flex-1 flex flex-col items-center">
                     {/* Nó */}
                     <div className="relative z-10 flex flex-col items-center mb-5">
-                      <div className="w-10 h-10 rounded-full bg-[#A31631] flex items-center justify-center shadow-md shadow-[#A31631]/20 mb-3">
+                      <div className="w-10 h-10 rounded-full bg-[var(--accent)] flex items-center justify-center shadow-md shadow-[var(--accent-20)] mb-3">
                         <Clock size={18} className="text-white" />
                       </div>
                       <span
-                        className="text-sm font-bold text-[#A31631]"
+                        className="text-sm font-bold text-[var(--accent)]"
                         style={{ fontFamily: "'Space Grotesk', sans-serif" }}
                       >
                         {step.months}
                       </span>
                     </div>
                     {/* Card do step */}
-                    <div className={`w-full rounded-2xl border bg-white p-5 ${idx === 2 ? 'border-[#A31631]/30 shadow-sm shadow-[#A31631]/5' : 'border-[#9C958A]/20'}`}>
+                    <div className={`w-full rounded-2xl border bg-white p-5 ${idx === 2 ? 'border-[var(--accent)]/30 shadow-sm shadow-[var(--accent-05)]' : 'border-[#9C958A]/20'}`}>
                       {idx === 2 && (
-                        <span className="inline-block text-[9px] font-bold uppercase tracking-wider bg-[#A31631] text-white px-2.5 py-0.5 rounded-full mb-3">
+                        <span className="inline-block text-[9px] font-bold uppercase tracking-wider bg-[var(--accent)] text-white px-2.5 py-0.5 rounded-full mb-3">
                           Melhor custo
                         </span>
                       )}
@@ -619,7 +621,7 @@ export function Pricing({ category = 'restaurantes' }: Props) {
                       <ul className="space-y-1.5">
                         {step.points.map((p) => (
                           <li key={p} className="flex items-start gap-2 text-xs text-[#9C958A]">
-                            <Check size={11} className="text-[#A31631] flex-shrink-0 mt-0.5" />
+                            <Check size={11} className="text-[var(--accent)] flex-shrink-0 mt-0.5" />
                             {p}
                           </li>
                         ))}
@@ -635,20 +637,20 @@ export function Pricing({ category = 'restaurantes' }: Props) {
               {consultoriaSteps.map((step, idx) => (
                 <div key={step.months} className="flex gap-4">
                   <div className="flex flex-col items-center">
-                    <div className="w-9 h-9 rounded-full bg-[#A31631] flex items-center justify-center flex-shrink-0 shadow-md shadow-[#A31631]/20">
+                    <div className="w-9 h-9 rounded-full bg-[var(--accent)] flex items-center justify-center flex-shrink-0 shadow-md shadow-[var(--accent-20)]">
                       <Clock size={16} className="text-white" />
                     </div>
                     {idx < consultoriaSteps.length - 1 && (
-                      <div className="w-0.5 flex-1 bg-[#A31631]/15 my-1" />
+                      <div className="w-0.5 flex-1 bg-[var(--accent)]/15 my-1" />
                     )}
                   </div>
-                  <div className={`flex-1 rounded-2xl border bg-white p-4 mb-1 ${idx === 2 ? 'border-[#A31631]/30' : 'border-[#9C958A]/20'}`}>
-                    <p className="text-sm font-bold text-[#A31631] mb-1">{step.months}</p>
+                  <div className={`flex-1 rounded-2xl border bg-white p-4 mb-1 ${idx === 2 ? 'border-[var(--accent)]/30' : 'border-[#9C958A]/20'}`}>
+                    <p className="text-sm font-bold text-[var(--accent)] mb-1">{step.months}</p>
                     <p className="text-xs font-semibold text-[#0E0E0F] mb-2">{step.label}</p>
                     <ul className="space-y-1">
                       {step.points.map((p) => (
                         <li key={p} className="flex items-start gap-2 text-xs text-[#9C958A]">
-                          <Check size={11} className="text-[#A31631] flex-shrink-0 mt-0.5" />
+                          <Check size={11} className="text-[var(--accent)] flex-shrink-0 mt-0.5" />
                           {p}
                         </li>
                       ))}
@@ -663,7 +665,7 @@ export function Pricing({ category = 'restaurantes' }: Props) {
         {/* Sob consulta CTA */}
         <FadeIn delay={120}>
           <div className="max-w-6xl mx-auto mb-24">
-            <div className="rounded-2xl border border-[#A31631]/15 bg-white p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center gap-6">
+            <div className="rounded-2xl border border-[var(--accent)]/15 bg-white p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center gap-6">
               <div className="flex-1 min-w-0">
                 <p className="text-base font-bold text-[#0E0E0F] mb-1.5">Precificação sob consulta</p>
                 <p className="text-sm text-[#9C958A] leading-relaxed mb-4">
@@ -679,7 +681,7 @@ export function Pricing({ category = 'restaurantes' }: Props) {
               </div>
               <Link
                 to="/agendar-demo"
-                className="inline-flex items-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors whitespace-nowrap flex-shrink-0"
+                className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors whitespace-nowrap flex-shrink-0"
               >
                 <CalendarDays size={16} />
                 Agendar Demonstração
@@ -692,7 +694,7 @@ export function Pricing({ category = 'restaurantes' }: Props) {
         <FadeIn>
           <div className="max-w-6xl mx-auto mb-6">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-[#A31631] flex items-center justify-center">
+              <div className="w-12 h-12 rounded-xl bg-[var(--accent)] flex items-center justify-center">
                 <GraduationCap size={22} className="text-[#F7F7F7]" />
               </div>
               <div>
@@ -715,8 +717,8 @@ export function Pricing({ category = 'restaurantes' }: Props) {
                   com foco em decisões estratégicas pontuais.
                 </p>
               </div>
-              <div className="flex items-center gap-2 bg-[#A31631]/5 border border-[#A31631]/15 rounded-xl px-4 py-3 flex-shrink-0">
-                <Users size={18} className="text-[#A31631]" />
+              <div className="flex items-center gap-2 bg-[var(--accent)]/5 border border-[var(--accent)]/15 rounded-xl px-4 py-3 flex-shrink-0">
+                <Users size={18} className="text-[var(--accent)]" />
                 <div>
                   <p className="text-xs font-bold text-[#0E0E0F]">Você é especialista?</p>
                   <p className="text-xs text-[#9C958A]">Faça parte da rede Granular</p>
@@ -739,12 +741,12 @@ export function Pricing({ category = 'restaurantes' }: Props) {
               {sampleMentors.map((mentor) => (
                 <div
                   key={mentor.name}
-                  className="rounded-2xl border border-[#9C958A]/20 bg-white p-5 hover:border-[#A31631]/30 hover:shadow-md transition-all"
+                  className="rounded-2xl border border-[#9C958A]/20 bg-white p-5 hover:border-[var(--accent)]/30 hover:shadow-md transition-all"
                 >
                   {/* Avatar + nome */}
                   <div className="flex items-start gap-3 mb-4">
-                    <div className="w-11 h-11 rounded-full bg-[#A31631]/10 flex items-center justify-center flex-shrink-0">
-                      <span className="text-sm font-bold text-[#A31631]">{mentor.initials}</span>
+                    <div className="w-11 h-11 rounded-full bg-[var(--accent)]/10 flex items-center justify-center flex-shrink-0">
+                      <span className="text-sm font-bold text-[var(--accent)]">{mentor.initials}</span>
                     </div>
                     <div className="min-w-0">
                       <p className="text-sm font-bold text-[#0E0E0F] truncate">{mentor.name}</p>
@@ -787,9 +789,9 @@ export function Pricing({ category = 'restaurantes' }: Props) {
         {/* CTA Seja um mentor */}
         <FadeIn delay={120}>
           <div className="max-w-6xl mx-auto">
-            <div className="rounded-2xl border border-[#A31631]/15 bg-white p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center gap-6">
-              <div className="w-12 h-12 rounded-xl bg-[#A31631]/10 flex items-center justify-center flex-shrink-0">
-                <GraduationCap size={24} className="text-[#A31631]" />
+            <div className="rounded-2xl border border-[var(--accent)]/15 bg-white p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center gap-6">
+              <div className="w-12 h-12 rounded-xl bg-[var(--accent)]/10 flex items-center justify-center flex-shrink-0">
+                <GraduationCap size={24} className="text-[var(--accent)]" />
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-base font-bold text-[#0E0E0F] mb-1">Seja um Mentor Granular</p>
@@ -799,7 +801,7 @@ export function Pricing({ category = 'restaurantes' }: Props) {
               </div>
               <Link
                 to="/seja-consultor"
-                className="inline-flex items-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors whitespace-nowrap flex-shrink-0"
+                className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors whitespace-nowrap flex-shrink-0"
               >
                 Quero ser mentor
                 <ChevronRight size={14} />
