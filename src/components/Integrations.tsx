@@ -1,14 +1,10 @@
 import { useState, useRef, useEffect } from 'react'
-import { X, ChevronRight, Plus, Info, Handshake, Check } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { X, Plus, Info, Handshake } from 'lucide-react'
 import { FadeIn } from './FadeIn'
 import { integrationsData } from '../data/integrationsData'
 
-type FooziOption = 'sistema' | 'executivo'
-
 export function Integrations() {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
-  const [fooziOption, setFooziOption] = useState<FooziOption>('executivo')
   const detailRef = useRef<HTMLDivElement>(null)
   const sectionRef = useRef<HTMLElement>(null)
 
@@ -170,79 +166,6 @@ export function Integrations() {
                   </div>
                 </div>
 
-                {/* Seleção de plano Foozi — apenas para parceiro */}
-                {openIntegration.partner && (
-                  <div className="space-y-3 sm:space-y-4">
-                    <p className="text-xs sm:text-sm font-semibold text-[#0E0E0F]">
-                      Granular + Foozi: escolha a melhor opção
-                    </p>
-
-                    {/* Opção Executivo de Compras */}
-                    <button
-                      type="button"
-                      onClick={() => setFooziOption('executivo')}
-                      className={`w-full text-left rounded-xl border-2 p-5 transition-all cursor-pointer ${
-                        fooziOption === 'executivo'
-                          ? 'border-[#A31631] bg-[#A31631]/5'
-                          : 'border-[#0E0E0F]/10 hover:border-[#A31631]/30'
-                      }`}
-                    >
-                      <div className="flex items-start justify-between mb-2">
-                        <div>
-                          <p className="text-sm font-semibold text-[#0E0E0F]">Executivo de Compras</p>
-                          <p className="text-xs text-[#9C958A]">Executivo dedicado + sistema incluso + rede de fornecedores</p>
-                        </div>
-                        <div className="text-right">
-                          <span className="text-lg font-bold text-[#0E0E0F]">1.500</span>
-                          <span className="text-xs text-[#9C958A]">/mês</span>
-                        </div>
-                      </div>
-                      <div className="flex flex-wrap gap-x-4 gap-y-1 mt-3">
-                        <span className="flex items-center gap-1.5 text-xs text-[#9C958A]"><Check size={12} className="text-[#A31631]" />+2.000 fornecedores</span>
-                        <span className="flex items-center gap-1.5 text-xs text-[#9C958A]"><Check size={12} className="text-[#A31631]" />Executivo dedicado</span>
-                        <span className="flex items-center gap-1.5 text-xs text-[#9C958A]"><Check size={12} className="text-[#A31631]" />Cotação e negociação</span>
-                        <span className="flex items-center gap-1.5 text-xs text-[#9C958A]"><Check size={12} className="text-[#A31631]" />Central terceirizada</span>
-                        <span className="flex items-center gap-1.5 text-xs text-green-600 font-medium"><Check size={12} />Sistema incluso</span>
-                      </div>
-                    </button>
-
-                    {/* Opção somente Sistema */}
-                    <button
-                      type="button"
-                      onClick={() => setFooziOption('sistema')}
-                      className={`w-full text-left rounded-xl border-2 p-5 transition-all cursor-pointer ${
-                        fooziOption === 'sistema'
-                          ? 'border-[#A31631] bg-[#A31631]/5'
-                          : 'border-[#0E0E0F]/10 hover:border-[#A31631]/30'
-                      }`}
-                    >
-                      <div className="flex items-start justify-between mb-2">
-                        <div>
-                          <p className="text-sm font-semibold text-[#0E0E0F]">Somente Sistema Foozi</p>
-                          <p className="text-xs text-[#9C958A]">Plataforma de atendimento integrada à Granular</p>
-                        </div>
-                        <div className="text-right">
-                          <span className="text-lg font-bold text-[#0E0E0F]">350</span>
-                          <span className="text-xs text-[#9C958A]">/mês</span>
-                        </div>
-                      </div>
-                      <div className="flex flex-wrap gap-x-4 gap-y-1 mt-3">
-                        <span className="flex items-center gap-1.5 text-xs text-[#9C958A]"><Check size={12} className="text-[#A31631]" />WhatsApp</span>
-                        <span className="flex items-center gap-1.5 text-xs text-[#9C958A]"><Check size={12} className="text-[#A31631]" />Chatbot</span>
-                        <span className="flex items-center gap-1.5 text-xs text-[#9C958A]"><Check size={12} className="text-[#A31631]" />Pedidos por mensagem</span>
-                        <span className="flex items-center gap-1.5 text-xs text-[#9C958A]"><Check size={12} className="text-[#A31631]" />Acesso a fornecedores</span>
-                      </div>
-                    </button>
-
-                    <Link
-                      to={`/checkout?plano=${fooziOption === 'executivo' ? 'foozi-executivo' : 'foozi-sistema'}`}
-                      className="inline-flex items-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors w-full justify-center"
-                    >
-                      Começar Agora — {fooziOption === 'executivo' ? '1.500' : '350'}/mês
-                      <ChevronRight size={16} />
-                    </Link>
-                  </div>
-                )}
               </div>
             </div>
           </div>

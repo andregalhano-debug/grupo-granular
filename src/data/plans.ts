@@ -34,10 +34,10 @@ export const saasPlans: Plan[] = [
     priceFormatted: '89',
     period: '/mês',
     features: [
-      'Dashboard completo de performance',
+      'Dashboard iFood completo de performance',
       'Monitoramento em tempo real',
       'KDS para cozinha e expedição',
-      'Relatórios',
+      'Envio automático de Relatórios',
     ],
     popular: false,
     cta: 'Começar Agora',
@@ -51,12 +51,12 @@ export const saasPlans: Plan[] = [
     priceFormatted: '489',
     period: '/mês',
     features: [
-      'Dashboard completo de performance',
+      'Dashboard iFood completo de performance',
       'Monitoramento em tempo real',
       'KDS para cozinha e expedição',
       'Controle de entradas e saídas do estoque',
       'Organização operacional com checklist',
-      'Relatórios',
+      'Envio automático de Relatórios',
     ],
     popular: false,
     cta: 'Começar Agora',
@@ -70,15 +70,15 @@ export const saasPlans: Plan[] = [
     priceFormatted: '3.899',
     period: '/mês',
     features: [
-      'Dashboard completo de performance',
+      'Dashboard iFood completo de performance',
       'Monitoramento em tempo real',
       'KDS para cozinha e expedição',
       'Controle de entradas e saídas do estoque',
       'Organização operacional com checklist',
-      'Gestão completa de funcionários (RH)',
       'Controle de produção e CMV',
       'Suporte técnico e atualizações contínuas',
-      'Relatórios',
+      'Gestão completa de pessoas (RH)',
+      'Envio automático de Relatórios',
     ],
     popular: false,
     cta: 'Começar Agora',
@@ -157,6 +157,13 @@ export const consultoriaPlans: Plan[] = [
   },
 ]
 
+/** Features avulsas que aparecem com traço em todos os pacotes */
+export const saasAddonFeatures: string[] = []
+
+export const consultoriaAddonFeatures: string[] = [
+  'Mentoria Especialistas',
+]
+
 export const moduloPlans: Plan[] = [
   {
     id: 'modulo-pessoas',
@@ -175,43 +182,6 @@ export const moduloPlans: Plan[] = [
       'Custo real por colaborador',
       'Gestão de turnover e plano de carreira',
       'Treinamentos e certificações',
-    ],
-    popular: false,
-    cta: 'Começar Agora',
-  },
-  {
-    id: 'foozi-sistema',
-    type: 'modulo',
-    name: 'Foozi — Sistema',
-    subtitle: 'Plataforma de atendimento digital integrada à Granular',
-    price: 350,
-    priceFormatted: '350',
-    period: '/mês',
-    features: [
-      'Atendimento via WhatsApp',
-      'Chatbot inteligente',
-      'Gestão de pedidos por mensagem',
-      'Acesso a +2.000 fornecedores',
-      'Integração com ecossistema Granular',
-    ],
-    popular: false,
-    cta: 'Começar Agora',
-  },
-  {
-    id: 'foozi-executivo',
-    type: 'modulo',
-    name: 'Foozi — Executivo de Compras',
-    subtitle: 'BPO completo + sistema incluso + acesso a +2.000 fornecedores',
-    price: 1500,
-    priceFormatted: '1.500',
-    period: '/mês',
-    features: [
-      'Tudo do sistema Foozi incluso',
-      'Executivo de compras dedicado',
-      'Acesso a +2.000 fornecedores homologados',
-      'Cotação, negociação e pedidos gerenciados na Granular',
-      'Central de atendimento terceirizada',
-      'BPO de atendimento 24h',
     ],
     popular: false,
     cta: 'Começar Agora',

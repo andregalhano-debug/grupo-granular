@@ -10,8 +10,8 @@ export interface ModuleDetail {
   standalone?: boolean
 }
 
-export const modulesData: ModuleDetail[] = [
-  // ─── LINHA 1: iFood, Pessoas, Foozi, Estoque ───
+export const modulesDataRestaurantes: ModuleDetail[] = [
+  // ─── LINHA 1: iFood, Pessoas, Relatórios, Estoque ───
   {
     icon: ShoppingBag,
     title: 'iFood & Pedidos',
@@ -30,13 +30,12 @@ export const modulesData: ModuleDetail[] = [
     standalone: true,
   },
   {
-    icon: Headphones,
-    title: 'Foozi — Atendimento & Compras',
-    desc: 'Atendimento digital, BPO e acesso a +2.000 fornecedores para food service.',
-    features: ['WhatsApp', 'Chatbot', 'BPO de atendimento', '+2.000 fornecedores', 'Executivo de compras', 'Cotação e negociação', 'Central terceirizada', 'Gestão na Granular'],
-    detailText: 'A Foozi é parceira estratégica da Granular em atendimento digital, BPO e gestão de compras para food service. Com a integração, sua operação ganha atendimento profissional via WhatsApp, chatbot inteligente e uma central terceirizada. Além disso, você acessa uma base de mais de 2.000 fornecedores homologados para o fluxo de compras — cotação, negociação e pedidos gerenciados diretamente na Granular.',
+    icon: FileBarChart,
+    title: 'Relatórios',
+    desc: 'Relatórios gerenciais automatizados com insights acionáveis para tomada de decisão.',
+    features: ['Relatórios semanais', 'Análises comparativas', 'Indicadores de performance', 'Exportação de dados', 'Visão multi-lojas'],
+    detailText: 'Receba relatórios gerenciais automatizados com os principais indicadores da sua operação. Compare performance entre unidades, acompanhe a evolução de vendas, CMV, ticket médio e muito mais. Dados consolidados e prontos para decisão — sem precisar montar planilhas manualmente.',
     screenshot: '',
-    standalone: true,
   },
   {
     icon: Package,
@@ -79,7 +78,7 @@ export const modulesData: ModuleDetail[] = [
     detailText: 'Conheça seus clientes a fundo com uma base unificada que registra todo o histórico de pedidos. Segmente por frequência, ticket médio e preferências para criar campanhas direcionadas que aumentam a recorrência e o faturamento.',
     screenshot: '',
   },
-  // ─── LINHA 3: Checklists, IA, Relatórios, Integrações ───
+  // ─── LINHA 3: Checklists, IA, Foozi, Integrações ───
   {
     icon: ClipboardCheck,
     title: 'Checklists Operacionais',
@@ -97,11 +96,11 @@ export const modulesData: ModuleDetail[] = [
     screenshot: '',
   },
   {
-    icon: FileBarChart,
-    title: 'Relatórios',
-    desc: 'Relatórios gerenciais automatizados com insights acionáveis para tomada de decisão.',
-    features: ['Relatórios semanais', 'Análises comparativas', 'Indicadores de performance', 'Exportação de dados', 'Visão multi-lojas'],
-    detailText: 'Receba relatórios gerenciais automatizados com os principais indicadores da sua operação. Compare performance entre unidades, acompanhe a evolução de vendas, CMV, ticket médio e muito mais. Dados consolidados e prontos para decisão — sem precisar montar planilhas manualmente.',
+    icon: Headphones,
+    title: 'Foozi — Atendimento & Compras',
+    desc: 'Atendimento digital, BPO e acesso a +2.000 fornecedores para food service.',
+    features: ['WhatsApp', 'Chatbot', 'BPO de atendimento', '+2.000 fornecedores', 'Executivo de compras', 'Cotação e negociação', 'Central terceirizada', 'Gestão na Granular'],
+    detailText: 'A Foozi é parceira estratégica da Granular em atendimento digital, BPO e gestão de compras para food service. Com a integração, sua operação ganha atendimento profissional via WhatsApp, chatbot inteligente e uma central terceirizada. Além disso, você acessa uma base de mais de 2.000 fornecedores homologados para o fluxo de compras — cotação, negociação e pedidos gerenciados diretamente na Granular.',
     screenshot: '',
   },
   {
@@ -113,3 +112,107 @@ export const modulesData: ModuleDetail[] = [
     screenshot: '',
   },
 ]
+
+// Mercados: réplica da estrutura de Restaurantes — ajustes finos pendentes
+export const modulesDataMercados: ModuleDetail[] = [
+  {
+    icon: ShoppingBag,
+    title: 'iFood & Pedidos',
+    desc: 'Integração nativa com iFood e plataformas de delivery para gestão centralizada de pedidos.',
+    features: ['Integração iFood', 'Painel de pedidos', 'Rastreamento', 'Métricas de delivery', 'Multi-plataforma'],
+    detailText: 'Centralize todos os pedidos do iFood e demais plataformas em um único painel. Acompanhe o status de cada entrega em tempo real, analise métricas de performance do delivery e identifique oportunidades de melhoria no tempo e na avaliação.',
+    screenshot: '',
+  },
+  {
+    icon: UserCog,
+    title: 'Pessoas (RH)',
+    desc: 'Recrutamento, contratação, escalas, documentos, desempenho e controle de turnover.',
+    features: ['Recrutamento e seleção', 'Controle de entrevistas', 'Contratação e onboarding', 'Escalas e turnos (6x1, 12h)', 'Controle de documentos', 'Avaliação de desempenho', 'Custo real por colaborador', 'Produtividade por função', 'Gestão de turnover', 'Plano de carreira', 'Treinamentos e certificações', 'Histórico funcional'],
+    detailText: 'O módulo mais completo de gestão de pessoas para o varejo alimentar. Controle recrutamento, escalas, documentos e avaliações de desempenho. Calcule o custo real de cada colaborador e implemente bonificações por resultado — tudo integrado à operação do mercado.',
+    screenshot: '',
+    standalone: true,
+  },
+  {
+    icon: FileBarChart,
+    title: 'Relatórios',
+    desc: 'Relatórios gerenciais automatizados com insights acionáveis para tomada de decisão.',
+    features: ['Relatórios semanais', 'Análises comparativas', 'Indicadores de performance', 'Exportação de dados', 'Visão multi-lojas'],
+    detailText: 'Receba relatórios gerenciais automatizados com os principais indicadores da sua operação. Compare performance entre unidades, acompanhe a evolução de vendas, CMV, ticket médio e muito mais. Dados consolidados e prontos para decisão — sem precisar montar planilhas manualmente.',
+    screenshot: '',
+  },
+  {
+    icon: Package,
+    title: 'Estoque Inteligente',
+    desc: 'Controle total de insumos, compras e inventário com alertas automáticos de reposição.',
+    features: ['Operações', 'Análises', 'Compras', 'Transferências', 'Etiquetas e Impressão'],
+    detailText: 'Tenha visão completa do seu estoque com indicadores de Valor Parado, Potencial Perdido, CMV%, Cobertura Média e Desperdício. Compare o custo fiscal com o custo móvel de cada produto, acompanhe o histórico de preços mês a mês e gerencie transferências entre unidades — tudo em um só lugar.',
+    screenshot: '/Tela Estoque Site.png',
+  },
+  {
+    icon: TrendingUp,
+    title: 'Financeiro & DRE',
+    desc: 'DRE automático, contas a pagar/receber e conciliação bancária integrada.',
+    features: ['DRE automático', 'Contas a pagar', 'Contas a receber', 'Conciliação bancária', 'Fluxo de caixa'],
+    detailText: 'Acompanhe a saúde financeira da sua operação com DRE gerado automaticamente a partir dos dados reais do sistema. Gerencie contas a pagar e receber, faça conciliação bancária e tenha visão clara do fluxo de caixa por unidade.',
+    screenshot: '',
+  },
+  {
+    icon: ChefHat,
+    title: 'Produção & Padaria',
+    desc: 'Fichas técnicas detalhadas com custo automático e controle de rendimento para padaria e rotisserie.',
+    features: ['Fichas técnicas', 'Custo por porção', 'Rendimento', 'Modo de preparo', 'Simulador de preço'],
+    detailText: 'Cadastre fichas técnicas completas com ingredientes, quantidades e modo de preparo para padaria, rotisserie e produtos elaborados. O sistema calcula automaticamente o custo por porção e atualiza conforme os preços dos insumos mudam. Simule cenários de precificação e garanta a margem ideal em cada produto.',
+    screenshot: '',
+  },
+  {
+    icon: Monitor,
+    title: 'KDS - Kitchen Display',
+    desc: 'Painel digital para cozinha, padaria e rotisserie com tempos e status em tempo real.',
+    features: ['Fila de pedidos', 'Tempos por estação', 'Priorização automática', 'Status em tempo real', 'Alertas de atraso'],
+    detailText: 'Substitua as comandas de papel por um painel digital inteligente na padaria e rotisserie. O KDS organiza os pedidos por estação de trabalho, prioriza automaticamente e exibe tempos de preparo em tempo real. Alertas visuais e sonoros garantem que nenhum pedido atrase.',
+    screenshot: '',
+  },
+  {
+    icon: Users,
+    title: 'CRM & Clientes',
+    desc: 'Base unificada de clientes com histórico de compras, fidelidade e segmentação.',
+    features: ['Base de clientes', 'Histórico de pedidos', 'Segmentação', 'Campanhas', 'Análise de recorrência'],
+    detailText: 'Conheça seus clientes a fundo com uma base unificada que registra todo o histórico de compras. Segmente por frequência, ticket médio e preferências para criar campanhas direcionadas de fidelidade que aumentam a recorrência e o faturamento.',
+    screenshot: '',
+  },
+  {
+    icon: ClipboardCheck,
+    title: 'Checklists Operacionais',
+    desc: 'Rotinas diárias digitalizadas com fotos, evidências e acompanhamento.',
+    features: ['Checklists diários', 'Registro com fotos', 'Acompanhamento', 'Templates', 'Relatórios de conformidade'],
+    detailText: 'Digitalize as rotinas operacionais do seu mercado. Crie checklists personalizados com exigência de fotos como evidência, acompanhe a execução em tempo real e gere relatórios de conformidade para garantir a padronização entre unidades.',
+    screenshot: '',
+  },
+  {
+    icon: Bot,
+    title: '15 Agentes de IA',
+    desc: 'Assistentes inteligentes para compras, precificação, previsão de demanda e mais.',
+    features: ['IA de compras', 'IA de precificação', 'Previsão de demanda', 'Alertas inteligentes', 'Recomendações automáticas'],
+    detailText: 'Conte com 15 agentes de inteligência artificial que trabalham nos bastidores da sua operação. Desde sugestões de compra baseadas em consumo histórico até precificação dinâmica e previsão de demanda — a IA da Granular antecipa problemas e recomenda ações antes que você precise pedir.',
+    screenshot: '',
+  },
+  {
+    icon: Headphones,
+    title: 'Foozi — Atendimento & Compras',
+    desc: 'Atendimento digital, BPO e acesso a +2.000 fornecedores para o varejo alimentar.',
+    features: ['WhatsApp', 'Chatbot', 'BPO de atendimento', '+2.000 fornecedores', 'Executivo de compras', 'Cotação e negociação', 'Central terceirizada', 'Gestão na Granular'],
+    detailText: 'A Foozi é parceira estratégica da Granular em atendimento digital, BPO e gestão de compras. Com a integração, sua operação ganha atendimento profissional via WhatsApp, chatbot inteligente e uma central terceirizada. Além disso, você acessa uma base de mais de 2.000 fornecedores homologados — cotação, negociação e pedidos gerenciados diretamente na Granular.',
+    screenshot: '',
+  },
+  {
+    icon: Plug,
+    title: 'Integrações',
+    desc: 'Conecte seu ecossistema com as principais plataformas do varejo alimentar.',
+    features: ['iFood', 'Saipos', 'Omie', 'Open Delivery', 'Foozi'],
+    detailText: 'Integre as principais plataformas do mercado ao ecossistema Granular. Sincronize dados financeiros com o Omie, conecte-se ao padrão Open Delivery e centralize toda a operação em um único lugar. Novas integrações são adicionadas continuamente.',
+    screenshot: '',
+  },
+]
+
+// Alias para compatibilidade com código existente
+export const modulesData = modulesDataRestaurantes

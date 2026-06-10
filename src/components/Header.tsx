@@ -9,7 +9,7 @@ const navLinks = [
   { label: 'Integrações', href: '/#integracoes' },
   { label: 'Diferenciais', href: '/#diferenciais' },
   { label: 'Preços', href: '/#precos' },
-  { label: 'Mentores', href: '/consultores' },
+  // { label: 'Mentores', href: '/consultores' }, // temporariamente oculto
   { label: 'FAQ', href: '/#faq' },
 ]
 
@@ -42,12 +42,14 @@ export function Header() {
         </nav>
 
         {/* Desktop CTA */}
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden md:flex items-center gap-3">
+          <Link to="/seja-consultor" className="text-xs font-medium text-[#A31631] hover:bg-[#A31631]/5 px-3 py-1.5 rounded-lg transition-colors">
+            Seja um Mentor
+          </Link>
           <a href="/login" className="text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors">
             Login
           </a>
 
-          {/* Meu plano / carrinho */}
           {cart.itemCount > 0 && (
             <Link to="/checkout" className="relative p-2 text-[#9C958A] hover:text-[#0E0E0F] transition-colors">
               <Briefcase size={20} />
@@ -98,6 +100,7 @@ export function Header() {
             </a>
           ))}
           <div className="pt-3 border-t border-[#9C958A]/20 space-y-2">
+            <Link to="/seja-consultor" className="block text-sm text-[#A31631] font-medium py-2" onClick={() => setMenuOpen(false)}>Seja um Mentor</Link>
             <a href="/login" className="block text-sm text-[#9C958A] py-2">Login</a>
             <Link
               to="/checkout?plano=saas-2"

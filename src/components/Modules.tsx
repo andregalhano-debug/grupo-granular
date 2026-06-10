@@ -1,10 +1,14 @@
 import { useState, useRef, useEffect } from 'react'
-import { Smartphone, Shield, BarChart3, X, ChevronRight, CalendarDays, Check } from 'lucide-react'
+import { Smartphone, Shield, BarChart3, X, ChevronRight, CalendarDays, Clock } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
-import { modulesData } from '../data/modulesData'
+import { modulesDataRestaurantes, modulesDataMercados } from '../data/modulesData'
 
-type FooziOption = 'executivo' | 'sistema'
+export type Category = 'restaurantes' | 'mercados' | 'farmacias' | 'petshop'
+
+interface Props {
+  category?: Category
+}
 
 const badges = [
   { icon: Smartphone, text: 'Versão mobile nativa' },
@@ -12,44 +16,69 @@ const badges = [
   { icon: BarChart3, text: 'Benchmark entre unidades' },
 ]
 
-export function Modules() {
+/* Calcula após qual índice inserir o painel, de acordo com colunas visíveis */
+function getRowEndIndex(clickedIndex: number, cols: number): number {
+  return Math.floor(clickedIndex / cols) * cols + (cols - 1)
+}
+
+const categoryConfig = {
+  farmacias: {
+    label: 'Farmácias',
+    emoji: '💊',
+    desc: 'Estamos desenvolvendo uma jornada completa para o segmento farmacêutico, com módulos específicos para controle de medicamentos, receituário e regulatório.',
+  },
+  petshop: {
+    label: 'Pet Shop',
+    emoji: '🐾',
+    desc: 'Em breve você poderá ver todos os módulos e funcionalidades especialmente desenvolvidos para clínicas veterinárias e pet shops.',
+  },
+}
+
+export function Modules({ category = 'restaurantes' }: Props) {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
   const [lightbox, setLightbox] = useState<string | null>(null)
-  const [fooziOption, setFooziOption] = useState<FooziOption>('executivo')
   const detailRef = useRef<HTMLDivElement>(null)
   const sectionRef = useRef<HTMLElement>(null)
+  const [cols, setCols] = useState(4)
+
+  const modules = category === 'mercados' ? modulesDataMercados : modulesDataRestaurantes
+
+  /* Reset open panel when category changes */
+  useEffect(() => {
+    setOpenIndex(null)
+  }, [category])
+
+  /* Detecta quantas colunas o grid exibe */
+  useEffect(() => {
+    const update = () => {
+      const w = window.innerWidth
+      setCols(w >= 1024 ? 4 : w >= 640 ? 2 : 1)
+    }
+    update()
+    window.addEventListener('resize', update)
+    return () => window.removeEventListener('resize', update)
+  }, [])
 
   useEffect(() => {
     if (openIndex !== null && detailRef.current) {
       setTimeout(() => {
-        detailRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        detailRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
       }, 100)
     }
   }, [openIndex])
 
-  const scrollToSection = () => {
-    if (sectionRef.current) {
-      sectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    }
-  }
-
-  // Fechar ao clicar fora do painel
+  // Fechar ao clicar fora do painel de detalhes (e fora de um botão de módulo)
   useEffect(() => {
     if (openIndex === null) return
     const handleClickOutside = (e: MouseEvent) => {
-      const target = e.target as Node
-      if (sectionRef.current && !sectionRef.current.contains(target)) {
-        setOpenIndex(null)
-        scrollToSection()
-        return
-      }
-      if (detailRef.current && !detailRef.current.contains(target)) {
-        const btn = (e.target as HTMLElement).closest('button[data-module]')
-        if (!btn) {
-          setOpenIndex(null)
-          scrollToSection()
-        }
-      }
+      const target = e.target as HTMLElement
+      // Se clicou num botão de módulo, o handleToggle já cuida
+      if (target.closest('button[data-module]')) return
+      // Se clicou dentro do painel de detalhes, não fechar
+      if (detailRef.current && detailRef.current.contains(target)) return
+      // Qualquer outro clique fecha e volta ao início dos módulos
+      setOpenIndex(null)
+      sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
@@ -58,71 +87,101 @@ export function Modules() {
   const handleToggle = (i: number) => {
     if (openIndex === i) {
       setOpenIndex(null)
-      scrollToSection()
+      sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     } else {
       setOpenIndex(i)
     }
   }
 
-  const openModule = openIndex !== null ? modulesData[openIndex] : null
-
-  return (
-    <section ref={sectionRef} id="modulos" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-white">
-      <div className="max-w-7xl mx-auto">
-        <FadeIn className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#0E0E0F] mb-4">
-            Tudo que sua operação precisa, em um só lugar
-          </h2>
-          <p className="text-[#9C958A] text-base sm:text-lg max-w-2xl mx-auto">
-            Módulos integrados que eliminam planilhas e unificam sua gestão.
-          </p>
-        </FadeIn>
-
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {modulesData.map((mod, i) => (
-            <FadeIn key={mod.title} delay={i * 80}>
-              <button
-                data-module
-                onClick={() => handleToggle(i)}
-                className={`group relative rounded-2xl border p-6 transition-all duration-300 h-full w-full text-left cursor-pointer ${
-                  openIndex === i
-                    ? 'border-[#A31631] bg-[#A31631]/5 shadow-lg shadow-[#A31631]/10'
-                    : mod.standalone
-                      ? 'border-[#A31631]/20 bg-[#F7F7F7] hover:border-[#A31631]/20 hover:shadow-lg hover:shadow-[#A31631]/5'
-                      : 'border-[#9C958A]/20 bg-[#F7F7F7] hover:border-[#A31631]/20 hover:shadow-lg hover:shadow-[#A31631]/5'
-                }`}
+  /* Em breve — Farmácias e Pet Shop */
+  if (category === 'farmacias' || category === 'petshop') {
+    const cfg = categoryConfig[category]
+    return (
+      <section ref={sectionRef} id="modulos" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <FadeIn className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#0E0E0F] mb-4">
+              Tudo que sua operação precisa, em um só lugar
+            </h2>
+            <p className="text-[#9C958A] text-base sm:text-lg max-w-2xl mx-auto">
+              Módulos integrados que eliminam planilhas e unificam sua gestão.
+            </p>
+          </FadeIn>
+          <FadeIn>
+            <div className="max-w-2xl mx-auto text-center py-16 px-6 rounded-3xl border-2 border-dashed border-[#9C958A]/25 bg-[#F7F7F7]">
+              <div className="text-5xl mb-6">{cfg.emoji}</div>
+              <div className="inline-flex items-center gap-2 bg-[#A31631]/10 text-[#A31631] px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-5">
+                <Clock size={12} />
+                Em breve
+              </div>
+              <h3 className="text-2xl font-bold text-[#0E0E0F] mb-3">{cfg.label}</h3>
+              <p className="text-[#9C958A] leading-relaxed mb-8">{cfg.desc}</p>
+              <Link
+                to="/agendar-demo"
+                className="inline-flex items-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors"
               >
-                {mod.standalone && (
-                  <span className="absolute -top-2 right-3 text-[9px] font-bold uppercase tracking-wider bg-[#A31631] text-white px-2.5 py-0.5 rounded-full">
-                    Disponível avulso
-                  </span>
-                )}
-                <div className="flex items-start justify-between">
-                  <div className="w-11 h-11 rounded-xl bg-[#A31631]/10 flex items-center justify-center mb-4">
-                    <mod.icon size={22} className="text-[#A31631]" />
-                  </div>
-                  <ChevronRight
-                    size={18}
-                    className={`text-[#9C958A] transition-transform duration-300 mt-1 ${
-                      openIndex === i ? 'rotate-90 text-[#A31631]' : 'group-hover:text-[#A31631]'
-                    }`}
-                  />
-                </div>
-                <h3 className="font-semibold text-[#0E0E0F] mb-2">{mod.title}</h3>
-                <p className="text-sm text-[#9C958A] leading-relaxed">{mod.desc}</p>
-              </button>
-            </FadeIn>
-          ))}
+                <CalendarDays size={16} />
+                Agendar demonstração
+              </Link>
+            </div>
+          </FadeIn>
         </div>
+      </section>
+    )
+  }
 
-        {/* Painel expandido inline — estilo Prosus */}
-        {openModule && (
+  /* Índice do último item da linha do módulo aberto */
+  const insertAfter = openIndex !== null ? Math.min(getRowEndIndex(openIndex, cols), modules.length - 1) : -1
+  const openModule = openIndex !== null ? modules[openIndex] : null
+
+  /* Monta os itens do grid intercalando o painel na posição certa */
+  const renderGridItems = () => {
+    const items: React.ReactNode[] = []
+
+    modules.forEach((mod, i) => {
+      items.push(
+        <FadeIn key={mod.title} delay={i * 80}>
+          <button
+            data-module
+            onClick={() => handleToggle(i)}
+            className={`group relative rounded-2xl border p-6 transition-all duration-300 h-full w-full text-left cursor-pointer ${
+              openIndex === i
+                ? 'border-[#A31631] bg-[#A31631]/5 shadow-lg shadow-[#A31631]/10'
+                : mod.standalone
+                  ? 'border-[#A31631]/20 bg-[#F7F7F7] hover:border-[#A31631]/20 hover:shadow-lg hover:shadow-[#A31631]/5'
+                  : 'border-[#9C958A]/20 bg-[#F7F7F7] hover:border-[#A31631]/20 hover:shadow-lg hover:shadow-[#A31631]/5'
+            }`}
+          >
+            {mod.standalone && (
+              <span className="absolute -top-2 right-3 text-[9px] font-bold uppercase tracking-wider bg-[#A31631] text-white px-2.5 py-0.5 rounded-full">
+                Disponível avulso
+              </span>
+            )}
+            <div className="flex items-start justify-between">
+              <div className="w-11 h-11 rounded-xl bg-[#A31631]/10 flex items-center justify-center mb-4">
+                <mod.icon size={22} className="text-[#A31631]" />
+              </div>
+              <ChevronRight
+                size={18}
+                className={`text-[#9C958A] transition-transform duration-300 mt-1 ${
+                  openIndex === i ? 'rotate-90 text-[#A31631]' : 'group-hover:text-[#A31631]'
+                }`}
+              />
+            </div>
+            <h3 className="font-semibold text-[#0E0E0F] mb-2">{mod.title}</h3>
+            <p className="text-sm text-[#9C958A] leading-relaxed">{mod.desc}</p>
+          </button>
+        </FadeIn>
+      )
+
+      /* Insere o painel de detalhes após o último item da linha */
+      if (openModule && i === insertAfter) {
+        items.push(
           <div
+            key="detail-panel"
             ref={detailRef}
-            className="mt-6 overflow-hidden animate-in"
-            style={{
-              animation: 'slideDown 0.4s ease forwards',
-            }}
+            className="col-span-1 sm:col-span-2 lg:col-span-4 overflow-hidden"
+            style={{ animation: 'slideDown 0.4s ease forwards' }}
           >
             <div className="rounded-2xl border border-[#A31631]/20 bg-white shadow-xl shadow-[#A31631]/5 overflow-hidden">
               {/* Header */}
@@ -138,7 +197,7 @@ export function Modules() {
                   </div>
                 </div>
                 <button
-                  onClick={() => { setOpenIndex(null); scrollToSection() }}
+                  onClick={() => setOpenIndex(null)}
                   className="p-2 rounded-lg hover:bg-[#F7F7F7] text-[#9C958A] hover:text-[#0E0E0F] transition-colors flex-shrink-0"
                 >
                   <X size={20} />
@@ -172,7 +231,7 @@ export function Modules() {
                     </div>
                   </div>
 
-                  {/* Destaque de contratação avulsa */}
+                  {/* CTAs por tipo de módulo */}
                   {openModule.standalone && openModule.title.includes('Pessoas') ? (
                     <div className="flex flex-col gap-3 self-start">
                       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-5 rounded-xl bg-[#A31631]/5 border border-[#A31631]/10">
@@ -199,77 +258,9 @@ export function Modules() {
                         Ou veja o Módulo 3 completo (RH + Produção) →
                       </Link>
                     </div>
-                  ) : openModule.standalone && openModule.title.includes('Foozi') ? (
-                    <div className="space-y-3 sm:space-y-4 self-start w-full">
-                      <p className="text-xs sm:text-sm font-semibold text-[#0E0E0F]">
-                        Contrate a Foozi separadamente: escolha a melhor opção
-                      </p>
-
-                      {/* Opção Executivo de Compras */}
-                      <button
-                        type="button"
-                        onClick={() => setFooziOption('executivo')}
-                        className={`w-full text-left rounded-xl border-2 p-5 transition-all cursor-pointer ${
-                          fooziOption === 'executivo'
-                            ? 'border-[#A31631] bg-[#A31631]/5'
-                            : 'border-[#0E0E0F]/10 hover:border-[#A31631]/30'
-                        }`}
-                      >
-                        <div className="flex items-start justify-between mb-2">
-                          <div>
-                            <p className="text-sm font-semibold text-[#0E0E0F]">Executivo de Compras</p>
-                            <p className="text-xs text-[#9C958A]">Executivo dedicado + sistema incluso + rede de fornecedores</p>
-                          </div>
-                          <div className="text-right">
-                            <span className="text-lg font-bold text-[#0E0E0F]">1.500</span>
-                            <span className="text-xs text-[#9C958A]">/mês</span>
-                          </div>
-                        </div>
-                        <div className="flex flex-wrap gap-x-4 gap-y-1 mt-3">
-                          <span className="flex items-center gap-1.5 text-xs text-[#9C958A]"><Check size={12} className="text-[#A31631]" />+2.000 fornecedores</span>
-                          <span className="flex items-center gap-1.5 text-xs text-[#9C958A]"><Check size={12} className="text-[#A31631]" />Executivo dedicado</span>
-                          <span className="flex items-center gap-1.5 text-xs text-[#9C958A]"><Check size={12} className="text-[#A31631]" />Cotação e negociação</span>
-                          <span className="flex items-center gap-1.5 text-xs text-[#9C958A]"><Check size={12} className="text-[#A31631]" />Central terceirizada</span>
-                          <span className="flex items-center gap-1.5 text-xs text-green-600 font-medium"><Check size={12} />Sistema incluso</span>
-                        </div>
-                      </button>
-
-                      {/* Opção somente Sistema */}
-                      <button
-                        type="button"
-                        onClick={() => setFooziOption('sistema')}
-                        className={`w-full text-left rounded-xl border-2 p-5 transition-all cursor-pointer ${
-                          fooziOption === 'sistema'
-                            ? 'border-[#A31631] bg-[#A31631]/5'
-                            : 'border-[#0E0E0F]/10 hover:border-[#A31631]/30'
-                        }`}
-                      >
-                        <div className="flex items-start justify-between mb-2">
-                          <div>
-                            <p className="text-sm font-semibold text-[#0E0E0F]">Somente Sistema Foozi</p>
-                            <p className="text-xs text-[#9C958A]">Plataforma de atendimento integrada à Granular</p>
-                          </div>
-                          <div className="text-right">
-                            <span className="text-lg font-bold text-[#0E0E0F]">350</span>
-                            <span className="text-xs text-[#9C958A]">/mês</span>
-                          </div>
-                        </div>
-                        <div className="flex flex-wrap gap-x-4 gap-y-1 mt-3">
-                          <span className="flex items-center gap-1.5 text-xs text-[#9C958A]"><Check size={12} className="text-[#A31631]" />WhatsApp</span>
-                          <span className="flex items-center gap-1.5 text-xs text-[#9C958A]"><Check size={12} className="text-[#A31631]" />Chatbot</span>
-                          <span className="flex items-center gap-1.5 text-xs text-[#9C958A]"><Check size={12} className="text-[#A31631]" />Pedidos por mensagem</span>
-                          <span className="flex items-center gap-1.5 text-xs text-[#9C958A]"><Check size={12} className="text-[#A31631]" />Acesso a fornecedores</span>
-                        </div>
-                      </button>
-
-                      <Link
-                        to={`/checkout?plano=${fooziOption === 'executivo' ? 'foozi-executivo' : 'foozi-sistema'}`}
-                        className="inline-flex items-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors w-full justify-center"
-                      >
-                        Começar Agora — {fooziOption === 'executivo' ? '1.500' : '350'}/mês
-                        <ChevronRight size={16} />
-                      </Link>
-                    </div>
+                  ) : openModule.title.includes('Foozi') ? (
+                    /* Foozi: apenas descrição, sem CTAs */
+                    null
                   ) : (
                     <div className="flex flex-wrap items-center gap-3 self-start">
                       <Link
@@ -313,7 +304,28 @@ export function Modules() {
               </div>
             </div>
           </div>
-        )}
+        )
+      }
+    })
+
+    return items
+  }
+
+  return (
+    <section ref={sectionRef} id="modulos" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-white">
+      <div className="max-w-7xl mx-auto">
+        <FadeIn className="text-center mb-16">
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#0E0E0F] mb-4">
+            Tudo que sua operação precisa, em um só lugar
+          </h2>
+          <p className="text-[#9C958A] text-base sm:text-lg max-w-2xl mx-auto">
+            Módulos integrados que eliminam planilhas e unificam sua gestão.
+          </p>
+        </FadeIn>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {renderGridItems()}
+        </div>
 
         <FadeIn delay={400} className="flex flex-wrap items-center justify-center gap-6 mt-12">
           {badges.map((badge) => (
