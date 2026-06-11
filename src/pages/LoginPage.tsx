@@ -28,7 +28,7 @@ function ConsultorCard() {
       <div className="w-14 h-14 rounded-xl bg-[#0E0E0F]/5 flex items-center justify-center mb-5">
         <Users size={28} className="text-[#0E0E0F]" />
       </div>
-      <h2 className="text-lg font-bold text-[#0E0E0F] mb-2">Sou Consultor</h2>
+      <h2 className="text-lg font-bold text-[#0E0E0F] mb-2">Sou Mentor</h2>
       <p className="text-sm text-[#9C958A] leading-relaxed mb-4">
         Gerencie seus clientes, atendimentos e agenda. Receba o briefing e resumo automático de cada parceiro com base nas conversas com a IA.
       </p>
@@ -49,14 +49,24 @@ function ConsultorCard() {
 
       <div className="mt-auto pt-6">
         {!showField ? (
-          <button
-            type="button"
-            onClick={() => setShowField(true)}
-            className="flex items-center justify-center gap-2 w-full px-5 py-3 rounded-xl bg-[#0E0E0F] hover:bg-[#2a2a2a] text-white text-sm font-semibold transition-colors cursor-pointer"
-          >
-            Acessar painel do consultor
-            <ArrowRight size={16} />
-          </button>
+          <div className="space-y-2">
+            <a
+              href="https://granularfood.vercel.app/consultor"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 w-full px-5 py-3 rounded-xl bg-[#0E0E0F] hover:bg-[#2a2a2a] text-white text-sm font-semibold transition-colors cursor-pointer"
+            >
+              Acessar painel do mentor
+              <ArrowRight size={16} />
+            </a>
+            <button
+              type="button"
+              onClick={() => setShowField(true)}
+              className="w-full text-center text-xs text-[#9C958A] hover:text-[#0E0E0F] transition-colors cursor-pointer py-1"
+            >
+              Ver demonstração
+            </button>
+          </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-3">
             <div className="flex items-center gap-2 text-xs text-[#9C958A] mb-1">
@@ -143,7 +153,9 @@ export function LoginPage() {
             {/* Login Sistema — Cliente */}
             <FadeIn delay={100}>
               <a
-                href="https://maestrofood.vercel.app/auth"
+                href="https://granularfood.vercel.app/auth"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="group flex flex-col rounded-2xl border border-[#9C958A]/20 bg-white p-8 hover:border-[#A31631]/30 hover:shadow-lg hover:shadow-[#A31631]/5 transition-all h-full"
               >
                 <div className="w-14 h-14 rounded-xl bg-[#A31631]/10 flex items-center justify-center mb-5">
