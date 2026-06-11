@@ -1,30 +1,80 @@
-import { MessageCircle, Mail, User, TrendingUp } from 'lucide-react'
-
-const FAIXAS_FATURAMENTO = [
-  'Iniciando no Delivery',
-  'Até 50k',
-  '50k a 150k',
-  '150k a 300k',
-  '300k a 500k',
-  '500k a 1M',
-  'Acima de 1M',
-]
+import { MessageCircle, Mail, User, Building2, FileText, CheckCircle2, Loader2, XCircle } from 'lucide-react'
+import type { DocumentoStatus } from '../../hooks/useCheckoutForm'
 
 interface ContactFormProps {
+  empresa: string
+  documento: string
+  documentoStatus: DocumentoStatus
   nome: string
-  faturamento: string
   whatsapp: string
   email: string
-  errors: { nome?: string; faturamento?: string; whatsapp?: string; email?: string }
-  onUpdate: (field: 'nome' | 'faturamento' | 'whatsapp' | 'email', value: string) => void
+  errors: { empresa?: string; documento?: string; nome?: string; whatsapp?: string; email?: string }
+  onUpdate: (field: 'empresa' | 'documento' | 'nome' | 'whatsapp' | 'email', value: string) => void
 }
 
-export function ContactForm({ nome, faturamento, whatsapp, email, errors, onUpdate }: ContactFormProps) {
+export function ContactForm({ empresa, documento, documentoStatus, nome, whatsapp, email, errors, onUpdate }: ContactFormProps) {
+  const digits = documento.replace(/\D/g, '')
+  const isCnpj = digits.length === 14
+  const isCpf = digits.length === 11
+
   return (
     <div className="space-y-5">
       <h2 className="text-lg font-bold text-[#0E0E0F]">Seus dados de contato</h2>
 
-      {/* Nome */}
+      {/* Nome da Empresa */}
+      <div>
+        <label className="flex items-center gap-2 text-sm font-medium text-[#0E0E0F] mb-1.5">
+          <Building2 size={16} className="text-[#9C958A]" />
+          Nome da empresa
+        </label>
+        <input
+          type="text"
+          autoFocus
+          placeholder="Razão social ou nome fantasia"
+          value={empresa}
+          onChange={(e) => onUpdate('empresa', e.target.value)}
+          className={`w-full px-4 py-3 rounded-xl border text-sm bg-white outline-none transition-colors ${
+            errors.empresa ? 'border-[#A31631]' : 'border-[#0E0E0F]/15 focus:border-[#A31631]'
+          }`}
+        />
+        {errors.empresa && <p className="text-xs text-[#A31631] mt-1">{errors.empresa}</p>}
+      </div>
+
+      {/* CNPJ / CPF */}
+      <div>
+        <label className="flex items-center gap-2 text-sm font-medium text-[#0E0E0F] mb-1.5">
+          <FileText size={16} className="text-[#9C958A]" />
+          CNPJ / CPF
+        </label>
+        <div className="relative">
+          <input
+            type="text"
+            inputMode="numeric"
+            placeholder="00.000.000/0000-00 ou 000.000.000-00"
+            value={documento}
+            onChange={(e) => onUpdate('documento', e.target.value)}
+            className={`w-full px-4 py-3 pr-10 rounded-xl border text-sm bg-white outline-none transition-colors ${
+              errors.documento ? 'border-[#A31631]' : documentoStatus === 'valid' ? 'border-green-500' : 'border-[#0E0E0F]/15 focus:border-[#A31631]'
+            }`}
+          />
+          <div className="absolute right-3 top-1/2 -translate-y-1/2">
+            {documentoStatus === 'loading' && <Loader2 size={16} className="text-[#9C958A] animate-spin" />}
+            {documentoStatus === 'valid' && <CheckCircle2 size={16} className="text-green-500" />}
+            {documentoStatus === 'invalid' && <XCircle size={16} className="text-[#A31631]" />}
+          </div>
+        </div>
+        {errors.documento ? (
+          <p className="text-xs text-[#A31631] mt-1">{errors.documento}</p>
+        ) : documentoStatus === 'valid' && isCnpj ? (
+          <p className="text-xs text-green-600 mt-1">CNPJ validado na Receita Federal</p>
+        ) : documentoStatus === 'valid' && isCpf ? (
+          <p className="text-xs text-green-600 mt-1">CPF válido</p>
+        ) : (
+          <p className="text-xs text-[#9C958A] mt-1">Digite CPF (pessoa física) ou CNPJ (pessoa jurídica)</p>
+        )}
+      </div>
+
+      {/* Nome Completo */}
       <div>
         <label className="flex items-center gap-2 text-sm font-medium text-[#0E0E0F] mb-1.5">
           <User size={16} className="text-[#9C958A]" />
@@ -32,7 +82,6 @@ export function ContactForm({ nome, faturamento, whatsapp, email, errors, onUpda
         </label>
         <input
           type="text"
-          autoFocus
           placeholder="Seu nome e sobrenome"
           value={nome}
           onChange={(e) => onUpdate('nome', e.target.value)}
@@ -65,7 +114,7 @@ export function ContactForm({ nome, faturamento, whatsapp, email, errors, onUpda
         )}
       </div>
 
-      {/* Email */}
+      {/* E-mail */}
       <div>
         <label className="flex items-center gap-2 text-sm font-medium text-[#0E0E0F] mb-1.5">
           <Mail size={16} className="text-[#9C958A]" />
@@ -85,27 +134,6 @@ export function ContactForm({ nome, faturamento, whatsapp, email, errors, onUpda
         ) : (
           <p className="text-xs text-[#9C958A] mt-1">Enviaremos a confirmação do pedido</p>
         )}
-      </div>
-
-      {/* Faixa de faturamento */}
-      <div>
-        <label className="flex items-center gap-2 text-sm font-medium text-[#0E0E0F] mb-1.5">
-          <TrendingUp size={16} className="text-[#9C958A]" />
-          Faixa de faturamento
-        </label>
-        <select
-          value={faturamento}
-          onChange={(e) => onUpdate('faturamento', e.target.value)}
-          className={`w-full px-4 py-3 rounded-xl border text-sm bg-white outline-none transition-colors cursor-pointer ${
-            errors.faturamento ? 'border-[#A31631]' : 'border-[#0E0E0F]/15 focus:border-[#A31631]'
-          } ${!faturamento ? 'text-[#9C958A]' : 'text-[#0E0E0F]'}`}
-        >
-          <option value="">Selecione a faixa</option>
-          {FAIXAS_FATURAMENTO.map((f) => (
-            <option key={f} value={f}>{f}</option>
-          ))}
-        </select>
-        {errors.faturamento && <p className="text-xs text-[#A31631] mt-1">{errors.faturamento}</p>}
       </div>
     </div>
   )

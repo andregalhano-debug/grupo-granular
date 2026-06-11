@@ -5,7 +5,8 @@ export interface ModuleDetail {
   title: string
   desc: string
   features: string[]
-  detailText: string
+  detailText?: string
+  detailPoints?: string[]
   screenshot: string
   standalone?: boolean
 }
@@ -17,7 +18,12 @@ export const modulesDataRestaurantes: ModuleDetail[] = [
     title: 'iFood & Pedidos',
     desc: 'Integração nativa com iFood para gestão centralizada de todos os pedidos.',
     features: ['Integração iFood', 'Painel de pedidos', 'Rastreamento', 'Métricas de delivery', 'Multi-plataforma'],
-    detailText: 'Centralize todos os pedidos do iFood e demais plataformas em um único painel. Acompanhe o status de cada entrega em tempo real, analise métricas de performance do delivery e identifique oportunidades de melhoria no tempo e na avaliação.',
+    detailPoints: [
+      'Pedidos do iFood e demais plataformas centralizados em um único painel',
+      'Acompanhamento do status de cada entrega em tempo real',
+      'Métricas de performance: tempo médio, avaliações e taxa de cancelamento',
+      'Visão consolidada de todos os IDs e marcas em uma só tela',
+    ],
     screenshot: '',
   },
   {
@@ -25,7 +31,15 @@ export const modulesDataRestaurantes: ModuleDetail[] = [
     title: 'Pessoas (RH)',
     desc: 'Recrutamento, contratação, escalas, documentos, desempenho e controle de turnover.',
     features: ['Recrutamento e seleção', 'Controle de entrevistas', 'Contratação e onboarding', 'Escalas e turnos (6x1, 12h)', 'Controle de documentos', 'Avaliação de desempenho', 'Custo real por colaborador', 'Produtividade por função', 'Gestão de turnover', 'Plano de carreira', 'Treinamentos e certificações', 'Histórico funcional'],
-    detailText: 'O módulo mais completo de gestão de pessoas para food service. Comece pelo recrutamento: publique vagas, controle o funil de entrevistas e acompanhe cada candidato até a contratação. No onboarding, cadastre colaboradores com documentos, exames e contratos — com alertas automáticos de vencimento para reduzir riscos trabalhistas. Monte escalas inteligentes (6x1, turnos de 12h, folguistas) e acompanhe a produtividade por função: chapeiro, fritador, montador, auxiliar, estoquista. Calcule o custo real de cada colaborador (salário × 1.6 a 1.8 com encargos, VT, alimentação e uniforme) e identifique oportunidades de otimização. Avalie desempenho individual, crie planos de carreira simples (auxiliar → cozinheiro → chefe) e implemente bonificações por resultado. Com o turnover do setor entre 60-100% ao ano, ter visibilidade completa sobre a equipe é o que separa operações lucrativas de operações que sangram dinheiro.',
+    detailPoints: [
+      'Recrutamento com funil de entrevistas e controle de candidatos',
+      'Onboarding digital: documentos, exames e contratos com alertas de vencimento',
+      'Escalas inteligentes para turnos de 6x1, 12h e folguistas',
+      'Produtividade por função: chapeiro, fritador, montador, auxiliar e estoquista',
+      'Custo real por colaborador: salário, encargos, VT e alimentação',
+      'Avaliação de desempenho e plano de carreira simplificado (auxiliar → chefe)',
+      'Bonificações por resultado e acompanhamento de turnover',
+    ],
     screenshot: '',
     standalone: true,
   },
@@ -34,7 +48,13 @@ export const modulesDataRestaurantes: ModuleDetail[] = [
     title: 'Relatórios',
     desc: 'Relatórios gerenciais automatizados com insights acionáveis para tomada de decisão.',
     features: ['Relatórios semanais', 'Análises comparativas', 'Indicadores de performance', 'Exportação de dados', 'Visão multi-lojas'],
-    detailText: 'Receba relatórios gerenciais automatizados com os principais indicadores da sua operação. Compare performance entre unidades, acompanhe a evolução de vendas, CMV, ticket médio e muito mais. Dados consolidados e prontos para decisão — sem precisar montar planilhas manualmente.',
+    detailPoints: [
+      'Relatórios gerenciais gerados automaticamente, sem montar planilhas',
+      'Comparativo de performance entre unidades',
+      'Indicadores principais: vendas, CMV, ticket médio e margem',
+      'Dados consolidados e prontos para decisão imediata',
+      'Visão multi-lojas para operações com mais de uma unidade',
+    ],
     screenshot: '',
   },
   {
@@ -42,7 +62,13 @@ export const modulesDataRestaurantes: ModuleDetail[] = [
     title: 'Estoque Inteligente',
     desc: 'Controle total de insumos, compras e inventário com alertas automáticos de reposição.',
     features: ['Operações', 'Análises', 'Compras', 'Transferências', 'Etiquetas e Impressão'],
-    detailText: 'Tenha visão completa do seu estoque com indicadores de Valor Parado, Potencial Perdido, CMV%, Cobertura Média e Desperdício. Compare o custo fiscal com o custo móvel de cada insumo, acompanhe a evolução do CMV histórico mês a mês e identifique divergências de lead time e drift de preço. Gerencie compras, transferências entre unidades e imprima etiquetas — tudo em um só lugar.',
+    detailPoints: [
+      'Indicadores em tempo real: Valor Parado, CMV%, Cobertura e Desperdício',
+      'Comparativo entre custo fiscal e custo móvel de cada insumo',
+      'Histórico de CMV mês a mês para identificar tendências',
+      'Gestão de compras e transferências entre unidades',
+      'Impressão de etiquetas integrada ao estoque',
+    ],
     screenshot: '/Tela Estoque Site.png',
   },
   // ─── LINHA 2: Financeiro, Produção, KDS, CRM ───
@@ -51,7 +77,12 @@ export const modulesDataRestaurantes: ModuleDetail[] = [
     title: 'Financeiro & DRE',
     desc: 'DRE automático, contas a pagar/receber e conciliação bancária integrada.',
     features: ['DRE automático', 'Contas a pagar', 'Contas a receber', 'Conciliação bancária', 'Fluxo de caixa'],
-    detailText: 'Acompanhe a saúde financeira da sua operação com DRE gerado automaticamente a partir dos dados reais do sistema. Gerencie contas a pagar e receber, faça conciliação bancária e tenha visão clara do fluxo de caixa por unidade.',
+    detailPoints: [
+      'DRE gerado automaticamente a partir dos dados reais do sistema',
+      'Contas a pagar e receber com vencimentos e alertas',
+      'Conciliação bancária integrada sem exportação manual',
+      'Fluxo de caixa por unidade com visão diária e mensal',
+    ],
     screenshot: '',
   },
   {
@@ -59,7 +90,12 @@ export const modulesDataRestaurantes: ModuleDetail[] = [
     title: 'Produção & Fichas Técnicas',
     desc: 'Fichas técnicas detalhadas com custo automático e controle de rendimento.',
     features: ['Fichas técnicas', 'Custo por porção', 'Rendimento', 'Modo de preparo', 'Simulador de preço'],
-    detailText: 'Cadastre fichas técnicas completas com ingredientes, quantidades e modo de preparo. O sistema calcula automaticamente o custo por porção e atualiza conforme os preços dos insumos mudam. Simule cenários de precificação e garanta a margem ideal em cada prato.',
+    detailPoints: [
+      'Fichas técnicas completas com ingredientes, quantidades e modo de preparo',
+      'Custo por porção calculado e atualizado automaticamente com os preços dos insumos',
+      'Simulador de precificação para garantir a margem ideal em cada prato',
+      'Controle de rendimento e identificação de desperdício por receita',
+    ],
     screenshot: '',
   },
   {
@@ -67,7 +103,12 @@ export const modulesDataRestaurantes: ModuleDetail[] = [
     title: 'KDS - Kitchen Display',
     desc: 'Painel digital para cozinha com tempos, prioridades e status em tempo real.',
     features: ['Fila de pedidos', 'Tempos por estação', 'Priorização automática', 'Status em tempo real', 'Alertas de atraso'],
-    detailText: 'Substitua as comandas de papel por um painel digital inteligente. O KDS organiza os pedidos por estação de trabalho, prioriza automaticamente e exibe tempos de preparo em tempo real. Alertas visuais e sonoros garantem que nenhum pedido atrase.',
+    detailPoints: [
+      'Fila de pedidos organizada por estação de trabalho, sem comandas de papel',
+      'Priorização automática com tempo de preparo visível em tempo real',
+      'Alertas visuais e sonoros para pedidos em atraso',
+      'Visão simultânea de todas as estações: chapa, fritura, montagem e embalagem',
+    ],
     screenshot: '',
   },
   {
@@ -75,7 +116,12 @@ export const modulesDataRestaurantes: ModuleDetail[] = [
     title: 'CRM & Clientes',
     desc: 'Base unificada de clientes com histórico de pedidos e segmentação.',
     features: ['Base de clientes', 'Histórico de pedidos', 'Segmentação', 'Campanhas', 'Análise de recorrência'],
-    detailText: 'Conheça seus clientes a fundo com uma base unificada que registra todo o histórico de pedidos. Segmente por frequência, ticket médio e preferências para criar campanhas direcionadas que aumentam a recorrência e o faturamento.',
+    detailPoints: [
+      'Base unificada com histórico completo de pedidos por cliente',
+      'Segmentação por frequência, ticket médio e preferências',
+      'Campanhas direcionadas para aumentar recorrência e faturamento',
+      'Análise de comportamento e identificação de clientes em risco de churn',
+    ],
     screenshot: '',
   },
   // ─── LINHA 3: Checklists, IA, Foozi, Integrações ───
@@ -84,7 +130,12 @@ export const modulesDataRestaurantes: ModuleDetail[] = [
     title: 'Checklists Operacionais',
     desc: 'Rotinas diárias digitalizadas com fotos, evidências e acompanhamento.',
     features: ['Checklists diários', 'Registro com fotos', 'Acompanhamento', 'Templates', 'Relatórios de conformidade'],
-    detailText: 'Digitalize as rotinas operacionais da sua cozinha e salão. Crie checklists personalizados com exigência de fotos como evidência, acompanhe a execução em tempo real e gere relatórios de conformidade para garantir a padronização entre unidades.',
+    detailPoints: [
+      'Checklists personalizados com exigência de foto como evidência',
+      'Acompanhamento da execução em tempo real por turno e unidade',
+      'Templates prontos para abertura, limpeza, fechamento e segurança',
+      'Relatórios de conformidade para garantir padrão entre unidades',
+    ],
     screenshot: '',
   },
   {
@@ -92,7 +143,13 @@ export const modulesDataRestaurantes: ModuleDetail[] = [
     title: '15 Agentes de IA',
     desc: 'Assistentes inteligentes para compras, precificação, previsão e mais.',
     features: ['IA de compras', 'IA de precificação', 'Previsão de demanda', 'Alertas inteligentes', 'Recomendações automáticas'],
-    detailText: 'Conte com 15 agentes de inteligência artificial que trabalham nos bastidores da sua operação. Desde sugestões de compra baseadas em consumo histórico até precificação dinâmica e previsão de demanda — a IA da Granular antecipa problemas e recomenda ações antes que você precise pedir.',
+    detailPoints: [
+      'Sugestões de compra baseadas no consumo histórico de cada insumo',
+      'Precificação dinâmica com simulações de margem em tempo real',
+      'Previsão de demanda por período, produto e canal de venda',
+      'Alertas proativos antes que problemas afetam a operação',
+      'Recomendações automáticas de ação com base nos dados da sua operação',
+    ],
     screenshot: '',
   },
   {
@@ -100,7 +157,12 @@ export const modulesDataRestaurantes: ModuleDetail[] = [
     title: 'Foozi — Atendimento & Compras',
     desc: 'Atendimento digital, BPO e acesso a +2.000 fornecedores para food service.',
     features: ['WhatsApp', 'Chatbot', 'BPO de atendimento', '+2.000 fornecedores', 'Executivo de compras', 'Cotação e negociação', 'Central terceirizada', 'Gestão na Granular'],
-    detailText: 'A Foozi é parceira estratégica da Granular em atendimento digital, BPO e gestão de compras para food service. Com a integração, sua operação ganha atendimento profissional via WhatsApp, chatbot inteligente e uma central terceirizada. Além disso, você acessa uma base de mais de 2.000 fornecedores homologados para o fluxo de compras — cotação, negociação e pedidos gerenciados diretamente na Granular.',
+    detailPoints: [
+      'Atendimento profissional via WhatsApp com chatbot inteligente',
+      'BPO de atendimento: central terceirizada e gerenciada pela Foozi',
+      'Acesso a mais de 2.000 fornecedores homologados para food service',
+      'Cotação, negociação e pedidos centralizados diretamente na Granular',
+    ],
     screenshot: '',
   },
   {
@@ -108,7 +170,13 @@ export const modulesDataRestaurantes: ModuleDetail[] = [
     title: 'Integrações',
     desc: 'Conecte seu ecossistema com iFood, Saipos, Omie, Open Delivery e mais.',
     features: ['iFood', 'Saipos', 'Omie', 'Open Delivery', 'Foozi'],
-    detailText: 'Integre as principais plataformas do mercado ao ecossistema Granular. Receba pedidos do iFood automaticamente, sincronize dados financeiros com o Omie, conecte-se ao padrão Open Delivery e centralize toda a operação em um único lugar. Novas integrações são adicionadas continuamente para acompanhar a evolução do seu negócio.',
+    detailPoints: [
+      'iFood: pedidos recebidos automaticamente, sem gestão manual',
+      'Omie: sincronização financeira em tempo real',
+      'Saipos: dados do PDV unificados no painel Granular',
+      'Open Delivery: padrão aberto de integração com marketplaces',
+      'Novas integrações adicionadas continuamente',
+    ],
     screenshot: '',
   },
 ]
@@ -118,10 +186,18 @@ export const modulesDataMercados: ModuleDetail[] = [
   {
     icon: PhoneCall,
     title: 'Televendas',
-    desc: 'Central de vendas por telefone e WhatsApp integrada ao Granular Market.',
-    features: ['Pedidos por telefone', 'Integração WhatsApp Business', 'Fila de atendimento', 'Histórico de clientes', 'Relatórios de conversão', 'Operadores simultâneos', 'Scripts de vendas'],
-    detailText: 'Centralize as vendas por telefone e WhatsApp em uma central integrada ao Granular Market. Registre pedidos diretamente no sistema, acesse o histórico de cada cliente, gerencie a fila de atendimento e acompanhe a taxa de conversão por operador. Ideal para atacarejos e supermercados que atendem clientes corporativos e varejistas com pedidos recorrentes.',
-    screenshot: '',
+    desc: 'Sistema de aceleração de propostas comerciais: do pedido verbal à cotação enviada em menos de 2 minutos.',
+    features: ['Modo UltraFast: proposta em < 2 min', 'Busca por nome, EAN ou código', 'Edição inline de preço e desconto', 'Controle de alçada por cargo', 'Exportação WhatsApp e PDF', 'Dashboard de performance por vendedor', 'CRM com histórico e segmentação', 'Catálogo com importação Excel'],
+    detailPoints: [
+      'Modo UltraFast: pedido verbal vira proposta pronta em menos de 2 minutos',
+      'Busca por nome, código EAN ou código interno com confirmação instantânea',
+      'Edição inline de preço com controle de alçada automático por cargo',
+      'Exportação direta por WhatsApp ou PDF com layout profissional',
+      'Dashboard com funil de conversão, eficiência de matching e ranking de vendedores',
+      'CRM com histórico completo e segmentação de clientes',
+      'Catálogo com importação Excel e gestão de apelidos (DE-PARA)',
+    ],
+    screenshot: '/TEla sistema televendas Granular market.jpg',
     standalone: true,
   },
   {
@@ -129,7 +205,12 @@ export const modulesDataMercados: ModuleDetail[] = [
     title: 'iFood & Pedidos',
     desc: 'Integração nativa com iFood e plataformas de delivery para gestão centralizada de pedidos.',
     features: ['Integração iFood', 'Painel de pedidos', 'Rastreamento', 'Métricas de delivery', 'Multi-plataforma'],
-    detailText: 'Centralize todos os pedidos do iFood e demais plataformas em um único painel. Acompanhe o status de cada entrega em tempo real, analise métricas de performance do delivery e identifique oportunidades de melhoria no tempo e na avaliação.',
+    detailPoints: [
+      'Pedidos do iFood e demais plataformas centralizados em um único painel',
+      'Acompanhamento do status de cada entrega em tempo real',
+      'Métricas de performance: tempo médio, avaliações e taxa de cancelamento',
+      'Visão consolidada de todos os IDs e marcas em uma só tela',
+    ],
     screenshot: '',
   },
   {
@@ -137,7 +218,14 @@ export const modulesDataMercados: ModuleDetail[] = [
     title: 'Pessoas (RH)',
     desc: 'Recrutamento, contratação, escalas, documentos, desempenho e controle de turnover.',
     features: ['Recrutamento e seleção', 'Controle de entrevistas', 'Contratação e onboarding', 'Escalas e turnos (6x1, 12h)', 'Controle de documentos', 'Avaliação de desempenho', 'Custo real por colaborador', 'Produtividade por função', 'Gestão de turnover', 'Plano de carreira', 'Treinamentos e certificações', 'Histórico funcional'],
-    detailText: 'O módulo mais completo de gestão de pessoas para o varejo alimentar. Controle recrutamento, escalas, documentos e avaliações de desempenho. Calcule o custo real de cada colaborador e implemente bonificações por resultado — tudo integrado à operação do mercado.',
+    detailPoints: [
+      'Recrutamento com funil de entrevistas e controle de candidatos',
+      'Onboarding digital: documentos, exames e contratos com alertas de vencimento',
+      'Escalas inteligentes para turnos de 6x1, 12h e folguistas',
+      'Custo real por colaborador: salário, encargos, VT e alimentação',
+      'Avaliação de desempenho e plano de carreira simplificado',
+      'Bonificações por resultado e acompanhamento de turnover',
+    ],
     screenshot: '',
     standalone: true,
   },
@@ -146,7 +234,13 @@ export const modulesDataMercados: ModuleDetail[] = [
     title: 'Relatórios',
     desc: 'Relatórios gerenciais automatizados com insights acionáveis para tomada de decisão.',
     features: ['Relatórios semanais', 'Análises comparativas', 'Indicadores de performance', 'Exportação de dados', 'Visão multi-lojas'],
-    detailText: 'Receba relatórios gerenciais automatizados com os principais indicadores da sua operação. Compare performance entre unidades, acompanhe a evolução de vendas, CMV, ticket médio e muito mais. Dados consolidados e prontos para decisão — sem precisar montar planilhas manualmente.',
+    detailPoints: [
+      'Relatórios gerenciais gerados automaticamente, sem montar planilhas',
+      'Comparativo de performance entre unidades',
+      'Indicadores principais: vendas, CMV, ticket médio e margem',
+      'Dados consolidados e prontos para decisão imediata',
+      'Visão multi-lojas para operações com mais de uma unidade',
+    ],
     screenshot: '',
   },
   {
@@ -154,7 +248,13 @@ export const modulesDataMercados: ModuleDetail[] = [
     title: 'Estoque Inteligente',
     desc: 'Controle total de insumos, compras e inventário com alertas automáticos de reposição.',
     features: ['Operações', 'Análises', 'Compras', 'Transferências', 'Etiquetas e Impressão'],
-    detailText: 'Tenha visão completa do seu estoque com indicadores de Valor Parado, Potencial Perdido, CMV%, Cobertura Média e Desperdício. Compare o custo fiscal com o custo móvel de cada produto, acompanhe o histórico de preços mês a mês e gerencie transferências entre unidades — tudo em um só lugar.',
+    detailPoints: [
+      'Indicadores em tempo real: Valor Parado, CMV%, Cobertura e Desperdício',
+      'Comparativo entre custo fiscal e custo móvel de cada produto',
+      'Histórico de preços mês a mês para identificar tendências',
+      'Gestão de compras e transferências entre unidades',
+      'Impressão de etiquetas integrada ao estoque',
+    ],
     screenshot: '/Tela Estoque Site.png',
   },
   {
@@ -162,7 +262,12 @@ export const modulesDataMercados: ModuleDetail[] = [
     title: 'Financeiro & DRE',
     desc: 'DRE automático, contas a pagar/receber e conciliação bancária integrada.',
     features: ['DRE automático', 'Contas a pagar', 'Contas a receber', 'Conciliação bancária', 'Fluxo de caixa'],
-    detailText: 'Acompanhe a saúde financeira da sua operação com DRE gerado automaticamente a partir dos dados reais do sistema. Gerencie contas a pagar e receber, faça conciliação bancária e tenha visão clara do fluxo de caixa por unidade.',
+    detailPoints: [
+      'DRE gerado automaticamente a partir dos dados reais do sistema',
+      'Contas a pagar e receber com vencimentos e alertas',
+      'Conciliação bancária integrada sem exportação manual',
+      'Fluxo de caixa por unidade com visão diária e mensal',
+    ],
     screenshot: '',
   },
   {
@@ -170,7 +275,12 @@ export const modulesDataMercados: ModuleDetail[] = [
     title: 'Produção & Padaria',
     desc: 'Fichas técnicas detalhadas com custo automático e controle de rendimento para padaria e rotisserie.',
     features: ['Fichas técnicas', 'Custo por porção', 'Rendimento', 'Modo de preparo', 'Simulador de preço'],
-    detailText: 'Cadastre fichas técnicas completas com ingredientes, quantidades e modo de preparo para padaria, rotisserie e produtos elaborados. O sistema calcula automaticamente o custo por porção e atualiza conforme os preços dos insumos mudam. Simule cenários de precificação e garanta a margem ideal em cada produto.',
+    detailPoints: [
+      'Fichas técnicas para padaria, rotisserie e produtos elaborados',
+      'Custo por porção atualizado automaticamente com os preços dos insumos',
+      'Simulador de precificação para garantir a margem ideal em cada produto',
+      'Controle de rendimento e identificação de desperdício por receita',
+    ],
     screenshot: '',
   },
   {
@@ -178,7 +288,12 @@ export const modulesDataMercados: ModuleDetail[] = [
     title: 'KDS - Kitchen Display',
     desc: 'Painel digital para cozinha, padaria e rotisserie com tempos e status em tempo real.',
     features: ['Fila de pedidos', 'Tempos por estação', 'Priorização automática', 'Status em tempo real', 'Alertas de atraso'],
-    detailText: 'Substitua as comandas de papel por um painel digital inteligente na padaria e rotisserie. O KDS organiza os pedidos por estação de trabalho, prioriza automaticamente e exibe tempos de preparo em tempo real. Alertas visuais e sonoros garantem que nenhum pedido atrase.',
+    detailPoints: [
+      'Fila de pedidos organizada por estação: padaria, rotisserie e cozinha quente',
+      'Priorização automática com tempo de preparo visível em tempo real',
+      'Alertas visuais e sonoros para pedidos em atraso',
+      'Substitui comandas de papel em todas as estações de produção',
+    ],
     screenshot: '',
   },
   {
@@ -186,7 +301,12 @@ export const modulesDataMercados: ModuleDetail[] = [
     title: 'CRM & Clientes',
     desc: 'Base unificada de clientes com histórico de compras, fidelidade e segmentação.',
     features: ['Base de clientes', 'Histórico de pedidos', 'Segmentação', 'Campanhas', 'Análise de recorrência'],
-    detailText: 'Conheça seus clientes a fundo com uma base unificada que registra todo o histórico de compras. Segmente por frequência, ticket médio e preferências para criar campanhas direcionadas de fidelidade que aumentam a recorrência e o faturamento.',
+    detailPoints: [
+      'Base unificada com histórico completo de compras por cliente',
+      'Segmentação por frequência, ticket médio e preferências',
+      'Campanhas de fidelidade direcionadas para aumentar recorrência',
+      'Análise de comportamento e identificação de clientes em risco de churn',
+    ],
     screenshot: '',
   },
   {
@@ -194,7 +314,12 @@ export const modulesDataMercados: ModuleDetail[] = [
     title: 'Checklists Operacionais',
     desc: 'Rotinas diárias digitalizadas com fotos, evidências e acompanhamento.',
     features: ['Checklists diários', 'Registro com fotos', 'Acompanhamento', 'Templates', 'Relatórios de conformidade'],
-    detailText: 'Digitalize as rotinas operacionais do seu mercado. Crie checklists personalizados com exigência de fotos como evidência, acompanhe a execução em tempo real e gere relatórios de conformidade para garantir a padronização entre unidades.',
+    detailPoints: [
+      'Checklists personalizados com exigência de foto como evidência',
+      'Acompanhamento da execução em tempo real por turno e unidade',
+      'Templates prontos para abertura, limpeza, fechamento e segurança alimentar',
+      'Relatórios de conformidade para garantir padrão entre unidades',
+    ],
     screenshot: '',
   },
   {
@@ -202,7 +327,13 @@ export const modulesDataMercados: ModuleDetail[] = [
     title: '15 Agentes de IA',
     desc: 'Assistentes inteligentes para compras, precificação, previsão de demanda e mais.',
     features: ['IA de compras', 'IA de precificação', 'Previsão de demanda', 'Alertas inteligentes', 'Recomendações automáticas'],
-    detailText: 'Conte com 15 agentes de inteligência artificial que trabalham nos bastidores da sua operação. Desde sugestões de compra baseadas em consumo histórico até precificação dinâmica e previsão de demanda — a IA da Granular antecipa problemas e recomenda ações antes que você precise pedir.',
+    detailPoints: [
+      'Sugestões de compra baseadas no consumo histórico de cada produto',
+      'Precificação dinâmica com simulações de margem em tempo real',
+      'Previsão de demanda por período, produto e sazonalidade',
+      'Alertas proativos antes que problemas afetam a operação',
+      'Recomendações automáticas de ação com base nos dados da sua operação',
+    ],
     screenshot: '',
   },
   {
@@ -210,7 +341,13 @@ export const modulesDataMercados: ModuleDetail[] = [
     title: 'Integrações',
     desc: 'Conecte seu ecossistema com as principais plataformas do varejo alimentar.',
     features: ['iFood', 'Saipos', 'Omie', 'Open Delivery', 'ERP'],
-    detailText: 'Integre as principais plataformas do mercado ao ecossistema Granular Market. Sincronize dados financeiros com o Omie, conecte-se ao padrão Open Delivery e centralize toda a operação em um único lugar. Novas integrações são adicionadas continuamente.',
+    detailPoints: [
+      'iFood: pedidos recebidos automaticamente, sem gestão manual',
+      'Omie: sincronização financeira em tempo real',
+      'Saipos: dados do PDV unificados no painel Granular',
+      'Open Delivery: padrão aberto de integração com marketplaces',
+      'Novas integrações adicionadas continuamente',
+    ],
     screenshot: '',
   },
 ]

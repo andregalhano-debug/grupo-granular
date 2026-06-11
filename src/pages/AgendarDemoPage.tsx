@@ -5,6 +5,16 @@ import { GranularLogo } from '../components/GranularLogo'
 import { generateDemoSlots, saveDemoBooking } from '../data/demoSlots'
 import { MiniCalendar } from '../components/MiniCalendar'
 
+const SEGMENTOS = [
+  'Restaurante',
+  'Mercado',
+  'Atacado',
+  'Atacarejo',
+  'Farmácia',
+  'Pet Shop',
+  'Outros',
+]
+
 const FAIXAS_FATURAMENTO = [
   'Iniciando no Delivery',
   'Até 50k',
@@ -15,11 +25,18 @@ const FAIXAS_FATURAMENTO = [
   'Acima de 1M',
 ]
 
+const inputClass = (hasError: boolean) =>
+  `w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border text-sm outline-none transition-colors ${
+    hasError ? 'border-red-400' : 'border-[#9C958A]/20 focus:border-[#A31631]'
+  }`
+
 export function AgendarDemoPage() {
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [whatsapp, setWhatsapp] = useState('')
   const [company, setCompany] = useState('')
+  const [segmento, setSegmento] = useState('')
+  const [segmentoOutro, setSegmentoOutro] = useState('')
+  const [name, setName] = useState('')
+  const [whatsapp, setWhatsapp] = useState('')
+  const [email, setEmail] = useState('')
   const [faturamento, setFaturamento] = useState('')
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null)
   const [submitted, setSubmitted] = useState(false)
@@ -31,10 +48,12 @@ export function AgendarDemoPage() {
 
   const validate = () => {
     const e: Record<string, string> = {}
-    if (!name.trim()) e.name = 'Informe seu nome'
-    if (!email.trim() || !email.includes('@')) e.email = 'Informe um e-mail válido'
-    if (!whatsapp.trim() || whatsapp.replace(/\D/g, '').length < 10) e.whatsapp = 'Informe um WhatsApp válido'
     if (!company.trim()) e.company = 'Informe o nome da empresa'
+    if (!segmento) e.segmento = 'Selecione o segmento'
+    if (segmento === 'Outros' && !segmentoOutro.trim()) e.segmentoOutro = 'Descreva o segmento'
+    if (!name.trim()) e.name = 'Informe seu nome'
+    if (!whatsapp.trim() || whatsapp.replace(/\D/g, '').length < 10) e.whatsapp = 'Informe um WhatsApp válido'
+    if (!email.trim() || !email.includes('@')) e.email = 'Informe um e-mail válido'
     if (!selectedSlot) e.slot = 'Selecione uma data e horário'
     setErrors(e)
     return Object.keys(e).length === 0
@@ -54,6 +73,8 @@ export function AgendarDemoPage() {
       email: email.trim(),
       whatsapp: whatsapp.trim(),
       company: company.trim(),
+      segmento,
+      segmentoOutro: segmento === 'Outros' ? segmentoOutro.trim() : undefined,
       units: faturamento || '-',
       date: slotDate,
       time: slotTime,
@@ -117,44 +138,78 @@ export function AgendarDemoPage() {
           <div className="space-y-5">
             <h2 className="text-sm font-bold text-[#0E0E0F]">Seus dados</h2>
 
+            {/* Empresa */}
+            <div>
+              <label className="block text-xs font-medium text-[#0E0E0F] mb-1.5">Empresa</label>
+              <input type="text" value={company} onChange={(e) => setCompany(e.target.value)}
+                className={inputClass(!!errors.company)}
+                placeholder="Nome do estabelecimento ou rede" />
+              {errors.company && <p className="text-xs text-red-500 mt-1">{errors.company}</p>}
+            </div>
+
+            {/* Segmento */}
+            <div>
+              <label className="block text-xs font-medium text-[#0E0E0F] mb-1.5">Segmento</label>
+              <select
+                value={segmento}
+                onChange={(e) => { setSegmento(e.target.value); setSegmentoOutro('') }}
+                className={`${inputClass(!!errors.segmento)} cursor-pointer ${!segmento ? 'text-[#9C958A]' : 'text-[#0E0E0F]'}`}
+              >
+                <option value="">Selecione o segmento</option>
+                {SEGMENTOS.map((s) => (
+                  <option key={s} value={s}>{s}</option>
+                ))}
+              </select>
+              {errors.segmento && <p className="text-xs text-red-500 mt-1">{errors.segmento}</p>}
+              {segmento === 'Outros' && (
+                <div className="mt-2">
+                  <input
+                    type="text"
+                    value={segmentoOutro}
+                    onChange={(e) => setSegmentoOutro(e.target.value)}
+                    className={inputClass(!!errors.segmentoOutro)}
+                    placeholder="Descreva o segmento"
+                    autoFocus
+                  />
+                  {errors.segmentoOutro && <p className="text-xs text-red-500 mt-1">{errors.segmentoOutro}</p>}
+                </div>
+              )}
+            </div>
+
+            {/* Nome completo */}
             <div>
               <label className="block text-xs font-medium text-[#0E0E0F] mb-1.5">Nome completo</label>
               <input type="text" value={name} onChange={(e) => setName(e.target.value)}
-                className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border text-sm outline-none transition-colors ${errors.name ? 'border-red-400' : 'border-[#9C958A]/20 focus:border-[#A31631]'}`}
-                placeholder="Seu nome" />
+                className={inputClass(!!errors.name)}
+                placeholder="Seu nome e sobrenome" />
               {errors.name && <p className="text-xs text-red-500 mt-1">{errors.name}</p>}
             </div>
 
-            <div>
-              <label className="block text-xs font-medium text-[#0E0E0F] mb-1.5">E-mail</label>
-              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)}
-                className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border text-sm outline-none transition-colors ${errors.email ? 'border-red-400' : 'border-[#9C958A]/20 focus:border-[#A31631]'}`}
-                placeholder="seu@email.com" />
-              {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email}</p>}
-            </div>
-
+            {/* WhatsApp */}
             <div>
               <label className="block text-xs font-medium text-[#0E0E0F] mb-1.5">WhatsApp</label>
               <input type="tel" value={whatsapp} onChange={(e) => setWhatsapp(e.target.value)}
-                className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border text-sm outline-none transition-colors ${errors.whatsapp ? 'border-red-400' : 'border-[#9C958A]/20 focus:border-[#A31631]'}`}
+                className={inputClass(!!errors.whatsapp)}
                 placeholder="(31) 99999-9999" />
               {errors.whatsapp && <p className="text-xs text-red-500 mt-1">{errors.whatsapp}</p>}
             </div>
 
+            {/* E-mail */}
             <div>
-              <label className="block text-xs font-medium text-[#0E0E0F] mb-1.5">Empresa</label>
-              <input type="text" value={company} onChange={(e) => setCompany(e.target.value)}
-                className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border text-sm outline-none transition-colors ${errors.company ? 'border-red-400' : 'border-[#9C958A]/20 focus:border-[#A31631]'}`}
-                placeholder="Nome do restaurante ou rede" />
-              {errors.company && <p className="text-xs text-red-500 mt-1">{errors.company}</p>}
+              <label className="block text-xs font-medium text-[#0E0E0F] mb-1.5">E-mail</label>
+              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)}
+                className={inputClass(!!errors.email)}
+                placeholder="seu@email.com" />
+              {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email}</p>}
             </div>
 
+            {/* Faixa de faturamento */}
             <div>
               <label className="block text-xs font-medium text-[#0E0E0F] mb-1.5">Faixa de faturamento</label>
               <select
                 value={faturamento}
                 onChange={(e) => setFaturamento(e.target.value)}
-                className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border text-sm outline-none transition-colors cursor-pointer border-[#9C958A]/20 focus:border-[#A31631] ${!faturamento ? 'text-[#9C958A]' : 'text-[#0E0E0F]'}`}
+                className={`${inputClass(false)} cursor-pointer ${!faturamento ? 'text-[#9C958A]' : 'text-[#0E0E0F]'}`}
               >
                 <option value="">Selecione a faixa</option>
                 {FAIXAS_FATURAMENTO.map((f) => (

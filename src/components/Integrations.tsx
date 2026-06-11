@@ -48,7 +48,7 @@ export function Integrations() {
       <div className="max-w-7xl mx-auto">
         <FadeIn className="text-center mb-16">
           <p
-            className="text-[10px] font-medium text-[var(--accent)] uppercase tracking-widest mb-4"
+            className="text-xs font-medium text-[var(--accent)] uppercase tracking-widest mb-4"
             style={{ fontFamily: "'JetBrains Mono', monospace" }}
           >
             Ecossistema conectado
@@ -146,9 +146,20 @@ export function Integrations() {
 
               {/* Conteúdo */}
               <div className="p-6 sm:p-8">
-                <p className="text-sm text-[#0E0E0F] leading-relaxed mb-6">
-                  {openIntegration.detailText}
-                </p>
+                {openIntegration.detailPoints ? (
+                  <ul className="space-y-2 mb-6">
+                    {openIntegration.detailPoints.map((point, i) => (
+                      <li key={i} className="flex items-start gap-2 text-sm text-[#0E0E0F]">
+                        <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[var(--accent)] flex-shrink-0" />
+                        {point}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-sm text-[#0E0E0F] leading-relaxed mb-6">
+                    {openIntegration.detailText}
+                  </p>
+                )}
 
                 <div className="mb-6">
                   <p

@@ -13,6 +13,8 @@ export interface DemoBooking {
   email: string
   whatsapp: string
   company: string
+  segmento: string
+  segmentoOutro?: string
   units: string
   date: string
   time: string

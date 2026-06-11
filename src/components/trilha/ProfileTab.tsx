@@ -102,13 +102,49 @@ const developmentTips: Record<ConsultantCategory, { strong: string; grow: string
     strong: 'Engenharia de cardápio é sua especialidade. Crie frameworks de análise popularidade x margem para diferentes formatos.',
     grow: 'Estude food cost engineering, fotografia gastronômica para delivery e menu digital com upsell inteligente.',
   },
-  ifood: {
-    strong: 'Seu conhecimento de iFood é profundo. Documente estratégias de ranking e compartilhe com a rede Granular.',
-    grow: 'Acompanhe as mudanças constantes do algoritmo, estude Super Restaurante e domine métricas avançadas do painel.',
+  marketplaces: {
+    strong: 'Seu conhecimento de marketplaces é profundo. Documente estratégias de ranking e compartilhe com a rede Granular.',
+    grow: 'Acompanhe as mudanças de algoritmo do iFood, Keeta, Rappi e 99. Estude Super Restaurante e domine métricas avançadas de cada plataforma.',
   },
   rh: {
     strong: 'Gestão de pessoas no food service é sua força. Crie modelos de escala e onboarding replicáveis.',
     grow: 'Aprofunde em cálculo de custo real CLT (1.6-1.8x), programas de retenção e produtividade por função.',
+  },
+  estoque: {
+    strong: 'Controle de estoque e CMV é sua especialidade. Construa frameworks de inventário e curva ABC para diferentes operações.',
+    grow: 'Aprofunde em sistemas de custo móvel, rastreabilidade de insumos e automação de pedidos de compra.',
+  },
+  precificacao: {
+    strong: 'Sua visão de precificação é estratégica. Desenvolva modelos de markup e análise de rentabilidade por item.',
+    grow: 'Estude precificação dinâmica por canal, elasticidade de demanda e análise de break-even por produto.',
+  },
+  atendimento: {
+    strong: 'Atendimento ao cliente é seu diferencial. Crie playbooks de NPS e gestão de reclamações replicáveis.',
+    grow: 'Aprofunde em CRM para recorrência, análise de churn e estratégias de fidelização por segmento.',
+  },
+  tecnologia: {
+    strong: 'Tecnologia e sistemas é sua área. Ajude operações a extrair o máximo das ferramentas disponíveis.',
+    grow: 'Explore integrações entre plataformas, automações operacionais e uso de IA em processos de food service.',
+  },
+  franquias: {
+    strong: 'Gestão de franquias é sua especialidade. Construa modelos de padronização e expansão para redes.',
+    grow: 'Aprofunde em formatação de franquias, gestão de royalties e indicadores de performance por unidade franqueada.',
+  },
+  mercado: {
+    strong: 'Sua experiência em varejo alimentar é diferenciada. Construa frameworks de gestão de mix e perdas.',
+    grow: 'Aprofunde em precificação de atacarejo, gestão de perecíveis, curva ABC de produtos e televendas B2B.',
+  },
+  farmacia: {
+    strong: 'Seu conhecimento em farmácias e drogarias é valioso. Desenvolva modelos de gestão regulatória e operacional.',
+    grow: 'Estude rastreabilidade de medicamentos, receituário digital, gestão de psicotrópicos e compliance da ANVISA.',
+  },
+  petshop: {
+    strong: 'Pet shop e clínica veterinária é sua área. Desenvolva frameworks de agendamento e gestão de serviços.',
+    grow: 'Aprofunde em prontuário veterinário digital, gestão de medicamentos controlados e fidelização de tutores.',
+  },
+  outros: {
+    strong: 'Sua especialidade é única. Compartilhe seu conhecimento específico com a rede de consultores Granular.',
+    grow: 'Explore como adaptar as metodologias Granular ao seu segmento e construa frameworks replicáveis.',
   },
 }
 
@@ -142,15 +178,60 @@ const recommendations: Record<ConsultantCategory, Recommendation[]> = {
     { title: 'The Food Lab', author: 'J. Kenji López-Alt', type: 'livro', relevance: 'Ciência aplicada à cozinha para otimizar fichas técnicas' },
     { title: 'Pricing and Revenue Mgmt for Food', author: 'Cornell Hospitality', type: 'pesquisa', relevance: 'Precificação estratégica baseada em dados' },
   ],
-  ifood: [
+  marketplaces: [
     { title: 'Guia do Super Restaurante iFood', author: 'iFood', type: 'estudo', relevance: 'Critérios oficiais e estratégias para selo Super' },
-    { title: 'Marketplace Optimization', author: 'Harvard Business Review', type: 'pesquisa', relevance: 'Otimização de visibilidade em marketplaces — aplicável ao iFood' },
-    { title: 'Platform Revolution', author: 'Parker, Van Alstyne & Choudary', type: 'livro', relevance: 'Entender a dinâmica de plataformas como iFood' },
+    { title: 'Marketplace Optimization', author: 'Harvard Business Review', type: 'pesquisa', relevance: 'Otimização de visibilidade em marketplaces — iFood, Rappi, Keeta' },
+    { title: 'Platform Revolution', author: 'Parker, Van Alstyne & Choudary', type: 'livro', relevance: 'Entender a dinâmica de plataformas como iFood e Rappi' },
   ],
   rh: [
     { title: 'Turnover and Retention in Fast Food', author: 'NRA (National Restaurant Association)', type: 'pesquisa', relevance: 'Dados e estratégias de retenção no setor' },
     { title: 'First, Break All the Rules', author: 'Marcus Buckingham', type: 'livro', relevance: 'Gestão baseada em pontos fortes — aplicável a equipes de cozinha' },
     { title: 'Escalas e Legislação Trabalhista no Food Service', author: 'ABRASEL', type: 'curso', relevance: 'CLT, 6x1, interjornada e custos reais de contratação' },
+  ],
+  estoque: [
+    { title: 'Inventory Management for Food Service', author: 'National Restaurant Association', type: 'pesquisa', relevance: 'Boas práticas de controle de estoque e CMV em food service' },
+    { title: 'Food Cost Control', author: 'Jack D. Ninemeier', type: 'livro', relevance: 'Métodos de controle de food cost e inventário' },
+    { title: 'Relatório ABRASEL — CMV no Food Service', author: 'ABRASEL', type: 'estudo', relevance: 'Benchmarks de CMV por segmento no mercado brasileiro' },
+  ],
+  precificacao: [
+    { title: 'Pricing and Revenue Optimization', author: 'Robert L. Phillips', type: 'livro', relevance: 'Fundamentos de precificação estratégica e maximização de margem' },
+    { title: 'The Strategy and Tactics of Pricing', author: 'Nagle & Müller', type: 'livro', relevance: 'Framework completo de precificação baseada em valor' },
+    { title: 'Menu Pricing Strategies', author: 'Cornell Hospitality Quarterly', type: 'pesquisa', relevance: 'Estratégias de precificação de cardápio aplicadas a delivery' },
+  ],
+  atendimento: [
+    { title: 'The Effortless Experience', author: 'Matthew Dixon', type: 'livro', relevance: 'Redução de esforço do cliente como driver de fidelização' },
+    { title: 'Customer Success', author: 'Nick Mehta', type: 'livro', relevance: 'Metodologia de sucesso do cliente aplicável a food service' },
+    { title: 'NPS — Net Promoter System', author: 'Bain & Company', type: 'estudo', relevance: 'Medição e gestão da lealdade de clientes' },
+  ],
+  tecnologia: [
+    { title: 'The Lean Startup', author: 'Eric Ries', type: 'livro', relevance: 'Iteração rápida e validação de soluções — útil para implantação de sistemas' },
+    { title: 'Automação no Food Service', author: 'Galunion', type: 'pesquisa', relevance: 'Tendências de automação e tecnologia em operações de alimentos' },
+    { title: 'Digital Transformation in Food & Beverage', author: 'Deloitte Insights', type: 'pesquisa', relevance: 'Como o setor de alimentos está sendo transformado digitalmente' },
+  ],
+  franquias: [
+    { title: 'The Franchise Handbook', author: 'Entrepreneur Press', type: 'livro', relevance: 'Guia completo de formatação e gestão de franquias' },
+    { title: 'Franchising no Brasil', author: 'ABF (Associação Brasileira de Franchising)', type: 'estudo', relevance: 'Dados e tendências do franchising brasileiro' },
+    { title: 'Built to Sell', author: 'John Warrillow', type: 'livro', relevance: 'Como construir negócios replicáveis e escaláveis' },
+  ],
+  mercado: [
+    { title: 'Retail Management', author: 'Barry Berman & Joel Evans', type: 'livro', relevance: 'Gestão estratégica de varejo — aplicável a supermercados e atacarejos' },
+    { title: 'Relatório ABRAS — Supermercados no Brasil', author: 'ABRAS', type: 'pesquisa', relevance: 'Dados anuais do setor supermercadista brasileiro' },
+    { title: 'Category Management', author: 'Brian F. Harris', type: 'livro', relevance: 'Gestão de categorias e mix de produtos no varejo alimentar' },
+  ],
+  farmacia: [
+    { title: 'Gestão de Farmácias e Drogarias', author: 'CFF (Conselho Federal de Farmácia)', type: 'curso', relevance: 'Boas práticas de gestão em farmácias com foco regulatório' },
+    { title: 'Relatório ABRAFARMA', author: 'ABRAFARMA', type: 'pesquisa', relevance: 'Dados e tendências do setor farmacêutico brasileiro' },
+    { title: 'Compliance na ANVISA', author: 'ANVISA', type: 'estudo', relevance: 'Regulamentações vigentes para drogarias e farmácias de manipulação' },
+  ],
+  petshop: [
+    { title: 'Relatório PetBrasil', author: 'ABINPET', type: 'pesquisa', relevance: 'Dados do mercado pet brasileiro — maior do mundo em serviços' },
+    { title: 'Gestão de Clínicas Veterinárias', author: 'CFMV', type: 'estudo', relevance: 'Boas práticas de gestão para clínicas veterinárias' },
+    { title: 'The Business of Pet Care', author: 'Pet Business Magazine', type: 'livro', relevance: 'Estratégias de crescimento no mercado pet' },
+  ],
+  outros: [
+    { title: 'The E-Myth Revisited', author: 'Michael E. Gerber', type: 'livro', relevance: 'Por que a maioria dos negócios falha e como evitar — universal' },
+    { title: 'Good to Great', author: 'Jim Collins', type: 'livro', relevance: 'O que separa empresas boas de empresas excepcionais' },
+    { title: 'Traction', author: 'Gino Wickman', type: 'livro', relevance: 'Sistema de gestão empresarial aplicável a qualquer segmento' },
   ],
 }
 

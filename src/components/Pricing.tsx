@@ -316,7 +316,7 @@ const consultoriaSteps = [
     months: '1 mês',
     label: 'Diagnóstico geral + primeiras ações',
     points: [
-      '4 horas mensais de consultoria',
+      '4 horas mensais com especialista',
       'Diagnóstico completo da operação',
       'Priorização de blocos pós-diagnóstico',
       'Plano de ação com metas e responsáveis',
@@ -327,7 +327,7 @@ const consultoriaSteps = [
     months: '3 meses',
     label: 'Transformação com acompanhamento',
     points: [
-      '4 horas mensais de consultoria',
+      '4 horas mensais com especialista',
       'Acompanhamento mensal contínuo',
       'Relatório semanal de evolução',
       'Suporte contínuo durante o período',
@@ -338,11 +338,10 @@ const consultoriaSteps = [
     months: '6 meses',
     label: 'Evolução completa com melhor custo',
     points: [
-      '4 horas mensais de consultoria',
+      '4 horas mensais com especialista',
       'Ciclo completo de transformação',
       'Visita in loco (negociada à parte)',
       'Módulo 1 do sistema incluso',
-      'Melhor custo-benefício do período',
     ],
   },
 ]
@@ -442,7 +441,7 @@ export function Pricing({ category = 'restaurantes' }: Props) {
                         </div>
                         <div>
                           <p className="text-sm font-semibold text-[#0E0E0F]">Televendas</p>
-                          <p className="text-xs text-[#9C958A]">Central de vendas por telefone e WhatsApp</p>
+                          <p className="text-xs text-[#9C958A]">Proposta comercial em menos de 2 min com busca e controle de alçada</p>
                         </div>
                       </div>
                       <div className="flex items-center gap-3 sm:flex-shrink-0">
@@ -572,7 +571,7 @@ export function Pricing({ category = 'restaurantes' }: Props) {
                 <Handshake size={22} className="text-[#F7F7F7]" />
               </div>
               <div>
-                <h3 className="text-2xl font-bold text-[#0E0E0F]">Consultoria</h3>
+                <h3 className="text-2xl font-bold text-[#0E0E0F]">Especialista sob demanda</h3>
                 <p className="text-sm text-[#9C958A]">Especialistas transformando sua operação</p>
               </div>
               <div className="hidden sm:block flex-1 h-px bg-[#9C958A]/30 ml-4" />
@@ -583,7 +582,7 @@ export function Pricing({ category = 'restaurantes' }: Props) {
         <FadeIn delay={50}>
           <div className="max-w-6xl mx-auto mb-10 rounded-xl bg-[#0E0E0F]/[0.03] border border-[#9C958A]/15 p-4 sm:p-5">
             <p className="text-xs sm:text-sm text-[#0E0E0F] leading-relaxed">
-              Após o diagnóstico inicial, mentor e cliente definem juntos quais blocos serão priorizados — de acordo com as necessidades do negócio e o tempo contratado.
+              Após o diagnóstico inicial, especialista e cliente definem juntos quais blocos serão priorizados — de acordo com as necessidades do negócio e o tempo contratado.
             </p>
           </div>
         </FadeIn>
@@ -596,7 +595,7 @@ export function Pricing({ category = 'restaurantes' }: Props) {
               <div className="relative flex items-stretch justify-between gap-4">
                 {/* Linha conectora */}
                 <div className="absolute top-5 left-[calc(16.66%)] right-[calc(16.66%)] h-0.5 bg-[var(--accent)]/20" />
-                {consultoriaSteps.map((step, idx) => (
+                {consultoriaSteps.map((step) => (
                   <div key={step.months} className="flex-1 flex flex-col">
                     {/* Nó */}
                     <div className="relative z-10 flex flex-col items-center mb-5">
@@ -611,12 +610,7 @@ export function Pricing({ category = 'restaurantes' }: Props) {
                       </span>
                     </div>
                     {/* Card do step — flex-1 garante mesma altura em todos */}
-                    <div className={`flex-1 w-full rounded-2xl border bg-white p-5 ${idx === 2 ? 'border-[var(--accent)]/30 shadow-sm shadow-[var(--accent-05)]' : 'border-[#9C958A]/20'}`}>
-                      {idx === 2 && (
-                        <span className="inline-block text-[9px] font-bold uppercase tracking-wider bg-[var(--accent)] text-white px-2.5 py-0.5 rounded-full mb-3">
-                          Melhor custo
-                        </span>
-                      )}
+                    <div className="flex-1 w-full rounded-2xl border bg-white p-5 border-[#9C958A]/20">
                       <p className="text-xs font-semibold text-[#0E0E0F] mb-3 leading-snug">{step.label}</p>
                       <ul className="space-y-1.5">
                         {step.points.map((p) => (
@@ -669,7 +663,7 @@ export function Pricing({ category = 'restaurantes' }: Props) {
               <div className="flex-1 min-w-0">
                 <p className="text-base font-bold text-[#0E0E0F] mb-1.5">Precificação sob consulta</p>
                 <p className="text-sm text-[#9C958A] leading-relaxed mb-4">
-                  Os planos de consultoria são personalizados de acordo com a realidade da sua operação.
+                  Os planos são personalizados de acordo com a realidade da sua operação.
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {['Diagnóstico da operação', 'Plano de ação', 'Relatório semanal', 'Módulo 1 incluso', 'Suporte contínuo', 'Visita in loco'].map((f) => (
@@ -690,7 +684,7 @@ export function Pricing({ category = 'restaurantes' }: Props) {
           </div>
         </FadeIn>
 
-        {/* MENTORIA */}
+        {/* ESPECIALISTA SOB DEMANDA */}
         <FadeIn>
           <div className="max-w-6xl mx-auto mb-6">
             <div className="flex items-center gap-4">
@@ -698,8 +692,16 @@ export function Pricing({ category = 'restaurantes' }: Props) {
                 <GraduationCap size={22} className="text-[#F7F7F7]" />
               </div>
               <div>
-                <h3 className="text-2xl font-bold text-[#0E0E0F]">Mentoria</h3>
-                <p className="text-sm text-[#9C958A]">Conecte-se com especialistas do food service</p>
+                <h3 className="text-2xl font-bold text-[#0E0E0F]">Mentoria Granular</h3>
+                <p className="text-sm text-[#9C958A]">
+                  {category === 'mercados'
+                    ? 'Conecte-se com mentores do varejo e atacarejo'
+                    : category === 'farmacias'
+                    ? 'Conecte-se com mentores do setor farmacêutico'
+                    : category === 'petshop'
+                    ? 'Conecte-se com mentores do setor pet'
+                    : 'Conecte-se com mentores do food service'}
+                </p>
               </div>
               <div className="hidden sm:block flex-1 h-px bg-[#9C958A]/30 ml-4" />
             </div>
@@ -710,9 +712,9 @@ export function Pricing({ category = 'restaurantes' }: Props) {
           <div className="max-w-6xl mx-auto mb-8 rounded-xl bg-[#0E0E0F]/[0.03] border border-[#9C958A]/15 p-5 sm:p-6">
             <div className="flex flex-col sm:flex-row items-start gap-4">
               <div className="flex-1">
-                <p className="text-sm font-semibold text-[#0E0E0F] mb-2">O que é a Mentoria Granular?</p>
+                <p className="text-sm font-semibold text-[#0E0E0F] mb-2">O que são os Mentores Granular?</p>
                 <p className="text-sm text-[#0E0E0F]/80 leading-relaxed">
-                  A mentoria conecta operadores do food service com especialistas que já resolveram os mesmos desafios.
+                  Os Mentores Granular conectam operadores do food service com profissionais que já resolveram os mesmos desafios.
                   São sessões sob demanda em áreas como cardápio, iFood, financeiro, RH e operação — sem vínculo de prazo,
                   com foco em decisões estratégicas pontuais.
                 </p>
@@ -720,7 +722,7 @@ export function Pricing({ category = 'restaurantes' }: Props) {
               <div className="flex items-center gap-2 bg-[var(--accent)]/5 border border-[var(--accent)]/15 rounded-xl px-4 py-3 flex-shrink-0">
                 <Users size={18} className="text-[var(--accent)]" />
                 <div>
-                  <p className="text-xs font-bold text-[#0E0E0F]">Você é especialista?</p>
+                  <p className="text-xs font-bold text-[#0E0E0F]">Você é mentor?</p>
                   <p className="text-xs text-[#9C958A]">Faça parte da rede Granular</p>
                 </div>
               </div>
@@ -735,8 +737,8 @@ export function Pricing({ category = 'restaurantes' }: Props) {
               className="text-[10px] font-medium text-[#9C958A] uppercase tracking-widest mb-5"
               style={{ fontFamily: "'JetBrains Mono', monospace" }}
             >
-              Exemplo de mentores
-            </p>
+              Exemplo de Mentores
+</p>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {sampleMentors.map((mentor) => (
                 <div
@@ -786,7 +788,7 @@ export function Pricing({ category = 'restaurantes' }: Props) {
           </div>
         </FadeIn>
 
-        {/* CTA Seja um mentor */}
+        {/* CTA Seja um especialista */}
         <FadeIn delay={120}>
           <div className="max-w-6xl mx-auto">
             <div className="rounded-2xl border border-[var(--accent)]/15 bg-white p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center gap-6">
@@ -796,7 +798,7 @@ export function Pricing({ category = 'restaurantes' }: Props) {
               <div className="flex-1 min-w-0">
                 <p className="text-base font-bold text-[#0E0E0F] mb-1">Seja um Mentor Granular</p>
                 <p className="text-sm text-[#9C958A] leading-relaxed">
-                  Compartilhe sua experiência com operadores do food service, defina sua disponibilidade e valor por hora, e faça parte de uma rede de especialistas em crescimento.
+                  Compartilhe sua experiência com operadores do food service, defina sua disponibilidade e valor por hora, e faça parte de uma rede de mentores em crescimento.
                 </p>
               </div>
               <Link

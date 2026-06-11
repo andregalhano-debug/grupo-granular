@@ -49,7 +49,9 @@ const STORAGE_KEY = 'granular-assessment'
 const REGISTRATION_KEY = 'granular-consultant-registration'
 
 const defaultSelfScores: SelfScores = {
-  operacao: 3, financeiro: 3, marketing: 3, cardapio: 3, ifood: 3, rh: 3,
+  operacao: 3, financeiro: 3, marketing: 3, cardapio: 3, marketplaces: 3, rh: 3,
+  estoque: 3, precificacao: 3, atendimento: 3, tecnologia: 3,
+  franquias: 3, mercado: 3, farmacia: 3, petshop: 3, outros: 3,
 }
 
 interface SavedState {
@@ -186,7 +188,7 @@ export function useAssessment() {
 
   const finishAssessment = useCallback(() => {
     const priScore = calculatePriorityScore(priorityOrder)
-    const categories: ConsultantCategory[] = ['operacao', 'financeiro', 'marketing', 'cardapio', 'ifood', 'rh']
+    const categories: ConsultantCategory[] = ['operacao', 'financeiro', 'marketing', 'cardapio', 'marketplaces', 'rh']
     const scores: Record<ConsultantCategory, number> = {} as any
 
     const specialties: SpecialtyResult[] = categories.map((cat) => {

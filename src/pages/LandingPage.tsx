@@ -50,7 +50,7 @@ export function LandingPage() {
       >
         <Header category={category} />
         <Hero category={category} setCategory={setCategory} />
-        <SocialProof />
+        <SocialProof category={category} />
         <Modules category={category} />
         <Integrations />
         <Differentials />

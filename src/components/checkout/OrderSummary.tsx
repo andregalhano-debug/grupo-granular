@@ -45,12 +45,13 @@ function getInitials(name: string): string {
   return name.split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase()
 }
 
-function CollapsibleCard({ label, name, price, period, borderClass, children, onRemove, forceToggle }: {
+function CollapsibleCard({ label, name, price, period, borderClass, borderColor, children, onRemove, forceToggle }: {
   label: string
   name: string
   price: string
   period: string
   borderClass?: string
+  borderColor?: string
   children: React.ReactNode
   onRemove?: () => void
   forceToggle?: { count: number; expand: boolean }
@@ -62,7 +63,10 @@ function CollapsibleCard({ label, name, price, period, borderClass, children, on
   }, [forceToggle])
 
   return (
-    <div className={`rounded-xl bg-white border transition-all ${borderClass || 'border-[#0E0E0F]/5'}`}>
+    <div
+      className={`rounded-xl bg-white border transition-all ${borderClass || 'border-[#0E0E0F]/5'}`}
+      style={borderColor ? { borderColor } : undefined}
+    >
       {/* Header sempre visível — clicável para recolher */}
       <button
         type="button"
@@ -112,7 +116,7 @@ function ConsultantSlotCard({ cartConsultant, forceToggle }: { cartConsultant: {
 
   return (
     <CollapsibleCard
-      label="Sessão com Mentor"
+      label="Sessão com Especialista"
       name={c.name}
       price={String(c.hourlyRate)}
       period="/hora"
@@ -211,16 +215,28 @@ export function OrderSummary({ paymentMethod: _paymentMethod }: OrderSummaryProp
         {/* Plano de sistema */}
         {saas && (
           <CollapsibleCard
-            label="Plano"
+            label={saas.segment ? `Plano · ${saas.segment.label}` : 'Plano'}
             name={saas.name}
             price={saas.priceFormatted}
             period="/mês"
+            borderColor={saas.segment?.color}
+            borderClass={saas.segment ? 'border-[1.5px]' : undefined}
             forceToggle={toggleAll}
             onRemove={cart.plans.length > 1 || hasConsultants ? () => cart.removePlan(saas.id) : undefined}
           >
+            {saas.segment && (
+              <span
+                className="inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full mb-2"
+                style={{ color: saas.segment.color, backgroundColor: saas.segment.bg }}
+              >
+                {saas.segment.label}
+              </span>
+            )}
             <ul className="space-y-1.5 mb-3">
               {saas.features.slice(0, 3).map((f) => (
-                <li key={f} className="flex items-start gap-2 text-xs text-[#9C958A]"><Check size={12} className="mt-0.5 text-[#A31631] flex-shrink-0" />{f}</li>
+                <li key={f} className="flex items-start gap-2 text-xs text-[#9C958A]">
+                  <Check size={12} className="mt-0.5 flex-shrink-0" style={{ color: saas.segment?.color || '#A31631' }} />{f}
+                </li>
               ))}
               {saas.features.length > 3 && <li className="text-xs text-[#9C958A]">+{saas.features.length - 3} recursos inclusos</li>}
             </ul>
@@ -229,26 +245,41 @@ export function OrderSummary({ paymentMethod: _paymentMethod }: OrderSummaryProp
         )}
 
         {/* Módulos avulsos */}
-        {modulos.map((mod) => (
-          <CollapsibleCard
-            key={mod.id}
-            label="Módulo avulso"
-            name={mod.name}
-            price={mod.priceFormatted}
-            period="/mês"
-            borderClass="border-[#A31631]/20"
-            forceToggle={toggleAll}
-            onRemove={() => cart.removePlan(mod.id)}
-          >
-            <p className="text-xs text-[#9C958A] mb-2">{mod.subtitle}</p>
-            <ul className="space-y-1.5">
-              {mod.features.slice(0, 4).map((f) => (
-                <li key={f} className="flex items-start gap-2 text-xs text-[#9C958A]"><Check size={12} className="mt-0.5 text-[#A31631] flex-shrink-0" />{f}</li>
-              ))}
-              {mod.features.length > 4 && <li className="text-xs text-[#9C958A]">+{mod.features.length - 4} recursos inclusos</li>}
-            </ul>
-          </CollapsibleCard>
-        ))}
+        {modulos.map((mod) => {
+          const seg = mod.segment
+          const borderStyle = seg ? `border-[1.5px]` : 'border-[#A31631]/20'
+          return (
+            <CollapsibleCard
+              key={mod.id}
+              label={seg ? `Módulo · ${seg.label}` : 'Módulo avulso'}
+              name={mod.name}
+              price={mod.priceFormatted}
+              period="/mês"
+              borderClass={borderStyle}
+              borderColor={seg?.color}
+              forceToggle={toggleAll}
+              onRemove={() => cart.removePlan(mod.id)}
+            >
+              {seg && (
+                <span
+                  className="inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full mb-2"
+                  style={{ color: seg.color, backgroundColor: seg.bg }}
+                >
+                  {seg.label}
+                </span>
+              )}
+              <p className="text-xs text-[#9C958A] mb-2">{mod.subtitle}</p>
+              <ul className="space-y-1.5">
+                {mod.features.slice(0, 4).map((f) => (
+                  <li key={f} className="flex items-start gap-2 text-xs text-[#9C958A]">
+                    <Check size={12} className="mt-0.5 flex-shrink-0" style={{ color: seg?.color || '#A31631' }} />{f}
+                  </li>
+                ))}
+                {mod.features.length > 4 && <li className="text-xs text-[#9C958A]">+{mod.features.length - 4} recursos inclusos</li>}
+              </ul>
+            </CollapsibleCard>
+          )
+        })}
 
         {/* Addons (sistema) */}
         {cart.addons.map((addon) => (
@@ -265,7 +296,7 @@ export function OrderSummary({ paymentMethod: _paymentMethod }: OrderSummaryProp
             <p className="text-xs text-[#9C958A] leading-relaxed mb-2">{addon.description}</p>
             <div className="flex items-center gap-2 rounded-lg bg-[#A31631]/5 border border-[#A31631]/10 px-3 py-2 text-[11px] text-[#9C958A] leading-relaxed">
               <Check size={12} className="mt-0.5 text-[#A31631] flex-shrink-0" />
-              <span><strong className="text-[#0E0E0F]">Consultor entrará em contato</strong> para ativar a integração.</span>
+              <span><strong className="text-[#0E0E0F]">Especialista entrará em contato</strong> para ativar a integração.</span>
             </div>
           </CollapsibleCard>
         ))}
@@ -336,10 +367,9 @@ export function OrderSummary({ paymentMethod: _paymentMethod }: OrderSummaryProp
 
       {/* Trust */}
       <div className="flex flex-col gap-2 text-xs text-[#9C958A]">
-        <div className="flex items-center gap-2"><Check size={12} className="text-green-600" />14 dias grátis nos planos de sistema</div>
         <div className="flex items-center gap-2"><Check size={12} className="text-green-600" />Cancele quando quiser</div>
         <div className="flex items-center gap-2"><Check size={12} className="text-green-600" />Receba o cronograma após o pagamento</div>
-        <div className="flex items-center gap-2"><Check size={12} className="text-green-600" />Um Consultor irá entrar em contato</div>
+        <div className="flex items-center gap-2"><Check size={12} className="text-green-600" />Um Especialista irá entrar em contato</div>
       </div>
     </div>
     </div>

@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useSearchParams, useNavigate } from 'react-router-dom'
-import { Loader2, QrCode } from 'lucide-react'
+import { Loader2 } from 'lucide-react'
 import { Elements } from '@stripe/react-stripe-js'
 import { getPlanById, saasPlans, getConsultoriaPixTotal } from '../data/plans'
 import { getConsultantById } from '../data/consultants'
@@ -18,7 +18,7 @@ import { StripeCardForm } from '../components/checkout/StripeCardForm'
 export function CheckoutPage() {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
-  const { form, errors, isProcessing, setIsProcessing, updateField, setPaymentMethod, setAvulsoMethod, validate } = useCheckoutForm()
+  const { form, errors, isProcessing, setIsProcessing, documentoStatus, updateField, setPaymentMethod, setAvulsoMethod, validate } = useCheckoutForm()
   const cart = useCart()
 
   // Processar URL params apenas na primeira carga
@@ -80,7 +80,7 @@ export function CheckoutPage() {
   const totalReais = saasPrice + modulosPrice + consultoriaPrice + sessaoPrice
   const totalCents = totalReais * 100
 
-  const buttonText = canSubmit ? 'Finalizar o pedido' : 'Selecione os horários dos mentores'
+  const buttonText = canSubmit ? 'Finalizar o pedido' : 'Selecione os horários dos especialistas'
 
   const navigateToConfirmation = (orderId: string) => {
     navigate('/confirmacao', {
@@ -165,73 +165,61 @@ export function CheckoutPage() {
             </div>
 
             <ContactForm
+              empresa={form.empresa}
+              documento={form.documento}
+              documentoStatus={documentoStatus}
               nome={form.nome}
-              faturamento={form.faturamento}
               whatsapp={form.whatsapp}
               email={form.email}
               errors={errors}
               onUpdate={updateField}
             />
 
-            <PaymentMethodSelector
-              selected={form.paymentMethod}
-              onSelect={setPaymentMethod}
-              hasSaas={hasSaas}
-              hasConsultoria={hasConsultoria || hasConsultants}
-              hasAvulso={hasAvulso && isCartao}
-              avulsoMethod={form.avulsoMethod}
-              onAvulsoMethodChange={setAvulsoMethod}
-            />
+            <Elements stripe={stripePromise} options={{ locale: 'pt-BR' }}>
+              <PaymentMethodSelector
+                selected={form.paymentMethod}
+                onSelect={setPaymentMethod}
+                hasSaas={hasSaas}
+                hasConsultoria={hasConsultoria || hasConsultants}
+                hasAvulso={hasAvulso && isCartao}
+                avulsoMethod={form.avulsoMethod}
+                onAvulsoMethodChange={setAvulsoMethod}
+                cardContent={
+                  <StripeCardForm
+                    onPaymentSuccess={handleStripePayment}
+                    onError={(err) => console.error(err)}
+                    isProcessing={isProcessing}
+                    setIsProcessing={setIsProcessing}
+                    totalCents={totalCents}
+                    customerEmail={form.email}
+                    customerName={form.nome}
+                    buttonText={buttonText}
+                  />
+                }
+                pixContent={
+                  <form onSubmit={handlePixSubmit}>
+                    <button
+                      type="submit"
+                      disabled={isProcessing || !canSubmit}
+                      className="w-full flex items-center justify-center gap-2 bg-[#A31631] hover:bg-[#7A1025] disabled:opacity-70 text-white font-medium py-4 px-8 rounded-xl text-base transition-colors cursor-pointer"
+                    >
+                      {isProcessing ? (
+                        <>
+                          <Loader2 size={20} className="animate-spin" />
+                          Processando...
+                        </>
+                      ) : (
+                        buttonText
+                      )}
+                    </button>
+                  </form>
+                }
+              />
+            </Elements>
 
             <div className="lg:hidden">
               <OrderSummary paymentMethod={form.paymentMethod} />
             </div>
-
-            {/* Formulário de pagamento por método */}
-            {isCartao ? (
-              <Elements stripe={stripePromise} options={{ locale: 'pt-BR' }}>
-                <StripeCardForm
-                  onPaymentSuccess={handleStripePayment}
-                  onError={(err) => console.error(err)}
-                  isProcessing={isProcessing}
-                  setIsProcessing={setIsProcessing}
-                  totalCents={totalCents}
-                  customerEmail={form.email}
-                  customerName={form.nome}
-                  buttonText={buttonText}
-                />
-              </Elements>
-            ) : (
-              <form onSubmit={handlePixSubmit}>
-                <div className="rounded-xl bg-[#F7F7F7] border border-[#0E0E0F]/10 p-5 mb-5">
-                  <div className="flex items-center gap-3 mb-3">
-                    <QrCode size={20} className="text-[#A31631]" />
-                    <span className="text-sm font-medium text-[#0E0E0F]">Pagamento via Pix</span>
-                  </div>
-                  <p className="text-xs text-[#9C958A] leading-relaxed">
-                    O QR Code Pix será gerado após a confirmação do pedido. Você terá 30 minutos para realizar o pagamento.
-                    {hasConsultoria && (
-                      <span className="block mt-1 text-green-600 font-medium">Consultoria via Pix com 3% de desconto aplicado.</span>
-                    )}
-                  </p>
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={isProcessing || !canSubmit}
-                  className="w-full flex items-center justify-center gap-2 bg-[#A31631] hover:bg-[#7A1025] disabled:opacity-70 text-white font-medium py-4 px-8 rounded-xl text-base transition-colors cursor-pointer"
-                >
-                  {isProcessing ? (
-                    <>
-                      <Loader2 size={20} className="animate-spin" />
-                      Processando...
-                    </>
-                  ) : (
-                    buttonText
-                  )}
-                </button>
-              </form>
-            )}
 
             <SecurityBadge />
           </div>

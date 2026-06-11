@@ -111,7 +111,7 @@ function BriefingResult({ briefing, nome, onReset }: { briefing: NonNullable<Ret
           </div>
           <h2 className="text-2xl font-bold text-[#0E0E0F] mb-2">{nome.split(' ')[0]}, diagnóstico concluído!</h2>
           <p className="text-sm text-[#9C958A] max-w-md mx-auto">
-            Seu mentor receberá este resumo automaticamente antes da primeira reunião.
+            Seu especialista receberá este resumo automaticamente antes da primeira reunião.
           </p>
         </div>
       </FadeIn>
@@ -159,7 +159,7 @@ function BriefingResult({ briefing, nome, onReset }: { briefing: NonNullable<Ret
         <div className="rounded-2xl border border-[#0E0E0F]/10 bg-white p-5">
           <div className="flex items-center gap-2 mb-3">
             <BarChart3 size={18} className="text-[#A31631]" />
-            <h3 className="text-sm font-bold text-[#0E0E0F] uppercase tracking-wider">Resumo para o Mentor</h3>
+            <h3 className="text-sm font-bold text-[#0E0E0F] uppercase tracking-wider">Resumo para o Especialista</h3>
           </div>
           <p className="text-sm text-[#0E0E0F]/80 leading-relaxed">{briefing.resumoIA}</p>
         </div>
@@ -188,7 +188,7 @@ function BriefingResult({ briefing, nome, onReset }: { briefing: NonNullable<Ret
             to="/checkout?plano=consultoria-1"
             className="w-full flex items-center justify-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium py-4 rounded-xl text-base transition-colors"
           >
-            Agendar mentoria
+            Agendar com especialista
           </Link>
           <Link
             to="/"

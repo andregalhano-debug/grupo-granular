@@ -1,9 +1,15 @@
-export function SocialProof() {
-  const brands = [
-    'Vista Delivery',
-    'Bistrogonoff',
-    'Parmegiana Bistro',
-  ]
+import type { Category } from './Modules'
+
+interface Props {
+  category?: Category
+}
+
+export function SocialProof({ category = 'restaurantes' }: Props) {
+  const brands = ['Vista Delivery', 'Bistrogonoff', 'Parmegiana Bistro']
+
+  if (category !== 'restaurantes') {
+    return <div className="border-t border-[#9C958A]/15" />
+  }
 
   return (
     <section className="border-t border-b border-[#9C958A]/20 bg-[#F7F7F7] py-8">

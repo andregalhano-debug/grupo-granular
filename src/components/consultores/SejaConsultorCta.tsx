@@ -9,7 +9,7 @@ export function SejaConsultorCta() {
           Seja um mentor da Granular
         </h2>
         <p className="text-[#FAF7F0]/50 text-base sm:text-lg mb-10">
-          Compartilhe sua experiência e ajude operações de delivery a crescerem. Junte-se à nossa rede de especialistas.
+          Compartilhe sua experiência e ajude operações de delivery a crescerem. Junte-se à nossa rede de mentores.
         </p>
         <Link
           to="/seja-consultor"

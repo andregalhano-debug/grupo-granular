@@ -144,7 +144,7 @@ export const scenarios: Scenario[] = [
   // ── iFOOD ──
   {
     id: 'if-core',
-    category: 'ifood',
+    category: 'marketplaces',
     difficulty: 'core',
     situation: 'Um restaurante tem taxa de cancelamento de 8% no iFood (benchmark < 3%) e nota 4.3. O dono acha que é culpa dos entregadores. Qual sua análise?',
     options: [
@@ -156,7 +156,7 @@ export const scenarios: Scenario[] = [
   },
   {
     id: 'if-deep',
-    category: 'ifood',
+    category: 'marketplaces',
     difficulty: 'deep',
     situation: 'Um restaurante caiu do top 10 para a página 3 do iFood na sua região. A nota é 4.6 e os tempos estão dentro do SLA. O que pode estar acontecendo?',
     options: [
@@ -261,8 +261,17 @@ export const categoryLabels: Record<ConsultantCategory, string> = {
   financeiro: 'Financeiro',
   marketing: 'Marketing Digital',
   cardapio: 'Cardápio',
-  ifood: 'iFood',
+  marketplaces: 'Marketplaces',
   rh: 'Recursos Humanos',
+  estoque: 'Estoque & CMV',
+  precificacao: 'Precificação & Markup',
+  atendimento: 'Atendimento ao Cliente',
+  tecnologia: 'Tecnologia & Sistemas',
+  franquias: 'Gestão de Franquias',
+  mercado: 'Mercado, Atacado e Atacarejo',
+  farmacia: 'Farmácia e Drogaria',
+  petshop: 'Pet Shop e Clínica Veterinária',
+  outros: 'Outros',
 }
 
 export function getScenariosForCategory(cat: ConsultantCategory, difficulty?: 'core' | 'deep'): Scenario[] {
@@ -272,7 +281,7 @@ export function getScenariosForCategory(cat: ConsultantCategory, difficulty?: 'c
 /** Seleciona cenários adaptativos com base na auto-avaliação */
 export function selectAdaptiveScenarios(selfScores: Record<ConsultantCategory, number>): Scenario[] {
   const selected: Scenario[] = []
-  const categories: ConsultantCategory[] = ['operacao', 'financeiro', 'marketing', 'cardapio', 'ifood', 'rh']
+  const categories: ConsultantCategory[] = ['operacao', 'financeiro', 'marketing', 'cardapio', 'marketplaces', 'rh']
 
   for (const cat of categories) {
     // Sempre inclui o cenário core
@@ -351,7 +360,7 @@ export function classifyProfile(scores: Record<ConsultantCategory, number>): Pro
   if (top >= 76) return profileDefinitions.find((p) => p.id === 'especialista-focado')!
 
   const topCat = sorted[0][0]
-  if (topCat === 'operacao' || topCat === 'ifood') return profileDefinitions.find((p) => p.id === 'consultor-operacional')!
+  if (topCat === 'operacao' || topCat === 'marketplaces') return profileDefinitions.find((p) => p.id === 'consultor-operacional')!
   if (topCat === 'financeiro' || topCat === 'marketing') return profileDefinitions.find((p) => p.id === 'consultor-estrategico')!
   return profileDefinitions.find((p) => p.id === 'consultor-tecnico')!
 }

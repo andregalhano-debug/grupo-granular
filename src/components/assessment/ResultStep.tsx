@@ -16,8 +16,17 @@ const categoryColors: Record<ConsultantCategory, string> = {
   financeiro: '#22c55e',
   marketing: '#f59e0b',
   cardapio: '#ef4444',
-  ifood: '#ec4899',
+  marketplaces: '#ec4899',
   rh: '#06b6d4',
+  estoque: '#84cc16',
+  precificacao: '#f97316',
+  atendimento: '#14b8a6',
+  tecnologia: '#8b5cf6',
+  franquias: '#a855f7',
+  mercado: '#0ea5e9',
+  farmacia: '#10b981',
+  petshop: '#f59e0b',
+  outros: '#9C958A',
 }
 
 function RadarChart({ specialties }: { specialties: AssessmentResult['specialties'] }) {

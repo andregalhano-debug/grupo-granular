@@ -10,11 +10,20 @@ const icons: Record<ConsultantCategory, typeof Settings> = {
   financeiro: TrendingUp,
   marketing: Megaphone,
   cardapio: UtensilsCrossed,
-  ifood: ShoppingBag,
+  marketplaces: ShoppingBag,
   rh: Users,
+  estoque: Settings,
+  precificacao: TrendingUp,
+  atendimento: Users,
+  tecnologia: Settings,
+  franquias: Settings,
+  mercado: ShoppingBag,
+  farmacia: Settings,
+  petshop: Users,
+  outros: Settings,
 }
 
-const categories: ConsultantCategory[] = ['operacao', 'financeiro', 'marketing', 'cardapio', 'ifood', 'rh']
+const categories: ConsultantCategory[] = ['operacao', 'financeiro', 'marketing', 'cardapio', 'marketplaces', 'rh']
 
 const levelLabels = ['', 'Básico', 'Intermediário', 'Bom', 'Avançado', 'Expert']
 

@@ -3,6 +3,7 @@ import { ArrowRight, UtensilsCrossed, ShoppingCart, Pill, PawPrint, X, Clock, Ch
 import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
 import telaSistema from '../assets/Tela Maestro.jpg'
+import telaMarket from '../assets/TEla sistema televendas Granular 2 para Market.jpg'
 import type { Category } from './Modules'
 
 interface Props {
@@ -110,7 +111,7 @@ export function Hero({ category, setCategory }: Props) {
                       className="absolute -top-2.5 left-3 text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full text-white"
                       style={{ backgroundColor: accent.primary }}
                     >
-                      Ativo
+                      Selecionado
                     </span>
                   )}
                   <div
@@ -208,10 +209,10 @@ export function Hero({ category, setCategory }: Props) {
               </div>
             </div>
 
-            {/* Imagem: Restaurantes tem screenshot real, Mercados aguarda validação */}
-            {category === 'restaurantes' ? (
+            {/* Imagem por segmento */}
+            {(category === 'restaurantes' || category === 'mercados') ? (
               <img
-                src={telaSistema}
+                src={category === 'mercados' ? telaMarket : telaSistema}
                 alt={`Dashboard ${systemNames[category]} — Visão geral da operação`}
                 className="w-full block cursor-pointer hover:opacity-90 transition-opacity"
                 fetchPriority="high"
@@ -222,7 +223,7 @@ export function Hero({ category, setCategory }: Props) {
               <div className="w-full bg-[#F7F7F7] flex items-center justify-center" style={{ minHeight: '340px' }}>
                 <div className="text-center px-6 py-12">
                   <div className="w-14 h-14 rounded-2xl bg-[var(--accent-10)] flex items-center justify-center mx-auto mb-4">
-                    {category === 'mercados' && <ShoppingCart size={28} className="text-[var(--accent)]" />}
+                    {category === 'petshop' && <PawPrint size={28} className="text-[var(--accent)]" />}
                   </div>
                   <p className="text-sm font-semibold text-[#0E0E0F] mb-1">Screenshot {systemNames[category]}</p>
                   <p className="text-xs text-[#9C958A]">Aguardando validação do print de tela</p>
@@ -247,7 +248,7 @@ export function Hero({ category, setCategory }: Props) {
             <X size={24} />
           </button>
           <img
-            src={telaSistema}
+            src={category === 'mercados' ? telaMarket : telaSistema}
             alt="Dashboard Granular ampliado"
             className="max-w-[90vw] max-h-[90vh] rounded-2xl shadow-2xl object-contain cursor-default"
             onClick={(e) => e.stopPropagation()}

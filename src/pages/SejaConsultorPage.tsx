@@ -7,7 +7,7 @@ import { SejaConsultorSuccess } from '../components/seja-consultor/SejaConsultor
 import { useSejaConsultorForm } from '../hooks/useSejaConsultorForm'
 
 export function SejaConsultorPage() {
-  const { form, errors, submitted, isProcessing, updateField, submit } = useSejaConsultorForm()
+  const { form, errors, submitted, isProcessing, updateField, toggleSegment, toggleSpecialty, submit } = useSejaConsultorForm()
 
   useEffect(() => { window.scrollTo(0, 0) }, [])
 
@@ -27,7 +27,7 @@ export function SejaConsultorPage() {
                     Seja um Mentor
                   </div>
                   <h1 className="text-2xl sm:text-3xl font-bold text-[#0E0E0F] mb-3">
-                    Junte-se à rede de especialistas Granular
+                    Junte-se à rede de mentores Granular
                   </h1>
                   <p className="text-sm text-[#9C958A]">
                     Preencha seus dados e nossa equipe entrará em contato para os próximos passos.
@@ -38,6 +38,8 @@ export function SejaConsultorPage() {
                   errors={errors}
                   isProcessing={isProcessing}
                   onUpdate={updateField}
+                  onToggleSegment={toggleSegment}
+                  onToggleSpecialty={toggleSpecialty}
                   onSubmit={submit}
                 />
               </>

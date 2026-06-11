@@ -10,7 +10,7 @@ export const faqEntries: FaqEntry[] = [
     id: 'o-que-e',
     keywords: ['granular', 'o que', 'empresa', 'quem', 'sobre'],
     question: 'O que é a Granular?',
-    answer: 'A Granular é uma empresa de consultoria e gestão em delivery, potencializada por IA. Ajudamos restaurantes, farmácias e atacarejos a otimizarem suas operações com tecnologia e especialistas.',
+    answer: 'A Granular é uma empresa especializada em gestão e delivery, potencializada por IA. Ajudamos restaurantes, farmácias e atacarejos a otimizarem suas operações com tecnologia e especialistas.',
   },
   {
     id: 'planos-sistema',
@@ -20,9 +20,9 @@ export const faqEntries: FaqEntry[] = [
   },
   {
     id: 'consultoria',
-    keywords: ['consultoria', 'consultor', 'especialista', 'in loco'],
-    question: 'Como funciona a consultoria?',
-    answer: 'Nossa consultoria é realizada in loco por especialistas. Oferecemos planos de 1 mês (R$ 3.890), 3 meses (R$ 3.590/mês) e 6 meses (R$ 2.990/mês). Inclui diagnóstico, estratégias e acompanhamento.',
+    keywords: ['consultoria', 'consultor', 'especialista', 'in loco', 'especialista sob demanda'],
+    question: 'Como funciona o Especialista sob demanda?',
+    answer: 'Nossos especialistas atuam in loco e orientam sua operação com um plano de ação personalizado. Oferecemos pacotes de 1 mês (R$ 3.890), 3 meses (R$ 3.590/mês) e 6 meses (R$ 2.990/mês). Inclui diagnóstico, estratégias e acompanhamento.',
   },
   {
     id: 'teste-gratis',
@@ -34,7 +34,7 @@ export const faqEntries: FaqEntry[] = [
     id: 'pagamento',
     keywords: ['pagamento', 'pagar', 'pix', 'cartao', 'forma'],
     question: 'Quais formas de pagamento?',
-    answer: 'Para o sistema aceitamos Pix e Cartão de Crédito (mensal). A consultoria é paga via Pix à vista com 3% de desconto sobre o valor total.',
+    answer: 'Para o sistema aceitamos Pix e Cartão de Crédito (mensal). O Especialista sob demanda é pago via Pix à vista com 3% de desconto sobre o valor total.',
   },
   {
     id: 'cancelar',
@@ -76,7 +76,7 @@ export const faqEntries: FaqEntry[] = [
     id: 'onboarding',
     keywords: ['onboarding', 'comecar', 'inicio', 'implementacao', 'cronograma'],
     question: 'Como é o processo de onboarding?',
-    answer: 'Após o pagamento, um consultor entra em contato pelo WhatsApp em até 2h. Em 24h agendamos a reunião de onboarding, e em até 7 dias sua operação estará rodando.',
+    answer: 'Após o pagamento, um especialista entra em contato pelo WhatsApp em até 2h. Em 24h agendamos a reunião de onboarding, e em até 7 dias sua operação estará rodando.',
   },
   {
     id: 'suporte',
@@ -100,7 +100,7 @@ export const faqEntries: FaqEntry[] = [
 
 export const fallbackMessage = {
   text: 'Não encontrei uma resposta exata para sua pergunta. Que tal falar com nosso time?',
-  whatsappUrl: 'https://wa.me/5511999999999?text=Olá!%20Tenho%20uma%20dúvida%20sobre%20a%20Granular.',
+  whatsappUrl: 'https://wa.me/5531984355542?text=Olá!%20Tenho%20uma%20dúvida%20sobre%20a%20Granular.',
   whatsappLabel: 'Falar pelo WhatsApp',
 }
 
@@ -124,6 +124,6 @@ export function getAgentInfo() {
   const name = getAgentName()
   return {
     name,
-    welcomeMessage: `Olá! 😊 Eu sou a ${name}, assistente da Granular. Pergunte sobre nossos planos, consultoria, módulos ou qualquer dúvida!`,
+    welcomeMessage: `Olá! 😊 Eu sou a ${name}, assistente da Granular. Pergunte sobre nossos planos, especialistas, módulos ou qualquer dúvida!`,
   }
 }

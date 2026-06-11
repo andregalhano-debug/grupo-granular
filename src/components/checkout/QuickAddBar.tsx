@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { Plus, Check, Monitor, Package, ChevronDown } from 'lucide-react'
 import { saasPlans, moduloPlans, type Plan } from '../../data/plans'
 import { useCart } from '../../stores/useCartStore'
@@ -41,11 +41,32 @@ function QuickAddItem({ plan, inCart, onAdd }: QuickAddItemProps) {
 export function QuickAddBar() {
   const cart = useCart()
   const [openSection, setOpenSection] = useState<string | null>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
 
   const cartPlanIds = new Set(cart.plans.map((p) => p.id))
 
+  // Fecha ao clicar fora
+  useEffect(() => {
+    if (!openSection) return
+    const handleOutsideClick = (e: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        setOpenSection(null)
+      }
+    }
+    document.addEventListener('mousedown', handleOutsideClick)
+    return () => document.removeEventListener('mousedown', handleOutsideClick)
+  }, [openSection])
+
   const toggleSection = (section: string) => {
     setOpenSection(openSection === section ? null : section)
+  }
+
+  // Rótulo dinâmico: mostra o nome do plano no carrinho (ou o primeiro se houver mais de um)
+  const getSectionLabel = (_sectionId: string, defaultLabel: string, plans: Plan[]) => {
+    const inCartPlans = plans.filter((p) => cartPlanIds.has(p.id))
+    if (inCartPlans.length === 0) return defaultLabel
+    if (inCartPlans.length === 1) return inCartPlans[0].name
+    return `${inCartPlans[0].name} +${inCartPlans.length - 1}`
   }
 
   const sections = [
@@ -66,7 +87,10 @@ export function QuickAddBar() {
   ]
 
   return (
-    <div className="rounded-2xl border border-[#A31631]/20 bg-white overflow-hidden mb-4 shadow-sm shadow-[#A31631]/5">
+    <div
+      ref={containerRef}
+      className="rounded-2xl border border-[#A31631]/20 bg-white overflow-hidden mb-4 shadow-sm shadow-[#A31631]/5"
+    >
       <div className="flex items-center gap-2.5 px-4 py-3 bg-[#A31631]/[0.04] border-b border-[#A31631]/10">
         <div className="w-7 h-7 rounded-lg bg-[#A31631] flex items-center justify-center flex-shrink-0">
           <Plus size={14} className="text-white" />
@@ -82,6 +106,7 @@ export function QuickAddBar() {
           const isOpen = openSection === section.id
           const Icon = section.icon
           const itemsInCart = section.plans.filter((p) => cartPlanIds.has(p.id)).length
+          const displayLabel = getSectionLabel(section.id, section.label, section.plans)
           return (
             <button
               key={section.id}
@@ -94,13 +119,13 @@ export function QuickAddBar() {
               }`}
             >
               <Icon size={14} />
-              {section.label}
+              <span className="truncate max-w-[80px]">{displayLabel}</span>
               {itemsInCart > 0 && (
-                <span className="w-4 h-4 rounded-full bg-green-500 text-white text-[9px] font-bold flex items-center justify-center">
+                <span className="w-4 h-4 rounded-full bg-green-500 text-white text-[9px] font-bold flex items-center justify-center flex-shrink-0">
                   {itemsInCart}
                 </span>
               )}
-              <ChevronDown size={12} className={`transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+              <ChevronDown size={12} className={`transition-transform flex-shrink-0 ${isOpen ? 'rotate-180' : ''}`} />
             </button>
           )
         })}
@@ -114,10 +139,12 @@ export function QuickAddBar() {
               key={plan.id}
               plan={plan}
               inCart={cartPlanIds.has(plan.id)}
-              onAdd={() => sections.find((s) => s.id === openSection)?.addFn(plan)}
+              onAdd={() => {
+                sections.find((s) => s.id === openSection)?.addFn(plan)
+                setOpenSection(null)
+              }}
             />
           ))}
-
         </div>
       )}
     </div>

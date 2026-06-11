@@ -1,3 +1,17 @@
+export interface PlanSegment {
+  label: string
+  color: string   // text/border color
+  bg: string      // background color
+}
+
+export const SEGMENTS: Record<string, PlanSegment> = {
+  restaurantes: { label: 'Restaurantes', color: '#A31631', bg: '#fdf2f4' },
+  mercados:     { label: 'Mercados',     color: '#15803d', bg: '#f0fdf4' },
+  farmacias:    { label: 'Farmácias',    color: '#1d4ed8', bg: '#eff6ff' },
+  petshop:      { label: 'Pet Shop',     color: '#7c3aed', bg: '#f5f3ff' },
+  universal:    { label: 'Todos os segmentos', color: '#6b7280', bg: '#f9fafb' },
+}
+
 export interface Plan {
   id: string
   type: 'saas' | 'consultoria' | 'modulo'
@@ -10,6 +24,7 @@ export interface Plan {
   features: string[]
   popular: boolean
   cta: string
+  segment?: PlanSegment
 }
 
 export function getConsultoriaTotal(plan: Plan): number {
@@ -41,6 +56,7 @@ export const saasPlans: Plan[] = [
     ],
     popular: false,
     cta: 'Começar Agora',
+    segment: SEGMENTS.restaurantes,
   },
   {
     id: 'saas-2',
@@ -60,6 +76,7 @@ export const saasPlans: Plan[] = [
     ],
     popular: false,
     cta: 'Começar Agora',
+    segment: SEGMENTS.restaurantes,
   },
   {
     id: 'saas-3',
@@ -82,6 +99,7 @@ export const saasPlans: Plan[] = [
     ],
     popular: false,
     cta: 'Começar Agora',
+    segment: SEGMENTS.restaurantes,
   },
 ]
 
@@ -89,14 +107,14 @@ export const consultoriaPlans: Plan[] = [
   {
     id: 'consultoria-1',
     type: 'consultoria',
-    name: 'Consultoria 1 Mês',
+    name: 'Especialista 1 Mês',
     subtitle: 'Diagnóstico geral + primeiras ações',
     price: 3890,
     priceFormatted: '3.890',
     period: '/mês',
     months: 1,
     features: [
-      '4 horas mensais de consultoria',
+      '4 horas mensais com especialista',
       'Diagnóstico completo da operação',
       'Operação, financeiro, estoque, cardápio, iFood, RH',
       'Priorização de blocos pós-diagnóstico',
@@ -112,14 +130,14 @@ export const consultoriaPlans: Plan[] = [
   {
     id: 'consultoria-3',
     type: 'consultoria',
-    name: 'Consultoria 3 Meses',
+    name: 'Especialista 3 Meses',
     subtitle: 'Transformação com acompanhamento',
     price: 3590,
     priceFormatted: '3.590',
     period: '/mês',
     months: 3,
     features: [
-      '4 horas mensais de consultoria',
+      '4 horas mensais com especialista',
       'Diagnóstico completo da operação',
       'Operação, financeiro, estoque, cardápio, iFood, RH',
       'Priorização de blocos pós-diagnóstico',
@@ -135,14 +153,14 @@ export const consultoriaPlans: Plan[] = [
   {
     id: 'consultoria-6',
     type: 'consultoria',
-    name: 'Consultoria 6 Meses',
+    name: 'Especialista 6 Meses',
     subtitle: 'Evolução completa com melhor custo',
     price: 2990,
     priceFormatted: '2.990',
     period: '/mês',
     months: 6,
     features: [
-      '4 horas mensais de consultoria',
+      '4 horas mensais com especialista',
       'Diagnóstico completo da operação',
       'Operação, financeiro, estoque, cardápio, iFood, RH',
       'Priorização de blocos pós-diagnóstico',
@@ -161,7 +179,7 @@ export const consultoriaPlans: Plan[] = [
 export const saasAddonFeatures: string[] = []
 
 export const consultoriaAddonFeatures: string[] = [
-  'Mentoria Especialistas',
+  'Especialista sob demanda',
 ]
 
 export const moduloPlans: Plan[] = [
@@ -169,20 +187,23 @@ export const moduloPlans: Plan[] = [
     id: 'modulo-televendas',
     type: 'modulo',
     name: 'Televendas',
-    subtitle: 'Central de vendas por telefone e WhatsApp integrada ao Granular Market',
+    subtitle: 'Do pedido verbal à proposta enviada em menos de 2 minutos',
     price: 419,
     priceFormatted: '419',
     period: '/mês',
     features: [
-      'Gestão de pedidos por telefone',
-      'Integração WhatsApp Business',
-      'Fila de atendimento digital',
-      'Histórico completo de clientes',
-      'Relatórios de conversão por operador',
-      'Scripts de vendas personalizáveis',
+      'Modo UltraFast: proposta pronta em < 2 min',
+      'Busca por nome, EAN ou código interno',
+      'Edição inline de preço com controle de alçada',
+      'Exportação por WhatsApp ou PDF',
+      'Dashboard de performance por vendedor',
+      'CRM com histórico e segmentação de clientes',
+      'Catálogo com importação Excel e apelidos (DE-PARA)',
+      'Agentes de IA para estratégia comercial e precificação',
     ],
     popular: false,
     cta: 'Adicionar ao Carrinho',
+    segment: SEGMENTS.mercados,
   },
   {
     id: 'modulo-pessoas',
@@ -204,6 +225,7 @@ export const moduloPlans: Plan[] = [
     ],
     popular: false,
     cta: 'Começar Agora',
+    segment: SEGMENTS.universal,
   },
 ]
 

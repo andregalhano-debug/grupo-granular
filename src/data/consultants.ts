@@ -1,7 +1,7 @@
 import type { LucideIcon } from 'lucide-react'
-import { Settings, TrendingUp, Megaphone, UtensilsCrossed, ShoppingBag, Users } from 'lucide-react'
+import { Settings, TrendingUp, Megaphone, UtensilsCrossed, ShoppingBag, Users, Package, BarChart2, Smartphone, Star, Store, Pill, PawPrint, Building2, MoreHorizontal } from 'lucide-react'
 
-export type ConsultantCategory = 'operacao' | 'financeiro' | 'marketing' | 'cardapio' | 'ifood' | 'rh'
+export type ConsultantCategory = 'operacao' | 'financeiro' | 'marketing' | 'cardapio' | 'marketplaces' | 'rh' | 'estoque' | 'precificacao' | 'atendimento' | 'tecnologia' | 'franquias' | 'mercado' | 'farmacia' | 'petshop' | 'outros'
 
 export interface Review {
   author: string
@@ -40,9 +40,43 @@ export const consultantCategories: { id: ConsultantCategory | null; label: strin
   { id: 'operacao', label: 'Operação', icon: Settings },
   { id: 'financeiro', label: 'Financeiro', icon: TrendingUp },
   { id: 'marketing', label: 'Marketing Digital', icon: Megaphone },
-  { id: 'cardapio', label: 'Cardápio', icon: UtensilsCrossed },
-  { id: 'ifood', label: 'iFood', icon: ShoppingBag },
+  { id: 'cardapio', label: 'Cardápio & Menu Engineering', icon: UtensilsCrossed },
+  { id: 'marketplaces', label: 'Marketplaces (iFood, 99, Keeta, Rappi, outros)', icon: ShoppingBag },
   { id: 'rh', label: 'Recursos Humanos', icon: Users },
+  { id: 'estoque', label: 'Estoque & CMV', icon: Package },
+  { id: 'precificacao', label: 'Precificação & Markup', icon: BarChart2 },
+  { id: 'atendimento', label: 'Atendimento ao Cliente', icon: Star },
+  { id: 'tecnologia', label: 'Tecnologia & Sistemas', icon: Smartphone },
+  { id: 'franquias', label: 'Gestão de Franquias', icon: Building2 },
+  { id: 'mercado', label: 'Mercado, Atacado e Atacarejo', icon: Store },
+  { id: 'farmacia', label: 'Farmácia e Drogaria', icon: Pill },
+  { id: 'petshop', label: 'Pet Shop e Clínica Veterinária', icon: PawPrint },
+  { id: 'outros', label: 'Outros', icon: MoreHorizontal },
+]
+
+/** Segmentos de mercado — campo "Categoria" no formulário de candidatura */
+export const segmentOptions: { id: string; label: string }[] = [
+  { id: 'restaurantes', label: 'Restaurantes & Delivery' },
+  { id: 'mercados', label: 'Mercado, Atacado e Atacarejo' },
+  { id: 'farmacias', label: 'Farmácia e Drogaria' },
+  { id: 'petshop', label: 'Pet Shop e Clínica Veterinária' },
+  { id: 'franquias', label: 'Gestão de Franquias' },
+  { id: 'outros', label: 'Outros' },
+]
+
+/** Especialidades funcionais — campo "Especialidade" no formulário de candidatura */
+export const specialtyOptions: { id: string; label: string }[] = [
+  { id: 'operacao', label: 'Operação' },
+  { id: 'financeiro', label: 'Financeiro' },
+  { id: 'marketing', label: 'Marketing Digital' },
+  { id: 'cardapio', label: 'Cardápio & Menu Engineering' },
+  { id: 'marketplaces', label: 'Marketplaces (iFood, 99, Keeta, Rappi, outros)' },
+  { id: 'rh', label: 'Recursos Humanos' },
+  { id: 'estoque', label: 'Estoque & CMV' },
+  { id: 'precificacao', label: 'Precificação & Markup' },
+  { id: 'atendimento', label: 'Atendimento ao Cliente' },
+  { id: 'tecnologia', label: 'Tecnologia & Sistemas' },
+  { id: 'outros', label: 'Outros' },
 ]
 
 // Gera slots simulados para os próximos 5 dias úteis
@@ -148,7 +182,7 @@ export const consultants: Consultant[] = [
     id: 'c5',
     name: 'Thiago Barbosa',
     googleEmail: 'thiago.barbosa.ifood@gmail.com',
-    specialty: 'ifood',
+    specialty: 'marketplaces',
     title: 'Consultor Especializado em iFood',
     company: 'Ex-Account Manager iFood',
     bio: 'Trabalhou 5 anos dentro do iFood como account manager. Conhece profundamente o algoritmo, sistema de rankeamento e estratégias para maximizar visibilidade e vendas na plataforma.',

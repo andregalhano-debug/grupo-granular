@@ -39,8 +39,17 @@ const specialtyLabels: Record<string, string> = {
   financeiro: 'Financeiro',
   marketing: 'Marketing Digital',
   cardapio: 'Cardápio',
-  ifood: 'iFood',
+  marketplaces: 'Marketplaces',
   rh: 'Recursos Humanos',
+  estoque: 'Estoque & CMV',
+  precificacao: 'Precificação & Markup',
+  atendimento: 'Atendimento ao Cliente',
+  tecnologia: 'Tecnologia & Sistemas',
+  franquias: 'Gestão de Franquias',
+  mercado: 'Mercado, Atacado e Atacarejo',
+  farmacia: 'Farmácia e Drogaria',
+  petshop: 'Pet Shop e Clínica Veterinária',
+  outros: 'Outros',
 }
 
 /* ── Seção: Meus Dados ── */

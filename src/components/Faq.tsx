@@ -9,23 +9,23 @@ interface FaqItem { q: string; a: string }
 const faqsByCategory: Record<Category, FaqItem[]> = {
   restaurantes: [
     {
-      q: 'Qual a diferença entre consultoria e mentoria?',
-      a: 'Na Granular, usamos o modelo de mentoria: o mentor não executa por você, ele orienta, diagnostica e constrói junto o plano de ação. O objetivo é que, ao final do período, sua operação funcione com autonomia — sem criar dependência.',
+      q: 'O que é o Especialista sob demanda?',
+      a: 'Na Granular, o Especialista sob demanda orienta, diagnostica e constrói junto o plano de ação. O objetivo é que, ao final do período, sua operação funcione com autonomia — sem criar dependência.',
     },
     {
-      q: 'Todos os blocos estão disponíveis em qualquer pacote de mentoria?',
-      a: 'Sim. Operação, financeiro, estoque, cardápio, iFood e RH podem ser trabalhados em qualquer um dos 3 pacotes (1, 3 ou 6 meses). Após o diagnóstico inicial, mentor e cliente definem juntos quais blocos serão priorizados.',
+      q: 'Todos os blocos estão disponíveis em qualquer pacote do Especialista sob demanda?',
+      a: 'Sim. Operação, financeiro, estoque, cardápio, iFood e RH podem ser trabalhados em qualquer um dos 3 pacotes (1, 3 ou 6 meses). Após o diagnóstico inicial, especialista e cliente definem juntos quais blocos serão priorizados.',
     },
     {
-      q: 'O que está incluso nos pacotes de mentoria?',
-      a: '4 horas mensais de mentoria, diagnóstico completo da operação, plano de ação com metas e responsáveis, relatório semanal de evolução, suporte contínuo durante o período e o Módulo 1 do sistema incluso. A visita in loco é negociada à parte.',
+      q: 'O que está incluso nos pacotes do Especialista sob demanda?',
+      a: '4 horas mensais com especialista, diagnóstico completo da operação, plano de ação com metas e responsáveis, relatório semanal de evolução, suporte contínuo durante o período e o Módulo 1 do sistema incluso. A visita in loco é negociada à parte.',
     },
     {
-      q: 'O sistema é obrigatório para contratar a mentoria?',
-      a: 'Não. Você pode contratar a mentoria sem o sistema. No entanto, o Módulo 1 já está incluso em todos os pacotes de mentoria para que o mentor tenha acesso aos dados da sua operação e faça um diagnóstico mais preciso.',
+      q: 'O sistema é obrigatório para contratar o Especialista sob demanda?',
+      a: 'Não. Você pode contratar o Especialista sob demanda sem o sistema. No entanto, o Módulo 1 já está incluso em todos os pacotes para que o especialista tenha acesso aos dados da sua operação e faça um diagnóstico mais preciso.',
     },
     {
-      q: 'Posso contratar somente o sistema sem mentoria?',
+      q: 'Posso contratar somente o sistema sem Especialista sob demanda?',
       a: 'Sim. O Granular Food pode ser contratado de forma independente nos Módulos 1, 2 ou 3. Cada módulo amplia as funcionalidades disponíveis, desde dashboard e KDS até estoque, checklist, RH e produção.',
     },
     {
@@ -38,11 +38,11 @@ const faqsByCategory: Record<Category, FaqItem[]> = {
     },
     {
       q: 'Como funciona o pagamento?',
-      a: 'O sistema é cobrado mensalmente por cartão de crédito ou Pix. A mentoria pode ser paga no cartão (mensal) ou via Pix à vista com 3% de desconto. Ao final da mentoria, o sistema continua ativo no mesmo cartão já autorizado.',
+      a: 'O sistema é cobrado mensalmente por cartão de crédito ou Pix. O acompanhamento com especialista pode ser pago no cartão (mensal) ou via Pix à vista com 3% de desconto. Ao final do período, o sistema continua ativo no mesmo cartão já autorizado.',
     },
     {
       q: 'Posso cancelar a qualquer momento?',
-      a: 'Sim. Os planos de sistema podem ser cancelados a qualquer momento. Os pacotes de mentoria têm o período contratado (1, 3 ou 6 meses) com compromisso durante a vigência.',
+      a: 'Sim. Os planos de sistema podem ser cancelados a qualquer momento. Os pacotes de Especialista sob demanda têm o período contratado (1, 3 ou 6 meses) com compromisso durante a vigência.',
     },
     {
       q: 'Quanto tempo leva para ver resultados?',
@@ -61,11 +61,11 @@ const faqsByCategory: Record<Category, FaqItem[]> = {
     },
     {
       q: 'O módulo Televendas está incluso no sistema base?',
-      a: 'Não. O Televendas é um módulo avulso disponível por R$ 419/mês. Ele pode ser contratado de forma independente e integra central de vendas por telefone e WhatsApp diretamente ao Granular Market.',
+      a: 'Não. O Televendas é um módulo avulso disponível por R$ 419/mês. Ele pode ser contratado de forma independente e transforma a produtividade dos vendedores: do pedido verbal à proposta comercial enviada em menos de 2 minutos, integrado diretamente ao Granular Market.',
     },
     {
       q: 'O que o módulo Televendas inclui?',
-      a: 'Central de vendas por telefone e WhatsApp, histórico de pedidos por cliente, catálogo digital integrado, gestão de entregas e relatórios de performance da equipe de televendas — tudo integrado ao painel do Granular Market.',
+      a: 'Sistema de aceleração de propostas comerciais: busca de produtos por nome, código ou EAN, edição inline de preço e desconto com controle de alçada por cargo, exportação por WhatsApp ou PDF, Modo UltraFast (pedido verbal → proposta em menos de 2 min), dashboard de performance por vendedor, CRM com histórico de clientes e agentes de IA para apoio comercial — tudo integrado ao Granular Market.',
     },
     {
       q: 'O sistema suporta múltiplos PDVs e filiais?',
@@ -80,8 +80,8 @@ const faqsByCategory: Record<Category, FaqItem[]> = {
       a: 'Sim. O Granular Market atende supermercados, atacarejos e atacados. A solução é adaptada ao modelo de operação de cada formato, incluindo gestão de grandes volumes, compras e vendas no atacado.',
     },
     {
-      q: 'Como funciona a mentoria para o segmento de mercados?',
-      a: 'A mentoria para mercados foca em rentabilidade, gestão de compras, mix de produtos, perdas e gestão de equipe. Os pacotes são personalizados (1, 3 ou 6 meses) após um diagnóstico inicial da operação.',
+      q: 'Como funciona o Especialista sob demanda para o segmento de mercados?',
+      a: 'O Especialista sob demanda para mercados foca em rentabilidade, gestão de compras, mix de produtos, perdas e gestão de equipe. Os pacotes são personalizados (1, 3 ou 6 meses) após um diagnóstico inicial da operação.',
     },
     {
       q: 'Como funciona o pagamento?',
@@ -89,7 +89,7 @@ const faqsByCategory: Record<Category, FaqItem[]> = {
     },
     {
       q: 'Posso cancelar a qualquer momento?',
-      a: 'Os módulos avulsos podem ser cancelados a qualquer momento. O sistema base e a mentoria seguem os termos do contrato firmado. Nossa equipe orienta as melhores condições para o seu porte.',
+      a: 'Os módulos avulsos podem ser cancelados a qualquer momento. O sistema base e o Especialista sob demanda seguem os termos do contrato firmado. Nossa equipe orienta as melhores condições para o seu porte.',
     },
   ],
 
@@ -111,8 +111,8 @@ const faqsByCategory: Record<Category, FaqItem[]> = {
       a: 'Sim. Mesmo com o sistema em desenvolvimento, você pode agendar uma demonstração para conhecer a solução, tirar dúvidas e garantir condições especiais de early adopter no lançamento.',
     },
     {
-      q: 'Como funciona a mentoria para o segmento farmacêutico?',
-      a: 'A mentoria Granular já está disponível para farmácias. Nossa equipe de especialistas orienta gestão operacional, financeiro, equipe e processos regulatórios — com pacotes de 1, 3 ou 6 meses, definidos após diagnóstico da operação.',
+      q: 'Como funciona o Especialista sob demanda para o segmento farmacêutico?',
+      a: 'O Especialista sob demanda Granular já está disponível para farmácias. Nossa equipe orienta gestão operacional, financeiro, equipe e processos regulatórios — com pacotes de 1, 3 ou 6 meses, definidos após diagnóstico da operação.',
     },
     {
       q: 'Vocês atendem redes farmacêuticas e drogarias independentes?',
@@ -138,8 +138,8 @@ const faqsByCategory: Record<Category, FaqItem[]> = {
       a: 'Sim. Mesmo com o sistema em desenvolvimento, você pode agendar uma demonstração para conhecer a solução, tirar dúvidas e garantir condições especiais de early adopter no lançamento.',
     },
     {
-      q: 'Como funciona a mentoria para clínicas veterinárias e pet shops?',
-      a: 'A mentoria Granular já está disponível para o segmento. Nossos especialistas orientam gestão da operação, financeiro, atendimento e equipe. Pacotes de 1, 3 ou 6 meses, definidos após diagnóstico inicial do negócio.',
+      q: 'Como funciona o Especialista sob demanda para clínicas veterinárias e pet shops?',
+      a: 'O Especialista sob demanda Granular já está disponível para o segmento. Nossa equipe orienta gestão da operação, financeiro, atendimento e equipe. Pacotes de 1, 3 ou 6 meses, definidos após diagnóstico inicial do negócio.',
     },
     {
       q: 'Vocês atendem tanto clínicas veterinárias quanto pet shops?',
@@ -149,7 +149,7 @@ const faqsByCategory: Record<Category, FaqItem[]> = {
 }
 
 const subtitleByCategory: Record<Category, string> = {
-  restaurantes: 'Tire suas dúvidas sobre sistema, mentoria e módulos.',
+  restaurantes: 'Tire suas dúvidas sobre sistema, especialista sob demanda e módulos.',
   mercados:     'Tire suas dúvidas sobre o Granular Market, Televendas e módulos.',
   farmacias:    'Tire suas dúvidas sobre o Granular Farma e o que está por vir.',
   petshop:      'Tire suas dúvidas sobre o Granular PET e o que está por vir.',
@@ -233,13 +233,13 @@ export function Faq({ category = 'restaurantes' }: Props) {
             </div>
             <div className="flex-1">
               <h3 className="text-base font-bold text-[#0E0E0F] mb-1">Quer fazer parte do time Granular?</h3>
-              <p className="text-sm text-[#9C958A]">Seja um consultor credenciado e ajude operações a crescerem com inteligência.</p>
+              <p className="text-sm text-[#9C958A]">Seja um especialista credenciado e ajude operações a crescerem com inteligência.</p>
             </div>
             <Link
               to="/seja-consultor"
               className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors whitespace-nowrap flex-shrink-0"
             >
-              Seja Consultor
+              Seja um Mentor
               <ChevronDown size={14} className="rotate-[-90deg]" />
             </Link>
           </div>

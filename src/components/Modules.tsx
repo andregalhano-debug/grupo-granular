@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { Smartphone, Shield, BarChart3, X, ChevronRight, CalendarDays, Clock, ShoppingCart, UtensilsCrossed, Pill, PawPrint } from 'lucide-react'
+import { Smartphone, Shield, BarChart3, X, ChevronRight, CalendarDays, Clock, ShoppingCart, UtensilsCrossed, Pill, PawPrint, ZoomIn } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
 import { modulesDataRestaurantes, modulesDataMercados } from '../data/modulesData'
@@ -226,9 +226,20 @@ export function Modules({ category = 'restaurantes' }: Props) {
               <div className="grid lg:grid-cols-2 gap-0">
                 {/* Lado esquerdo — texto e funcionalidades */}
                 <div className="p-4 sm:p-6 lg:p-8 flex flex-col justify-center">
-                  <p className="text-sm text-[#0E0E0F] leading-relaxed mb-6">
-                    {openModule.detailText}
-                  </p>
+                  {openModule.detailPoints ? (
+                    <ul className="space-y-2 mb-6">
+                      {openModule.detailPoints.map((point, i) => (
+                        <li key={i} className="flex items-start gap-2 text-sm text-[#0E0E0F]">
+                          <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[var(--accent)] flex-shrink-0" />
+                          {point}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="text-sm text-[#0E0E0F] leading-relaxed mb-6">
+                      {openModule.detailText}
+                    </p>
+                  )}
 
                   <div className="mb-6">
                     <p
@@ -322,14 +333,29 @@ export function Modules({ category = 'restaurantes' }: Props) {
                 {/* Lado direito — screenshot */}
                 <div className="bg-[#F7F7F7] p-6 sm:p-8 flex items-center justify-center border-t lg:border-t-0 lg:border-l border-[#0E0E0F]/5">
                   {openModule.screenshot ? (
-                    <img
-                      src={openModule.screenshot}
-                      alt={`Tela do módulo ${openModule.title}`}
-                      className="rounded-xl shadow-lg w-full max-w-lg object-cover cursor-pointer hover:opacity-90 transition-opacity"
-                      loading="lazy"
+                    <div
+                      className="relative group w-full max-w-lg cursor-pointer"
                       onClick={() => setLightbox(openModule.screenshot)}
-                      title="Clique para ampliar"
-                    />
+                    >
+                      <img
+                        src={openModule.screenshot}
+                        alt={`Tela do módulo ${openModule.title}`}
+                        className="rounded-xl shadow-lg w-full object-cover transition-all duration-300 group-hover:brightness-75"
+                        loading="lazy"
+                      />
+                      {/* Overlay de zoom */}
+                      <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div className="bg-white/90 backdrop-blur-sm rounded-xl px-4 py-2.5 flex items-center gap-2 shadow-lg">
+                          <ZoomIn size={16} className="text-[var(--accent)]" />
+                          <span className="text-sm font-medium text-[#0E0E0F]">Clique para ampliar</span>
+                        </div>
+                      </div>
+                      {/* Badge estático sempre visível */}
+                      <div className="absolute bottom-3 right-3 bg-black/50 backdrop-blur-sm rounded-lg px-2.5 py-1 flex items-center gap-1.5">
+                        <ZoomIn size={12} className="text-white" />
+                        <span className="text-[10px] text-white font-medium">Ampliar</span>
+                      </div>
+                    </div>
                   ) : (
                     <div className="w-full max-w-lg aspect-video rounded-xl bg-[#9C958A]/10 flex items-center justify-center">
                       <div className="text-center">
