@@ -223,7 +223,7 @@ export function Modules({ category = 'restaurantes' }: Props) {
               </div>
 
               {/* Conteúdo */}
-              <div className="grid lg:grid-cols-2 gap-0">
+              <div className={openModule.screenshot ? "grid lg:grid-cols-2 gap-0" : "grid gap-0"}>
                 {/* Lado esquerdo — texto e funcionalidades */}
                 <div className="p-4 sm:p-6 lg:p-8 flex flex-col justify-center">
                   {openModule.detailPoints ? (
@@ -331,8 +331,8 @@ export function Modules({ category = 'restaurantes' }: Props) {
                 </div>
 
                 {/* Lado direito — screenshot */}
-                <div className="bg-[#F7F7F7] p-6 sm:p-8 flex items-center justify-center border-t lg:border-t-0 lg:border-l border-[#0E0E0F]/5">
-                  {openModule.screenshot ? (
+                {openModule.screenshot && (
+                  <div className="bg-[#F7F7F7] p-6 sm:p-8 flex items-center justify-center border-t lg:border-t-0 lg:border-l border-[#0E0E0F]/5">
                     <div
                       className="relative group w-full max-w-lg cursor-pointer"
                       onClick={() => setLightbox(openModule.screenshot)}
@@ -356,15 +356,8 @@ export function Modules({ category = 'restaurantes' }: Props) {
                         <span className="text-[10px] text-white font-medium">Ampliar</span>
                       </div>
                     </div>
-                  ) : (
-                    <div className="w-full max-w-lg aspect-video rounded-xl bg-[#9C958A]/10 flex items-center justify-center">
-                      <div className="text-center">
-                        <openModule.icon size={48} className="text-[#9C958A]/30 mx-auto mb-3" />
-                        <p className="text-sm text-[#9C958A]">Screenshot em breve</p>
-                      </div>
-                    </div>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>

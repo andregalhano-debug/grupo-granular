@@ -40,7 +40,7 @@ export const modulesDataRestaurantes: ModuleDetail[] = [
       'Avaliação de desempenho e plano de carreira simplificado (auxiliar → chefe)',
       'Bonificações por resultado e acompanhamento de turnover',
     ],
-    screenshot: '',
+    screenshot: '/Tela sistema Pessoas Granular People.jpg',
     standalone: true,
   },
   {
@@ -226,7 +226,7 @@ export const modulesDataMercados: ModuleDetail[] = [
       'Avaliação de desempenho e plano de carreira simplificado',
       'Bonificações por resultado e acompanhamento de turnover',
     ],
-    screenshot: '',
+    screenshot: '/Tela sistema Pessoas Granular People.jpg',
     standalone: true,
   },
   {
