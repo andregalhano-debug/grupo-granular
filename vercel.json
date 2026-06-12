@@ -1,9 +1,11 @@
 {
-  "rewrites": [
-    { "source": "/sitemap.xml", "destination": "/sitemap.xml" },
-    { "source": "/robots.txt", "destination": "/robots.txt" },
-    { "source": "/llms.txt", "destination": "/llms.txt" },
-    { "source": "/(.*)", "destination": "/index.html" }
+  "routes": [
+    { "src": "/assets/(.*)", "dest": "/assets/$1" },
+    { "src": "/sitemap.xml", "dest": "/sitemap.xml" },
+    { "src": "/robots.txt", "dest": "/robots.txt" },
+    { "src": "/llms.txt", "dest": "/llms.txt" },
+    { "src": "/(.*\\.(jpg|jpeg|png|gif|ico|svg|webp|woff|woff2|ttf|js|css|map))", "dest": "/$1" },
+    { "src": "/(.*)", "dest": "/index.html" }
   ],
   "headers": [
     {
