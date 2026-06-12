@@ -1,29 +1,18 @@
 import { useState } from 'react'
-import { User, Mail, MessageCircle, Briefcase, Link2, FileText, Tag, ChevronDown, Plus, Trash2, MapPin, Building2, History, Loader2 } from 'lucide-react'
+import { User, Mail, MessageCircle, Briefcase, Tag, ChevronDown, Loader2, ShieldCheck, ChevronUp } from 'lucide-react'
 import { segmentOptions, specialtyOptions } from '../../data/consultants'
-import type { HistoricoProfissional } from '../../types/mentor'
-
-const ESTADOS_BR = [
-  'AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG',
-  'PA','PB','PR','PE','PI','RJ','RN','RS','RO','RR','SC','SP','SE','TO',
-]
 
 interface FormProps {
   form: {
     nome: string; email: string; whatsapp: string
-    cidade: string; estado: string; linkedin: string
-    cargoAtual: string; empresaAtual: string
+    cargoAtual: string
     segmentos: string[]; especialidades: string[]; especialidadeOutra: string
-    historicoProfissional: HistoricoProfissional[]; bio: string
   }
   errors: { [key: string]: string | undefined }
   isProcessing: boolean
-  onUpdate: (field: 'nome' | 'email' | 'whatsapp' | 'cidade' | 'estado' | 'linkedin' | 'cargoAtual' | 'empresaAtual' | 'especialidadeOutra' | 'bio', value: string) => void
+  onUpdate: (field: 'nome' | 'email' | 'whatsapp' | 'cargoAtual' | 'especialidadeOutra', value: string) => void
   onToggleSegment: (seg: string) => void
   onToggleSpecialty: (spec: string) => void
-  addHistorico: () => void
-  removeHistorico: (id: string) => void
-  updateHistorico: (id: string, field: keyof Omit<HistoricoProfissional, 'id'>, value: string) => void
   onSubmit: () => void
 }
 
@@ -39,7 +28,7 @@ function CheckboxItem({ id, label, checked, onToggle }: { id: string; label: str
   )
 }
 
-function Section({ icon, label, hint, count, error, open, onToggle, children }: {
+function CollapsibleField({ icon, label, hint, count, error, open, onToggle, children }: {
   icon: React.ReactNode; label: string; hint: string; count?: number
   error?: string; open: boolean; onToggle: () => void; children: React.ReactNode
 }) {
@@ -69,11 +58,24 @@ function Section({ icon, label, hint, count, error, open, onToggle, children }: 
   )
 }
 
-export function SejaConsultorForm({ form, errors, isProcessing, onUpdate, onToggleSegment, onToggleSpecialty, addHistorico, removeHistorico, updateHistorico, onSubmit }: FormProps) {
+const TERMOS_TEXTO = `Ao ingressar na Comunidade Granular como Mentor, você declara estar ciente e de acordo com as seguintes diretrizes:
+
+1. Confidencialidade — Você não compartilhará informações confidenciais, segredos de negócio, dados estratégicos ou quaisquer informações protegidas de empregadores atuais ou anteriores. Sua atuação respeita integralmente os acordos de não divulgação (NDAs) e contratos de trabalho vigentes ou já encerrados.
+
+2. Natureza da atividade — Sua atuação na plataforma é caracterizada como mentoria: orientação baseada em experiência pessoal e conhecimento de mercado para apoiar outros profissionais e empreendedores em sua jornada de gestão e crescimento. Não configura consultoria técnica especializada, assessoria jurídica, financeira ou equivalente que exija habilitação profissional específica.
+
+3. Responsabilidade pelo conteúdo — Você é o único responsável pelas informações, opiniões e orientações que compartilha nas sessões. A Granular não se responsabiliza pelo conteúdo das mentorias nem pelos resultados obtidos pelos mentorados.
+
+4. Independência — Você atua de forma independente, sem vínculo empregatício com a Granular. A relação é de parceria entre plataforma e profissional autônomo.
+
+5. Boas práticas — Você se compromete a manter conduta ética, respeitosa e profissional em todas as interações dentro da plataforma Granular.`
+
+export function SejaConsultorForm({ form, errors, isProcessing, onUpdate, onToggleSegment, onToggleSpecialty, onSubmit }: FormProps) {
   const [segOpen, setSegOpen] = useState(false)
   const [specOpen, setSpecOpen] = useState(false)
-  const [histOpen, setHistOpen] = useState(true)
-  const [bioOpen, setBioOpen] = useState(false)
+  const [termosOpen, setTermosOpen] = useState(false)
+  const [termosAceitos, setTermosAceitos] = useState(false)
+  const [termosError, setTermosError] = useState(false)
 
   const ic = (f: string) => `w-full px-4 py-3 rounded-xl border text-sm bg-white outline-none transition-colors ${errors[f] ? 'border-[#A31631]' : 'border-[#0E0E0F]/15 focus:border-[#A31631]'}`
 
@@ -81,11 +83,12 @@ export function SejaConsultorForm({ form, errors, isProcessing, onUpdate, onTogg
     e.preventDefault()
     if (form.segmentos.length === 0) setSegOpen(true)
     if (form.especialidades.length === 0) setSpecOpen(true)
-    if (errors.historicoProfissional) setHistOpen(true)
+    if (!termosAceitos) {
+      setTermosError(true)
+      return
+    }
     onSubmit()
   }
-
-  const filledHistorico = form.historicoProfissional.filter((h) => h.empresa || h.cargo).length
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -111,55 +114,24 @@ export function SejaConsultorForm({ form, errors, isProcessing, onUpdate, onTogg
         {errors.whatsapp && <p className="text-xs text-[#A31631] mt-1">{errors.whatsapp}</p>}
       </div>
 
-      {/* Cidade + Estado */}
-      <div className="grid grid-cols-3 gap-3">
-        <div className="col-span-2">
-          <label className="flex items-center gap-2 text-sm font-medium text-[#0E0E0F] mb-1.5"><MapPin size={15} className="text-[#9C958A]" /> Cidade</label>
-          <input type="text" placeholder="São Paulo" value={form.cidade} onChange={(e) => onUpdate('cidade', e.target.value)} className={ic('cidade')} />
-          {errors.cidade && <p className="text-xs text-[#A31631] mt-1">{errors.cidade}</p>}
-        </div>
-        <div>
-          <label className="text-sm font-medium text-[#0E0E0F] mb-1.5 block">Estado</label>
-          <select value={form.estado} onChange={(e) => onUpdate('estado', e.target.value)} className={`${ic('estado')} cursor-pointer`}>
-            <option value="">UF</option>
-            {ESTADOS_BR.map((uf) => <option key={uf} value={uf}>{uf}</option>)}
-          </select>
-        </div>
-      </div>
-
       {/* Cargo atual */}
       <div>
         <label className="flex items-center gap-2 text-sm font-medium text-[#0E0E0F] mb-1.5"><Briefcase size={15} className="text-[#9C958A]" /> Cargo atual</label>
-        <input type="text" placeholder="Ex: Diretor de Operações" value={form.cargoAtual} onChange={(e) => onUpdate('cargoAtual', e.target.value)} className={ic('cargoAtual')} />
+        <input type="text" placeholder="Ex: Gerente de Operações, CEO, Consultor…" value={form.cargoAtual} onChange={(e) => onUpdate('cargoAtual', e.target.value)} className={ic('cargoAtual')} />
         {errors.cargoAtual && <p className="text-xs text-[#A31631] mt-1">{errors.cargoAtual}</p>}
       </div>
 
-      {/* Empresa atual (opcional) */}
-      <div>
-        <label className="flex items-center gap-2 text-sm font-medium text-[#0E0E0F] mb-1.5">
-          <Building2 size={15} className="text-[#9C958A]" /> Empresa atual <span className="text-xs text-[#9C958A] font-normal">(opcional)</span>
-        </label>
-        <input type="text" placeholder="Nome da empresa" value={form.empresaAtual} onChange={(e) => onUpdate('empresaAtual', e.target.value)} className={ic('empresaAtual')} />
-      </div>
-
-      {/* LinkedIn */}
-      <div>
-        <label className="flex items-center gap-2 text-sm font-medium text-[#0E0E0F] mb-1.5"><Link2 size={15} className="text-[#9C958A]" /> LinkedIn</label>
-        <input type="url" placeholder="https://linkedin.com/in/seu-perfil" value={form.linkedin} onChange={(e) => onUpdate('linkedin', e.target.value)} className={ic('linkedin')} />
-        {errors.linkedin && <p className="text-xs text-[#A31631] mt-1">{errors.linkedin}</p>}
-      </div>
-
       {/* Segmentos */}
-      <Section icon={<Tag size={15} className="text-[#9C958A]" />} label="Segmentos de atuação" hint="Selecione os mercados em que tem experiência" count={form.segmentos.length} error={errors.segmentos} open={segOpen} onToggle={() => setSegOpen((v) => !v)}>
+      <CollapsibleField icon={<Tag size={15} className="text-[#9C958A]" />} label="Segmentos de atuação" hint="Selecione os mercados em que tem experiência" count={form.segmentos.length} error={errors.segmentos} open={segOpen} onToggle={() => setSegOpen((v) => !v)}>
         <div className="flex flex-col gap-2">
           {segmentOptions.map((opt) => (
             <CheckboxItem key={opt.id} id={`seg-${opt.id}`} label={opt.label} checked={form.segmentos.includes(opt.id)} onToggle={() => onToggleSegment(opt.id)} />
           ))}
         </div>
-      </Section>
+      </CollapsibleField>
 
       {/* Especialidades */}
-      <Section icon={<Briefcase size={15} className="text-[#9C958A]" />} label="Especialidades" hint="Selecione as áreas funcionais em que pode orientar" count={form.especialidades.length} error={errors.especialidades} open={specOpen} onToggle={() => setSpecOpen((v) => !v)}>
+      <CollapsibleField icon={<Briefcase size={15} className="text-[#9C958A]" />} label="Especialidades" hint="Selecione as áreas funcionais em que pode orientar" count={form.especialidades.length} error={errors.especialidades} open={specOpen} onToggle={() => setSpecOpen((v) => !v)}>
         <div className="flex flex-col gap-2">
           {specialtyOptions.map((opt) => (
             <CheckboxItem key={opt.id} id={`spec-${opt.id}`} label={opt.label} checked={form.especialidades.includes(opt.id)} onToggle={() => onToggleSpecialty(opt.id)} />
@@ -171,39 +143,65 @@ export function SejaConsultorForm({ form, errors, isProcessing, onUpdate, onTogg
             {errors.especialidadeOutra && <p className="text-xs text-[#A31631] mt-1">{errors.especialidadeOutra}</p>}
           </div>
         )}
-      </Section>
+      </CollapsibleField>
 
-      {/* Histórico profissional */}
-      <Section icon={<History size={15} className="text-[#9C958A]" />} label="Histórico profissional" hint="Adicione suas experiências — quanto mais completo, maior sua visibilidade" count={filledHistorico} error={errors.historicoProfissional} open={histOpen} onToggle={() => setHistOpen((v) => !v)}>
-        <div className="space-y-4">
-          {form.historicoProfissional.map((h, idx) => (
-            <div key={h.id} className="rounded-xl border border-[#0E0E0F]/10 p-4 space-y-2.5">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold text-[#9C958A] uppercase tracking-wider" style={{ fontFamily: "'JetBrains Mono', monospace" }}>Experiência {idx + 1}</span>
-                {form.historicoProfissional.length > 1 && (
-                  <button type="button" onClick={() => removeHistorico(h.id)} className="p-1 rounded text-[#9C958A] hover:text-red-500 transition-colors cursor-pointer"><Trash2 size={14} /></button>
-                )}
-              </div>
-              <input type="text" placeholder="Empresa" value={h.empresa} onChange={(e) => updateHistorico(h.id, 'empresa', e.target.value)} className="w-full px-3 py-2.5 rounded-lg border border-[#0E0E0F]/15 text-sm outline-none focus:border-[#A31631] bg-white" />
-              <input type="text" placeholder="Cargo" value={h.cargo} onChange={(e) => updateHistorico(h.id, 'cargo', e.target.value)} className="w-full px-3 py-2.5 rounded-lg border border-[#0E0E0F]/15 text-sm outline-none focus:border-[#A31631] bg-white" />
-              <div className="grid grid-cols-2 gap-2">
-                <input type="text" placeholder="Início (MM/AAAA)" value={h.inicio} onChange={(e) => updateHistorico(h.id, 'inicio', e.target.value)} className="w-full px-3 py-2.5 rounded-lg border border-[#0E0E0F]/15 text-sm outline-none focus:border-[#A31631] bg-white" />
-                <input type="text" placeholder='Saída (MM/AAAA ou "atual")' value={h.fim} onChange={(e) => updateHistorico(h.id, 'fim', e.target.value)} className="w-full px-3 py-2.5 rounded-lg border border-[#0E0E0F]/15 text-sm outline-none focus:border-[#A31631] bg-white" />
-              </div>
+      {/* Compliance */}
+      <div className={`rounded-xl border transition-colors ${termosError ? 'border-[#A31631]' : 'border-[#0E0E0F]/12'}`}>
+        <button
+          type="button"
+          onClick={() => setTermosOpen((v) => !v)}
+          className="w-full flex items-center justify-between gap-3 px-4 py-3.5 text-left cursor-pointer"
+        >
+          <div className="flex items-center gap-2">
+            <ShieldCheck size={15} className={termosAceitos ? 'text-emerald-500' : 'text-[#9C958A]'} />
+            <span className="text-sm font-medium text-[#0E0E0F]">Termos de conduta e compliance</span>
+            {termosAceitos && (
+              <span className="text-[10px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-200 px-2 py-0.5 rounded-full">Aceito</span>
+            )}
+          </div>
+          {termosOpen ? <ChevronUp size={16} className="text-[#9C958A] flex-shrink-0" /> : <ChevronDown size={16} className="text-[#9C958A] flex-shrink-0" />}
+        </button>
+
+        {termosOpen && (
+          <div className="px-4 pb-4 border-t border-[#0E0E0F]/8">
+            <div className="mt-3 mb-4 rounded-xl bg-[#F7F7F7] p-4 max-h-48 overflow-y-auto">
+              {TERMOS_TEXTO.split('\n\n').map((paragraph, i) => (
+                <p key={i} className="text-xs text-[#9C958A] leading-relaxed mb-2 last:mb-0">
+                  {paragraph}
+                </p>
+              ))}
             </div>
-          ))}
-          <button type="button" onClick={addHistorico} className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border border-dashed border-[#A31631]/30 text-sm text-[#A31631] hover:bg-[#A31631]/5 transition-colors cursor-pointer">
-            <Plus size={15} /> Adicionar experiência
-          </button>
-        </div>
-      </Section>
+            <label className="flex items-start gap-3 cursor-pointer select-none">
+              <div
+                className={`w-5 h-5 rounded flex items-center justify-center flex-shrink-0 mt-0.5 border-2 transition-colors ${termosAceitos ? 'bg-[#A31631] border-[#A31631]' : 'border-[#9C958A]/50 hover:border-[#A31631]/50'}`}
+                onClick={() => { setTermosAceitos((v) => !v); setTermosError(false) }}
+              >
+                {termosAceitos && <svg width="11" height="9" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>}
+              </div>
+              <span className="text-sm text-[#0E0E0F] leading-snug" onClick={() => { setTermosAceitos((v) => !v); setTermosError(false) }}>
+                Li e concordo com os termos de conduta, confidencialidade e compliance da Comunidade Granular.
+              </span>
+            </label>
+          </div>
+        )}
 
-      {/* Bio (opcional) */}
-      <Section icon={<FileText size={15} className="text-[#9C958A]" />} label="Sobre você" hint="Uma apresentação que aparecerá no seu perfil público (opcional)" open={bioOpen} onToggle={() => setBioOpen((v) => !v)}>
-        <textarea rows={4} placeholder="Descreva sua trajetória, resultados que entregou e como pode ajudar operações..." value={form.bio} onChange={(e) => onUpdate('bio', e.target.value)} className="w-full px-4 py-3 rounded-xl border border-[#0E0E0F]/15 text-sm bg-white outline-none focus:border-[#A31631] resize-none" />
-      </Section>
+        {termosError && (
+          <p className="text-xs text-[#A31631] px-4 pb-3">
+            É necessário ler e aceitar os termos para continuar
+          </p>
+        )}
+      </div>
 
-      <button type="submit" disabled={isProcessing} className="w-full flex items-center justify-center gap-2 bg-[#A31631] hover:bg-[#7A1025] disabled:opacity-70 text-white font-medium py-4 px-8 rounded-xl text-base transition-colors cursor-pointer">
+      {/* Aviso: perfil completo após cadastro */}
+      <div className="rounded-xl bg-[#F7F7F7] border border-[#0E0E0F]/8 px-4 py-3 text-xs text-[#9C958A] leading-relaxed">
+        Após o envio, você receberá um e-mail de confirmação. Com o cadastro aprovado, completará seu perfil dentro da plataforma: LinkedIn, histórico profissional, foto, valor hora e disponibilidade.
+      </div>
+
+      <button
+        type="submit"
+        disabled={isProcessing}
+        className="w-full flex items-center justify-center gap-2 bg-[#A31631] hover:bg-[#7A1025] disabled:opacity-70 text-white font-medium py-4 px-8 rounded-xl text-base transition-colors cursor-pointer"
+      >
         {isProcessing ? <><Loader2 size={20} className="animate-spin" /> Enviando...</> : 'Enviar candidatura'}
       </button>
 
