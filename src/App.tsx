@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import { CartProvider } from './stores/CartProvider'
 import { LandingPage } from './pages/LandingPage'
 import { CheckoutPage } from './pages/CheckoutPage'
@@ -14,9 +14,13 @@ import { AgendarDemoPage } from './pages/AgendarDemoPage'
 import { AdminPage } from './pages/AdminPage'
 import { ChatbotWidget } from './components/chatbot/ChatbotWidget'
 
-function App() {
+function AppContent() {
+  const location = useLocation()
+  const hideChatOn = ['/checkout', '/confirmacao']
+  const showChat = !hideChatOn.includes(location.pathname)
+
   return (
-    <CartProvider>
+    <>
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
@@ -31,7 +35,15 @@ function App() {
         <Route path="/agendar-demo" element={<AgendarDemoPage />} />
         <Route path="/admin" element={<AdminPage />} />
       </Routes>
-      <ChatbotWidget />
+      {showChat && <ChatbotWidget />}
+    </>
+  )
+}
+
+function App() {
+  return (
+    <CartProvider>
+      <AppContent />
     </CartProvider>
   )
 }
