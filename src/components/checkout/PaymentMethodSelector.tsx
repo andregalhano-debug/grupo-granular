@@ -6,6 +6,7 @@ interface PaymentMethodSelectorProps {
   onSelect: (method: PaymentMethod) => void
   hasSaas: boolean
   hasConsultoria: boolean
+  hasMentor: boolean
   hasAvulso?: boolean
   onAvulsoMethodChange?: (method: 'cartao' | 'pix') => void
   avulsoMethod?: 'cartao' | 'pix'
@@ -17,6 +18,7 @@ export function PaymentMethodSelector({
   selected,
   onSelect,
   hasConsultoria,
+  hasMentor,
   hasAvulso,
   onAvulsoMethodChange,
   avulsoMethod,
@@ -115,8 +117,8 @@ export function PaymentMethodSelector({
           )}
         </div>
 
-        {/* ── PIX ── */}
-        <div className={`rounded-xl border transition-all ${selected === 'pix' ? 'border-[#A31631]' : 'border-[#0E0E0F]/10'}`}>
+        {/* ── PIX — apenas quando há mentor no carrinho ── */}
+        {hasMentor && <div className={`rounded-xl border transition-all ${selected === 'pix' ? 'border-[#A31631]' : 'border-[#0E0E0F]/10'}`}>
           <button
             type="button"
             onClick={() => onSelect(selected === 'pix' ? 'cartao' : 'pix')}
@@ -157,7 +159,7 @@ export function PaymentMethodSelector({
               </div>
             </div>
           )}
-        </div>
+        </div>}
       </div>
     </div>
   )

@@ -81,6 +81,13 @@ export function CheckoutPage() {
   const totalCents = totalReais * 100
 
   const buttonText = canSubmit ? 'Finalizar o pedido' : 'Selecione os horários dos especialistas'
+  // Se não há mentor e o método era pix, volta para cartão
+  useEffect(() => {
+    if (!hasConsultants && form.paymentMethod === 'pix') {
+      setPaymentMethod('cartao')
+    }
+  }, [hasConsultants, form.paymentMethod, setPaymentMethod])
+
   const paymentRef = useRef<HTMLDivElement>(null)
   const [showStickyBar, setShowStickyBar] = useState(false)
 
@@ -203,6 +210,7 @@ export function CheckoutPage() {
                   onSelect={setPaymentMethod}
                   hasSaas={hasSaas}
                   hasConsultoria={hasConsultoria || hasConsultants}
+                  hasMentor={hasConsultants}
                   hasAvulso={hasAvulso && isCartao}
                   avulsoMethod={form.avulsoMethod}
                   onAvulsoMethodChange={setAvulsoMethod}
