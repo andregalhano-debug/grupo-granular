@@ -1,8 +1,10 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Mail, Lock, Loader2 } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 
 export function MentorLoginPage() {
+  const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
@@ -19,9 +21,10 @@ export function MentorLoginPage() {
     })
     setLoading(false)
     if (err) {
-      setError('E-mail ou senha incorretos. Tente novamente.')
+      setError(`Erro: ${err.message}`)
+    } else {
+      navigate('/painel-consultor')
     }
-    // on success, useMentorAuth will detect the session and ProtectedMentorRoute redirects
   }
 
   return (
