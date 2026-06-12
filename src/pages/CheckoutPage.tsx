@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useSearchParams, useNavigate } from 'react-router-dom'
 import { Loader2 } from 'lucide-react'
 import { Elements } from '@stripe/react-stripe-js'
@@ -81,6 +81,20 @@ export function CheckoutPage() {
   const totalCents = totalReais * 100
 
   const buttonText = canSubmit ? 'Finalizar o pedido' : 'Selecione os horários dos especialistas'
+  const paymentRef = useRef<HTMLDivElement>(null)
+  const [showStickyBar, setShowStickyBar] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!paymentRef.current) return
+      const rect = paymentRef.current.getBoundingClientRect()
+      // Mostra a barra quando o painel de pagamento ainda não está visível na tela
+      setShowStickyBar(rect.top > window.innerHeight)
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll()
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   const navigateToConfirmation = (orderId: string) => {
     navigate('/confirmacao', {
@@ -164,6 +178,7 @@ export function CheckoutPage() {
               <p className="text-sm text-[#9C958A]">Preencha seus dados e escolha a forma de pagamento.</p>
             </div>
 
+            {/* 1. Dados */}
             <ContactForm
               empresa={form.empresa}
               documento={form.documento}
@@ -175,55 +190,60 @@ export function CheckoutPage() {
               onUpdate={updateField}
             />
 
-            <Elements stripe={stripePromise} options={{ locale: 'pt-BR' }}>
-              <PaymentMethodSelector
-                selected={form.paymentMethod}
-                onSelect={setPaymentMethod}
-                hasSaas={hasSaas}
-                hasConsultoria={hasConsultoria || hasConsultants}
-                hasAvulso={hasAvulso && isCartao}
-                avulsoMethod={form.avulsoMethod}
-                onAvulsoMethodChange={setAvulsoMethod}
-                cardContent={
-                  <StripeCardForm
-                    onPaymentSuccess={handleStripePayment}
-                    onError={(err) => console.error(err)}
-                    isProcessing={isProcessing}
-                    setIsProcessing={setIsProcessing}
-                    totalCents={totalCents}
-                    customerEmail={form.email}
-                    customerName={form.nome}
-                    buttonText={buttonText}
-                  />
-                }
-                pixContent={
-                  <form onSubmit={handlePixSubmit}>
-                    <button
-                      type="submit"
-                      disabled={isProcessing || !canSubmit}
-                      className="w-full flex items-center justify-center gap-2 bg-[#A31631] hover:bg-[#7A1025] disabled:opacity-70 text-white font-medium py-4 px-8 rounded-xl text-base transition-colors cursor-pointer"
-                    >
-                      {isProcessing ? (
-                        <>
-                          <Loader2 size={20} className="animate-spin" />
-                          Processando...
-                        </>
-                      ) : (
-                        buttonText
-                      )}
-                    </button>
-                  </form>
-                }
-              />
-            </Elements>
-
+            {/* 2. Resumo do pedido — apenas mobile */}
             <div className="lg:hidden">
               <OrderSummary paymentMethod={form.paymentMethod} />
+            </div>
+
+            {/* 3. Pagamento */}
+            <div ref={paymentRef}>
+              <Elements stripe={stripePromise} options={{ locale: 'pt-BR' }}>
+                <PaymentMethodSelector
+                  selected={form.paymentMethod}
+                  onSelect={setPaymentMethod}
+                  hasSaas={hasSaas}
+                  hasConsultoria={hasConsultoria || hasConsultants}
+                  hasAvulso={hasAvulso && isCartao}
+                  avulsoMethod={form.avulsoMethod}
+                  onAvulsoMethodChange={setAvulsoMethod}
+                  cardContent={
+                    <StripeCardForm
+                      onPaymentSuccess={handleStripePayment}
+                      onError={(err) => console.error(err)}
+                      isProcessing={isProcessing}
+                      setIsProcessing={setIsProcessing}
+                      totalCents={totalCents}
+                      customerEmail={form.email}
+                      customerName={form.nome}
+                      buttonText={buttonText}
+                    />
+                  }
+                  pixContent={
+                    <form onSubmit={handlePixSubmit}>
+                      <button
+                        type="submit"
+                        disabled={isProcessing || !canSubmit}
+                        className="w-full flex items-center justify-center gap-2 bg-[#A31631] hover:bg-[#7A1025] disabled:opacity-70 text-white font-medium py-4 px-8 rounded-xl text-base transition-colors cursor-pointer"
+                      >
+                        {isProcessing ? (
+                          <>
+                            <Loader2 size={20} className="animate-spin" />
+                            Processando...
+                          </>
+                        ) : (
+                          buttonText
+                        )}
+                      </button>
+                    </form>
+                  }
+                />
+              </Elements>
             </div>
 
             <SecurityBadge />
           </div>
 
+          {/* Resumo do pedido — desktop (sticky) */}
           <div className="hidden lg:block lg:col-span-2">
             <div className="sticky top-8">
               <OrderSummary paymentMethod={form.paymentMethod} />
@@ -231,6 +251,25 @@ export function CheckoutPage() {
           </div>
         </div>
       </main>
+
+      {/* CTA fixo deslizante — apenas mobile, visível enquanto pagamento está fora da tela */}
+      <div
+        className={`lg:hidden fixed bottom-0 left-0 right-0 z-50 transition-transform duration-300 ${
+          showStickyBar ? 'translate-y-0' : 'translate-y-full'
+        }`}
+      >
+        <div className="bg-white border-t border-[#9C958A]/20 shadow-2xl px-4 py-3 flex items-center justify-between gap-3">
+          <p className="text-xs text-[#9C958A] leading-tight">
+            Total: <span className="font-bold text-[#0E0E0F] text-sm">R$ {totalReais.toLocaleString('pt-BR')}/mês</span>
+          </p>
+          <button
+            onClick={() => paymentRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+            className="flex-shrink-0 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-5 py-2.5 rounded-xl text-sm transition-colors"
+          >
+            Ir para pagamento →
+          </button>
+        </div>
+      </div>
     </div>
   )
 }
