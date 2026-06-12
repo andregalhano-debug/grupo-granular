@@ -7,7 +7,7 @@ import { SejaConsultorSuccess } from '../components/seja-consultor/SejaConsultor
 import { useSejaConsultorForm } from '../hooks/useSejaConsultorForm'
 
 export function SejaConsultorPage() {
-  const { form, errors, submitted, isProcessing, updateField, toggleSegment, toggleSpecialty, submit } = useSejaConsultorForm()
+  const { form, errors, submitted, isProcessing, updateField, toggleSegment, toggleSpecialty, addHistorico, removeHistorico, updateHistorico, submit } = useSejaConsultorForm()
 
   useEffect(() => { window.scrollTo(0, 0) }, [])
 
@@ -40,6 +40,9 @@ export function SejaConsultorPage() {
                   onUpdate={updateField}
                   onToggleSegment={toggleSegment}
                   onToggleSpecialty={toggleSpecialty}
+                  addHistorico={addHistorico}
+                  removeHistorico={removeHistorico}
+                  updateHistorico={updateHistorico}
                   onSubmit={submit}
                 />
               </>

@@ -57,10 +57,13 @@ export const consultantCategories: { id: ConsultantCategory | null; label: strin
 /** Segmentos de mercado — campo "Categoria" no formulário de candidatura */
 export const segmentOptions: { id: string; label: string }[] = [
   { id: 'restaurantes', label: 'Restaurantes & Delivery' },
-  { id: 'mercados', label: 'Mercado, Atacado e Atacarejo' },
+  { id: 'mercados', label: 'Mercado & Supermercado' },
+  { id: 'atacado', label: 'Atacado & Atacarejo' },
+  { id: 'ecommerce', label: 'E-commerce' },
   { id: 'farmacias', label: 'Farmácia e Drogaria' },
   { id: 'petshop', label: 'Pet Shop e Clínica Veterinária' },
   { id: 'franquias', label: 'Gestão de Franquias' },
+  { id: 'delivery', label: 'Operação de Delivery' },
   { id: 'outros', label: 'Outros' },
 ]
 
@@ -68,14 +71,17 @@ export const segmentOptions: { id: string; label: string }[] = [
 export const specialtyOptions: { id: string; label: string }[] = [
   { id: 'operacao', label: 'Operação' },
   { id: 'financeiro', label: 'Financeiro' },
-  { id: 'marketing', label: 'Marketing Digital' },
+  { id: 'marketing', label: 'Marketing & Mídia' },
   { id: 'cardapio', label: 'Cardápio & Menu Engineering' },
-  { id: 'marketplaces', label: 'Marketplaces (iFood, 99, Keeta, Rappi, outros)' },
-  { id: 'rh', label: 'Recursos Humanos' },
+  { id: 'marketplaces', label: 'Marketplaces (iFood, Rappi, Keeta…)' },
+  { id: 'rh', label: 'RH & Gestão de Pessoas' },
   { id: 'estoque', label: 'Estoque & CMV' },
   { id: 'precificacao', label: 'Precificação & Markup' },
   { id: 'atendimento', label: 'Atendimento ao Cliente' },
   { id: 'tecnologia', label: 'Tecnologia & Sistemas' },
+  { id: 'juridico', label: 'Jurídico & Societário' },
+  { id: 'expansao', label: 'Expansão & Franquias' },
+  { id: 'delivery_ops', label: 'Delivery & Logística' },
   { id: 'outros', label: 'Outros' },
 ]
 
