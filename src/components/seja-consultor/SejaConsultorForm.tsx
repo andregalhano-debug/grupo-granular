@@ -6,11 +6,11 @@ interface FormProps {
   form: {
     nome: string; email: string; whatsapp: string
     cargoAtual: string
-    segmentos: string[]; especialidades: string[]; especialidadeOutra: string
+    segmentos: string[]; segmentoOutro: string; especialidades: string[]; especialidadeOutra: string
   }
   errors: { [key: string]: string | undefined }
   isProcessing: boolean
-  onUpdate: (field: 'nome' | 'email' | 'whatsapp' | 'cargoAtual' | 'especialidadeOutra', value: string) => void
+  onUpdate: (field: 'nome' | 'email' | 'whatsapp' | 'cargoAtual' | 'segmentoOutro' | 'especialidadeOutra', value: string) => void
   onToggleSegment: (seg: string) => void
   onToggleSpecialty: (spec: string) => void
   onSubmit: () => void
@@ -128,6 +128,12 @@ export function SejaConsultorForm({ form, errors, isProcessing, onUpdate, onTogg
             <CheckboxItem key={opt.id} id={`seg-${opt.id}`} label={opt.label} checked={form.segmentos.includes(opt.id)} onToggle={() => onToggleSegment(opt.id)} />
           ))}
         </div>
+        {form.segmentos.includes('outros') && (
+          <div className="mt-3">
+            <input type="text" placeholder="Descreva o segmento de atuação" value={form.segmentoOutro} onChange={(e) => onUpdate('segmentoOutro', e.target.value)} className={ic('segmentoOutro')} />
+            {errors.segmentoOutro && <p className="text-xs text-[#A31631] mt-1">{errors.segmentoOutro}</p>}
+          </div>
+        )}
       </CollapsibleField>
 
       {/* Especialidades */}

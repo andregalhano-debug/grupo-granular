@@ -10,6 +10,7 @@ interface FormState {
   whatsapp: string
   cargoAtual: string
   segmentos: string[]
+  segmentoOutro: string
   especialidades: string[]
   especialidadeOutra: string
 }
@@ -19,14 +20,14 @@ interface FormErrors { [key: string]: string | undefined }
 export function useSejaConsultorForm() {
   const [form, setForm] = useState<FormState>({
     nome: '', email: '', whatsapp: '', cargoAtual: '',
-    segmentos: [], especialidades: [], especialidadeOutra: '',
+    segmentos: [], segmentoOutro: '', especialidades: [], especialidadeOutra: '',
   })
   const [errors, setErrors] = useState<FormErrors>({})
   const [submitted, setSubmitted] = useState(false)
   const [isProcessing, setIsProcessing] = useState(false)
 
   const updateField = useCallback((
-    field: 'nome' | 'email' | 'whatsapp' | 'cargoAtual' | 'especialidadeOutra',
+    field: 'nome' | 'email' | 'whatsapp' | 'cargoAtual' | 'segmentoOutro' | 'especialidadeOutra',
     value: string,
   ) => {
     const val = field === 'whatsapp' ? formatWhatsApp(value) : value
@@ -64,6 +65,8 @@ export function useSejaConsultorForm() {
     if (whatsErr) e.whatsapp = whatsErr
     if (!form.cargoAtual.trim()) e.cargoAtual = 'Informe seu cargo atual'
     if (form.segmentos.length === 0) e.segmentos = 'Selecione pelo menos um segmento'
+    if (form.segmentos.includes('outros') && !form.segmentoOutro.trim())
+      e.segmentoOutro = 'Descreva o segmento de atuação'
     if (form.especialidades.length === 0) e.especialidades = 'Selecione pelo menos uma especialidade'
     if (form.especialidades.includes('outros') && !form.especialidadeOutra.trim())
       e.especialidadeOutra = 'Descreva sua especialidade'
@@ -85,6 +88,7 @@ export function useSejaConsultorForm() {
         cargoAtual: form.cargoAtual,
         empresaAtual: '',
         segmentos: form.segmentos,
+        segmentoOutro: form.segmentoOutro || undefined,
         especialidades: form.especialidades,
         especialidadeOutra: form.especialidadeOutra || undefined,
         historicoProfissional: [],

@@ -43,6 +43,7 @@ export function AgendarDemoPage() {
   const [errors, setErrors] = useState<Record<string, string>>({})
 
   useEffect(() => { window.scrollTo(0, 0) }, [])
+  useEffect(() => { if (submitted) window.scrollTo({ top: 0, behavior: 'smooth' }) }, [submitted])
 
   const slots = useMemo(() => generateDemoSlots(), [])
 

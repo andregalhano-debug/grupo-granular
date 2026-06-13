@@ -10,6 +10,7 @@ export function SejaConsultorPage() {
   const { form, errors, submitted, isProcessing, updateField, toggleSegment, toggleSpecialty, submit } = useSejaConsultorForm()
 
   useEffect(() => { window.scrollTo(0, 0) }, [])
+  useEffect(() => { if (submitted) window.scrollTo({ top: 0, behavior: 'smooth' }) }, [submitted])
 
   return (
     <div className="min-h-screen bg-white">

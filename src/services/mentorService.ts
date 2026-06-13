@@ -22,6 +22,7 @@ export interface MentorLeadInput {
   cargoAtual: string
   empresaAtual: string
   segmentos: string[]
+  segmentoOutro?: string
   especialidades: string[]
   especialidadeOutra?: string
   historicoProfissional: HistoricoProfissional[]
