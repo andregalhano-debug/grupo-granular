@@ -69,7 +69,7 @@ export function Integrations() {
             <img
               src="/logos/ifood.png"
               alt="iFood"
-              className="w-6 h-6 object-contain"
+              className="w-9 h-9 object-contain"
             />
             <p className="text-sm text-[#0E0E0F]">
               Ativação com <strong>1 clique</strong> direto no{' '}
@@ -126,7 +126,7 @@ export function Integrations() {
               {/* Header */}
               <div className="flex items-start justify-between px-4 sm:px-8 py-4 sm:py-5 border-b border-[#0E0E0F]/5 gap-3">
                 <div className="flex items-start gap-3 sm:gap-4 min-w-0">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-[#F7F7F7] flex items-center justify-center overflow-hidden p-1.5 sm:p-2 flex-shrink-0">
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl bg-[#F7F7F7] flex items-center justify-center overflow-hidden p-1.5 sm:p-2 flex-shrink-0">
                     <img src={openIntegration.logo} alt={openIntegration.name} className="w-full h-full object-contain" />
                   </div>
                   <div className="min-w-0">
