@@ -11,7 +11,7 @@ const categoryLabels: Record<Category, { emoji: string; label: string; icon: typ
   restaurantes: { emoji: '🍽️', label: 'Restaurantes', icon: UtensilsCrossed },
   mercados: { emoji: '🛒', label: 'Mercados', icon: ShoppingCart },
   farmacias: { emoji: '💊', label: 'Farmácias', icon: Pill },
-  petshop: { emoji: '🐾', label: 'Pet Shop', icon: PawPrint },
+  petshop: { emoji: '🐾', label: 'Pet Shops', icon: PawPrint },
 }
 
 interface Props {
@@ -36,7 +36,7 @@ const categoryConfig = {
     desc: 'Estamos desenvolvendo uma jornada completa para o segmento farmacêutico, com módulos específicos para controle de medicamentos, receituário e regulatório.',
   },
   petshop: {
-    label: 'Pet Shop',
+    label: 'Pet Shops',
     emoji: '🐾',
     desc: 'Em breve você poderá ver todos os módulos e funcionalidades especialmente desenvolvidos para clínicas veterinárias e pet shops.',
   },

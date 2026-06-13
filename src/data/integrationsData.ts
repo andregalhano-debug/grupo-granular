@@ -11,7 +11,7 @@ export interface IntegrationDetail {
 export const integrationsData: IntegrationDetail[] = [
   {
     name: 'iFood',
-    logo: 'https://logodownload.org/wp-content/uploads/2017/05/ifood-logo-0.png',
+    logo: '/logos/ifood.png',
     desc: 'Receba e gerencie pedidos do iFood direto no painel Granular.',
     detailPoints: [
       'Pedidos recebidos automaticamente, sem necessidade de gerenciamento manual',

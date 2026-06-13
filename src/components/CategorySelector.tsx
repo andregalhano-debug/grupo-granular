@@ -39,7 +39,7 @@ const categories: {
   {
     id: 'petshop',
     emoji: '🐾',
-    label: 'Pet Shop',
+    label: 'Pet Shops',
     description: 'Clínicas veterinárias e pet shops',
     comingSoon: true,
   },

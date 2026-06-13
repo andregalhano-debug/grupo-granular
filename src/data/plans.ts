@@ -8,7 +8,7 @@ export const SEGMENTS: Record<string, PlanSegment> = {
   restaurantes: { label: 'Restaurantes', color: '#A31631', bg: '#fdf2f4' },
   mercados:     { label: 'Mercados',     color: '#15803d', bg: '#f0fdf4' },
   farmacias:    { label: 'Farmácias',    color: '#1d4ed8', bg: '#eff6ff' },
-  petshop:      { label: 'Pet Shop',     color: '#7c3aed', bg: '#f5f3ff' },
+  petshop:      { label: 'Pet Shops',    color: '#7c3aed', bg: '#f5f3ff' },
   universal:    { label: 'Todos os segmentos', color: '#6b7280', bg: '#f9fafb' },
 }
 

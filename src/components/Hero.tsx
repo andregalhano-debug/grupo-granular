@@ -43,7 +43,7 @@ const categories: {
   { id: 'restaurantes', icon: UtensilsCrossed, label: 'Restaurantes', description: 'Bares, lanchonetes, fast food e delivery' },
   { id: 'mercados', icon: ShoppingCart, label: 'Mercados', description: 'Supermercados, atacarejos e atacados' },
   { id: 'farmacias', icon: Pill, label: 'Farmácias', description: 'Redes farmacêuticas e drogarias', comingSoon: true },
-  { id: 'petshop', icon: PawPrint, label: 'Pet Shop', description: 'Clínicas veterinárias e pet shops', comingSoon: true },
+  { id: 'petshop', icon: PawPrint, label: 'Pet Shops', description: 'Clínicas veterinárias e pet shops', comingSoon: true },
 ]
 
 const mercadoSubs = ['Atacarejo', 'Supermercado', 'Atacado']

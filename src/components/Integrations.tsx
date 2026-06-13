@@ -10,6 +10,13 @@ export function Integrations() {
   const detailRef = useRef<HTMLDivElement>(null)
   const sectionRef = useRef<HTMLElement>(null)
 
+  const closePanel = () => {
+    setOpenIndex(null)
+    setTimeout(() => {
+      sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 50)
+  }
+
   useEffect(() => {
     if (openIndex !== null && detailRef.current) {
       setTimeout(() => {
@@ -24,13 +31,12 @@ export function Integrations() {
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as Node
       if (sectionRef.current && !sectionRef.current.contains(target)) {
-        setOpenIndex(null)
+        closePanel()
         return
       }
       if (detailRef.current && !detailRef.current.contains(target)) {
-        // Verificar se clicou em um dos botões de integração (não fechar nesse caso)
         const btn = (e.target as HTMLElement).closest('button[data-integration]')
-        if (!btn) setOpenIndex(null)
+        if (!btn) closePanel()
       }
     }
     document.addEventListener('mousedown', handleClickOutside)
@@ -61,7 +67,7 @@ export function Integrations() {
           </p>
           <div className="inline-flex items-center gap-2 sm:gap-3 bg-white border border-[var(--accent)]/15 rounded-xl px-3 sm:px-5 py-2.5 sm:py-3 shadow-sm">
             <img
-              src="https://logodownload.org/wp-content/uploads/2017/05/ifood-logo-0.png"
+              src="/logos/ifood.png"
               alt="iFood"
               className="w-6 h-6 object-contain"
             />
@@ -137,7 +143,7 @@ export function Integrations() {
                   </div>
                 </div>
                 <button
-                  onClick={() => setOpenIndex(null)}
+                  onClick={closePanel}
                   className="p-2 rounded-lg hover:bg-[#F7F7F7] text-[#9C958A] hover:text-[#0E0E0F] transition-colors flex-shrink-0"
                 >
                   <X size={20} />
