@@ -66,9 +66,9 @@ export function Footer() {
             © 2026 Granular. Todos os direitos reservados.
           </p>
           <div className="flex gap-6">
-            <a href="#" className="text-xs text-[#9C958A] hover:text-[#0E0E0F] transition-colors">Termos de Uso</a>
-            <a href="#" className="text-xs text-[#9C958A] hover:text-[#0E0E0F] transition-colors">Privacidade</a>
-            <a href="#" className="text-xs text-[#9C958A] hover:text-[#0E0E0F] transition-colors">Cookies</a>
+            <Link to="/termos" className="text-xs text-[#9C958A] hover:text-[#0E0E0F] transition-colors">Termos de Uso</Link>
+            <Link to="/privacidade" className="text-xs text-[#9C958A] hover:text-[#0E0E0F] transition-colors">Privacidade</Link>
+            <Link to="/cookies" className="text-xs text-[#9C958A] hover:text-[#0E0E0F] transition-colors">Cookies</Link>
           </div>
         </div>
       </div>

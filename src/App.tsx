@@ -14,6 +14,9 @@ import { MentorCallbackPage } from './pages/MentorCallbackPage'
 import { TrilhaPage } from './pages/TrilhaPage'
 import { AgendarDemoPage } from './pages/AgendarDemoPage'
 import { AdminPage } from './pages/AdminPage'
+import { TermosPage } from './pages/TermosPage'
+import { PrivacidadePage } from './pages/PrivacidadePage'
+import { CookiesPage } from './pages/CookiesPage'
 import { ChatbotWidget } from './components/chatbot/ChatbotWidget'
 import { useMentorAuth } from './hooks/useMentorAuth'
 
@@ -49,6 +52,9 @@ function AppContent() {
         <Route path="/trilha" element={<TrilhaPage />} />
         <Route path="/agendar-demo" element={<AgendarDemoPage />} />
         <Route path="/admin" element={<AdminPage />} />
+        <Route path="/termos" element={<TermosPage />} />
+        <Route path="/privacidade" element={<PrivacidadePage />} />
+        <Route path="/cookies" element={<CookiesPage />} />
       </Routes>
       {showChat && <ChatbotWidget />}
     </>

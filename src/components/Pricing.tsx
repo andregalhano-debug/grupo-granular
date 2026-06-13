@@ -733,12 +733,15 @@ export function Pricing({ category = 'restaurantes' }: Props) {
         {/* Cards de mentores (exemplo) */}
         <FadeIn delay={80}>
           <div className="max-w-6xl mx-auto mb-8">
-            <p
-              className="text-[10px] font-medium text-[#9C958A] uppercase tracking-widest mb-5"
-              style={{ fontFamily: "'JetBrains Mono', monospace" }}
-            >
-              Exemplo de Mentores
-</p>
+            <div className="flex items-center gap-3 mb-6">
+              <p
+                className="text-xs font-semibold text-[var(--accent)] uppercase tracking-widest whitespace-nowrap"
+                style={{ fontFamily: "'JetBrains Mono', monospace" }}
+              >
+                Exemplo de Mentores
+              </p>
+              <div className="flex-1 h-px bg-[#9C958A]/25" />
+            </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {sampleMentors.map((mentor) => (
                 <div
