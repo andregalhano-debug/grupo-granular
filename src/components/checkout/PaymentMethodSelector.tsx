@@ -37,8 +37,8 @@ export function PaymentMethodSelector({
         <div className={`rounded-xl border transition-all ${selected === 'cartao' ? 'border-[#A31631]' : 'border-[#0E0E0F]/10'}`}>
           <button
             type="button"
-            onClick={() => onSelect(selected === 'cartao' ? 'pix' : 'cartao')}
-            className="w-full flex items-center justify-between gap-3 p-4 cursor-pointer"
+            onClick={() => hasMentor && onSelect(selected === 'cartao' ? 'pix' : 'cartao')}
+            className={`w-full flex items-center justify-between gap-3 p-4 ${hasMentor ? 'cursor-pointer' : 'cursor-default'}`}
           >
             <div className="flex items-center gap-3">
               <div className={`w-9 h-9 rounded-lg flex items-center justify-center transition-colors ${selected === 'cartao' ? 'bg-[#A31631]/10' : 'bg-[#F7F7F7]'}`}>
@@ -55,7 +55,9 @@ export function PaymentMethodSelector({
                   <Check size={11} className="text-white" />
                 </span>
               )}
-              <ChevronDown size={16} className={`text-[#9C958A] transition-transform ${selected === 'cartao' ? 'rotate-180' : ''}`} />
+              {hasMentor && (
+                <ChevronDown size={16} className={`text-[#9C958A] transition-transform ${selected === 'cartao' ? 'rotate-180' : ''}`} />
+              )}
             </div>
           </button>
 
