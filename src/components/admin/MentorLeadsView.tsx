@@ -171,12 +171,12 @@ function DetailPanel({ lead, onClose, onRefresh }: { lead: MentorLead; onClose: 
         ))}
       </div>
 
-      <div className="flex-1 overflow-y-auto p-5 space-y-5">
+      <div className="flex-1 overflow-y-auto divide-y divide-[#0E0E0F]/8">
 
         {activeTab === 'perfil' && (
           <>
             {/* Contato */}
-            <div className="space-y-1.5">
+            <div className="px-5 py-4 space-y-1.5">
               <p className="text-[10px] font-semibold text-[#9C958A] uppercase tracking-wider" style={{ fontFamily: "'JetBrains Mono', monospace" }}>Contato</p>
               <div className="grid grid-cols-1 gap-1 text-sm">
                 <div><span className="text-[#9C958A]">E-mail: </span><span className="text-[#0E0E0F]">{lead.email}</span></div>
@@ -190,8 +190,8 @@ function DetailPanel({ lead, onClose, onRefresh }: { lead: MentorLead; onClose: 
               </div>
             </div>
 
-            {/* Segmentos + Especialidades */}
-            <div className="space-y-2">
+            {/* Segmentos */}
+            <div className="px-5 py-4 space-y-2">
               <p className="text-[10px] font-semibold text-[#9C958A] uppercase tracking-wider" style={{ fontFamily: "'JetBrains Mono', monospace" }}>Segmentos</p>
               <div className="flex flex-wrap gap-1.5">
                 {lead.segmentos.map((s) => {
@@ -201,7 +201,8 @@ function DetailPanel({ lead, onClose, onRefresh }: { lead: MentorLead; onClose: 
               </div>
             </div>
 
-            <div className="space-y-2">
+            {/* Especialidades */}
+            <div className="px-5 py-4 space-y-2">
               <p className="text-[10px] font-semibold text-[#9C958A] uppercase tracking-wider" style={{ fontFamily: "'JetBrains Mono', monospace" }}>Especialidades</p>
               <div className="flex flex-wrap gap-1.5">
                 {lead.especialidades.map((e) => {
@@ -212,7 +213,7 @@ function DetailPanel({ lead, onClose, onRefresh }: { lead: MentorLead; onClose: 
             </div>
 
             {/* Valor hora */}
-            <div className="rounded-xl border border-[#0E0E0F]/10 p-4 space-y-3">
+            <div className="px-5 py-4 space-y-3">
               <p className="text-[10px] font-semibold text-[#9C958A] uppercase tracking-wider" style={{ fontFamily: "'JetBrains Mono', monospace" }}>Valor hora</p>
               <div className="flex items-center gap-2 text-sm">
                 <span className="text-[#9C958A]">Sugerido:</span>
@@ -242,14 +243,14 @@ function DetailPanel({ lead, onClose, onRefresh }: { lead: MentorLead; onClose: 
 
             {/* Bio */}
             {lead.bio && (
-              <div className="space-y-1.5">
+              <div className="px-5 py-4 space-y-1.5">
                 <p className="text-[10px] font-semibold text-[#9C958A] uppercase tracking-wider" style={{ fontFamily: "'JetBrains Mono', monospace" }}>Bio</p>
                 <p className="text-sm text-[#0E0E0F] leading-relaxed">{lead.bio}</p>
               </div>
             )}
 
             {/* Notas admin */}
-            <div className="space-y-2">
+            <div className="px-5 py-4 space-y-2">
               <p className="text-[10px] font-semibold text-[#9C958A] uppercase tracking-wider" style={{ fontFamily: "'JetBrains Mono', monospace" }}>Notas internas</p>
               <textarea
                 rows={3}
@@ -266,16 +267,18 @@ function DetailPanel({ lead, onClose, onRefresh }: { lead: MentorLead; onClose: 
         )}
 
         {activeTab === 'score' && (
-          <div className="space-y-4">
+          <div className="divide-y divide-[#0E0E0F]/8">
             {/* Score total */}
-            <div className={`rounded-xl p-4 text-center ${range.bg} border ${range.border}`}>
-              <div className={`text-4xl font-bold ${range.color} mb-1`}>{lead.scoreSenioridade}</div>
-              <div className={`text-sm font-semibold ${range.color}`}>{range.label}</div>
-              <div className="text-xs text-[#9C958A] mt-1">R$ {range.valorMin}–{range.valorMax}/h sugerido</div>
+            <div className="px-5 py-4">
+              <div className={`rounded-xl p-4 text-center ${range.bg} border ${range.border}`}>
+                <div className={`text-4xl font-bold ${range.color} mb-1`}>{lead.scoreSenioridade}</div>
+                <div className={`text-sm font-semibold ${range.color}`}>{range.label}</div>
+                <div className="text-xs text-[#9C958A] mt-1">R$ {range.valorMin}–{range.valorMax}/h sugerido</div>
+              </div>
             </div>
 
             {/* Breakdown */}
-            <div className="space-y-3">
+            <div className="px-5 py-4 space-y-3">
               <p className="text-[10px] font-semibold text-[#9C958A] uppercase tracking-wider" style={{ fontFamily: "'JetBrains Mono', monospace" }}>Detalhamento do score</p>
               {breakdown.detalhes.map((d) => (
                 <div key={d.label} className="space-y-1">
@@ -291,7 +294,7 @@ function DetailPanel({ lead, onClose, onRefresh }: { lead: MentorLead; onClose: 
             </div>
 
             {/* Tabela de faixas */}
-            <div className="space-y-1.5">
+            <div className="px-5 py-4 space-y-1.5">
               <p className="text-[10px] font-semibold text-[#9C958A] uppercase tracking-wider" style={{ fontFamily: "'JetBrains Mono', monospace" }}>Faixas de referência</p>
               {SENIORIDADE_RANGES.map((r) => (
                 <div key={r.nivel} className={`flex items-center justify-between px-3 py-2 rounded-lg text-xs ${r.nivel === lead.faixaSenioridade ? `${r.bg} border ${r.border}` : ''}`}>
@@ -304,9 +307,9 @@ function DetailPanel({ lead, onClose, onRefresh }: { lead: MentorLead; onClose: 
         )}
 
         {activeTab === 'historico' && (
-          <div className="space-y-4">
+          <div className="divide-y divide-[#0E0E0F]/8">
             {/* Histórico profissional */}
-            <div className="space-y-2">
+            <div className="px-5 py-4 space-y-2">
               <p className="text-[10px] font-semibold text-[#9C958A] uppercase tracking-wider" style={{ fontFamily: "'JetBrains Mono', monospace" }}>Experiências</p>
               {lead.historicoProfissional.length === 0 ? (
                 <p className="text-sm text-[#9C958A]">Nenhuma experiência informada.</p>
@@ -323,7 +326,7 @@ function DetailPanel({ lead, onClose, onRefresh }: { lead: MentorLead; onClose: 
             </div>
 
             {/* Log de status */}
-            <div className="space-y-2">
+            <div className="px-5 py-4 space-y-2">
               <p className="text-[10px] font-semibold text-[#9C958A] uppercase tracking-wider" style={{ fontFamily: "'JetBrains Mono', monospace" }}>Log de status</p>
               <div className="space-y-2">
                 {[...lead.historicoStatus].reverse().map((log, i) => (
