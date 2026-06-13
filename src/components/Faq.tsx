@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { ChevronDown, GraduationCap } from 'lucide-react'
+import { useState, useEffect, useRef } from 'react'
+import { ChevronDown, ChevronUp, GraduationCap } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
 import type { Category } from './Modules'
@@ -164,6 +164,7 @@ interface Props {
 export function Faq({ category = 'restaurantes' }: Props) {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
   const [expanded, setExpanded] = useState(false)
+  const sectionRef = useRef<HTMLElement>(null)
 
   // Reset ao trocar de categoria
   useEffect(() => {
@@ -171,12 +172,18 @@ export function Faq({ category = 'restaurantes' }: Props) {
     setExpanded(false)
   }, [category])
 
+  const collapse = () => {
+    setExpanded(false)
+    setOpenIndex(null)
+    sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
   const faqs = faqsByCategory[category]
   const visibleFaqs = expanded ? faqs : faqs.slice(0, VISIBLE_COUNT)
   const remaining = faqs.length - VISIBLE_COUNT
 
   return (
-    <section id="faq" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-white">
+    <section ref={sectionRef} id="faq" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-white">
       <div className="max-w-3xl mx-auto">
         <FadeIn className="text-center mb-12">
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#0E0E0F] mb-4">
@@ -221,6 +228,19 @@ export function Faq({ category = 'restaurantes' }: Props) {
             >
               Ver mais {remaining} {remaining === 1 ? 'pergunta' : 'perguntas'}
               <ChevronDown size={16} />
+            </button>
+          </FadeIn>
+        )}
+
+        {expanded && (
+          <FadeIn delay={0}>
+            <button
+              type="button"
+              onClick={collapse}
+              className="mt-6 mx-auto flex items-center gap-2 text-sm font-medium text-[#9C958A] hover:text-[#0E0E0F] transition-colors cursor-pointer"
+            >
+              <ChevronUp size={16} />
+              Recolher perguntas
             </button>
           </FadeIn>
         )}
