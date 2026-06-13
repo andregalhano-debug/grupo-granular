@@ -71,9 +71,13 @@ const TERMOS_TEXTO = `Ao ingressar na Comunidade Granular como Mentor, você dec
 5. Boas práticas — Você se compromete a manter conduta ética, respeitosa e profissional em todas as interações dentro da plataforma Granular.`
 
 export function SejaConsultorForm({ form, errors, isProcessing, onUpdate, onToggleSegment, onToggleSpecialty, onSubmit }: FormProps) {
-  const [segOpen, setSegOpen] = useState(false)
-  const [specOpen, setSpecOpen] = useState(false)
-  const [termosOpen, setTermosOpen] = useState(false)
+  const [openField, setOpenField] = useState<'seg' | 'spec' | 'termos' | null>(null)
+  const segOpen = openField === 'seg'
+  const specOpen = openField === 'spec'
+  const termosOpen = openField === 'termos'
+  const setSegOpen = (v: boolean) => setOpenField(v ? 'seg' : null)
+  const setSpecOpen = (v: boolean) => setOpenField(v ? 'spec' : null)
+  const setTermosOpen = (v: boolean) => setOpenField(v ? 'termos' : null)
   const [termosAceitos, setTermosAceitos] = useState(false)
   const [termosError, setTermosError] = useState(false)
 
@@ -122,7 +126,7 @@ export function SejaConsultorForm({ form, errors, isProcessing, onUpdate, onTogg
       </div>
 
       {/* Segmentos */}
-      <CollapsibleField icon={<Tag size={15} className="text-[#9C958A]" />} label="Segmentos de atuação" hint="Selecione os mercados em que tem experiência" count={form.segmentos.length} error={errors.segmentos} open={segOpen} onToggle={() => setSegOpen((v) => !v)}>
+      <CollapsibleField icon={<Tag size={15} className="text-[#9C958A]" />} label="Segmentos de atuação" hint="Selecione os mercados em que tem experiência" count={form.segmentos.length} error={errors.segmentos} open={segOpen} onToggle={() => setSegOpen(!segOpen)}>
         <div className="flex flex-col gap-2">
           {segmentOptions.map((opt) => (
             <CheckboxItem key={opt.id} id={`seg-${opt.id}`} label={opt.label} checked={form.segmentos.includes(opt.id)} onToggle={() => onToggleSegment(opt.id)} />
@@ -137,7 +141,7 @@ export function SejaConsultorForm({ form, errors, isProcessing, onUpdate, onTogg
       </CollapsibleField>
 
       {/* Especialidades */}
-      <CollapsibleField icon={<Briefcase size={15} className="text-[#9C958A]" />} label="Especialidades" hint="Selecione as áreas funcionais em que pode orientar" count={form.especialidades.length} error={errors.especialidades} open={specOpen} onToggle={() => setSpecOpen((v) => !v)}>
+      <CollapsibleField icon={<Briefcase size={15} className="text-[#9C958A]" />} label="Especialidades" hint="Selecione as áreas funcionais em que pode orientar" count={form.especialidades.length} error={errors.especialidades} open={specOpen} onToggle={() => setSpecOpen(!specOpen)}>
         <div className="flex flex-col gap-2">
           {specialtyOptions.map((opt) => (
             <CheckboxItem key={opt.id} id={`spec-${opt.id}`} label={opt.label} checked={form.especialidades.includes(opt.id)} onToggle={() => onToggleSpecialty(opt.id)} />
@@ -155,7 +159,7 @@ export function SejaConsultorForm({ form, errors, isProcessing, onUpdate, onTogg
       <div className={`rounded-xl border transition-colors ${termosError ? 'border-[#A31631]' : 'border-[#0E0E0F]/12'}`}>
         <button
           type="button"
-          onClick={() => setTermosOpen((v) => !v)}
+          onClick={() => setTermosOpen(!termosOpen)}
           className="w-full flex items-center justify-between gap-3 px-4 py-3.5 text-left cursor-pointer"
         >
           <div className="flex items-center gap-2">
