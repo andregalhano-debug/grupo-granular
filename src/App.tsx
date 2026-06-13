@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { CartProvider } from './stores/CartProvider'
 import { LandingPage } from './pages/LandingPage'
@@ -30,6 +31,12 @@ function ProtectedMentorRoute() {
   return user ? <PainelConsultorPage /> : <Navigate to="/mentor/entrar" replace />
 }
 
+function ScrollToTop() {
+  const { pathname } = useLocation()
+  useEffect(() => { window.scrollTo(0, 0) }, [pathname])
+  return null
+}
+
 function AppContent() {
   const location = useLocation()
   const hideChatOn = ['/checkout', '/confirmacao']
@@ -37,6 +44,7 @@ function AppContent() {
 
   return (
     <>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
