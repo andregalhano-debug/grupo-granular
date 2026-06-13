@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { User, Mail, MessageCircle, Briefcase, Tag, ChevronDown, Loader2, ShieldCheck, ChevronUp } from 'lucide-react'
 import { segmentOptions, specialtyOptions } from '../../data/consultants'
 
@@ -75,6 +75,16 @@ export function SejaConsultorForm({ form, errors, isProcessing, onUpdate, onTogg
   const segOpen = openField === 'seg'
   const specOpen = openField === 'spec'
   const termosOpen = openField === 'termos'
+  const segRef = useRef<HTMLDivElement>(null)
+  const specRef = useRef<HTMLDivElement>(null)
+  const termosRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!openField) return
+    const ref = openField === 'seg' ? segRef : openField === 'spec' ? specRef : termosRef
+    ref.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }, [openField])
+
   const setSegOpen = (v: boolean) => setOpenField(v ? 'seg' : null)
   const setSpecOpen = (v: boolean) => setOpenField(v ? 'spec' : null)
   const setTermosOpen = (v: boolean) => setOpenField(v ? 'termos' : null)
@@ -126,7 +136,7 @@ export function SejaConsultorForm({ form, errors, isProcessing, onUpdate, onTogg
       </div>
 
       {/* Segmentos */}
-      <CollapsibleField icon={<Tag size={15} className="text-[#9C958A]" />} label="Segmentos de atuação" hint="Selecione os mercados em que tem experiência" count={form.segmentos.length} error={errors.segmentos} open={segOpen} onToggle={() => setSegOpen(!segOpen)}>
+      <div ref={segRef}><CollapsibleField icon={<Tag size={15} className="text-[#9C958A]" />} label="Segmentos de atuação" hint="Selecione os mercados em que tem experiência" count={form.segmentos.length} error={errors.segmentos} open={segOpen} onToggle={() => setSegOpen(!segOpen)}>
         <div className="flex flex-col gap-2">
           {segmentOptions.map((opt) => (
             <CheckboxItem key={opt.id} id={`seg-${opt.id}`} label={opt.label} checked={form.segmentos.includes(opt.id)} onToggle={() => onToggleSegment(opt.id)} />
@@ -138,10 +148,10 @@ export function SejaConsultorForm({ form, errors, isProcessing, onUpdate, onTogg
             {errors.segmentoOutro && <p className="text-xs text-[#A31631] mt-1">{errors.segmentoOutro}</p>}
           </div>
         )}
-      </CollapsibleField>
+      </CollapsibleField></div>
 
       {/* Especialidades */}
-      <CollapsibleField icon={<Briefcase size={15} className="text-[#9C958A]" />} label="Especialidades" hint="Selecione as áreas funcionais em que pode orientar" count={form.especialidades.length} error={errors.especialidades} open={specOpen} onToggle={() => setSpecOpen(!specOpen)}>
+      <div ref={specRef}><CollapsibleField icon={<Briefcase size={15} className="text-[#9C958A]" />} label="Especialidades" hint="Selecione as áreas funcionais em que pode orientar" count={form.especialidades.length} error={errors.especialidades} open={specOpen} onToggle={() => setSpecOpen(!specOpen)}>
         <div className="flex flex-col gap-2">
           {specialtyOptions.map((opt) => (
             <CheckboxItem key={opt.id} id={`spec-${opt.id}`} label={opt.label} checked={form.especialidades.includes(opt.id)} onToggle={() => onToggleSpecialty(opt.id)} />
@@ -153,10 +163,10 @@ export function SejaConsultorForm({ form, errors, isProcessing, onUpdate, onTogg
             {errors.especialidadeOutra && <p className="text-xs text-[#A31631] mt-1">{errors.especialidadeOutra}</p>}
           </div>
         )}
-      </CollapsibleField>
+      </CollapsibleField></div>
 
       {/* Compliance */}
-      <div className={`rounded-xl border transition-colors ${termosError ? 'border-[#A31631]' : 'border-[#0E0E0F]/12'}`}>
+      <div ref={termosRef} className={`rounded-xl border transition-colors ${termosError ? 'border-[#A31631]' : 'border-[#0E0E0F]/12'}`}>
         <button
           type="button"
           onClick={() => setTermosOpen(!termosOpen)}
