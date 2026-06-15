@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { GranularLogo } from './GranularLogo'
+import { Instagram, Linkedin } from 'lucide-react'
 
 export function Footer() {
   return (
@@ -17,6 +18,14 @@ export function Footer() {
             <p className="text-sm text-[#9C958A] leading-relaxed mb-4">
               Gestão completa para delivery, <span className="text-[var(--accent)] font-semibold whitespace-nowrap">com IA de ponta a ponta</span>.
             </p>
+            <div className="flex items-center gap-3">
+              <a href="https://instagram.com/grupogranular" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-[#9C958A] hover:text-[#0E0E0F] transition-colors">
+                <Instagram size={18} />
+              </a>
+              <a href="https://linkedin.com/company/grupogranular" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="text-[#9C958A] hover:text-[#0E0E0F] transition-colors">
+                <Linkedin size={18} />
+              </a>
+            </div>
           </div>
 
           {/* Produto */}
