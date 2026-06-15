@@ -5,27 +5,7 @@ const FROM = 'Granular <contato@grupogranular.com.br>'
 
 /* ── Templates ────────────────────────────────────────────────── */
 
-function granularLogoSvg(size = 36, color = '#ffffff'): string {
-  const rows = 8, cols = 8
-  const dotSize = size / 12
-  const gap = size / 9
-  const winePositions = new Set(['5-6','5-7','6-5','6-6','6-7','7-4','7-5','7-6','7-7'])
-  const maxDist = Math.sqrt((rows - 1) ** 2 + (cols - 1) ** 2)
-  let circles = ''
-  for (let row = 0; row < rows; row++) {
-    for (let col = 0; col < cols; col++) {
-      const x = col * gap + gap / 2
-      const y = row * gap + gap / 2
-      const normalizedDist = Math.sqrt(row * row + col * col) / maxDist
-      const radius = dotSize * (1 - normalizedDist * 0.7)
-      if (radius < 0.3) continue
-      const opacity = 1 - normalizedDist * 0.5
-      const fill = winePositions.has(`${row}-${col}`) ? '#A31631' : color
-      circles += `<circle cx="${x.toFixed(2)}" cy="${y.toFixed(2)}" r="${radius.toFixed(2)}" fill="${fill}" opacity="${opacity.toFixed(2)}"/>`
-    }
-  }
-  return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg">${circles}</svg>`
-}
+const LOGO_URL = 'https://www.grupogranular.com.br/granular-logo-email.png'
 
 function confirmacaoCadastroHtml(nome: string) {
   const portalUrl = 'https://www.grupogranular.com.br/painel-consultor'
@@ -41,7 +21,9 @@ function confirmacaoCadastroHtml(nome: string) {
           <td style="background:#0E0E0F;padding:28px 40px;text-align:center">
             <table cellpadding="0" cellspacing="0" style="margin:0 auto">
               <tr>
-                <td style="vertical-align:middle;padding-right:12px">${granularLogoSvg(36, '#ffffff')}</td>
+                <td style="vertical-align:middle;padding-right:12px">
+                  <img src="${LOGO_URL}" width="36" height="36" alt="Granular" style="display:block;border:0">
+                </td>
                 <td style="vertical-align:middle">
                   <span style="color:#ffffff;font-size:22px;font-weight:700;letter-spacing:-0.5px;font-family:'Helvetica Neue',Arial,sans-serif">Granular</span>
                 </td>
@@ -121,8 +103,17 @@ function conviteMentorHtml(nome: string, loginUrl: string) {
     <tr><td align="center">
       <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#ffffff;border-radius:16px;overflow:hidden;border:1px solid #E5E5E5">
         <tr>
-          <td style="background:#0E0E0F;padding:32px 40px;text-align:center">
-            <span style="color:#ffffff;font-size:22px;font-weight:700;letter-spacing:-0.5px">Granular</span>
+          <td style="background:#0E0E0F;padding:28px 40px;text-align:center">
+            <table cellpadding="0" cellspacing="0" style="margin:0 auto">
+              <tr>
+                <td style="vertical-align:middle;padding-right:12px">
+                  <img src="${LOGO_URL}" width="36" height="36" alt="Granular" style="display:block;border:0">
+                </td>
+                <td style="vertical-align:middle">
+                  <span style="color:#ffffff;font-size:22px;font-weight:700;letter-spacing:-0.5px;font-family:'Helvetica Neue',Arial,sans-serif">Granular</span>
+                </td>
+              </tr>
+            </table>
           </td>
         </tr>
         <tr>
