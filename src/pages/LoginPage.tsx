@@ -36,7 +36,7 @@ function ConsultorCard() {
           rel="noopener noreferrer"
           className="flex items-center justify-center gap-2 w-full px-5 py-3 rounded-xl bg-[#0E0E0F] hover:bg-[#2a2a2a] text-white text-sm font-semibold transition-colors cursor-pointer"
         >
-          Acessar painel do mentor
+          Acessar painel
           <ArrowRight size={16} />
         </a>
       </div>
