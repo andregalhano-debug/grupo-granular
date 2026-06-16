@@ -1,28 +1,10 @@
-import { useEffect, useState } from 'react'
-import { Monitor, Users, ArrowRight, ArrowLeft, Settings, Eye, EyeOff, Lock } from 'lucide-react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
+import { Monitor, Users, ArrowRight, ArrowLeft, Settings } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { GranularLogo } from '../components/GranularLogo'
 import { FadeIn } from '../components/FadeIn'
 
-const CONSULTOR_PASSWORD = 'granular2026'
-
 function ConsultorCard() {
-  const navigate = useNavigate()
-  const [showField, setShowField] = useState(false)
-  const [password, setPassword] = useState('')
-  const [showPwd, setShowPwd] = useState(false)
-  const [error, setError] = useState('')
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (password === CONSULTOR_PASSWORD) {
-      navigate('/painel-consultor')
-    } else {
-      setError('Senha incorreta. Tente novamente.')
-      setPassword('')
-    }
-  }
-
   return (
     <div className="flex flex-col rounded-2xl border border-[#9C958A]/20 bg-white p-8 h-full">
       <div className="w-14 h-14 rounded-xl bg-[#0E0E0F]/5 flex items-center justify-center mb-5">
@@ -48,69 +30,15 @@ function ConsultorCard() {
       </ul>
 
       <div className="mt-auto pt-6">
-        {!showField ? (
-          <div className="space-y-2">
-            <a
-              href="https://granularfood.vercel.app/consultor"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 w-full px-5 py-3 rounded-xl bg-[#0E0E0F] hover:bg-[#2a2a2a] text-white text-sm font-semibold transition-colors cursor-pointer"
-            >
-              Acessar painel do mentor
-              <ArrowRight size={16} />
-            </a>
-            <button
-              type="button"
-              onClick={() => setShowField(true)}
-              className="w-full text-center text-xs text-[#9C958A] hover:text-[#0E0E0F] transition-colors cursor-pointer py-1"
-            >
-              Ver demonstração
-            </button>
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="space-y-3">
-            <div className="flex items-center gap-2 text-xs text-[#9C958A] mb-1">
-              <Lock size={12} />
-              Informe a senha de acesso
-            </div>
-            <div className="relative">
-              <input
-                autoFocus
-                type={showPwd ? 'text' : 'password'}
-                value={password}
-                onChange={(e) => { setPassword(e.target.value); setError('') }}
-                placeholder="Senha"
-                className="w-full px-4 py-3 pr-10 rounded-xl border border-[#0E0E0F]/15 text-sm outline-none focus:border-[#0E0E0F]/40 transition-colors"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPwd(!showPwd)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9C958A] hover:text-[#0E0E0F] transition-colors"
-              >
-                {showPwd ? <EyeOff size={16} /> : <Eye size={16} />}
-              </button>
-            </div>
-            {error && (
-              <p className="text-xs text-red-500">{error}</p>
-            )}
-            <div className="flex gap-2">
-              <button
-                type="button"
-                onClick={() => { setShowField(false); setPassword(''); setError('') }}
-                className="flex-1 px-4 py-2.5 rounded-xl border border-[#0E0E0F]/15 text-sm text-[#9C958A] hover:text-[#0E0E0F] hover:border-[#0E0E0F]/30 transition-colors cursor-pointer"
-              >
-                Cancelar
-              </button>
-              <button
-                type="submit"
-                className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#0E0E0F] hover:bg-[#2a2a2a] text-white text-sm font-semibold transition-colors cursor-pointer"
-              >
-                Entrar
-                <ArrowRight size={14} />
-              </button>
-            </div>
-          </form>
-        )}
+        <a
+          href="https://granularfood.vercel.app/consultor"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-center gap-2 w-full px-5 py-3 rounded-xl bg-[#0E0E0F] hover:bg-[#2a2a2a] text-white text-sm font-semibold transition-colors cursor-pointer"
+        >
+          Acessar painel do mentor
+          <ArrowRight size={16} />
+        </a>
       </div>
     </div>
   )
