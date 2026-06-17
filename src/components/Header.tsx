@@ -88,7 +88,7 @@ export function Header({ category }: Props) {
             {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
           </button>
 
-          <button onClick={toggleLang} className="text-xs font-semibold text-[#9C958A] hover:text-[#0E0E0F] px-2 py-1 rounded-lg hover:bg-[#F7F7F7] transition-colors">{lang.toUpperCase()}</button>
+          <button onClick={toggleLang} className="text-xs font-semibold text-[#9C958A] hover:text-[#0E0E0F] px-2 py-1 rounded-lg hover:bg-[#F7F7F7] transition-colors">{lang === 'pt' ? 'EN' : 'PT'}</button>
 
           {cart.itemCount > 0 && (
             <Link to="/checkout" className="relative p-2 text-[#9C958A] hover:text-[#0E0E0F] transition-colors">
@@ -163,7 +163,7 @@ export function Header({ category }: Props) {
           >
             <Link to="/seja-consultor" className="block text-sm text-[var(--accent)] font-medium py-2" onClick={() => setMenuOpen(false)}>{t.nav.beMentor}</Link>
             <a href="/login" className="block text-sm text-[#9C958A] py-2">{t.nav.login}</a>
-            <button onClick={toggleLang} className="block text-sm text-[#9C958A] py-2 text-left">{lang.toUpperCase()}</button>
+            <button onClick={toggleLang} className="block text-sm text-[#9C958A] py-2 text-left">{lang === 'pt' ? 'EN' : 'PT'}</button>
             <Link
               to="/checkout?plano=saas-2"
               className="block text-center text-sm font-medium text-white bg-[var(--accent)] px-5 py-2.5 rounded-xl"
