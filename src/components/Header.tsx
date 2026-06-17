@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Menu, X, Briefcase } from 'lucide-react'
+import { Menu, X, Briefcase, Sun, Moon } from 'lucide-react'
 import { GranularLogo } from './GranularLogo'
 import { useCart } from '../stores/useCartStore'
+import { useTheme } from '../stores/useThemeStore'
 import type { Category } from './Modules'
 
 const navLinks = [
@@ -29,6 +30,7 @@ export function Header({ category }: Props) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const cart = useCart()
+  const { theme, toggle } = useTheme()
   const suffix = category ? categoryName[category] : ''
 
   useEffect(() => {
@@ -73,6 +75,14 @@ export function Header({ category }: Props) {
             Login
           </a>
 
+          <button
+            onClick={toggle}
+            title={theme === 'dark' ? 'Modo claro' : 'Modo escuro'}
+            className="p-2 rounded-lg text-[#9C958A] hover:text-[#0E0E0F] hover:bg-[#F7F7F7] transition-colors"
+          >
+            {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
+
           {cart.itemCount > 0 && (
             <Link to="/checkout" className="relative p-2 text-[#9C958A] hover:text-[#0E0E0F] transition-colors">
               <Briefcase size={20} />
@@ -90,8 +100,16 @@ export function Header({ category }: Props) {
           </Link>
         </div>
 
-        {/* Mobile: carrinho + menu */}
+        {/* Mobile: carrinho + tema + menu */}
         <div className="md:hidden flex items-center gap-2">
+          <button
+            onClick={toggle}
+            title={theme === 'dark' ? 'Modo claro' : 'Modo escuro'}
+            className="p-2 text-[#9C958A] hover:text-[#0E0E0F] transition-colors"
+          >
+            {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+          </button>
+
           {cart.itemCount > 0 && (
             <Link to="/checkout" className="relative p-2 text-[#9C958A] hover:text-[#0E0E0F] transition-colors">
               <Briefcase size={20} />
