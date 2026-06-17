@@ -82,12 +82,18 @@ function MobileCards({
                 {capacity[plan.id]}
               </p>
             )}
-            <div className="flex items-baseline justify-center gap-0.5">
-              <span className="text-4xl font-bold text-[#0E0E0F]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-                {plan.priceFormatted}
-              </span>
-              <span className="text-sm text-[#9C958A]">{plan.period}</span>
-            </div>
+            {plan.id === 'saas-3' ? (
+              <div className="mt-1">
+                <span className="text-xl font-bold text-[#0E0E0F]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Sob consulta</span>
+              </div>
+            ) : (
+              <div className="flex items-baseline justify-center gap-0.5">
+                <span className="text-4xl font-bold text-[#0E0E0F]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                  {plan.priceFormatted}
+                </span>
+                <span className="text-sm text-[#9C958A]">{plan.period}</span>
+              </div>
+            )}
           </div>
 
           {/* Features */}
@@ -208,12 +214,18 @@ function DesktopTable({
                 {capacity[plan.id]}
               </p>
             )}
-            <div className="flex items-baseline justify-center gap-0.5">
-              <span className="text-4xl font-bold text-[#0E0E0F]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-                {plan.priceFormatted}
-              </span>
-              <span className="text-sm text-[#9C958A]">{plan.period}</span>
-            </div>
+            {plan.id === 'saas-3' ? (
+              <div className="mt-1">
+                <span className="text-xl font-bold text-[#0E0E0F]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Sob consulta</span>
+              </div>
+            ) : (
+              <div className="flex items-baseline justify-center gap-0.5">
+                <span className="text-4xl font-bold text-[#0E0E0F]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                  {plan.priceFormatted}
+                </span>
+                <span className="text-sm text-[#9C958A]">{plan.period}</span>
+              </div>
+            )}
           </div>
         ))}
       </div>
