@@ -3,8 +3,10 @@ import { Smartphone, Shield, BarChart3, X, ChevronRight, CalendarDays, Clock, Sh
 import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
 import { modulesDataRestaurantes, modulesDataMercados } from '../data/modulesData'
+import { modulesDataRestaurantesEn, modulesDataMercadosEn } from '../data/modulesDataEn'
 import { useCategoryAccent } from '../stores/CategoryContext'
 import { useT } from '../i18n/useT'
+import { useLanguage } from '../stores/useLanguageStore'
 
 export type Category = 'restaurantes' | 'mercados' | 'farmacias' | 'petshop'
 
@@ -30,13 +32,16 @@ function getRowEndIndex(clickedIndex: number, cols: number): number {
 export function Modules({ category = 'restaurantes' }: Props) {
   useCategoryAccent() // ensures context is consumed; CSS vars on root drive styling
   const t = useT()
+  const { lang } = useLanguage()
   const [openIndex, setOpenIndex] = useState<number | null>(null)
   const [lightbox, setLightbox] = useState<string | null>(null)
   const detailRef = useRef<HTMLDivElement>(null)
   const sectionRef = useRef<HTMLElement>(null)
   const [cols, setCols] = useState(4)
 
-  const modules = category === 'mercados' ? modulesDataMercados : modulesDataRestaurantes
+  const modules = lang === 'en'
+    ? (category === 'mercados' ? modulesDataMercadosEn : modulesDataRestaurantesEn)
+    : (category === 'mercados' ? modulesDataMercados : modulesDataRestaurantes)
 
   /* Reset open panel when category changes */
   useEffect(() => {

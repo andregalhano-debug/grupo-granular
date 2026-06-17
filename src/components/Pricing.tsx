@@ -20,13 +20,7 @@ const featureLabels: Record<string, Record<string, string>> = {
   },
 }
 
-/* Feature avulso — apenas Pessoas (RH) */
-const featureAvulso: Record<string, { label: string; ctas: { text: string; link: string }[] }> = {
-  'Gestão completa de pessoas (RH)': {
-    label: 'Avulso',
-    ctas: [{ text: '599/mês', link: '/checkout?plano=modulo-pessoas' }],
-  },
-}
+/* Feature avulso — apenas Pessoas (RH): built dynamically in Pricing component */
 
 function getAllFeatures(plans: Plan[]): string[] {
   const seen = new Set<string>()
@@ -54,6 +48,12 @@ function MobileCards({
 }) {
   const t = useT()
   const allFeatures = getAllFeatures(plans)
+  const featureAvulso: Record<string, { label: string; ctas: { text: string; link: string }[] }> = {
+    [t.plansData.addonPessoas]: {
+      label: 'Avulso',
+      ctas: [{ text: '599/mês', link: '/checkout?plano=modulo-pessoas' }],
+    },
+  }
 
   return (
     <div className="space-y-6 lg:hidden">
@@ -182,6 +182,12 @@ function DesktopTable({
 }) {
   const t = useT()
   const allFeatures = getAllFeatures(plans)
+  const featureAvulso: Record<string, { label: string; ctas: { text: string; link: string }[] }> = {
+    [t.plansData.addonPessoas]: {
+      label: 'Avulso',
+      ctas: [{ text: '599/mês', link: '/checkout?plano=modulo-pessoas' }],
+    },
+  }
 
   return (
     <div className="max-w-6xl mx-auto hidden lg:block">
@@ -356,6 +362,14 @@ export function Pricing({ category = 'restaurantes' }: Props) {
   const t = useT()
   const consultoriaSteps = t.pricingExtended.consultoriaSteps
   const sampleMentors = t.pricingExtended.sampleMentors
+  const translatedSaasPlans = saasPlans.map((plan, i) => ({
+    ...plan,
+    name: t.plansData.saas[i]?.name ?? plan.name,
+    subtitle: t.plansData.saas[i]?.subtitle ?? plan.subtitle,
+    features: t.plansData.saas[i]?.features ?? plan.features,
+    period: t.plansData.saas[i]?.period ?? plan.period,
+    cta: t.plansData.saas[i]?.cta ?? plan.cta,
+  }))
   return (
     <section id="precos" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-[#F7F7F7]">
       <div className="max-w-7xl mx-auto">
@@ -526,8 +540,8 @@ export function Pricing({ category = 'restaurantes' }: Props) {
         ) : (
           /* Restaurantes: tabela padrão */
           <FadeIn delay={100} className="mb-8">
-            <DesktopTable plans={saasPlans} capacity={saasCapacity} addonFeatures={saasAddonFeatures} />
-            <MobileCards plans={saasPlans} capacity={saasCapacity} addonFeatures={saasAddonFeatures} />
+            <DesktopTable plans={translatedSaasPlans} capacity={saasCapacity} addonFeatures={saasAddonFeatures} />
+            <MobileCards plans={translatedSaasPlans} capacity={saasCapacity} addonFeatures={saasAddonFeatures} />
           </FadeIn>
         )}
 
