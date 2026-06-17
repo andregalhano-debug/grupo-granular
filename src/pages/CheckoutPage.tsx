@@ -39,6 +39,10 @@ export function CheckoutPage() {
         }
       }
     } else if (planoId) {
+      if (planoId === 'saas-3') {
+        window.location.replace('/agendar-demo')
+        return
+      }
       const plan = getPlanById(planoId)
       if (plan) cart.addPlan(plan)
     }

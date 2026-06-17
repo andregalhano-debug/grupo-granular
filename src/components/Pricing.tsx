@@ -156,10 +156,10 @@ function MobileCards({
           {/* CTA */}
           <div className="px-4 pb-5">
             <Link
-              to={`/checkout?plano=${plan.id}`}
+              to={plan.id === 'saas-3' ? '/agendar-demo' : `/checkout?plano=${plan.id}`}
               className="block text-center font-medium py-3 px-6 rounded-xl text-sm transition-colors border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white"
             >
-              {plan.cta}
+              {plan.id === 'saas-3' ? 'Agendar demonstração' : plan.cta}
             </Link>
           </div>
         </div>
@@ -332,10 +332,10 @@ function DesktopTable({
             className="p-6 text-center rounded-b-2xl bg-white border-b border-x border-[#9C958A]/20"
           >
             <Link
-              to={`/checkout?plano=${plan.id}`}
+              to={plan.id === 'saas-3' ? '/agendar-demo' : `/checkout?plano=${plan.id}`}
               className="inline-block w-full font-medium py-3 px-6 rounded-xl text-sm transition-colors border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white"
             >
-              {plan.cta}
+              {plan.id === 'saas-3' ? 'Agendar demonstração' : plan.cta}
             </Link>
           </div>
         ))}
