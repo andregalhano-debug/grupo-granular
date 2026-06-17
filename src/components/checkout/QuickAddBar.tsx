@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
-import { Plus, Check, Monitor, Package, ChevronDown } from 'lucide-react'
-import { saasPlans, moduloPlans, type Plan } from '../../data/plans'
+import { Plus, Check, Monitor, ChevronDown } from 'lucide-react'
+import { saasPlans, type Plan } from '../../data/plans'
 import { useCart } from '../../stores/useCartStore'
 import { useT } from '../../i18n/useT'
 
@@ -77,14 +77,7 @@ export function QuickAddBar() {
       id: 'sistema',
       label: qa.system,
       icon: Monitor,
-      plans: saasPlans,
-      addFn: (plan: Plan) => cart.addPlan(plan),
-    },
-    {
-      id: 'modulos',
-      label: qa.modules,
-      icon: Package,
-      plans: moduloPlans,
+      plans: saasPlans.filter(p => p.id !== 'saas-3'),
       addFn: (plan: Plan) => cart.addPlan(plan),
     },
   ]

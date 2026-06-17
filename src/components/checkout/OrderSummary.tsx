@@ -247,7 +247,7 @@ export function OrderSummary({ paymentMethod: _paymentMethod }: OrderSummaryProp
               ))}
               {saas.features.length > 3 && <li className="text-xs text-[#9C958A]">+{saas.features.length - 3} {os.includedFeatures}</li>}
             </ul>
-            <PlanSelector plans={saasPlans} currentPlan={saas} onSelect={cart.addPlan} label={os.changePlan} changeLabel={os.change} />
+            <PlanSelector plans={saasPlans.filter(p => p.id !== 'saas-3')} currentPlan={saas} onSelect={cart.addPlan} label={os.changePlan} changeLabel={os.change} />
           </CollapsibleCard>
         )}
 
