@@ -33,6 +33,26 @@ export function ConfirmacaoPage() {
     window.scrollTo(0, 0)
     if (!state) {
       navigate('/', { replace: true })
+      return
+    }
+
+    const items = state.plans.map((p) => ({
+      item_id: p.id,
+      item_name: p.name,
+      item_category: p.type,
+      price: p.type === 'consultoria' && state.consultoriaPix ? state.consultoriaPixTotal : p.price,
+      quantity: 1,
+    }))
+
+    const value = items.reduce((sum, item) => sum + item.price, 0)
+
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'purchase', {
+        transaction_id: state.orderId,
+        value,
+        currency: 'BRL',
+        items,
+      })
     }
   }, [state, navigate])
 
