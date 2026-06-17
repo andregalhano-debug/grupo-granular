@@ -186,7 +186,7 @@ export function TermosPage() {
           </SubSection>
 
           <SubSection title="4.5 Parceiros Tecnológicos">
-            <p className={p}>Empresas parceiras que integram seu sistema ao ecossistema Granular (ex.: Saipos, Omie, Foozi, Open Delivery) devem celebrar acordo de parceria específico. A integração não confere direito de uso da marca Granular sem autorização formal, nem cria solidariedade em obrigações perante usuários finais.</p>
+            <p className={p}>Empresas parceiras que integram seu sistema ao ecossistema Granular (ex.: Anota AI, 99Food, Omie, Foozi, Open Delivery) devem celebrar acordo de parceria específico. A integração não confere direito de uso da marca Granular sem autorização formal, nem cria solidariedade em obrigações perante usuários finais.</p>
           </SubSection>
         </Section>
 

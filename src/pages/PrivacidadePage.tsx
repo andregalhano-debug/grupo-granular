@@ -151,7 +151,7 @@ export function PrivacidadePage() {
             <div className="mb-3">
               <Audience label="Parceiros" color="text-orange-700 bg-orange-50 border-orange-200" />
             </div>
-            <p className={p}>Empresas integradas ao ecossistema Granular (ex: Saipos, Omie, Foozi, Open Delivery, iFood).</p>
+            <p className={p}>Empresas integradas ao ecossistema Granular (ex: Anota AI, 99Food, Omie, Foozi, Open Delivery, iFood).</p>
             <DataTable rows={[
               ['Dados da empresa e representante legal', 'Formalização do acordo de parceria e comunicações contratuais', 'Execução de contrato (art. 7º, V)'],
               ['Dados técnicos da integração (tokens, webhooks, logs)', 'Funcionamento, monitoramento e depuração da integração', 'Execução de contrato (art. 7º, V)'],
@@ -166,7 +166,7 @@ export function PrivacidadePage() {
           <ul className="space-y-2 list-disc pl-5 mb-3">
             {[
               'Parceiros de infraestrutura e processamento (AWS, servidores de e-mail, gateways de pagamento) — sob contratos de confidencialidade e adequação à LGPD.',
-              'Integrações tecnológicas ativadas pelo próprio usuário (iFood, Saipos, Omie, Foozi) — apenas os dados necessários para o funcionamento da integração.',
+              'Integrações tecnológicas ativadas pelo próprio usuário (iFood, Anota AI, 99Food, Omie, Foozi) — apenas os dados necessários para o funcionamento da integração.',
               'Autoridades governamentais e judiciais — quando exigido por lei, decisão judicial ou regulamentação aplicável.',
               'Mentores da rede — apenas dados do Mentorado que contratou o serviço, estritamente necessários para a prestação da mentoria.',
               'Empresas de auditoria ou assessoria jurídica — quando necessário para proteção dos direitos da Granular.',

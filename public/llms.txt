@@ -18,7 +18,7 @@ O Grupo Granular oferece uma plataforma SaaS de gestão operacional para restaur
 - 15 Agentes de IA: compras, precificação, previsão de demanda, alertas inteligentes
 - Pessoas (RH): recrutamento, entrevistas, escalas, desempenho, turnover
 - Relatórios: gerenciais automatizados com visão multi-lojas
-- Integrações: iFood, Saipos, Open Delivery, Omie, Foozi
+- Integrações: iFood, Anota AI, 99Food, Open Delivery, Omie, Foozi
 
 ## Mentoria
 
