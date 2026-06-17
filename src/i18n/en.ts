@@ -130,6 +130,9 @@ export const en = {
   },
   pricing: {
     sectionTitle: 'Plans and pricing',
+    sectionHeading: 'Plans that fit your operation',
+    sectionDesc: 'Start transforming your business management today. Invest in our most complete module for less than the cost of 1 employee.',
+    checkoutBack: 'Back to site',
     seeConsultancy: 'See On-demand Specialist',
     seePlans: 'See System Plans',
     onRequest: 'On request',
@@ -167,6 +170,7 @@ export const en = {
   footer: {
     tagline: 'Complete management for delivery,',
     taglineAccent: 'with AI end-to-end',
+    productLinks: ['Inventory', 'Production', 'Finance', 'iFood', 'KDS', 'Checklists', 'AI'],
     sections: {
       product: 'Product',
       company: 'Company',
@@ -187,6 +191,7 @@ export const en = {
   cta: {
     title: 'Ready to transform your operation?',
     subtitle: 'Start today with the ideal plan for your business.',
+    joinUs: 'Join the operations already using Granular to grow with intelligence and profit.',
     startNow: 'Get Started',
     scheduleDemo: 'Schedule a demo',
   },

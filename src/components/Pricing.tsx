@@ -375,10 +375,10 @@ export function Pricing({ category = 'restaurantes' }: Props) {
       <div className="max-w-7xl mx-auto">
         <FadeIn className="text-center mb-16">
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#0E0E0F] mb-4">
-            Planos que cabem na sua operação
+            {t.pricing.sectionHeading}
           </h2>
           <p className="text-[#9C958A] text-base sm:text-lg max-w-2xl mx-auto">
-            Comece a transformação na gestão do seu negócio hoje mesmo. Invista no nosso módulo mais completo por menos que o custo de 1 funcionário.
+            {t.pricing.sectionDesc}
           </p>
         </FadeIn>
 

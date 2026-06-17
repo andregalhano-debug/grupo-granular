@@ -36,7 +36,7 @@ export function Footer() {
           <div>
             <h4 className="font-semibold text-sm text-[#0E0E0F] mb-4 tracking-widest uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '11px' }}>{t.footer.sections.product}</h4>
             <ul className="space-y-2.5">
-              {['Estoque', 'Produção', 'Financeiro', 'iFood', 'KDS', 'Checklists', 'IA'].map((item) => (
+              {t.footer.productLinks.map((item) => (
                 <li key={item}>
                   <a href="/#modulos" className="text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors">
                     {item}

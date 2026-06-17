@@ -11,7 +11,7 @@ export function CtaSection() {
           {t.cta.title}
         </h2>
         <p className="text-[#FAF7F0]/50 text-base sm:text-lg mb-10">
-          Junte-se as operações que já usam a Granular para crescer com inteligência e lucro.
+          {t.cta.joinUs}
         </p>
         <Link
           to="/checkout?plano=saas-2"

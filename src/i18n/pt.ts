@@ -130,6 +130,9 @@ export const pt = {
   },
   pricing: {
     sectionTitle: 'Planos e preços',
+    sectionHeading: 'Planos que cabem na sua operação',
+    sectionDesc: 'Comece a transformação na gestão do seu negócio hoje mesmo. Invista no nosso módulo mais completo por menos que o custo de 1 funcionário.',
+    checkoutBack: 'Voltar ao site',
     seeConsultancy: 'Ver Especialista sob demanda',
     seePlans: 'Ver Planos do Sistema',
     onRequest: 'Sob consulta',
@@ -167,6 +170,7 @@ export const pt = {
   footer: {
     tagline: 'Gestão completa para delivery,',
     taglineAccent: 'com IA de ponta a ponta',
+    productLinks: ['Estoque', 'Produção', 'Financeiro', 'iFood', 'KDS', 'Checklists', 'IA'],
     sections: {
       product: 'Produto',
       company: 'Empresa',
@@ -187,6 +191,7 @@ export const pt = {
   cta: {
     title: 'Pronto para transformar sua operação?',
     subtitle: 'Comece hoje com o plano ideal para o seu negócio.',
+    joinUs: 'Junte-se às operações que já usam a Granular para crescer com inteligência e lucro.',
     startNow: 'Começar Agora',
     scheduleDemo: 'Agendar demonstração',
   },
