@@ -4,6 +4,7 @@ import { FadeIn } from './FadeIn'
 import { saasPlans, saasAddonFeatures, type Plan } from '../data/plans'
 import type { Category } from './Modules'
 import { useCategoryAccent } from '../stores/CategoryContext'
+import { useT } from '../i18n/useT'
 
 const saasCapacity: Record<string, string> = {
   'saas-1': 'Até 3 IDs e 3k pedidos/mês',
@@ -51,6 +52,7 @@ function MobileCards({
   capacity?: Record<string, string>
   addonFeatures?: string[]
 }) {
+  const t = useT()
   const allFeatures = getAllFeatures(plans)
 
   return (
@@ -67,7 +69,7 @@ function MobileCards({
           {plan.popular && (
             <div className="absolute -top-px left-1/2 -translate-x-1/2">
               <span className="inline-flex items-center gap-1 bg-[var(--accent)] text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-b-lg" style={{ animation: 'badgePulse 2.5s ease-in-out infinite' }}>
-                <Star size={9} fill="currentColor" /> Mais escolhido
+                <Star size={9} fill="currentColor" /> {t.pricingExtended.mostChosen}
               </span>
             </div>
           )}
@@ -84,7 +86,7 @@ function MobileCards({
             )}
             {plan.id === 'saas-3' ? (
               <div className="mt-1">
-                <span className="text-xl font-bold text-[#0E0E0F]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Sob consulta</span>
+                <span className="text-xl font-bold text-[#0E0E0F]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{t.pricingExtended.onRequest}</span>
               </div>
             ) : (
               <div className="flex items-baseline justify-center gap-0.5">
@@ -147,7 +149,7 @@ function MobileCards({
                 <li key={feature} className="flex items-center gap-3 text-sm pt-2 border-t border-dashed border-[#9C958A]/20 mt-2">
                   <Minus size={14} className="text-[#9C958A]/40 flex-shrink-0 ml-0.5" />
                   <span className="text-[#9C958A]/60 italic">{feature}</span>
-                  <span className="text-[9px] font-medium uppercase tracking-wider text-[var(--accent)] bg-[var(--accent)]/10 px-2 py-0.5 rounded-full whitespace-nowrap">Avulso</span>
+                  <span className="text-[9px] font-medium uppercase tracking-wider text-[var(--accent)] bg-[var(--accent)]/10 px-2 py-0.5 rounded-full whitespace-nowrap">{t.pricingExtended.modulesAvulsos}</span>
                 </li>
               ))}
             </ul>
@@ -159,7 +161,7 @@ function MobileCards({
               to={plan.id === 'saas-3' ? '/agendar-demo' : `/checkout?plano=${plan.id}`}
               className="block text-center font-medium py-3 px-6 rounded-xl text-sm transition-colors border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white"
             >
-              {plan.id === 'saas-3' ? 'Agendar demonstração' : plan.cta}
+              {plan.id === 'saas-3' ? t.pricingExtended.scheduleDemo : plan.cta}
             </Link>
           </div>
         </div>
@@ -178,6 +180,7 @@ function DesktopTable({
   capacity?: Record<string, string>
   addonFeatures?: string[]
 }) {
+  const t = useT()
   const allFeatures = getAllFeatures(plans)
 
   return (
@@ -186,7 +189,7 @@ function DesktopTable({
       <div className="grid gap-0" style={{ gridTemplateColumns: `1.5fr repeat(${plans.length}, 1fr)` }}>
         <div className="p-4 flex items-end">
           <h4 className="text-sm font-bold text-[#0E0E0F] uppercase tracking-wider" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
-            Módulos Avulsos
+            {t.pricingExtended.modulesAvulsos}
           </h4>
         </div>
         {plans.map((plan) => (
@@ -201,7 +204,7 @@ function DesktopTable({
             {plan.popular && (
               <div className="absolute -top-px left-1/2 -translate-x-1/2">
                 <span className="inline-flex items-center gap-1 bg-[var(--accent)] text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-b-lg" style={{ animation: 'badgePulse 2.5s ease-in-out infinite' }}>
-                  <Star size={9} fill="currentColor" /> Mais escolhido
+                  <Star size={9} fill="currentColor" /> {t.pricingExtended.mostChosen}
                 </span>
               </div>
             )}
@@ -216,7 +219,7 @@ function DesktopTable({
             )}
             {plan.id === 'saas-3' ? (
               <div className="mt-1">
-                <span className="text-xl font-bold text-[#0E0E0F]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Sob consulta</span>
+                <span className="text-xl font-bold text-[#0E0E0F]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{t.pricingExtended.onRequest}</span>
               </div>
             ) : (
               <div className="flex items-baseline justify-center gap-0.5">
@@ -305,7 +308,7 @@ function DesktopTable({
               >
                 <div className={`flex items-center gap-2 px-4 py-3 text-sm ${rowIdx % 2 === 0 ? 'bg-[#F7F7F7]' : 'bg-white'}`}>
                   <span className="text-[#0E0E0F]/70 italic">{feature}</span>
-                  <span className="text-[9px] font-bold uppercase tracking-wider text-[var(--accent)] bg-[var(--accent)]/10 px-2 py-0.5 rounded-full whitespace-nowrap">Avulso</span>
+                  <span className="text-[9px] font-bold uppercase tracking-wider text-[var(--accent)] bg-[var(--accent)]/10 px-2 py-0.5 rounded-full whitespace-nowrap">{t.pricingExtended.modulesAvulsos}</span>
                 </div>
                 {plans.map((plan) => (
                   <div
@@ -335,7 +338,7 @@ function DesktopTable({
               to={plan.id === 'saas-3' ? '/agendar-demo' : `/checkout?plano=${plan.id}`}
               className="inline-block w-full font-medium py-3 px-6 rounded-xl text-sm transition-colors border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white"
             >
-              {plan.id === 'saas-3' ? 'Agendar demonstração' : plan.cta}
+              {plan.id === 'saas-3' ? t.pricingExtended.scheduleDemo : plan.cta}
             </Link>
           </div>
         ))}
@@ -344,82 +347,15 @@ function DesktopTable({
   )
 }
 
-/* ── Timeline de consultoria ── */
-const consultoriaSteps = [
-  {
-    months: '1 mês',
-    label: 'Diagnóstico geral + primeiras ações',
-    points: [
-      '4 horas mensais com especialista',
-      'Diagnóstico completo da operação',
-      'Priorização de blocos pós-diagnóstico',
-      'Plano de ação com metas e responsáveis',
-      'Módulo 1 do sistema incluso',
-    ],
-  },
-  {
-    months: '3 meses',
-    label: 'Transformação com acompanhamento',
-    points: [
-      '4 horas mensais com especialista',
-      'Acompanhamento mensal contínuo',
-      'Relatório semanal de evolução',
-      'Suporte contínuo durante o período',
-      'Ajustes no plano conforme evolução',
-    ],
-  },
-  {
-    months: '6 meses',
-    label: 'Evolução completa com melhor custo',
-    points: [
-      '4 horas mensais com especialista',
-      'Ciclo completo de transformação',
-      'Visita in loco (negociada à parte)',
-      'Módulo 1 do sistema incluso',
-    ],
-  },
-]
-
-/* ── Mentores de exemplo ── */
-const sampleMentors = [
-  {
-    initials: 'CM',
-    name: 'Carlos Mendes',
-    specialty: 'Cardápio & Precificação',
-    rating: 4.9,
-    reviews: 47,
-    years: 12,
-    rate: 280,
-    tags: ['Cardápio', 'CMV', 'Precificação'],
-  },
-  {
-    initials: 'AP',
-    name: 'Ana Paula Costa',
-    specialty: 'Financeiro & DRE',
-    rating: 4.8,
-    reviews: 62,
-    years: 9,
-    rate: 320,
-    tags: ['DRE', 'Fluxo de caixa', 'Custos'],
-  },
-  {
-    initials: 'RL',
-    name: 'Rodrigo Lima',
-    specialty: 'iFood & Marketing Digital',
-    rating: 4.9,
-    reviews: 38,
-    years: 7,
-    rate: 250,
-    tags: ['iFood', 'Marketing', 'Delivery'],
-  },
-]
-
 interface Props {
   category?: Category
 }
 
 export function Pricing({ category = 'restaurantes' }: Props) {
   useCategoryAccent() // CSS vars on root drive styling
+  const t = useT()
+  const consultoriaSteps = t.pricingExtended.consultoriaSteps
+  const sampleMentors = t.pricingExtended.sampleMentors
   return (
     <section id="precos" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-[#F7F7F7]">
       <div className="max-w-7xl mx-auto">
@@ -440,8 +376,8 @@ export function Pricing({ category = 'restaurantes' }: Props) {
                 <Monitor size={22} className="text-[#F7F7F7]" />
               </div>
               <div>
-                <h3 className="text-2xl font-bold text-[#0E0E0F]">Sistema</h3>
-                <p className="text-sm text-[#9C958A]">Plataforma SaaS para gestão da sua operação</p>
+                <h3 className="text-2xl font-bold text-[#0E0E0F]">{t.pricingExtended.systemTitle}</h3>
+                <p className="text-sm text-[#9C958A]">{t.pricingExtended.systemSaas}</p>
               </div>
               <div className="hidden sm:block flex-1 h-px bg-[#9C958A]/30 ml-4" />
             </div>
@@ -453,9 +389,9 @@ export function Pricing({ category = 'restaurantes' }: Props) {
           <FadeIn delay={100}>
             <div className="max-w-6xl mx-auto mb-24">
               <div className="rounded-2xl border border-[var(--accent)]/15 bg-white p-6 sm:p-8">
-                <p className="text-base font-bold text-[#0E0E0F] mb-1.5">Sistema Granular Market — Sob consulta</p>
+                <p className="text-base font-bold text-[#0E0E0F] mb-1.5">{t.pricingExtended.marketSystem}</p>
                 <p className="text-sm text-[#9C958A] leading-relaxed mb-6">
-                  O sistema é precificado de acordo com o porte da operação, número de PDVs e módulos contratados. Entre em contato para receber uma proposta personalizada.
+                  {t.pricingExtended.marketSystemDesc}
                 </p>
 
                 {/* Módulos avulsos */}
@@ -463,7 +399,7 @@ export function Pricing({ category = 'restaurantes' }: Props) {
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-1 h-5 rounded-full bg-[var(--accent)]" />
                     <p className="text-sm font-bold text-[var(--accent)] uppercase tracking-wide">
-                      Módulos disponíveis avulso
+                      {t.pricingExtended.availableModules}
                     </p>
                   </div>
                   <div className="space-y-3">
@@ -474,21 +410,21 @@ export function Pricing({ category = 'restaurantes' }: Props) {
                           <PhoneCall size={16} className="text-[var(--accent)]" />
                         </div>
                         <div>
-                          <p className="text-sm font-semibold text-[#0E0E0F]">Televendas</p>
-                          <p className="text-xs text-[#9C958A]">Proposta comercial em menos de 2 min com busca e controle de alçada</p>
+                          <p className="text-sm font-semibold text-[#0E0E0F]">{t.pricingExtended.televendasName}</p>
+                          <p className="text-xs text-[#9C958A]">{t.pricingExtended.televendasDesc}</p>
                         </div>
                       </div>
                       <div className="flex items-center gap-3 sm:flex-shrink-0">
                         <div className="text-right">
                           <span className="text-base font-bold text-[#0E0E0F]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>R$ 419</span>
-                          <span className="text-xs text-[#9C958A]">/mês</span>
+                          <span className="text-xs text-[#9C958A]">{t.pricingExtended.perMonth}</span>
                         </div>
                         <Link
                           to="/checkout?plano=modulo-televendas"
                           className="inline-flex items-center gap-1.5 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white text-xs font-medium px-4 py-2 rounded-lg transition-colors whitespace-nowrap"
                         >
                           <PhoneCall size={12} />
-                          Adicionar
+                          {t.pricingExtended.add}
                         </Link>
                       </div>
                     </div>
@@ -500,21 +436,21 @@ export function Pricing({ category = 'restaurantes' }: Props) {
                           <Users size={16} className="text-[var(--accent)]" />
                         </div>
                         <div>
-                          <p className="text-sm font-semibold text-[#0E0E0F]">Pessoas (RH)</p>
-                          <p className="text-xs text-[#9C958A]">Recrutamento, escalas, documentos e desempenho</p>
+                          <p className="text-sm font-semibold text-[#0E0E0F]">{t.pricingExtended.pessoasName}</p>
+                          <p className="text-xs text-[#9C958A]">{t.pricingExtended.pessoasDesc}</p>
                         </div>
                       </div>
                       <div className="flex items-center gap-3 sm:flex-shrink-0">
                         <div className="text-right">
                           <span className="text-base font-bold text-[#0E0E0F]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>R$ 599</span>
-                          <span className="text-xs text-[#9C958A]">/mês</span>
+                          <span className="text-xs text-[#9C958A]">{t.pricingExtended.perMonth}</span>
                         </div>
                         <Link
                           to="/checkout?plano=modulo-pessoas"
                           className="inline-flex items-center gap-1.5 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white text-xs font-medium px-4 py-2 rounded-lg transition-colors whitespace-nowrap"
                         >
                           <Users size={12} />
-                          Adicionar
+                          {t.pricingExtended.add}
                         </Link>
                       </div>
                     </div>
@@ -526,7 +462,7 @@ export function Pricing({ category = 'restaurantes' }: Props) {
                   className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors"
                 >
                   <CalendarDays size={16} />
-                  Agendar Demonstração
+                  {t.pricingExtended.scheduleDemo2}
                 </Link>
               </div>
             </div>
@@ -537,10 +473,10 @@ export function Pricing({ category = 'restaurantes' }: Props) {
             <div className="max-w-6xl mx-auto mb-24">
               <div className="rounded-2xl border border-[var(--accent)]/15 bg-white p-6 sm:p-8">
                 <p className="text-base font-bold text-[#0E0E0F] mb-1.5">
-                  Sistema {category === 'farmacias' ? 'Granular Farma' : 'Granular PET'} — Sob consulta
+                  Sistema {category === 'farmacias' ? 'Granular Farma' : 'Granular PET'} — {t.pricingExtended.onRequest}
                 </p>
                 <p className="text-sm text-[#9C958A] leading-relaxed mb-6">
-                  O sistema é precificado de acordo com o porte da operação e módulos contratados. Entre em contato para receber uma proposta personalizada.
+                  {t.pricingExtended.farmaciasPetSystem}
                 </p>
 
                 {/* Módulo avulso */}
@@ -548,7 +484,7 @@ export function Pricing({ category = 'restaurantes' }: Props) {
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-1 h-5 rounded-full bg-[var(--accent)]" />
                     <p className="text-sm font-bold text-[var(--accent)] uppercase tracking-wide">
-                      Módulo disponível avulso
+                      {t.pricingExtended.availableModule}
                     </p>
                   </div>
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl bg-[#F7F7F7] border border-[#9C958A]/15">
@@ -557,21 +493,21 @@ export function Pricing({ category = 'restaurantes' }: Props) {
                         <Users size={16} className="text-[var(--accent)]" />
                       </div>
                       <div>
-                        <p className="text-sm font-semibold text-[#0E0E0F]">Pessoas (RH)</p>
-                        <p className="text-xs text-[#9C958A]">Recrutamento, escalas, documentos e desempenho</p>
+                        <p className="text-sm font-semibold text-[#0E0E0F]">{t.pricingExtended.pessoasName}</p>
+                        <p className="text-xs text-[#9C958A]">{t.pricingExtended.pessoasDesc}</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-3 sm:flex-shrink-0">
                       <div className="text-right">
                         <span className="text-base font-bold text-[#0E0E0F]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>R$ 599</span>
-                        <span className="text-xs text-[#9C958A]">/mês</span>
+                        <span className="text-xs text-[#9C958A]">{t.pricingExtended.perMonth}</span>
                       </div>
                       <Link
                         to="/checkout?plano=modulo-pessoas"
                         className="inline-flex items-center gap-1.5 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white text-xs font-medium px-4 py-2 rounded-lg transition-colors whitespace-nowrap"
                       >
                         <Users size={12} />
-                        Adicionar
+                        {t.pricingExtended.add}
                       </Link>
                     </div>
                   </div>
@@ -582,7 +518,7 @@ export function Pricing({ category = 'restaurantes' }: Props) {
                   className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors"
                 >
                   <CalendarDays size={16} />
-                  Agendar Demonstração
+                  {t.pricingExtended.scheduleDemo2}
                 </Link>
               </div>
             </div>
@@ -605,8 +541,8 @@ export function Pricing({ category = 'restaurantes' }: Props) {
                 <Handshake size={22} className="text-[#F7F7F7]" />
               </div>
               <div>
-                <h3 className="text-2xl font-bold text-[#0E0E0F]">Especialista sob demanda</h3>
-                <p className="text-sm text-[#9C958A]">Especialistas transformando sua operação</p>
+                <h3 className="text-2xl font-bold text-[#0E0E0F]">{t.pricingExtended.consultoriaTitle}</h3>
+                <p className="text-sm text-[#9C958A]">{t.pricingExtended.consultoriaSubtitle}</p>
               </div>
               <div className="hidden sm:block flex-1 h-px bg-[#9C958A]/30 ml-4" />
             </div>
@@ -616,7 +552,7 @@ export function Pricing({ category = 'restaurantes' }: Props) {
         <FadeIn delay={50}>
           <div className="max-w-6xl mx-auto mb-10 rounded-xl bg-[#0E0E0F]/[0.03] border border-[#9C958A]/15 p-4 sm:p-5">
             <p className="text-xs sm:text-sm text-[#0E0E0F] leading-relaxed">
-              Após o diagnóstico inicial, especialista e cliente definem juntos quais blocos serão priorizados — de acordo com as necessidades do negócio e o tempo contratado.
+              {t.pricingExtended.consultoriaInfo}
             </p>
           </div>
         </FadeIn>
@@ -695,12 +631,12 @@ export function Pricing({ category = 'restaurantes' }: Props) {
           <div className="max-w-6xl mx-auto mb-24">
             <div className="rounded-2xl border border-[var(--accent)]/15 bg-white p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center gap-6">
               <div className="flex-1 min-w-0">
-                <p className="text-base font-bold text-[#0E0E0F] mb-1.5">Precificação sob consulta</p>
+                <p className="text-base font-bold text-[#0E0E0F] mb-1.5">{t.pricingExtended.pricingOnRequest}</p>
                 <p className="text-sm text-[#9C958A] leading-relaxed mb-4">
-                  Os planos são personalizados de acordo com a realidade da sua operação.
+                  {t.pricingExtended.pricingOnRequestDesc}
                 </p>
                 <div className="flex flex-wrap gap-2">
-                  {['Diagnóstico da operação', 'Plano de ação', 'Relatório semanal', 'Módulo 1 incluso', 'Suporte contínuo', 'Visita in loco'].map((f) => (
+                  {t.pricingExtended.consultoriaTags.map((f) => (
                     <span key={f} className="text-xs bg-[#F7F7F7] text-[#0E0E0F] px-3 py-1 rounded-full border border-[#9C958A]/20">
                       {f}
                     </span>
@@ -712,7 +648,7 @@ export function Pricing({ category = 'restaurantes' }: Props) {
                 className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors whitespace-nowrap flex-shrink-0"
               >
                 <CalendarDays size={16} />
-                Agendar Demonstração
+                {t.pricingExtended.scheduleDemo2}
               </Link>
             </div>
           </div>
@@ -726,15 +662,9 @@ export function Pricing({ category = 'restaurantes' }: Props) {
                 <GraduationCap size={22} className="text-[#F7F7F7]" />
               </div>
               <div>
-                <h3 className="text-2xl font-bold text-[#0E0E0F]">Mentoria Granular</h3>
+                <h3 className="text-2xl font-bold text-[#0E0E0F]">{t.pricingExtended.mentoriaTitle}</h3>
                 <p className="text-sm text-[#9C958A]">
-                  {category === 'mercados'
-                    ? 'Conecte-se com mentores do varejo e atacarejo'
-                    : category === 'farmacias'
-                    ? 'Conecte-se com mentores do setor farmacêutico'
-                    : category === 'petshop'
-                    ? 'Conecte-se com mentores do setor pet'
-                    : 'Conecte-se com mentores do food service'}
+                  {t.pricingExtended.mentoriaSubtitles[category]}
                 </p>
               </div>
               <div className="hidden sm:block flex-1 h-px bg-[#9C958A]/30 ml-4" />
@@ -746,18 +676,16 @@ export function Pricing({ category = 'restaurantes' }: Props) {
           <div className="max-w-6xl mx-auto mb-8 rounded-xl bg-[#0E0E0F]/[0.03] border border-[#9C958A]/15 p-5 sm:p-6">
             <div className="flex flex-col sm:flex-row items-start gap-4">
               <div className="flex-1">
-                <p className="text-sm font-semibold text-[#0E0E0F] mb-2">O que são os Mentores Granular?</p>
+                <p className="text-sm font-semibold text-[#0E0E0F] mb-2">{t.pricingExtended.whatAreMentors}</p>
                 <p className="text-sm text-[#0E0E0F]/80 leading-relaxed">
-                  Os Mentores Granular conectam operadores do food service com profissionais que já resolveram os mesmos desafios.
-                  São sessões sob demanda em áreas como cardápio, iFood, financeiro, RH e operação — sem vínculo de prazo,
-                  com foco em decisões estratégicas pontuais.
+                  {t.pricingExtended.whatAreMentorsDesc}
                 </p>
               </div>
               <div className="flex items-center gap-2 bg-[var(--accent)]/5 border border-[var(--accent)]/15 rounded-xl px-4 py-3 flex-shrink-0">
                 <Users size={18} className="text-[var(--accent)]" />
                 <div>
-                  <p className="text-xs font-bold text-[#0E0E0F]">Você é mentor?</p>
-                  <p className="text-xs text-[#9C958A]">Faça parte da rede Granular</p>
+                  <p className="text-xs font-bold text-[#0E0E0F]">{t.pricingExtended.youAreMentor}</p>
+                  <p className="text-xs text-[#9C958A]">{t.pricingExtended.joinNetwork}</p>
                 </div>
               </div>
             </div>
@@ -772,7 +700,7 @@ export function Pricing({ category = 'restaurantes' }: Props) {
                 className="text-xs font-semibold text-[var(--accent)] uppercase tracking-widest whitespace-nowrap"
                 style={{ fontFamily: "'JetBrains Mono', monospace" }}
               >
-                Exemplo de Mentores
+                {t.pricingExtended.exampleMentors}
               </p>
               <div className="flex-1 h-px bg-[#9C958A]/25" />
             </div>
@@ -796,13 +724,13 @@ export function Pricing({ category = 'restaurantes' }: Props) {
                   <div className="flex items-center gap-1.5 mb-3">
                     <Star size={13} className="text-amber-400 fill-amber-400" />
                     <span className="text-xs font-semibold text-[#0E0E0F]">{mentor.rating}</span>
-                    <span className="text-xs text-[#9C958A]">({mentor.reviews} avaliações)</span>
+                    <span className="text-xs text-[#9C958A]">({mentor.reviews} {t.pricingExtended.reviews})</span>
                   </div>
                   {/* Tags */}
                   <div className="flex flex-wrap gap-1.5 mb-4">
-                    {mentor.tags.map((t) => (
-                      <span key={t} className="text-[10px] bg-[#F7F7F7] text-[#9C958A] px-2.5 py-1 rounded-full border border-[#9C958A]/20">
-                        {t}
+                    {mentor.tags.map((tag) => (
+                      <span key={tag} className="text-[10px] bg-[#F7F7F7] text-[#9C958A] px-2.5 py-1 rounded-full border border-[#9C958A]/20">
+                        {tag}
                       </span>
                     ))}
                   </div>
@@ -815,9 +743,9 @@ export function Pricing({ category = 'restaurantes' }: Props) {
                       >
                         R$ {mentor.rate}
                       </span>
-                      <span className="text-xs text-[#9C958A]">/hora</span>
+                      <span className="text-xs text-[#9C958A]">{t.pricingExtended.perHour}</span>
                     </div>
-                    <span className="text-xs text-[#9C958A]">{mentor.years} anos exp.</span>
+                    <span className="text-xs text-[#9C958A]">{mentor.years} {t.pricingExtended.yearsExp}</span>
                   </div>
                 </div>
               ))}
@@ -833,16 +761,16 @@ export function Pricing({ category = 'restaurantes' }: Props) {
                 <GraduationCap size={24} className="text-[var(--accent)]" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-base font-bold text-[#0E0E0F] mb-1">Seja um Mentor Granular</p>
+                <p className="text-base font-bold text-[#0E0E0F] mb-1">{t.pricingExtended.beMentorTitle}</p>
                 <p className="text-sm text-[#9C958A] leading-relaxed">
-                  Compartilhe sua experiência com operadores do food service, defina sua disponibilidade e valor por hora, e faça parte de uma rede de mentores em crescimento.
+                  {t.pricingExtended.beMentorDesc}
                 </p>
               </div>
               <Link
                 to="/seja-consultor"
                 className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors whitespace-nowrap flex-shrink-0"
               >
-                Quero ser mentor
+                {t.pricingExtended.beMentorCta}
                 <ChevronRight size={14} />
               </Link>
             </div>

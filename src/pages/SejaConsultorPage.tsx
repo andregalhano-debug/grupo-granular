@@ -5,8 +5,10 @@ import { FadeIn } from '../components/FadeIn'
 import { SejaConsultorForm } from '../components/seja-consultor/SejaConsultorForm'
 import { SejaConsultorSuccess } from '../components/seja-consultor/SejaConsultorSuccess'
 import { useSejaConsultorForm } from '../hooks/useSejaConsultorForm'
+import { useT } from '../i18n/useT'
 
 export function SejaConsultorPage() {
+  const t = useT()
   const { form, errors, submitted, isProcessing, updateField, toggleSegment, toggleSpecialty, submit } = useSejaConsultorForm()
 
   useEffect(() => { window.scrollTo(0, 0) }, [])
@@ -25,13 +27,13 @@ export function SejaConsultorPage() {
               <>
                 <div className="text-center mb-10">
                   <div className="inline-flex items-center gap-2 bg-[#A31631]/10 text-[#A31631] px-4 py-2 rounded-full text-xs font-medium mb-6 tracking-widest uppercase" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
-                    Seja um Mentor
+                    {t.sejaConsultor.badge}
                   </div>
                   <h1 className="text-2xl sm:text-3xl font-bold text-[#0E0E0F] mb-3">
-                    Junte-se à rede de mentores Granular
+                    {t.sejaConsultor.title}
                   </h1>
                   <p className="text-sm text-[#9C958A]">
-                    Preencha seus dados e nossa equipe entrará em contato para os próximos passos.
+                    {t.sejaConsultor.subtitle}
                   </p>
                 </div>
                 <SejaConsultorForm

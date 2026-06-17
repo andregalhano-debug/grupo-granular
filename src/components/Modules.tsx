@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
 import { modulesDataRestaurantes, modulesDataMercados } from '../data/modulesData'
 import { useCategoryAccent } from '../stores/CategoryContext'
+import { useT } from '../i18n/useT'
 
 export type Category = 'restaurantes' | 'mercados' | 'farmacias' | 'petshop'
 
@@ -18,32 +19,17 @@ interface Props {
   category?: Category
 }
 
-const badges = [
-  { icon: Smartphone, text: 'Versão mobile nativa' },
-  { icon: Shield, text: 'Multi-lojas com visões apartadas' },
-  { icon: BarChart3, text: 'Benchmark entre unidades' },
-]
+const badgeIcons = [Smartphone, Shield, BarChart3]
 
 /* Calcula após qual índice inserir o painel, de acordo com colunas visíveis */
 function getRowEndIndex(clickedIndex: number, cols: number): number {
   return Math.floor(clickedIndex / cols) * cols + (cols - 1)
 }
 
-const categoryConfig = {
-  farmacias: {
-    label: 'Farmácias',
-    emoji: '💊',
-    desc: 'Estamos desenvolvendo uma jornada completa para o segmento farmacêutico, com módulos específicos para controle de medicamentos, receituário e regulatório.',
-  },
-  petshop: {
-    label: 'Pet Shops',
-    emoji: '🐾',
-    desc: 'Em breve você poderá ver todos os módulos e funcionalidades especialmente desenvolvidos para clínicas veterinárias e pet shops.',
-  },
-}
 
 export function Modules({ category = 'restaurantes' }: Props) {
   useCategoryAccent() // ensures context is consumed; CSS vars on root drive styling
+  const t = useT()
   const [openIndex, setOpenIndex] = useState<number | null>(null)
   const [lightbox, setLightbox] = useState<string | null>(null)
   const detailRef = useRef<HTMLDivElement>(null)
@@ -104,16 +90,16 @@ export function Modules({ category = 'restaurantes' }: Props) {
 
   /* Em breve — Farmácias e Pet Shop */
   if (category === 'farmacias' || category === 'petshop') {
-    const cfg = categoryConfig[category]
+    const cfg = t.modules.comingSoon[category]
     return (
       <section ref={sectionRef} id="modulos" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
           <FadeIn className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#0E0E0F] mb-4">
-              Tudo que sua operação precisa, em um só lugar
+              {t.modules.sectionTitle}
             </h2>
             <p className="text-[#9C958A] text-base sm:text-lg max-w-2xl mx-auto mb-6">
-              Módulos integrados que eliminam planilhas e unificam sua gestão.
+              {t.modules.sectionSubtitle}
             </p>
             <a
               href="#hero"
@@ -122,7 +108,7 @@ export function Modules({ category = 'restaurantes' }: Props) {
               <span>{categoryLabels[category].emoji}</span>
               <span className="font-medium text-[#0E0E0F]">{categoryLabels[category].label}</span>
               <span className="text-[#9C958A]/60">·</span>
-              <span className="text-[var(--accent)] group-hover:underline">Trocar segmento ↑</span>
+              <span className="text-[var(--accent)] group-hover:underline">{t.modules.changeSegment}</span>
             </a>
           </FadeIn>
           <FadeIn>
@@ -139,7 +125,7 @@ export function Modules({ category = 'restaurantes' }: Props) {
                 className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors"
               >
                 <CalendarDays size={16} />
-                Agendar demonstração
+                {t.modules.scheduleDemo}
               </Link>
             </div>
           </FadeIn>
@@ -172,7 +158,7 @@ export function Modules({ category = 'restaurantes' }: Props) {
           >
             {mod.standalone && (
               <span className="absolute -top-2 right-3 text-[9px] font-bold uppercase tracking-wider bg-[var(--accent)] text-white px-2.5 py-0.5 rounded-full">
-                Disponível avulso
+                {t.modules.availableSeparately}
               </span>
             )}
             <div className="flex items-start justify-between">
@@ -246,7 +232,7 @@ export function Modules({ category = 'restaurantes' }: Props) {
                       className="text-[10px] font-medium text-[#9C958A] uppercase tracking-wider mb-3"
                       style={{ fontFamily: "'JetBrains Mono', monospace" }}
                     >
-                      Funcionalidades
+                      {t.modules.features}
                     </p>
                     <div className="flex flex-wrap gap-2">
                       {openModule.features.map((f) => (
@@ -266,7 +252,7 @@ export function Modules({ category = 'restaurantes' }: Props) {
                       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-5 rounded-xl bg-[var(--accent)]/5 border border-[var(--accent)]/10">
                         <div className="flex-1">
                           <p className="text-sm font-semibold text-[#0E0E0F] mb-1">
-                            Módulo disponível avulso
+                            {t.modules.moduleAvulso}
                           </p>
                           <p className="text-xs text-[#9C958A] leading-relaxed">
                             O módulo Televendas pode ser contratado de forma independente por <strong className="text-[#0E0E0F]">R$ 419/mês</strong>. Central de vendas por telefone e WhatsApp totalmente integrada ao Granular Market.
@@ -286,7 +272,7 @@ export function Modules({ category = 'restaurantes' }: Props) {
                       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-5 rounded-xl bg-[var(--accent)]/5 border border-[var(--accent)]/10">
                         <div className="flex-1">
                           <p className="text-sm font-semibold text-[#0E0E0F] mb-1">
-                            Contrate este módulo separadamente
+                            {t.modules.hireModule}
                           </p>
                           <p className="text-xs text-[#9C958A] leading-relaxed">
                             O módulo Pessoas (RH) pode ser adquirido de forma independente por <strong className="text-[#0E0E0F]">R$ 599/mês</strong>. Ideal para operações que já possuem ERP mas precisam de gestão de equipe especializada em food service.
@@ -296,7 +282,7 @@ export function Modules({ category = 'restaurantes' }: Props) {
                           to="/checkout?plano=modulo-pessoas"
                           className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors whitespace-nowrap flex-shrink-0"
                         >
-                          Começar Agora — R$ 599/mês
+                          {t.modules.startNow} — R$ 599/mês
                           <ChevronRight size={16} />
                         </Link>
                       </div>
@@ -316,7 +302,7 @@ export function Modules({ category = 'restaurantes' }: Props) {
                         to="/checkout?plano=saas-2"
                         className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors"
                       >
-                        Começar Agora
+                        {t.modules.startNow}
                         <ChevronRight size={16} />
                       </Link>
                       <Link
@@ -324,7 +310,7 @@ export function Modules({ category = 'restaurantes' }: Props) {
                         className="inline-flex items-center gap-2 border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)]/5 font-medium px-6 py-3 rounded-xl text-sm transition-colors"
                       >
                         <CalendarDays size={16} />
-                        Agendar demonstração
+                        {t.modules.scheduleDemo}
                       </Link>
                     </div>
                   )}
@@ -373,10 +359,10 @@ export function Modules({ category = 'restaurantes' }: Props) {
       <div className="max-w-7xl mx-auto">
         <FadeIn className="text-center mb-16">
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#0E0E0F] mb-4">
-            Tudo que sua operação precisa, em um só lugar
+            {t.modules.sectionTitle}
           </h2>
           <p className="text-[#9C958A] text-base sm:text-lg max-w-2xl mx-auto mb-6">
-            Módulos integrados que eliminam planilhas e unificam sua gestão.
+            {t.modules.sectionSubtitle}
           </p>
           {/* Indicador de segmento ativo + trocar */}
           <a
@@ -386,7 +372,7 @@ export function Modules({ category = 'restaurantes' }: Props) {
             <span>{categoryLabels[category].emoji}</span>
             <span className="font-medium text-[#0E0E0F]">{categoryLabels[category].label}</span>
             <span className="text-[#9C958A]/60">·</span>
-            <span className="text-[var(--accent)] group-hover:underline">Trocar segmento ↑</span>
+            <span className="text-[var(--accent)] group-hover:underline">{t.modules.changeSegment}</span>
           </a>
         </FadeIn>
 
@@ -395,12 +381,15 @@ export function Modules({ category = 'restaurantes' }: Props) {
         </div>
 
         <FadeIn delay={400} className="flex flex-wrap items-center justify-center gap-6 mt-12">
-          {badges.map((badge) => (
-            <div key={badge.text} className="flex items-center gap-2 text-sm text-[#9C958A]">
-              <badge.icon size={16} className="text-[var(--accent)]" />
-              {badge.text}
-            </div>
-          ))}
+          {[t.modules.badges.mobile, t.modules.badges.multiStore, t.modules.badges.benchmark].map((text, idx) => {
+            const Icon = badgeIcons[idx]
+            return (
+              <div key={text} className="flex items-center gap-2 text-sm text-[#9C958A]">
+                <Icon size={16} className="text-[var(--accent)]" />
+                {text}
+              </div>
+            )
+          })}
         </FadeIn>
 
         <FadeIn delay={500} className="flex flex-wrap items-center justify-center gap-4 mt-10">
@@ -408,14 +397,14 @@ export function Modules({ category = 'restaurantes' }: Props) {
             to="/checkout?plano=saas-2"
             className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-8 py-4 rounded-xl text-base transition-colors"
           >
-            Começar Agora
+            {t.modules.startNow}
           </Link>
           <Link
             to="/agendar-demo"
             className="inline-flex items-center gap-2 border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)]/5 font-medium px-8 py-4 rounded-xl text-base transition-colors"
           >
             <CalendarDays size={18} />
-            Agendar demonstração
+            {t.modules.scheduleDemo}
           </Link>
         </FadeIn>
       </div>

@@ -3,9 +3,11 @@ import { X, Plus, Info, Handshake } from 'lucide-react'
 import { FadeIn } from './FadeIn'
 import { integrationsData } from '../data/integrationsData'
 import { useCategoryAccent } from '../stores/CategoryContext'
+import { useT } from '../i18n/useT'
 
 export function Integrations() {
   const { accent } = useCategoryAccent()
+  const t = useT()
   const [openIndex, setOpenIndex] = useState<number | null>(null)
   const detailRef = useRef<HTMLDivElement>(null)
   const sectionRef = useRef<HTMLElement>(null)
@@ -57,13 +59,13 @@ export function Integrations() {
             className="text-xs font-medium text-[var(--accent)] uppercase tracking-widest mb-4"
             style={{ fontFamily: "'JetBrains Mono', monospace" }}
           >
-            Ecossistema conectado
+            {t.integrations.eyebrow}
           </p>
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#0E0E0F] mb-4">
-            Integrações que potencializam sua operação
+            {t.integrations.sectionTitle}
           </h2>
           <p className="text-[#9C958A] text-base sm:text-lg max-w-2xl mx-auto mb-6">
-            Conecte as ferramentas que você já usa ao ecossistema Granular.
+            {t.integrations.sectionSubtitle}
           </p>
           <div className="inline-flex items-center gap-2 sm:gap-3 bg-white border border-[var(--accent)]/15 rounded-xl px-3 sm:px-5 py-2.5 sm:py-3 shadow-sm">
             <img
@@ -72,8 +74,8 @@ export function Integrations() {
               className="w-9 h-9 object-contain"
             />
             <p className="text-sm text-[#0E0E0F]">
-              Ativação com <strong>1 clique</strong> direto no{' '}
-              <span className="text-[var(--accent)] font-semibold">Portal do Parceiro iFood</span>
+              {t.integrations.oneClick} <strong>{t.integrations.oneClickBold}</strong> {t.integrations.oneClickSuffix}{' '}
+              <span className="text-[var(--accent)] font-semibold">{t.integrations.ifoodPartner}</span>
             </p>
           </div>
         </FadeIn>
@@ -101,7 +103,7 @@ export function Integrations() {
                   openIndex === i ? 'text-[var(--accent)]' : 'text-[#9C958A] group-hover:text-[var(--accent)]'
                 }`}>
                   <Info size={10} />
-                  Saiba mais
+                  {t.integrations.learnMore}
                 </span>
               </button>
             </FadeIn>
@@ -135,7 +137,7 @@ export function Integrations() {
                       {openIntegration.partner && (
                         <span className="flex items-center gap-1 bg-[var(--accent-10)] text-[var(--accent)] text-[9px] sm:text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full">
                           <Handshake size={10} />
-                          Parceiro
+                          {t.integrations.partner}
                         </span>
                       )}
                     </div>
@@ -172,7 +174,7 @@ export function Integrations() {
                     className="text-[10px] font-medium text-[#9C958A] uppercase tracking-wider mb-3"
                     style={{ fontFamily: "'JetBrains Mono', monospace" }}
                   >
-                    Recursos da integração
+                    {t.integrations.integrationFeatures}
                   </p>
                   <div className="flex flex-wrap gap-2">
                     {openIntegration.tags.map((tag) => (
