@@ -97,7 +97,7 @@ export function Integrations() {
                   src={item.logo}
                   alt={item.name}
                   loading="lazy"
-                  className="w-12 h-12 sm:w-14 sm:h-14 object-contain"
+                  className={`object-contain ${item.name === 'iFood' ? 'w-16 h-16 sm:w-18 sm:h-18' : 'w-12 h-12 sm:w-14 sm:h-14'}`}
                 />
                 <span className={`flex items-center gap-1 text-[10px] mt-2 font-medium transition-colors ${
                   openIndex === i ? 'text-[var(--accent)]' : 'text-[#9C958A] group-hover:text-[var(--accent)]'
