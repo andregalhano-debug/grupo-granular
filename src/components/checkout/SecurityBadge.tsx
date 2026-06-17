@@ -1,31 +1,22 @@
 import { Lock, ShieldCheck, Landmark } from 'lucide-react'
-
-const badges = [
-  {
-    icon: ShieldCheck,
-    title: 'Ambiente seguro',
-    desc: 'Conexão SSL/TLS protegida',
-  },
-  {
-    icon: Lock,
-    title: 'Dados criptografados',
-    desc: 'Processado via Stripe PCI DSS',
-  },
-  {
-    icon: Landmark,
-    title: 'Pagamento 100% nacional',
-    desc: 'Pix e cartão em reais',
-  },
-]
+import { useT } from '../../i18n/useT'
 
 export function SecurityBadge() {
+  const { checkout: { security: s } } = useT()
+
+  const badges = [
+    { icon: ShieldCheck, title: s.badge1Title, desc: s.badge1Desc },
+    { icon: Lock, title: s.badge2Title, desc: s.badge2Desc },
+    { icon: Landmark, title: s.badge3Title, desc: s.badge3Desc },
+  ]
+
   return (
     <div className="rounded-2xl border border-[#0E0E0F]/8 bg-[#F7F7F7] px-5 py-4">
       <div className="flex items-center gap-2 mb-4">
         <div className="w-7 h-7 rounded-lg bg-green-600 flex items-center justify-center flex-shrink-0">
           <Lock size={14} className="text-white" />
         </div>
-        <p className="text-sm font-semibold text-[#0E0E0F]">Compra 100% segura</p>
+        <p className="text-sm font-semibold text-[#0E0E0F]">{s.title}</p>
       </div>
       <div className="grid grid-cols-3 gap-3">
         {badges.map((b) => (

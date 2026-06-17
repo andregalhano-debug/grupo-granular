@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import { Plus, Check, Monitor, Package, ChevronDown } from 'lucide-react'
 import { saasPlans, moduloPlans, type Plan } from '../../data/plans'
 import { useCart } from '../../stores/useCartStore'
+import { useT } from '../../i18n/useT'
 
 interface QuickAddItemProps {
   plan: Plan
@@ -10,6 +11,7 @@ interface QuickAddItemProps {
 }
 
 function QuickAddItem({ plan, inCart, onAdd }: QuickAddItemProps) {
+  const { checkout: { quickAdd: qa } } = useT()
   return (
     <button
       type="button"
@@ -32,7 +34,7 @@ function QuickAddItem({ plan, inCart, onAdd }: QuickAddItemProps) {
         </span>
       </div>
       <span className={`text-[11px] flex-shrink-0 ml-2 ${inCart ? 'text-green-500 font-medium' : 'text-[#9C958A]'}`}>
-        {inCart ? 'No carrinho' : `R$ ${plan.priceFormatted}${plan.period}`}
+        {inCart ? qa.inCart : `R$ ${plan.priceFormatted}${plan.period}`}
       </span>
     </button>
   )
@@ -40,6 +42,7 @@ function QuickAddItem({ plan, inCart, onAdd }: QuickAddItemProps) {
 
 export function QuickAddBar() {
   const cart = useCart()
+  const { checkout: { quickAdd: qa } } = useT()
   const [openSection, setOpenSection] = useState<string | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -72,14 +75,14 @@ export function QuickAddBar() {
   const sections = [
     {
       id: 'sistema',
-      label: 'Sistema',
+      label: qa.system,
       icon: Monitor,
       plans: saasPlans,
       addFn: (plan: Plan) => cart.addPlan(plan),
     },
     {
       id: 'modulos',
-      label: 'Módulos',
+      label: qa.modules,
       icon: Package,
       plans: moduloPlans,
       addFn: (plan: Plan) => cart.addPlan(plan),
@@ -96,7 +99,7 @@ export function QuickAddBar() {
           <Plus size={14} className="text-white" />
         </div>
         <p className="text-xs font-bold text-[#0E0E0F] uppercase tracking-wider">
-          Adicionar ao pedido
+          {qa.title}
         </p>
       </div>
 

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useSearchParams, useNavigate } from 'react-router-dom'
 import { Loader2 } from 'lucide-react'
 import { Elements } from '@stripe/react-stripe-js'
+import { useT } from '../i18n/useT'
 import { getPlanById, saasPlans, getConsultoriaPixTotal } from '../data/plans'
 import { getConsultantById } from '../data/consultants'
 import { useCart } from '../stores/useCartStore'
@@ -16,6 +17,7 @@ import { SecurityBadge } from '../components/checkout/SecurityBadge'
 import { StripeCardForm } from '../components/checkout/StripeCardForm'
 
 export function CheckoutPage() {
+  const t = useT()
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
   const { form, errors, isProcessing, setIsProcessing, documentoStatus, updateField, setPaymentMethod, setAvulsoMethod, validate } = useCheckoutForm()
@@ -84,7 +86,7 @@ export function CheckoutPage() {
   const totalReais = saasPrice + modulosPrice + consultoriaPrice + sessaoPrice
   const totalCents = totalReais * 100
 
-  const buttonText = canSubmit ? 'Finalizar o pedido' : 'Selecione os horários dos especialistas'
+  const buttonText = canSubmit ? t.checkout.buttonFinish : t.checkout.buttonSelectSlots
   // Se não há mentor e o método era pix, volta para cartão
   useEffect(() => {
     if (!hasConsultants && form.paymentMethod === 'pix') {
@@ -185,8 +187,8 @@ export function CheckoutPage() {
         <div className="grid lg:grid-cols-5 gap-8 lg:gap-12">
           <div className="lg:col-span-3 space-y-8">
             <div>
-              <h1 className="text-2xl font-bold text-[#0E0E0F] mb-1">Finalizar pedido</h1>
-              <p className="text-sm text-[#9C958A]">Preencha seus dados e escolha a forma de pagamento.</p>
+              <h1 className="text-2xl font-bold text-[#0E0E0F] mb-1">{t.checkout.title}</h1>
+              <p className="text-sm text-[#9C958A]">{t.checkout.subtitle}</p>
             </div>
 
             {/* 1. Dados */}
@@ -240,7 +242,7 @@ export function CheckoutPage() {
                         {isProcessing ? (
                           <>
                             <Loader2 size={20} className="animate-spin" />
-                            Processando...
+                            {t.checkout.processing}
                           </>
                         ) : (
                           buttonText
@@ -272,13 +274,13 @@ export function CheckoutPage() {
       >
         <div className="bg-white border-t border-[#9C958A]/20 shadow-2xl px-4 py-3 flex items-center justify-between gap-3">
           <p className="text-xs text-[#9C958A] leading-tight">
-            Total: <span className="font-bold text-[#0E0E0F] text-sm">R$ {totalReais.toLocaleString('pt-BR')}/mês</span>
+            {t.checkout.totalLabel} <span className="font-bold text-[#0E0E0F] text-sm">R$ {totalReais.toLocaleString('pt-BR')}{t.checkout.perMonth}</span>
           </p>
           <button
             onClick={() => paymentRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
             className="flex-shrink-0 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-5 py-2.5 rounded-xl text-sm transition-colors"
           >
-            Ir para pagamento →
+            {t.checkout.goToPayment}
           </button>
         </div>
       </div>

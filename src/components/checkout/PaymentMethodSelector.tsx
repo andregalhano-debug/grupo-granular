@@ -1,5 +1,6 @@
 import { QrCode, CreditCard, Check, ChevronDown } from 'lucide-react'
 import type { PaymentMethod } from '../../hooks/useCheckoutForm'
+import { useT } from '../../i18n/useT'
 
 interface PaymentMethodSelectorProps {
   selected: PaymentMethod
@@ -25,11 +26,12 @@ export function PaymentMethodSelector({
   cardContent,
   pixContent,
 }: PaymentMethodSelectorProps) {
+  const { checkout: { payment: p } } = useT()
   return (
     <div className="space-y-5">
       <div>
-        <h2 className="text-lg font-bold text-[#0E0E0F] mb-1">Forma de pagamento</h2>
-        <p className="text-xs text-[#9C958A]">Escolha como deseja pagar os itens recorrentes (mensal).</p>
+        <h2 className="text-lg font-bold text-[#0E0E0F] mb-1">{p.title}</h2>
+        <p className="text-xs text-[#9C958A]">{p.subtitle}</p>
       </div>
 
       <div className="space-y-3">
@@ -45,8 +47,8 @@ export function PaymentMethodSelector({
                 <CreditCard size={18} className={selected === 'cartao' ? 'text-[#A31631]' : 'text-[#9C958A]'} />
               </div>
               <div className="text-left">
-                <p className={`text-sm font-semibold ${selected === 'cartao' ? 'text-[#A31631]' : 'text-[#0E0E0F]'}`}>Cartão de Crédito</p>
-                <p className="text-xs text-[#9C958A]">Recorrente mensal</p>
+                <p className={`text-sm font-semibold ${selected === 'cartao' ? 'text-[#A31631]' : 'text-[#0E0E0F]'}`}>{p.creditCard}</p>
+                <p className="text-xs text-[#9C958A]">{p.monthlyRecurring}</p>
               </div>
             </div>
             <div className="flex items-center gap-2 flex-shrink-0">
@@ -66,8 +68,8 @@ export function PaymentMethodSelector({
               <div className="pt-4 space-y-4">
                 {/* Info contextual */}
                 <div className="rounded-lg bg-[#F7F7F7] px-3 py-2.5 text-xs text-[#9C958A]">
-                  Os dados do cartão serão preenchidos abaixo via Stripe.
-                  {hasConsultoria && <span className="block mt-0.5">Especialista e sistema cobrados mensalmente no cartão.</span>}
+                  {p.stripeInfo}
+                  {hasConsultoria && <span className="block mt-0.5">{p.specialistMonthly}</span>}
                 </div>
 
                 {/* Formulário do cartão injetado */}
@@ -77,8 +79,8 @@ export function PaymentMethodSelector({
                 {hasAvulso && onAvulsoMethodChange && (
                   <div className="rounded-xl border border-[#0E0E0F]/10 p-4 space-y-3">
                     <div>
-                      <p className="text-sm font-medium text-[#0E0E0F]">Pagamento avulso (sessões/especialista à vista)</p>
-                      <p className="text-xs text-[#9C958A]">Escolha como pagar os itens de pagamento único.</p>
+                      <p className="text-sm font-medium text-[#0E0E0F]">{p.singlePaymentTitle}</p>
+                      <p className="text-xs text-[#9C958A]">{p.singlePaymentSubtitle}</p>
                     </div>
                     <div className="grid grid-cols-2 gap-2">
                       <button
@@ -91,7 +93,7 @@ export function PaymentMethodSelector({
                         }`}
                       >
                         <CreditCard size={14} />
-                        Mesmo cartão
+                        {p.sameCard}
                       </button>
                       <button
                         type="button"
@@ -103,13 +105,13 @@ export function PaymentMethodSelector({
                         }`}
                       >
                         <QrCode size={14} />
-                        Pix à vista
+                        {p.pixCash}
                       </button>
                     </div>
                     {avulsoMethod === 'pix' && (
                       <div className="flex items-center gap-1.5 text-[11px] text-green-600">
                         <Check size={12} />
-                        Pagamento avulso via Pix com 3% de desconto. QR Code gerado após a confirmação.
+                        {p.pixDiscount}
                       </div>
                     )}
                   </div>
@@ -131,8 +133,8 @@ export function PaymentMethodSelector({
                 <QrCode size={18} className={selected === 'pix' ? 'text-[#A31631]' : 'text-[#9C958A]'} />
               </div>
               <div className="text-left">
-                <p className={`text-sm font-semibold ${selected === 'pix' ? 'text-[#A31631]' : 'text-[#0E0E0F]'}`}>Pix</p>
-                <p className="text-xs text-[#9C958A]">À vista com 3% de desconto</p>
+                <p className={`text-sm font-semibold ${selected === 'pix' ? 'text-[#A31631]' : 'text-[#0E0E0F]'}`}>{p.pix}</p>
+                <p className="text-xs text-[#9C958A]">{p.pixSubtitle}</p>
               </div>
             </div>
             <div className="flex items-center gap-2 flex-shrink-0">
@@ -150,9 +152,9 @@ export function PaymentMethodSelector({
               <div className="pt-4">
                 {/* Info contextual */}
                 <div className="rounded-lg bg-[#F7F7F7] px-3 py-2.5 text-xs text-[#9C958A] mb-4">
-                  O QR Code Pix será gerado após a confirmação do pedido. Você terá 30 minutos para realizar o pagamento.
+                  {p.pixInfo}
                   {hasConsultoria && (
-                    <span className="block mt-0.5 text-green-600 font-medium">Especialista sob demanda via Pix com 3% de desconto aplicado.</span>
+                    <span className="block mt-0.5 text-green-600 font-medium">{p.pixSpecialist}</span>
                   )}
                 </div>
 

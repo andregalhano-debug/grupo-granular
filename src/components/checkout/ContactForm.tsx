@@ -1,5 +1,6 @@
 import { MessageCircle, Mail, User, Building2, FileText, CheckCircle2, Loader2, XCircle } from 'lucide-react'
 import type { DocumentoStatus } from '../../hooks/useCheckoutForm'
+import { useT } from '../../i18n/useT'
 
 interface ContactFormProps {
   empresa: string
@@ -13,24 +14,26 @@ interface ContactFormProps {
 }
 
 export function ContactForm({ empresa, documento, documentoStatus, nome, whatsapp, email, errors, onUpdate }: ContactFormProps) {
+  const t = useT()
+  const c = t.checkout.contact
   const digits = documento.replace(/\D/g, '')
   const isCnpj = digits.length === 14
   const isCpf = digits.length === 11
 
   return (
     <div className="space-y-5">
-      <h2 className="text-lg font-bold text-[#0E0E0F]">Seus dados de contato</h2>
+      <h2 className="text-lg font-bold text-[#0E0E0F]">{c.title}</h2>
 
-      {/* Nome da Empresa */}
+      {/* Company Name */}
       <div>
         <label className="flex items-center gap-2 text-sm font-medium text-[#0E0E0F] mb-1.5">
           <Building2 size={16} className="text-[#9C958A]" />
-          Nome da empresa
+          {c.companyName}
         </label>
         <input
           type="text"
           autoFocus
-          placeholder="Razão social ou nome fantasia"
+          placeholder={c.companyPlaceholder}
           value={empresa}
           onChange={(e) => onUpdate('empresa', e.target.value)}
           className={`w-full px-4 py-3 rounded-xl border text-sm bg-white outline-none transition-colors ${
@@ -44,7 +47,7 @@ export function ContactForm({ empresa, documento, documentoStatus, nome, whatsap
       <div>
         <label className="flex items-center gap-2 text-sm font-medium text-[#0E0E0F] mb-1.5">
           <FileText size={16} className="text-[#9C958A]" />
-          CNPJ / CPF
+          {c.document}
         </label>
         <div className="relative">
           <input
@@ -66,23 +69,23 @@ export function ContactForm({ empresa, documento, documentoStatus, nome, whatsap
         {errors.documento ? (
           <p className="text-xs text-[#A31631] mt-1">{errors.documento}</p>
         ) : documentoStatus === 'valid' && isCnpj ? (
-          <p className="text-xs text-green-600 mt-1">CNPJ validado na Receita Federal</p>
+          <p className="text-xs text-green-600 mt-1">{c.cnpjValid}</p>
         ) : documentoStatus === 'valid' && isCpf ? (
-          <p className="text-xs text-green-600 mt-1">CPF válido</p>
+          <p className="text-xs text-green-600 mt-1">{c.cpfValid}</p>
         ) : (
-          <p className="text-xs text-[#9C958A] mt-1">Digite CPF (pessoa física) ou CNPJ (pessoa jurídica)</p>
+          <p className="text-xs text-[#9C958A] mt-1">{c.documentHint}</p>
         )}
       </div>
 
-      {/* Nome Completo */}
+      {/* Full Name */}
       <div>
         <label className="flex items-center gap-2 text-sm font-medium text-[#0E0E0F] mb-1.5">
           <User size={16} className="text-[#9C958A]" />
-          Nome completo
+          {c.fullName}
         </label>
         <input
           type="text"
-          placeholder="Seu nome e sobrenome"
+          placeholder={c.namePlaceholder}
           value={nome}
           onChange={(e) => onUpdate('nome', e.target.value)}
           className={`w-full px-4 py-3 rounded-xl border text-sm bg-white outline-none transition-colors ${
@@ -110,7 +113,7 @@ export function ContactForm({ empresa, documento, documentoStatus, nome, whatsap
         {errors.whatsapp ? (
           <p className="text-xs text-[#A31631] mt-1">{errors.whatsapp}</p>
         ) : (
-          <p className="text-xs text-[#9C958A] mt-1">Usaremos para entrar em contato e verificar sua conta</p>
+          <p className="text-xs text-[#9C958A] mt-1">{c.whatsappHint}</p>
         )}
       </div>
 
@@ -132,7 +135,7 @@ export function ContactForm({ empresa, documento, documentoStatus, nome, whatsap
         {errors.email ? (
           <p className="text-xs text-[#A31631] mt-1">{errors.email}</p>
         ) : (
-          <p className="text-xs text-[#9C958A] mt-1">Enviaremos a confirmação do pedido</p>
+          <p className="text-xs text-[#9C958A] mt-1">{c.emailHint}</p>
         )}
       </div>
     </div>

@@ -8,22 +8,24 @@ import { useCart } from '../../stores/useCartStore'
 import type { PaymentMethod } from '../../hooks/useCheckoutForm'
 import { MiniCalendar } from '../MiniCalendar'
 import { QuickAddBar } from './QuickAddBar'
+import { useT } from '../../i18n/useT'
 
 interface OrderSummaryProps {
   paymentMethod: PaymentMethod
 }
 
-function PlanSelector({ plans, currentPlan, onSelect, label }: {
+function PlanSelector({ plans, currentPlan, onSelect, label, changeLabel }: {
   plans: Plan[]
   currentPlan: Plan
   onSelect: (plan: Plan) => void
   label: string
+  changeLabel: string
 }) {
   const [open, setOpen] = useState(false)
   return (
     <div className="relative">
       <button type="button" onClick={() => setOpen(!open)} className="w-full flex items-center justify-between gap-2 text-xs text-[#A31631] font-medium mt-2 px-2 py-1.5 rounded-lg hover:bg-[#A31631]/5 transition-colors cursor-pointer">
-        Alterar {label}
+        {changeLabel} {label}
         <ChevronDown size={14} className={`transition-transform ${open ? 'rotate-180' : ''}`} />
       </button>
       {open && (
@@ -56,6 +58,7 @@ function CollapsibleCard({ label, name, price, period, borderClass, borderColor,
   onRemove?: () => void
   forceToggle?: { count: number; expand: boolean }
 }) {
+  const { checkout: { orderSummary: os } } = useT()
   const [expanded, setExpanded] = useState(false)
 
   useEffect(() => {
@@ -96,7 +99,7 @@ function CollapsibleCard({ label, name, price, period, borderClass, borderColor,
           {onRemove && (
             <div className="flex justify-end mb-2">
               <button type="button" onClick={onRemove} className="flex items-center gap-1 text-[10px] text-[#9C958A] hover:text-[#A31631] transition-colors">
-                <X size={12} /> Remover
+                <X size={12} /> {os.remove}
               </button>
             </div>
           )}
@@ -109,6 +112,7 @@ function CollapsibleCard({ label, name, price, period, borderClass, borderColor,
 
 function ConsultantSlotCard({ cartConsultant, forceToggle }: { cartConsultant: { id: string; name: string; title: string; rating: number; hourlyRate: number; slot: string | null }; forceToggle?: { count: number; expand: boolean } }) {
   const cart = useCart()
+  const { checkout: { orderSummary: os } } = useT()
   const c = cartConsultant
 
   const consultant = getConsultantById(c.id)
@@ -116,10 +120,10 @@ function ConsultantSlotCard({ cartConsultant, forceToggle }: { cartConsultant: {
 
   return (
     <CollapsibleCard
-      label="Sessão com Especialista"
+      label={os.sessionLabel}
       name={c.name}
       price={String(c.hourlyRate)}
-      period="/hora"
+      period={os.perHour}
       borderClass={needsSlot ? 'border-amber-300' : 'border-[#A31631]/20'}
       forceToggle={forceToggle}
       onRemove={() => cart.removeConsultant(c.id)}
@@ -143,17 +147,17 @@ function ConsultantSlotCard({ cartConsultant, forceToggle }: { cartConsultant: {
         <div className="flex items-center justify-between rounded-lg bg-[#A31631]/5 px-3 py-2">
           <div className="flex items-center gap-2 text-xs text-[#0E0E0F]">
             <CalendarDays size={14} className="text-[#A31631]" />
-            Agendado: <strong>{c.slot.replace('-', ' às ')}</strong>
+            {os.scheduled} <strong>{c.slot.replace('-', ' às ')}</strong>
           </div>
           <button type="button" onClick={() => cart.updateConsultantSlot(c.id, null)} className="text-[10px] text-[#A31631] font-medium hover:underline cursor-pointer">
-            Alterar
+            {os.change}
           </button>
         </div>
       ) : (
         <div className="space-y-2">
           <div className="flex items-center gap-2 rounded-lg bg-amber-50 border border-amber-200 px-3 py-2 text-xs text-amber-700">
             <AlertCircle size={14} className="flex-shrink-0" />
-            Selecione uma data e horário para continuar
+            {os.selectSlot}
           </div>
           {consultant && (
             <MiniCalendar
@@ -171,6 +175,9 @@ function ConsultantSlotCard({ cartConsultant, forceToggle }: { cartConsultant: {
 
 export function OrderSummary({ paymentMethod: _paymentMethod }: OrderSummaryProps) {
   const cart = useCart()
+  const t = useT()
+  const os = t.checkout.orderSummary
+  const perMonth = t.checkout.perMonth
   const [toggleAll, setToggleAll] = useState({ count: 0, expand: false })
   const allExpanded = toggleAll.expand
 
@@ -191,14 +198,14 @@ export function OrderSummary({ paymentMethod: _paymentMethod }: OrderSummaryProp
 
     <div className="rounded-2xl border border-[#0E0E0F]/10 bg-[#F7F7F7] p-4 sm:p-6 space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-bold text-[#0E0E0F]">Resumo do pedido</h2>
+        <h2 className="text-lg font-bold text-[#0E0E0F]">{os.title}</h2>
         <button
           type="button"
           onClick={() => setToggleAll((prev) => ({ count: prev.count + 1, expand: !prev.expand }))}
           className="flex items-center gap-1.5 text-[10px] font-medium text-[#9C958A] hover:text-[#A31631] transition-colors cursor-pointer px-2 py-1 rounded-lg hover:bg-[#A31631]/5"
         >
           <ChevronsDownUp size={12} />
-          {allExpanded ? 'Recolher todos' : 'Expandir todos'}
+          {allExpanded ? os.collapseAll : os.expandAll}
         </button>
       </div>
 
@@ -208,17 +215,17 @@ export function OrderSummary({ paymentMethod: _paymentMethod }: OrderSummaryProp
           <div className="w-8 h-8 rounded-lg bg-[#A31631] flex items-center justify-center flex-shrink-0">
             <Monitor size={16} className="text-white" />
           </div>
-          <h3 className="text-sm font-bold text-[#0E0E0F] uppercase tracking-wider">Sistema</h3>
+          <h3 className="text-sm font-bold text-[#0E0E0F] uppercase tracking-wider">{os.system}</h3>
           <div className="flex-1 h-px bg-[#0E0E0F]/10" />
         </div>
 
         {/* Plano de sistema */}
         {saas && (
           <CollapsibleCard
-            label={saas.segment ? `Plano · ${saas.segment.label}` : 'Plano'}
+            label={saas.segment ? `${os.planLabel} · ${saas.segment.label}` : os.planLabel}
             name={saas.name}
             price={saas.priceFormatted}
-            period="/mês"
+            period={perMonth}
             borderColor={saas.segment?.color}
             borderClass={saas.segment ? 'border-[1.5px]' : undefined}
             forceToggle={toggleAll}
@@ -238,9 +245,9 @@ export function OrderSummary({ paymentMethod: _paymentMethod }: OrderSummaryProp
                   <Check size={12} className="mt-0.5 flex-shrink-0" style={{ color: saas.segment?.color || '#A31631' }} />{f}
                 </li>
               ))}
-              {saas.features.length > 3 && <li className="text-xs text-[#9C958A]">+{saas.features.length - 3} recursos inclusos</li>}
+              {saas.features.length > 3 && <li className="text-xs text-[#9C958A]">+{saas.features.length - 3} {os.includedFeatures}</li>}
             </ul>
-            <PlanSelector plans={saasPlans} currentPlan={saas} onSelect={cart.addPlan} label="pacote" />
+            <PlanSelector plans={saasPlans} currentPlan={saas} onSelect={cart.addPlan} label={os.changePlan} changeLabel={os.change} />
           </CollapsibleCard>
         )}
 
@@ -251,10 +258,10 @@ export function OrderSummary({ paymentMethod: _paymentMethod }: OrderSummaryProp
           return (
             <CollapsibleCard
               key={mod.id}
-              label={seg ? `Módulo · ${seg.label}` : 'Módulo avulso'}
+              label={seg ? `${os.planLabel} · ${seg.label}` : os.moduleLabel}
               name={mod.name}
               price={mod.priceFormatted}
-              period="/mês"
+              period={perMonth}
               borderClass={borderStyle}
               borderColor={seg?.color}
               forceToggle={toggleAll}
@@ -275,7 +282,7 @@ export function OrderSummary({ paymentMethod: _paymentMethod }: OrderSummaryProp
                     <Check size={12} className="mt-0.5 flex-shrink-0" style={{ color: seg?.color || '#A31631' }} />{f}
                   </li>
                 ))}
-                {mod.features.length > 4 && <li className="text-xs text-[#9C958A]">+{mod.features.length - 4} recursos inclusos</li>}
+                {mod.features.length > 4 && <li className="text-xs text-[#9C958A]">+{mod.features.length - 4} {os.includedFeatures}</li>}
               </ul>
             </CollapsibleCard>
           )
@@ -285,7 +292,7 @@ export function OrderSummary({ paymentMethod: _paymentMethod }: OrderSummaryProp
         {cart.addons.map((addon) => (
           <CollapsibleCard
             key={addon.id}
-            label="Addon"
+            label={os.addonLabel}
             name={addon.name}
             price="—"
             period=""
@@ -296,7 +303,7 @@ export function OrderSummary({ paymentMethod: _paymentMethod }: OrderSummaryProp
             <p className="text-xs text-[#9C958A] leading-relaxed mb-2">{addon.description}</p>
             <div className="flex items-center gap-2 rounded-lg bg-[#A31631]/5 border border-[#A31631]/10 px-3 py-2 text-[11px] text-[#9C958A] leading-relaxed">
               <Check size={12} className="mt-0.5 text-[#A31631] flex-shrink-0" />
-              <span><strong className="text-[#0E0E0F]">Especialista entrará em contato</strong> para ativar a integração.</span>
+              <span><strong className="text-[#0E0E0F]">{os.specialistContact}</strong> {os.specialistContactSuffix}</span>
             </div>
           </CollapsibleCard>
         ))}
@@ -312,8 +319,8 @@ export function OrderSummary({ paymentMethod: _paymentMethod }: OrderSummaryProp
             className="w-full flex items-center gap-3 rounded-xl border border-dashed border-[#A31631]/30 bg-[#A31631]/5 p-4 text-left hover:bg-[#A31631]/10 transition-colors cursor-pointer">
             <div className="w-8 h-8 rounded-lg bg-[#A31631]/10 flex items-center justify-center flex-shrink-0"><Plus size={16} className="text-[#A31631]" /></div>
             <div>
-              <p className="text-sm font-medium text-[#0E0E0F]">Adicionar Sistema</p>
-              <p className="text-xs text-[#9C958A]">{upsellSaas.name} — R$ {upsellSaas.priceFormatted}/mês</p>
+              <p className="text-sm font-medium text-[#0E0E0F]">{os.addSystem}</p>
+              <p className="text-xs text-[#9C958A]">{upsellSaas.name} — R$ {upsellSaas.priceFormatted}{perMonth}</p>
             </div>
           </button>
         )}
@@ -326,22 +333,22 @@ export function OrderSummary({ paymentMethod: _paymentMethod }: OrderSummaryProp
         {totalMensal > 0 && (
           <div className="space-y-2">
             <p className="text-[10px] font-medium text-[#9C958A] uppercase tracking-wider" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
-              Recorrente mensal
+              {os.monthlyRecurring}
             </p>
             {hasSaas && (
               <div className="flex items-baseline justify-between text-sm text-[#9C958A]">
                 <span>{saas!.name}</span>
-                <span>R$ {formatCurrency(saas!.price)}/mês</span>
+                <span>R$ {formatCurrency(saas!.price)}{perMonth}</span>
               </div>
             )}
             {modulos.map((mod) => (
               <div key={mod.id} className="flex items-baseline justify-between text-sm text-[#9C958A]">
-                <span>{mod.name}</span><span>R$ {formatCurrency(mod.price)}/mês</span>
+                <span>{mod.name}</span><span>R$ {formatCurrency(mod.price)}{perMonth}</span>
               </div>
             ))}
             <div className="flex items-baseline justify-between pt-2 border-t border-[#0E0E0F]/5">
-              <span className="text-sm font-semibold text-[#0E0E0F]">Total mensal</span>
-              <span className="text-lg font-bold text-[#0E0E0F]">R$ {formatCurrency(totalMensal)}/mês</span>
+              <span className="text-sm font-semibold text-[#0E0E0F]">{os.monthlyTotal}</span>
+              <span className="text-lg font-bold text-[#0E0E0F]">R$ {formatCurrency(totalMensal)}{perMonth}</span>
             </div>
           </div>
         )}
@@ -350,15 +357,15 @@ export function OrderSummary({ paymentMethod: _paymentMethod }: OrderSummaryProp
         {totalAvulso > 0 && (
           <div className="space-y-2">
             <p className="text-[10px] font-medium text-[#9C958A] uppercase tracking-wider" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
-              Pagamento avulso
+              {os.singlePayment}
             </p>
             {cart.consultants.map((c) => (
               <div key={c.id} className="flex items-baseline justify-between text-sm text-[#9C958A]">
-                <span>Sessão ({c.name.split(' ')[0]})</span><span>R$ {formatCurrency(c.hourlyRate)}/hora</span>
+                <span>{os.session} ({c.name.split(' ')[0]})</span><span>R$ {formatCurrency(c.hourlyRate)}{os.perHour}</span>
               </div>
             ))}
             <div className="flex items-baseline justify-between pt-2 border-t border-[#0E0E0F]/5">
-              <span className="text-sm font-semibold text-[#0E0E0F]">Total à parte</span>
+              <span className="text-sm font-semibold text-[#0E0E0F]">{os.singleTotal}</span>
               <span className="text-lg font-bold text-[#0E0E0F]">R$ {formatCurrency(totalAvulso)}</span>
             </div>
           </div>
@@ -367,9 +374,9 @@ export function OrderSummary({ paymentMethod: _paymentMethod }: OrderSummaryProp
 
       {/* Trust */}
       <div className="flex flex-col gap-2 text-xs text-[#9C958A]">
-        <div className="flex items-center gap-2"><Check size={12} className="text-green-600" />Cancele quando quiser</div>
-        <div className="flex items-center gap-2"><Check size={12} className="text-green-600" />Receba o cronograma após o pagamento</div>
-        <div className="flex items-center gap-2"><Check size={12} className="text-green-600" />Um Especialista irá entrar em contato</div>
+        <div className="flex items-center gap-2"><Check size={12} className="text-green-600" />{os.trustCancel}</div>
+        <div className="flex items-center gap-2"><Check size={12} className="text-green-600" />{os.trustSchedule}</div>
+        <div className="flex items-center gap-2"><Check size={12} className="text-green-600" />{os.trustContact}</div>
       </div>
     </div>
     </div>
