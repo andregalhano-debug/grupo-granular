@@ -1,4 +1,21 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 40">
-  <rect width="120" height="40" rx="6" fill="#00C48C"/>
-  <text x="60" y="26" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle" letter-spacing="-0.3">anota.ai</text>
+<svg width="160" height="44" viewBox="0 0 160 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Navy background pill -->
+  <rect width="160" height="44" rx="8" fill="#1C1C5E"/>
+  <!-- Speech bubble icon (simplified from favicon) -->
+  <g transform="translate(8, 6)">
+    <!-- Bubble body -->
+    <rect x="0" y="0" width="26" height="20" rx="5" fill="#FFFFFF"/>
+    <!-- Bubble tail -->
+    <path d="M6 20 L4 26 L13 20 Z" fill="#FFFFFF"/>
+    <!-- Glasses: left lens -->
+    <rect x="3" y="6" width="8" height="7" rx="3.5" fill="#1C1C5E"/>
+    <!-- Glasses: right lens -->
+    <rect x="14" y="6" width="8" height="7" rx="3.5" fill="#1C1C5E"/>
+    <!-- Glasses bridge -->
+    <rect x="11" y="9" width="3" height="1.5" rx="0.5" fill="#1C1C5E"/>
+  </g>
+  <!-- "anota" text -->
+  <text x="46" y="27" font-family="'Montserrat', Arial, sans-serif" font-size="15" font-weight="700" fill="#FFFFFF" letter-spacing="-0.2">anota</text>
+  <!-- ".ai" accent -->
+  <text x="98" y="27" font-family="'Montserrat', Arial, sans-serif" font-size="15" font-weight="700" fill="#FF8C42" letter-spacing="-0.2">.ai</text>
 </svg>
