@@ -58,10 +58,21 @@ function MobileCards({
       {plans.map((plan) => (
         <div
           key={plan.id}
-          className="rounded-2xl bg-white border border-[#9C958A]/20 overflow-hidden"
+          className={`relative rounded-2xl bg-white overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-xl ${
+            plan.popular
+              ? 'border-2 border-[var(--accent)] shadow-lg shadow-[var(--accent)]/10'
+              : 'border border-[#9C958A]/20'
+          }`}
         >
+          {plan.popular && (
+            <div className="absolute -top-px left-1/2 -translate-x-1/2">
+              <span className="inline-flex items-center gap-1 bg-[var(--accent)] text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-b-lg" style={{ animation: 'badgePulse 2.5s ease-in-out infinite' }}>
+                <Star size={9} fill="currentColor" /> Mais escolhido
+              </span>
+            </div>
+          )}
           {/* Header do card */}
-          <div className="p-6 text-center border-b border-[#9C958A]/10">
+          <div className={`p-6 text-center border-b border-[#9C958A]/10 ${plan.popular ? 'pt-8' : ''}`}>
             <h3 className="text-lg font-bold text-[#0E0E0F] mb-1">{plan.name}</h3>
             {plan.subtitle && (
               <p className="text-xs text-[#9C958A] mb-1">{plan.subtitle}</p>
@@ -175,9 +186,20 @@ function DesktopTable({
         {plans.map((plan) => (
           <div
             key={plan.id}
-            className="p-6 text-center rounded-t-2xl bg-white border-t border-x border-[#9C958A]/20"
+            className={`relative p-6 text-center rounded-t-2xl bg-white border-t border-x transition-all duration-200 hover:-translate-y-0.5 ${
+              plan.popular
+                ? 'border-[var(--accent)] border-x-[var(--accent)] shadow-lg shadow-[var(--accent)]/10'
+                : 'border-[#9C958A]/20'
+            }`}
           >
-            <h3 className="text-lg font-bold mb-1 text-[#0E0E0F]">{plan.name}</h3>
+            {plan.popular && (
+              <div className="absolute -top-px left-1/2 -translate-x-1/2">
+                <span className="inline-flex items-center gap-1 bg-[var(--accent)] text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-b-lg" style={{ animation: 'badgePulse 2.5s ease-in-out infinite' }}>
+                  <Star size={9} fill="currentColor" /> Mais escolhido
+                </span>
+              </div>
+            )}
+            <h3 className={`text-lg font-bold mb-1 text-[#0E0E0F] ${plan.popular ? 'mt-4' : ''}`}>{plan.name}</h3>
             {plan.subtitle && (
               <p className="text-xs text-[#9C958A] mb-2">{plan.subtitle}</p>
             )}
@@ -815,6 +837,12 @@ export function Pricing({ category = 'restaurantes' }: Props) {
           </div>
         </FadeIn>
       </div>
+      <style>{`
+        @keyframes badgePulse {
+          0%, 100% { opacity: 1; transform: translateX(-50%) scale(1); }
+          50% { opacity: 0.8; transform: translateX(-50%) scale(1.04); }
+        }
+      `}</style>
     </section>
   )
 }

@@ -117,20 +117,25 @@ export function Header({ category }: Props) {
             href="#hero"
             onClick={() => setMenuOpen(false)}
             className="flex items-center gap-2 text-xs font-medium text-[#9C958A] hover:text-[#0E0E0F] py-1 transition-colors"
+            style={{ animation: 'menuSlideIn 0.25s cubic-bezier(0.16,1,0.3,1) both' }}
           >
             ↑ Trocar segmento
           </a>
-          {navLinks.map((link) => (
+          {navLinks.map((link, i) => (
             <a
               key={link.href}
               href={link.href}
-              className="block text-sm text-[#9C958A] hover:text-[#0E0E0F] py-2"
+              className="block text-sm text-[#9C958A] hover:text-[#0E0E0F] py-2 transition-colors"
               onClick={() => setMenuOpen(false)}
+              style={{ animation: `menuSlideIn 0.25s cubic-bezier(0.16,1,0.3,1) ${(i + 1) * 50}ms both` }}
             >
               {link.label}
             </a>
           ))}
-          <div className="pt-3 border-t border-[#9C958A]/20 space-y-2">
+          <div
+            className="pt-3 border-t border-[#9C958A]/20 space-y-2"
+            style={{ animation: `menuSlideIn 0.25s cubic-bezier(0.16,1,0.3,1) ${(navLinks.length + 1) * 50}ms both` }}
+          >
             <Link to="/seja-consultor" className="block text-sm text-[var(--accent)] font-medium py-2" onClick={() => setMenuOpen(false)}>Seja um Mentor</Link>
             <a href="/login" className="block text-sm text-[#9C958A] py-2">Login</a>
             <Link
@@ -143,6 +148,12 @@ export function Header({ category }: Props) {
           </div>
         </div>
       )}
+      <style>{`
+        @keyframes menuSlideIn {
+          from { opacity: 0; transform: translateY(-8px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
     </header>
   )
 }

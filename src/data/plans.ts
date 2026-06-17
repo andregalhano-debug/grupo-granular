@@ -74,7 +74,7 @@ export const saasPlans: Plan[] = [
       'Organização operacional com checklist',
       'Envio automático de Relatórios',
     ],
-    popular: false,
+    popular: true,
     cta: 'Começar Agora',
     segment: SEGMENTS.restaurantes,
   },

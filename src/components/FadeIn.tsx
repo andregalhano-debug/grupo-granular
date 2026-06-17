@@ -18,7 +18,7 @@ export function FadeIn({ children, delay = 0, className = '' }: FadeInProps) {
           observer.disconnect()
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.15 }
     )
     if (ref.current) observer.observe(ref.current)
     return () => observer.disconnect()
@@ -30,8 +30,9 @@ export function FadeIn({ children, delay = 0, className = '' }: FadeInProps) {
       className={className}
       style={{
         opacity: isVisible ? 1 : 0,
-        transform: isVisible ? 'translateY(0)' : 'translateY(24px)',
-        transition: `opacity 0.7s ease ${delay}ms, transform 0.7s ease ${delay}ms`,
+        transform: isVisible ? 'translateY(0)' : 'translateY(28px)',
+        transition: `opacity 0.75s cubic-bezier(0.16,1,0.3,1) ${delay}ms, transform 0.75s cubic-bezier(0.16,1,0.3,1) ${delay}ms`,
+        willChange: 'opacity, transform',
       }}
     >
       {children}

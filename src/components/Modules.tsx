@@ -164,10 +164,10 @@ export function Modules({ category = 'restaurantes' }: Props) {
             onClick={() => handleToggle(i)}
             className={`group relative rounded-2xl border p-6 transition-all duration-300 h-full w-full text-left cursor-pointer ${
               openIndex === i
-                ? 'border-[var(--accent)] bg-[var(--accent)]/5 shadow-lg shadow-[var(--accent-10)]'
+                ? 'border-[var(--accent)] bg-[var(--accent)]/5 shadow-lg shadow-[var(--accent-10)] -translate-y-1'
                 : mod.standalone
-                  ? 'border-[var(--accent)]/20 bg-[#F7F7F7] hover:border-[var(--accent)]/20 hover:shadow-lg hover:shadow-[var(--accent-05)]'
-                  : 'border-[#9C958A]/20 bg-[#F7F7F7] hover:border-[var(--accent)]/20 hover:shadow-lg hover:shadow-[var(--accent-05)]'
+                  ? 'border-[var(--accent)]/20 bg-[#F7F7F7] hover:border-[var(--accent)]/20 hover:shadow-xl hover:shadow-[var(--accent-05)] hover:-translate-y-1'
+                  : 'border-[#9C958A]/20 bg-[#F7F7F7] hover:border-[var(--accent)]/20 hover:shadow-xl hover:shadow-[var(--accent-05)] hover:-translate-y-1'
             }`}
           >
             {mod.standalone && (
