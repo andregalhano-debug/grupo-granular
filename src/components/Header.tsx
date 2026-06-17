@@ -4,16 +4,9 @@ import { Menu, X, Briefcase, Sun, Moon } from 'lucide-react'
 import { GranularLogo } from './GranularLogo'
 import { useCart } from '../stores/useCartStore'
 import { useTheme } from '../stores/useThemeStore'
+import { useLanguage } from '../stores/useLanguageStore'
+import { useT } from '../i18n/useT'
 import type { Category } from './Modules'
-
-const navLinks = [
-  { label: 'Módulos', href: '/#modulos' },
-  { label: 'Integrações', href: '/#integracoes' },
-  { label: 'Diferenciais', href: '/#diferenciais' },
-  { label: 'Preços', href: '/#precos' },
-  // { label: 'Mentores', href: '/consultores' }, // temporariamente oculto
-  { label: 'FAQ', href: '/#faq' },
-]
 
 const categoryName: Record<Category, string> = {
   restaurantes: 'Food',
@@ -31,7 +24,19 @@ export function Header({ category }: Props) {
   const [scrolled, setScrolled] = useState(false)
   const cart = useCart()
   const { theme, toggle } = useTheme()
+  const { lang, toggle: toggleLang } = useLanguage()
+  const t = useT()
   const suffix = category ? categoryName[category] : ''
+  const logoColor = theme === 'dark' ? '#F0EFED' : '#0E0E0F'
+
+  const navLinks = [
+    { label: t.nav.modules, href: '/#modulos' },
+    { label: t.nav.integrations, href: '/#integracoes' },
+    { label: t.nav.differentials, href: '/#diferenciais' },
+    { label: t.nav.pricing, href: '/#precos' },
+    // { label: 'Mentores', href: '/consultores' }, // temporariamente oculto
+    { label: t.nav.faq, href: '/#faq' },
+  ]
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
@@ -44,7 +49,7 @@ export function Header({ category }: Props) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-[72px] flex items-center justify-between">
         {/* Logo + nome do sistema */}
         <a href="/" className="flex items-center gap-3">
-          <GranularLogo size={36} color="#0E0E0F" />
+          <GranularLogo size={36} color={logoColor} />
           <span className="text-lg font-semibold tracking-tight text-[#0E0E0F]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
             Granular
             {scrolled && suffix && (
@@ -69,10 +74,10 @@ export function Header({ category }: Props) {
         {/* Desktop CTA */}
         <div className="hidden md:flex items-center gap-3">
           <Link to="/seja-consultor" className="text-xs font-medium text-[var(--accent)] hover:bg-[var(--accent-05)] px-3 py-1.5 rounded-lg transition-colors">
-            Seja um Mentor
+            {t.nav.beMentor}
           </Link>
           <a href="/login" className="text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors">
-            Login
+            {t.nav.login}
           </a>
 
           <button
@@ -82,6 +87,8 @@ export function Header({ category }: Props) {
           >
             {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
           </button>
+
+          <button onClick={toggleLang} className="text-xs font-semibold text-[#9C958A] hover:text-[#0E0E0F] px-2 py-1 rounded-lg hover:bg-[#F7F7F7] transition-colors">{lang.toUpperCase()}</button>
 
           {cart.itemCount > 0 && (
             <Link to="/checkout" className="relative p-2 text-[#9C958A] hover:text-[#0E0E0F] transition-colors">
@@ -96,7 +103,7 @@ export function Header({ category }: Props) {
             to="/checkout?plano=saas-2"
             className="text-sm font-medium text-white bg-[var(--accent)] hover:bg-[var(--accent-dark)] px-5 py-2.5 rounded-xl transition-colors"
           >
-            Começar Agora
+            {t.nav.startNow}
           </Link>
         </div>
 
@@ -137,7 +144,7 @@ export function Header({ category }: Props) {
             className="flex items-center gap-2 text-xs font-medium text-[#9C958A] hover:text-[#0E0E0F] py-1 transition-colors"
             style={{ animation: 'menuSlideIn 0.25s cubic-bezier(0.16,1,0.3,1) both' }}
           >
-            ↑ Trocar segmento
+            {t.nav.changeSegment}
           </a>
           {navLinks.map((link, i) => (
             <a
@@ -154,14 +161,15 @@ export function Header({ category }: Props) {
             className="pt-3 border-t border-[#9C958A]/20 space-y-2"
             style={{ animation: `menuSlideIn 0.25s cubic-bezier(0.16,1,0.3,1) ${(navLinks.length + 1) * 50}ms both` }}
           >
-            <Link to="/seja-consultor" className="block text-sm text-[var(--accent)] font-medium py-2" onClick={() => setMenuOpen(false)}>Seja um Mentor</Link>
-            <a href="/login" className="block text-sm text-[#9C958A] py-2">Login</a>
+            <Link to="/seja-consultor" className="block text-sm text-[var(--accent)] font-medium py-2" onClick={() => setMenuOpen(false)}>{t.nav.beMentor}</Link>
+            <a href="/login" className="block text-sm text-[#9C958A] py-2">{t.nav.login}</a>
+            <button onClick={toggleLang} className="block text-sm text-[#9C958A] py-2 text-left">{lang.toUpperCase()}</button>
             <Link
               to="/checkout?plano=saas-2"
               className="block text-center text-sm font-medium text-white bg-[var(--accent)] px-5 py-2.5 rounded-xl"
               onClick={() => setMenuOpen(false)}
             >
-              Começar Agora
+              {t.nav.startNow}
             </Link>
           </div>
         </div>

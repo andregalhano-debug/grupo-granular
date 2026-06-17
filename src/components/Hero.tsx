@@ -4,25 +4,12 @@ import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
 import telaSistema from '../assets/Tela Maestro.jpg'
 import telaMarket from '../assets/TEla sistema televendas Granular 2 para Market.jpg'
+import { useT } from '../i18n/useT'
 import type { Category } from './Modules'
 
 interface Props {
   category: Category
   setCategory: (c: Category) => void
-}
-
-const systemNames: Record<Category, string> = {
-  restaurantes: 'Granular Food',
-  mercados: 'Granular Market',
-  farmacias: 'Granular Farma',
-  petshop: 'Granular PET',
-}
-
-const systemDescs: Record<Category, string> = {
-  restaurantes: 'Visão completa da sua operação em um só painel — faturamento, pedidos, promoções e clientes em tempo real.',
-  mercados: 'Gestão completa do seu mercado — estoque, televendas, financeiro e clientes em um único painel.',
-  farmacias: 'Em desenvolvimento. Módulos específicos para o segmento farmacêutico chegando em breve.',
-  petshop: 'Em desenvolvimento. Solução completa para clínicas veterinárias e pet shops chegando em breve.',
 }
 
 // Cor de acento por categoria — usada no card ativo e no restante do site via Header
@@ -33,23 +20,23 @@ export const categoryAccent: Record<Category, { primary: string; light: string; 
   petshop:      { primary: '#8B4513', light: '#8B4513/10', border: '#8B4513/20' },
 }
 
-const categories: {
-  id: Category
-  icon: typeof UtensilsCrossed
-  label: string
-  description: string
-  comingSoon?: boolean
-}[] = [
-  { id: 'restaurantes', icon: UtensilsCrossed, label: 'Restaurantes', description: 'Bares, lanchonetes, fast food e delivery' },
-  { id: 'mercados', icon: ShoppingCart, label: 'Mercados', description: 'Supermercados, atacarejos e atacados' },
-  { id: 'farmacias', icon: Pill, label: 'Farmácias', description: 'Redes farmacêuticas e drogarias', comingSoon: true },
-  { id: 'petshop', icon: PawPrint, label: 'Pet Shops', description: 'Clínicas veterinárias e pet shops', comingSoon: true },
-]
+const categoryIcons: Record<Category, typeof UtensilsCrossed> = {
+  restaurantes: UtensilsCrossed,
+  mercados: ShoppingCart,
+  farmacias: Pill,
+  petshop: PawPrint,
+}
 
-const mercadoSubs = ['Atacarejo', 'Supermercado', 'Atacado']
+const categoryComingSoon: Record<Category, boolean> = {
+  restaurantes: false,
+  mercados: false,
+  farmacias: true,
+  petshop: true,
+}
 
 export function Hero({ category, setCategory }: Props) {
   const [lightbox, setLightbox] = useState(false)
+  const t = useT()
 
   const isComingSoon = category === 'farmacias' || category === 'petshop'
   const showContent = !isComingSoon
@@ -59,15 +46,15 @@ export function Hero({ category, setCategory }: Props) {
       <FadeIn className="text-center">
         {/* Headline */}
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1] text-[#0E0E0F] max-w-4xl mx-auto mb-8">
-          Cada pedido é um dado.{' '}
+          {t.hero.headline}{' '}
           <span className="text-[var(--accent)]">
-            Cada dado, uma decisão.
+            {t.hero.headlineAccent}
           </span>
         </h1>
 
         {/* Subtext */}
         <p className="text-base sm:text-lg text-[#9C958A] max-w-2xl mx-auto mb-10 leading-relaxed">
-          Gestão completa para delivery, <span className="text-[var(--accent)] font-semibold whitespace-nowrap">com IA de ponta a ponta</span>.
+          {t.hero.subtitle} <span className="text-[var(--accent)] font-semibold whitespace-nowrap">{t.hero.subtitleAccent}</span>.
         </p>
 
         {/* ── Seleção de categoria — foco principal ── */}
@@ -75,23 +62,26 @@ export function Hero({ category, setCategory }: Props) {
           {/* Prompt proeminente */}
           <div className="mb-8">
             <h2 className="text-xl sm:text-2xl font-bold text-[#0E0E0F] mb-2">
-              Para qual segmento você quer ver a solução?
+              {t.hero.segmentPrompt}
             </h2>
-            <p className="text-sm text-[#9C958A]">Selecione abaixo para personalizar toda a navegação</p>
+            <p className="text-sm text-[#9C958A]">{t.hero.segmentHint}</p>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-5 max-w-3xl mx-auto">
-            {categories.map((cat) => {
-              const isActive = category === cat.id
-              const accent = categoryAccent[cat.id]
+            {(Object.keys(t.hero.categories) as Array<keyof typeof t.hero.categories>).map((catId) => {
+              const cat = t.hero.categories[catId]
+              const isActive = category === catId
+              const accent = categoryAccent[catId]
+              const isComingSoonCat = categoryComingSoon[catId]
+              const IconComponent = categoryIcons[catId]
               return (
                 <button
-                  key={cat.id}
-                  onClick={() => setCategory(cat.id)}
+                  key={catId}
+                  onClick={() => setCategory(catId)}
                   className={`relative group rounded-2xl border-2 p-5 sm:p-6 text-left transition-all duration-200 cursor-pointer ${
                     isActive
                       ? 'shadow-xl scale-[1.03]'
-                      : cat.comingSoon
+                      : isComingSoonCat
                         ? 'border-[#9C958A]/15 bg-[#F7F7F7] opacity-60 hover:opacity-75'
                         : 'border-[#9C958A]/20 bg-white hover:shadow-lg hover:scale-[1.01]'
                   }`}
@@ -101,9 +91,9 @@ export function Hero({ category, setCategory }: Props) {
                     boxShadow: `0 8px 30px ${accent.primary}20`,
                   } : {}}
                 >
-                  {cat.comingSoon && (
+                  {isComingSoonCat && (
                     <span className="absolute -top-2.5 right-3 text-[9px] font-bold uppercase tracking-wider bg-[#9C958A] text-white px-2 py-0.5 rounded-full">
-                      Em breve
+                      {t.hero.comingSoon}
                     </span>
                   )}
                   {isActive && (
@@ -111,7 +101,7 @@ export function Hero({ category, setCategory }: Props) {
                       className="absolute -top-2.5 left-3 text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full text-white"
                       style={{ backgroundColor: accent.primary }}
                     >
-                      Selecionado
+                      {t.hero.selected}
                     </span>
                   )}
                   <div
@@ -121,7 +111,7 @@ export function Hero({ category, setCategory }: Props) {
                       : { backgroundColor: '#9C958A20' }
                     }
                   >
-                    <cat.icon size={20} className={isActive ? 'text-white' : 'text-[#9C958A]'} />
+                    <IconComponent size={20} className={isActive ? 'text-white' : 'text-[#9C958A]'} />
                   </div>
                   <p
                     className="text-sm font-bold mb-1"
@@ -132,7 +122,7 @@ export function Hero({ category, setCategory }: Props) {
                   <p className="text-[11px] text-[#9C958A] leading-snug">{cat.description}</p>
                   {isActive && (
                     <div className="flex items-center gap-1 mt-3 text-[10px] font-semibold" style={{ color: accent.primary }}>
-                      <ChevronRight size={10} /> Ver solução
+                      <ChevronRight size={10} /> {t.hero.seeSolution}
                     </div>
                   )}
                 </button>
@@ -143,8 +133,8 @@ export function Hero({ category, setCategory }: Props) {
           {/* Mercados: subcategorias informativas (sem CTAs) */}
           {category === 'mercados' && (
             <div className="flex flex-wrap items-center justify-center gap-2 mt-5">
-              <span className="text-xs text-[#9C958A]">Abrange:</span>
-              {mercadoSubs.map((s) => (
+              <span className="text-xs text-[#9C958A]">{t.hero.comprises}</span>
+              {t.hero.mercadoSubs.map((s) => (
                 <span
                   key={s}
                   className="text-xs bg-[var(--accent-08)] text-[var(--accent)] px-3 py-1 rounded-full border border-[var(--accent-15)] font-medium"
@@ -159,7 +149,7 @@ export function Hero({ category, setCategory }: Props) {
           {isComingSoon && (
             <div className="mt-5 inline-flex items-center gap-2 bg-[#F7F7F7] border border-[#9C958A]/20 px-4 py-2.5 rounded-xl text-sm text-[#9C958A]">
               <Clock size={14} />
-              Estamos desenvolvendo essa jornada — em breve disponível.
+              {t.hero.segmentComingSoon}
             </div>
           )}
         </div>
@@ -171,14 +161,14 @@ export function Hero({ category, setCategory }: Props) {
               to="/checkout?plano=saas-2"
               className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-8 py-4 rounded-xl text-base transition-colors"
             >
-              Começar Agora
+              {t.hero.startNow}
               <ArrowRight size={18} />
             </Link>
             <a
               href="#modulos"
               className="inline-flex items-center gap-2 border border-[#9C958A]/30 hover:border-[var(--accent-30)] text-[#0E0E0F] font-medium px-8 py-4 rounded-xl text-base transition-colors"
             >
-              Ver Módulos
+              {t.hero.seeModules}
             </a>
           </div>
         )}
@@ -189,10 +179,10 @@ export function Hero({ category, setCategory }: Props) {
         <FadeIn delay={200} className="mt-20 sm:mt-28">
           <div className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#0E0E0F] mb-4">
-              {systemNames[category]}
+              {t.hero.systemNames[category]}
             </h2>
             <p className="text-[#9C958A] text-base sm:text-lg max-w-2xl mx-auto">
-              {systemDescs[category]}
+              {t.hero.systemDescs[category]}
             </p>
           </div>
 

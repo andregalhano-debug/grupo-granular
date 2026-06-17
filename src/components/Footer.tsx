@@ -1,7 +1,12 @@
 import { Link } from 'react-router-dom'
 import { GranularLogo } from './GranularLogo'
+import { useTheme } from '../stores/useThemeStore'
+import { useT } from '../i18n/useT'
 
 export function Footer() {
+  const { theme } = useTheme()
+  const logoColor = theme === 'dark' ? '#F0EFED' : '#0E0E0F'
+  const t = useT()
   return (
     <footer className="bg-white border-t border-[#9C958A]/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -9,13 +14,13 @@ export function Footer() {
           {/* Logo + Social */}
           <div>
             <a href="/" className="flex items-center gap-3 mb-4">
-              <GranularLogo size={36} color="#0E0E0F" />
+              <GranularLogo size={36} color={logoColor} />
               <span className="text-lg font-semibold tracking-tight text-[#0E0E0F]">
                 Granular
               </span>
             </a>
             <p className="text-sm text-[#9C958A] leading-relaxed mb-4">
-              Gestão completa para delivery, <span className="text-[var(--accent)] font-semibold whitespace-nowrap">com IA de ponta a ponta</span>.
+              {t.footer.tagline} <span className="text-[var(--accent)] font-semibold whitespace-nowrap">{t.footer.taglineAccent}</span>.
             </p>
             <div className="flex items-center gap-3">
               <a href="https://instagram.com/grupogranular" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-[#9C958A] hover:text-[#0E0E0F] transition-colors">
@@ -29,7 +34,7 @@ export function Footer() {
 
           {/* Produto */}
           <div>
-            <h4 className="font-semibold text-sm text-[#0E0E0F] mb-4 tracking-widest uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '11px' }}>Produto</h4>
+            <h4 className="font-semibold text-sm text-[#0E0E0F] mb-4 tracking-widest uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '11px' }}>{t.footer.sections.product}</h4>
             <ul className="space-y-2.5">
               {['Estoque', 'Produção', 'Financeiro', 'iFood', 'KDS', 'Checklists', 'IA'].map((item) => (
                 <li key={item}>
@@ -40,7 +45,7 @@ export function Footer() {
               ))}
               <li>
                 <Link to="/consultores" className="text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors">
-                  Consultores
+                  {t.footer.links.consultants}
                 </Link>
               </li>
             </ul>
@@ -48,20 +53,20 @@ export function Footer() {
 
           {/* Empresa */}
           <div>
-            <h4 className="font-semibold text-sm text-[#0E0E0F] mb-4 tracking-widest uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '11px' }}>Empresa</h4>
+            <h4 className="font-semibold text-sm text-[#0E0E0F] mb-4 tracking-widest uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '11px' }}>{t.footer.sections.company}</h4>
             <ul className="space-y-2.5">
-              <li><a href="#" className="text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors">Sobre</a></li>
-              <li><Link to="/seja-consultor" className="text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors">Seja um Mentor Granular</Link></li>
-              <li><a href="#" className="text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors">Contato</a></li>
+              <li><a href="#" className="text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors">{t.footer.links.about}</a></li>
+              <li><Link to="/seja-consultor" className="text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors">{t.footer.links.beMentor}</Link></li>
+              <li><a href="#" className="text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors">{t.footer.links.contact}</a></li>
             </ul>
           </div>
 
           {/* Contato */}
           <div>
-            <h4 className="font-semibold text-sm text-[#0E0E0F] mb-4 tracking-widest uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '11px' }}>Contato</h4>
+            <h4 className="font-semibold text-sm text-[#0E0E0F] mb-4 tracking-widest uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '11px' }}>{t.footer.sections.contact}</h4>
             <ul className="space-y-2.5 text-sm text-[#9C958A]">
               <li>contato@grupogranular.com.br</li>
-              <li>São Paulo, SP</li>
+              <li>{t.footer.city}</li>
             </ul>
           </div>
         </div>
@@ -71,12 +76,12 @@ export function Footer() {
       <div className="border-t border-[#9C958A]/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-[#9C958A]">
-            © 2026 Granular. Todos os direitos reservados.
+            {t.footer.copyright}
           </p>
           <div className="flex gap-6">
-            <Link to="/termos" className="text-xs text-[#9C958A] hover:text-[#0E0E0F] transition-colors">Termos de Uso</Link>
-            <Link to="/privacidade" className="text-xs text-[#9C958A] hover:text-[#0E0E0F] transition-colors">Privacidade</Link>
-            <Link to="/cookies" className="text-xs text-[#9C958A] hover:text-[#0E0E0F] transition-colors">Cookies</Link>
+            <Link to="/termos" className="text-xs text-[#9C958A] hover:text-[#0E0E0F] transition-colors">{t.footer.links.terms}</Link>
+            <Link to="/privacidade" className="text-xs text-[#9C958A] hover:text-[#0E0E0F] transition-colors">{t.footer.links.privacy}</Link>
+            <Link to="/cookies" className="text-xs text-[#9C958A] hover:text-[#0E0E0F] transition-colors">{t.footer.links.cookies}</Link>
           </div>
         </div>
       </div>

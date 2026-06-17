@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { ChevronDown, ChevronUp, GraduationCap } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
+import { useT } from '../i18n/useT'
 import type { Category } from './Modules'
 
 interface FaqItem { q: string; a: string }
@@ -148,13 +149,6 @@ const faqsByCategory: Record<Category, FaqItem[]> = {
   ],
 }
 
-const subtitleByCategory: Record<Category, string> = {
-  restaurantes: 'Tire suas dúvidas sobre sistema, especialista sob demanda e módulos.',
-  mercados:     'Tire suas dúvidas sobre o Granular Market, Televendas e módulos.',
-  farmacias:    'Tire suas dúvidas sobre o Granular Farma e o que está por vir.',
-  petshop:      'Tire suas dúvidas sobre o Granular PET e o que está por vir.',
-}
-
 const VISIBLE_COUNT = 4
 
 interface Props {
@@ -165,6 +159,7 @@ export function Faq({ category = 'restaurantes' }: Props) {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
   const [expanded, setExpanded] = useState(false)
   const sectionRef = useRef<HTMLElement>(null)
+  const t = useT()
 
   // Reset ao trocar de categoria
   useEffect(() => {
@@ -187,10 +182,10 @@ export function Faq({ category = 'restaurantes' }: Props) {
       <div className="max-w-3xl mx-auto">
         <FadeIn className="text-center mb-12">
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#0E0E0F] mb-4">
-            Perguntas frequentes
+            {t.faq.sectionTitle}
           </h2>
           <p className="text-[#9C958A] text-base sm:text-lg">
-            {subtitleByCategory[category]}
+            {t.faq.subtitles[category]}
           </p>
         </FadeIn>
 
@@ -226,7 +221,7 @@ export function Faq({ category = 'restaurantes' }: Props) {
               onClick={() => setExpanded(true)}
               className="mt-6 mx-auto flex items-center gap-2 text-sm font-medium text-[var(--accent)] hover:text-[var(--accent-dark)] transition-colors cursor-pointer"
             >
-              Ver mais {remaining} {remaining === 1 ? 'pergunta' : 'perguntas'}
+              {t.faq.showMore} {remaining} {remaining === 1 ? t.faq.question : t.faq.questions}
               <ChevronDown size={16} />
             </button>
           </FadeIn>
@@ -240,7 +235,7 @@ export function Faq({ category = 'restaurantes' }: Props) {
               className="mt-6 mx-auto flex items-center gap-2 text-sm font-medium text-[#9C958A] hover:text-[#0E0E0F] transition-colors cursor-pointer"
             >
               <ChevronUp size={16} />
-              Recolher perguntas
+              {t.faq.collapse}
             </button>
           </FadeIn>
         )}
@@ -252,14 +247,14 @@ export function Faq({ category = 'restaurantes' }: Props) {
               <GraduationCap size={28} className="text-[var(--accent)]" />
             </div>
             <div className="flex-1">
-              <h3 className="text-base font-bold text-[#0E0E0F] mb-1">Quer fazer parte do time Granular?</h3>
-              <p className="text-sm text-[#9C958A]">Seja um especialista credenciado e ajude operações a crescerem com inteligência.</p>
+              <h3 className="text-base font-bold text-[#0E0E0F] mb-1">{t.faq.joinTeam.title}</h3>
+              <p className="text-sm text-[#9C958A]">{t.faq.joinTeam.desc}</p>
             </div>
             <Link
               to="/seja-consultor"
               className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors whitespace-nowrap flex-shrink-0"
             >
-              Seja um Mentor
+              {t.faq.joinTeam.cta}
               <ChevronDown size={14} className="rotate-[-90deg]" />
             </Link>
           </div>

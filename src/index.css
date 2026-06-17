@@ -38,7 +38,9 @@ html.dark .bg-\[\#FFFFFF\] { background-color: #1A1A1B !important; }
 html.dark .text-\[\#0E0E0F\] { color: #F0EFED !important; }
 html.dark .text-\[\#9C958A\] { color: #7A736B !important; }
 html.dark .text-\[\#0E0E0F\]\/30 { color: rgba(240,239,237,0.3) !important; }
+html.dark .text-\[\#0E0E0F\]\/60 { color: rgba(240,239,237,0.6) !important; }
 html.dark .text-\[\#0E0E0F\]\/70 { color: rgba(240,239,237,0.7) !important; }
+html.dark .text-\[\#0E0E0F\]\/80 { color: rgba(240,239,237,0.8) !important; }
 
 /* Borders */
 html.dark .border-\[\#9C958A\]\/20 { border-color: rgba(255,255,255,0.08) !important; }
