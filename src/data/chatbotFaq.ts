@@ -124,6 +124,6 @@ export function getAgentInfo() {
   const name = getAgentName()
   return {
     name,
-    welcomeMessage: `Olá! 😊 Sou a ${name}, da Granular. Nosso diferencial: a gente integra toda a operação do seu restaurante — vendas, estoque, produção e a conciliação do iFood — com análises de IA que mostram, em tempo real, onde você ganha e onde perde dinheiro. Me conta: qual o maior desafio da sua operação hoje?`,
+    welcomeMessage: `Oi! 😊 Só um instante que já te conecto com um dos nossos consultores...`,
   }
 }

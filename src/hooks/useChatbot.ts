@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import { faqEntries, fallbackMessage, getAgentInfo } from '../data/chatbotFaq'
 import { findBestMatch, isGreeting } from '../utils/fuzzyMatch'
 
@@ -11,23 +11,26 @@ export interface ChatMessage {
 }
 
 // ── IA do vendedor (SDR) ─────────────────────────────────────────────────────
-// O bot agora é INTELIGENTE: chama a Edge Function `agente-sdr` (projeto Granular
-// Food zmmendamtlyqipdjypmw), que roda a cascata Haiku→Groq com o prompt persuasivo
-// (não inventa preço, ancora valor nos números do lead). Se a IA cair/demorar, o
-// bot degrada GRACIOSAMENTE pro FAQ por palavra-chave (resposta nunca falta).
-// anon key é PÚBLICA por design (seguro no front).
+// Bot inteligente: chama a Edge Function `agente-sdr` (projeto Granular Food
+// zmmendamtlyqipdjypmw), cascata Haiku→Groq, prompt persuasivo+humano. Se a IA
+// cair/demorar, degrada pro FAQ por palavra-chave. anon key é PÚBLICA (ok no front).
 const SDR_EF_URL = 'https://zmmendamtlyqipdjypmw.supabase.co/functions/v1/agente-sdr'
 const SDR_ANON =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InptbWVuZGFtdGx5cWlwZGp5cG13Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI0NDg4NDEsImV4cCI6MjA4ODAyNDg0MX0.B5ifOYrGIP-DJ1GDgsHWGZn_-fakExaO9JtxvOv5CTk'
 
+// Mensagem do "consultor que chega" (simula atendimento humano após a espera).
+function consultorChega(name: string): string {
+  return `Oi, tudo bem? 😊 Aqui é a ${name}, da Granular. A gente cuida da operação inteira do restaurante com IA — do iFood ao estoque, produção e cozinha. Me conta: qual o maior perrengue da sua operação hoje?`
+}
+
 const GREETING_RESPONSES = [
-  'Olá! Como posso te ajudar hoje? 😊 Pode me contar o que você precisa — sobre planos, módulos, especialistas ou qualquer dúvida sobre a Granular.',
-  'Oi! Fico feliz em te atender. O que você gostaria de saber? Posso te ajudar com planos, funcionalidades, integração com iFood, consultoria e muito mais.',
-  'Olá! Pode falar à vontade. 😊 Sobre o que você gostaria de saber?',
+  'Opa! Como posso te ajudar? 😊 Me conta um pouco do seu restaurante.',
+  'Oi! Fico feliz em te atender. Sobre o que você quer saber — operação, vendas, estoque, equipe?',
+  'Olá! Pode falar à vontade. 😊 Qual o maior desafio do seu restaurante hoje?',
 ]
 
 const CLARIFYING_RESPONSE =
-  'Hmm, não entendi muito bem. Pode me contar um pouco mais? Por exemplo, você tem dúvidas sobre:\n\n• Planos e preços\n• Módulos e funcionalidades\n• Especialistas sob demanda\n• Integração com iFood\n• Como começar (onboarding)'
+  'Hmm, me conta um pouco mais pra eu te ajudar direito 😊 — é algo de vendas, estoque, produção, equipe, ou a parte financeira/iFood?'
 
 function randomItem<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)]
@@ -44,7 +47,24 @@ export function useChatbot() {
 
   const toggle = useCallback(() => setIsOpen((prev) => !prev), [])
 
-  // Fallback determinístico (FAQ por palavra-chave) — usado se a IA falhar.
+  // "Aguarde que um consultor vai te atender": após a welcome, mostra o typing e
+  // o consultor "chega" (mensagem humana). Roda 1x.
+  const arrivedRef = useRef(false)
+  useEffect(() => {
+    if (arrivedRef.current) return
+    arrivedRef.current = true
+    setIsTyping(true)
+    const timer = setTimeout(() => {
+      setIsTyping(false)
+      setMessages((prev) => [
+        ...prev,
+        { id: 'consultor-chega', role: 'bot', text: consultorChega(agent.name) },
+      ])
+    }, 3800)
+    return () => clearTimeout(timer)
+  }, [agent.name])
+
+  // Fallback determinístico (FAQ por palavra-chave) — se a IA falhar.
   const faqFallback = useCallback(
     (trimmed: string): ChatMessage => {
       if (isGreeting(trimmed)) {
@@ -82,7 +102,8 @@ export function useChatbot() {
       setMessages((prev) => [...prev, userMsg])
       setIsTyping(true)
 
-      // Histórico p/ a IA: descarta o welcome (UI), mapeia bot→assistant (user-first).
+      // Histórico p/ a IA: descarta a welcome (UI de espera); mantém o "consultor
+      // chega" como turno do assistente; mapeia bot→assistant (user-first).
       const historico = snapshot
         .filter((m) => m.id !== 'welcome')
         .map((m) => ({ role: m.role === 'bot' ? 'assistant' : 'user', content: m.text }))
@@ -109,7 +130,6 @@ export function useChatbot() {
         setIsTyping(false)
         setMessages((prev) => [...prev, { id: `bot-${Date.now()}`, role: 'bot', text: reply }])
       } catch {
-        // IA indisponível → FAQ por palavra-chave (resposta nunca falta).
         const fb = faqFallback(trimmed)
         setIsTyping(false)
         setMessages((prev) => [...prev, fb])
