@@ -20,17 +20,17 @@ const SDR_ANON =
 
 // Mensagem do "consultor que chega" (simula atendimento humano após a espera).
 function consultorChega(name: string): string {
-  return `Oi, tudo bem? 😊 Aqui é a ${name}, da Granular. A gente cuida da operação inteira do restaurante com IA — do iFood ao estoque, produção e cozinha. Me conta: qual o maior perrengue da sua operação hoje?`
+  return `Olá, tudo bem? 😊 Aqui é a ${name}, da Granular. Trabalhamos com a operação inteira do restaurante apoiada por IA — do iFood ao estoque, produção e cozinha. Me conta: qual é o maior desafio da sua operação hoje?`
 }
 
 const GREETING_RESPONSES = [
-  'Opa! Como posso te ajudar? 😊 Me conta um pouco do seu restaurante.',
-  'Oi! Fico feliz em te atender. Sobre o que você quer saber — operação, vendas, estoque, equipe?',
-  'Olá! Pode falar à vontade. 😊 Qual o maior desafio do seu restaurante hoje?',
+  'Olá! Como posso te ajudar? 😊 Me conta um pouco sobre o seu restaurante.',
+  'Olá! Será um prazer te ajudar. Sobre o que você gostaria de saber — operação, vendas, estoque, equipe?',
+  'Olá! Fique à vontade. 😊 Qual é o maior desafio do seu restaurante hoje?',
 ]
 
 const CLARIFYING_RESPONSE =
-  'Hmm, me conta um pouco mais pra eu te ajudar direito 😊 — é algo de vendas, estoque, produção, equipe, ou a parte financeira/iFood?'
+  'Me conta um pouco mais para eu te ajudar melhor 😊 — é algo ligado a vendas, estoque, produção, equipe, ou à parte financeira/iFood?'
 
 function randomItem<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)]
