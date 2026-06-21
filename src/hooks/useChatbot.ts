@@ -18,6 +18,17 @@ const SDR_EF_URL = 'https://zmmendamtlyqipdjypmw.supabase.co/functions/v1/agente
 const SDR_ANON =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InptbWVuZGFtdGx5cWlwZGp5cG13Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI0NDg4NDEsImV4cCI6MjA4ODAyNDg0MX0.B5ifOYrGIP-DJ1GDgsHWGZn_-fakExaO9JtxvOv5CTk'
 
+const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms))
+
+// Pausa "humana": simula a consultora LENDO a mensagem + DIGITANDO a resposta.
+// ~lê 1,2s + digita ~16ms/caractere, com piso de ~2s e teto de ~5,5s. Some um
+// jitter pequeno pra não soar mecânico (nunca o mesmo tempo).
+function humanDelayMs(text: string): number {
+  const base = 1200 + text.length * 16
+  const jitter = 200 + Math.floor(Math.random() * 700)
+  return Math.min(Math.max(base + jitter, 2000), 5500)
+}
+
 // Mensagem do "consultor que chega" (simula atendimento humano após a espera).
 function consultorChega(name: string): string {
   return `Olá, tudo bem? 😊 Aqui é a ${name}, da Granular. Trabalhamos com a operação inteira do restaurante apoiada por IA — do iFood ao estoque, produção e cozinha. Me conta: qual é o maior desafio da sua operação hoje?`
@@ -100,7 +111,8 @@ export function useChatbot() {
       const userMsg: ChatMessage = { id: `user-${Date.now()}`, role: 'user', text: trimmed }
       const snapshot = [...messages, userMsg]
       setMessages((prev) => [...prev, userMsg])
-      setIsTyping(true)
+      setIsTyping(true) // mostra "digitando..." enquanto a consultora "lê e digita"
+      const startedAt = Date.now()
 
       // Histórico p/ a IA: descarta a welcome (UI de espera); mantém o "consultor
       // chega" como turno do assistente; mapeia bot→assistant (user-first).
@@ -126,11 +138,15 @@ export function useChatbot() {
         const data = await res.json()
         const reply = typeof data?.text === 'string' ? data.text.trim() : ''
         if (!reply) throw new Error('empty')
+        // Ritmo humano: segura o "digitando..." até completar o tempo de ler+digitar
+        // (descontando o que a IA já demorou). Nunca responde instantâneo.
+        await sleep(Math.max(0, humanDelayMs(reply) - (Date.now() - startedAt)))
         setUnmatchedCount(0)
         setIsTyping(false)
         setMessages((prev) => [...prev, { id: `bot-${Date.now()}`, role: 'bot', text: reply }])
       } catch {
         const fb = faqFallback(trimmed)
+        await sleep(Math.max(0, humanDelayMs(fb.text) - (Date.now() - startedAt)))
         setIsTyping(false)
         setMessages((prev) => [...prev, fb])
       }
