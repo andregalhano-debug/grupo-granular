@@ -10,10 +10,15 @@ export interface ChatMessage {
   whatsappLabel?: string
 }
 
-function typingDelay(text: string): number {
-  // 400ms base + 12ms por caractere, máximo 1400ms
-  return Math.min(400 + text.length * 12, 1400)
-}
+// ── IA do vendedor (SDR) ─────────────────────────────────────────────────────
+// O bot agora é INTELIGENTE: chama a Edge Function `agente-sdr` (projeto Granular
+// Food zmmendamtlyqipdjypmw), que roda a cascata Haiku→Groq com o prompt persuasivo
+// (não inventa preço, ancora valor nos números do lead). Se a IA cair/demorar, o
+// bot degrada GRACIOSAMENTE pro FAQ por palavra-chave (resposta nunca falta).
+// anon key é PÚBLICA por design (seguro no front).
+const SDR_EF_URL = 'https://zmmendamtlyqipdjypmw.supabase.co/functions/v1/agente-sdr'
+const SDR_ANON =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InptbWVuZGFtdGx5cWlwZGp5cG13Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI0NDg4NDEsImV4cCI6MjA4ODAyNDg0MX0.B5ifOYrGIP-DJ1GDgsHWGZn_-fakExaO9JtxvOv5CTk'
 
 const GREETING_RESPONSES = [
   'Olá! Como posso te ajudar hoje? 😊 Pode me contar o que você precisa — sobre planos, módulos, especialistas ou qualquer dúvida sobre a Granular.',
@@ -39,61 +44,79 @@ export function useChatbot() {
 
   const toggle = useCallback(() => setIsOpen((prev) => !prev), [])
 
-  const sendMessage = useCallback((text: string) => {
-    const trimmed = text.trim()
-    if (!trimmed) return
-
-    const userMsg: ChatMessage = {
-      id: `user-${Date.now()}`,
-      role: 'user',
-      text: trimmed,
-    }
-
-    setMessages((prev) => [...prev, userMsg])
-    setIsTyping(true)
-
-    let botMsg: ChatMessage
-
-    if (isGreeting(trimmed)) {
-      // Respond to greeting with a welcoming probing question
-      botMsg = {
-        id: `bot-${Date.now()}`,
-        role: 'bot',
-        text: randomItem(GREETING_RESPONSES),
+  // Fallback determinístico (FAQ por palavra-chave) — usado se a IA falhar.
+  const faqFallback = useCallback(
+    (trimmed: string): ChatMessage => {
+      if (isGreeting(trimmed)) {
+        setUnmatchedCount(0)
+        return { id: `bot-${Date.now()}`, role: 'bot', text: randomItem(GREETING_RESPONSES) }
+      }
+      const match = findBestMatch(trimmed, faqEntries)
+      if (match) {
+        setUnmatchedCount(0)
+        return { id: `bot-${Date.now()}`, role: 'bot', text: match.answer }
+      }
+      if (unmatchedCount === 0) {
+        setUnmatchedCount(1)
+        return { id: `bot-${Date.now()}`, role: 'bot', text: CLARIFYING_RESPONSE }
       }
       setUnmatchedCount(0)
-    } else {
-      const match = findBestMatch(trimmed, faqEntries)
-
-      if (match) {
-        botMsg = { id: `bot-${Date.now()}`, role: 'bot', text: match.answer }
-        setUnmatchedCount(0)
-      } else if (unmatchedCount === 0) {
-        // First miss: ask a clarifying question
-        botMsg = {
-          id: `bot-${Date.now()}`,
-          role: 'bot',
-          text: CLARIFYING_RESPONSE,
-        }
-        setUnmatchedCount(1)
-      } else {
-        // Second miss: fall back to WhatsApp
-        botMsg = {
-          id: `bot-${Date.now()}`,
-          role: 'bot',
-          text: fallbackMessage.text,
-          whatsappUrl: fallbackMessage.whatsappUrl,
-          whatsappLabel: fallbackMessage.whatsappLabel,
-        }
-        setUnmatchedCount(0)
+      return {
+        id: `bot-${Date.now()}`,
+        role: 'bot',
+        text: fallbackMessage.text,
+        whatsappUrl: fallbackMessage.whatsappUrl,
+        whatsappLabel: fallbackMessage.whatsappLabel,
       }
-    }
+    },
+    [unmatchedCount],
+  )
 
-    setTimeout(() => {
-      setIsTyping(false)
-      setMessages((prev) => [...prev, botMsg])
-    }, typingDelay(botMsg.text))
-  }, [unmatchedCount])
+  const sendMessage = useCallback(
+    async (text: string) => {
+      const trimmed = text.trim()
+      if (!trimmed) return
+
+      const userMsg: ChatMessage = { id: `user-${Date.now()}`, role: 'user', text: trimmed }
+      const snapshot = [...messages, userMsg]
+      setMessages((prev) => [...prev, userMsg])
+      setIsTyping(true)
+
+      // Histórico p/ a IA: descarta o welcome (UI), mapeia bot→assistant (user-first).
+      const historico = snapshot
+        .filter((m) => m.id !== 'welcome')
+        .map((m) => ({ role: m.role === 'bot' ? 'assistant' : 'user', content: m.text }))
+
+      try {
+        const ctrl = new AbortController()
+        const timer = setTimeout(() => ctrl.abort(), 30000)
+        const res = await fetch(SDR_EF_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            apikey: SDR_ANON,
+            Authorization: `Bearer ${SDR_ANON}`,
+          },
+          body: JSON.stringify({ action: 'chat', agentName: agent.name, messages: historico }),
+          signal: ctrl.signal,
+        })
+        clearTimeout(timer)
+        if (!res.ok) throw new Error(`ef_${res.status}`)
+        const data = await res.json()
+        const reply = typeof data?.text === 'string' ? data.text.trim() : ''
+        if (!reply) throw new Error('empty')
+        setUnmatchedCount(0)
+        setIsTyping(false)
+        setMessages((prev) => [...prev, { id: `bot-${Date.now()}`, role: 'bot', text: reply }])
+      } catch {
+        // IA indisponível → FAQ por palavra-chave (resposta nunca falta).
+        const fb = faqFallback(trimmed)
+        setIsTyping(false)
+        setMessages((prev) => [...prev, fb])
+      }
+    },
+    [messages, agent.name, faqFallback],
+  )
 
   return { isOpen, isTyping, messages, toggle, sendMessage, agentName: agent.name }
 }
