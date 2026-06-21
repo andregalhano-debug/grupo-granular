@@ -51,6 +51,13 @@ export function useChatbot() {
   const [isOpen, setIsOpen] = useState(false)
   const [isTyping, setIsTyping] = useState(false)
   const [agent] = useState(() => getAgentInfo())
+  // Identificador da sessão de chat — usado pela EF p/ gravar/atualizar o lead em
+  // ml_leads (upsert idempotente). Gerado 1x por abertura do widget.
+  const [sessionId] = useState(() =>
+    typeof crypto !== 'undefined' && crypto.randomUUID
+      ? crypto.randomUUID()
+      : `sess-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+  )
   const [unmatchedCount, setUnmatchedCount] = useState(0)
   const [messages, setMessages] = useState<ChatMessage[]>([
     { id: 'welcome', role: 'bot', text: agent.welcomeMessage },
@@ -130,7 +137,7 @@ export function useChatbot() {
             apikey: SDR_ANON,
             Authorization: `Bearer ${SDR_ANON}`,
           },
-          body: JSON.stringify({ action: 'chat', agentName: agent.name, messages: historico }),
+          body: JSON.stringify({ action: 'chat', agentName: agent.name, session_id: sessionId, messages: historico }),
           signal: ctrl.signal,
         })
         clearTimeout(timer)
@@ -151,7 +158,7 @@ export function useChatbot() {
         setMessages((prev) => [...prev, fb])
       }
     },
-    [messages, agent.name, faqFallback],
+    [messages, agent.name, faqFallback, sessionId],
   )
 
   return { isOpen, isTyping, messages, toggle, sendMessage, agentName: agent.name }
