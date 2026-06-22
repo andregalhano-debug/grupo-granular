@@ -3,7 +3,7 @@ import { useSearchParams, useNavigate, Link } from 'react-router-dom'
 import {
   Loader2, ChevronDown, CalendarDays, CheckCircle2,
   Send, Building2, User, MessageCircle, Mail, Store,
-  TrendingUp, FileText, CheckCircle, XCircle,
+  TrendingUp, FileText, CheckCircle, XCircle, CreditCard, ShoppingBag,
 } from 'lucide-react'
 import { Elements } from '@stripe/react-stripe-js'
 import { useT } from '../i18n/useT'
@@ -50,6 +50,8 @@ export function CheckoutPage() {
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null)
   const [demoSubmitted, setDemoSubmitted] = useState(false)
   const [showPayment, setShowPayment] = useState(false)
+  const [showCalendar, setShowCalendar] = useState(false)
+  const [showSummary, setShowSummary] = useState(false)
   const [demoErrors, setDemoErrors] = useState<Record<string, string>>({})
 
   const slots = useMemo(() => generateDemoSlots(), [])
@@ -385,30 +387,39 @@ export function CheckoutPage() {
                 </div>
               </div>
 
-              {/* Calendário — opcional */}
-              <div className="space-y-4">
-                <div>
-                  <h2 className="text-base font-bold text-[#0E0E0F] mb-0.5">Prefere agendar um horário?</h2>
-                  <p className="text-xs text-[#9C958A]">
-                    Opcional — basta enviar seus dados que nossa equipe entra em contato pelo WhatsApp.
-                  </p>
-                </div>
+              {/* Calendário — colapsado por padrão */}
+              <div className="space-y-3">
+                <button
+                  type="button"
+                  onClick={() => setShowCalendar((v) => !v)}
+                  className="w-full flex items-center justify-between gap-3 border border-dashed border-[#9C958A]/30 hover:border-[#A31631]/40 rounded-xl px-4 py-3 text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors"
+                >
+                  <span className="flex items-center gap-2">
+                    <CalendarDays size={15} className={selectedSlot ? 'text-[#A31631]' : ''} />
+                    {selectedSlot
+                      ? <><strong className="text-[#0E0E0F]">Horário selecionado:</strong> {selectedSlot.replace(/-(?=[^-]*$)/, ' às ')}</>
+                      : 'Quero escolher um horário (opcional)'}
+                  </span>
+                  <ChevronDown size={15} className={`shrink-0 transition-transform duration-200 ${showCalendar ? 'rotate-180' : ''}`} />
+                </button>
 
-                <div className="rounded-xl border border-[#9C958A]/15 p-4">
-                  <MiniCalendar
-                    slots={slots}
-                    selectedSlot={selectedSlot}
-                    onSelectSlot={(key) => setSelectedSlot(selectedSlot === key ? null : key)}
-                  />
-                </div>
+                {showCalendar && (
+                  <div className="rounded-xl border border-[#9C958A]/15 p-4">
+                    <MiniCalendar
+                      slots={slots}
+                      selectedSlot={selectedSlot}
+                      onSelectSlot={(key) => setSelectedSlot(selectedSlot === key ? null : key)}
+                    />
+                  </div>
+                )}
 
                 {selectedSlot && (
                   <div className="flex items-center gap-2 rounded-lg bg-[#A31631]/5 border border-[#A31631]/10 px-3 py-2 text-xs text-[#0E0E0F]">
                     <CalendarDays size={14} className="text-[#A31631] shrink-0" />
-                    Selecionado: <strong>{selectedSlot.replace(/-(?=[^-]*$)/, ' às ')}</strong>
+                    <strong>{selectedSlot.replace(/-(?=[^-]*$)/, ' às ')}</strong>
                     <button
                       type="button"
-                      onClick={() => setSelectedSlot(null)}
+                      onClick={() => { setSelectedSlot(null); setShowCalendar(false) }}
                       className="ml-auto text-[#9C958A] hover:text-[#A31631] transition-colors text-[10px]"
                     >
                       remover
@@ -417,9 +428,20 @@ export function CheckoutPage() {
                 )}
               </div>
 
-              {/* Mobile order summary */}
-              <div className="lg:hidden">
-                <OrderSummary paymentMethod={form.paymentMethod} />
+              {/* Resumo do pedido — colapsado por padrão */}
+              <div className="lg:hidden space-y-2">
+                <button
+                  type="button"
+                  onClick={() => setShowSummary((v) => !v)}
+                  className="w-full flex items-center justify-between gap-3 border border-[#9C958A]/20 hover:border-[#9C958A]/40 rounded-xl px-4 py-3 text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors"
+                >
+                  <span className="flex items-center gap-2">
+                    <ShoppingBag size={15} />
+                    Ver resumo do pedido
+                  </span>
+                  <ChevronDown size={15} className={`shrink-0 transition-transform duration-200 ${showSummary ? 'rotate-180' : ''}`} />
+                </button>
+                {showSummary && <OrderSummary paymentMethod={form.paymentMethod} />}
               </div>
 
               {/* CTA primário — enviar sem pagamento */}
@@ -452,17 +474,20 @@ export function CheckoutPage() {
                 <button
                   type="button"
                   onClick={() => setShowPayment((v) => !v)}
-                  className="w-full flex items-center justify-between gap-3 border border-[#0E0E0F]/10 hover:border-[#A31631]/30 rounded-xl px-5 py-4 text-sm font-medium text-[#0E0E0F] transition-colors"
+                  className="w-full flex items-center justify-between gap-3 bg-[#0E0E0F] hover:bg-[#1a1a1b] text-white rounded-2xl px-5 py-4 text-sm font-semibold transition-colors shadow-lg shadow-black/10"
                 >
-                  <span>Quero contratar agora</span>
+                  <span className="flex items-center gap-2.5">
+                    <CreditCard size={17} />
+                    Quero contratar agora
+                  </span>
                   <ChevronDown
                     size={18}
-                    className={`text-[#9C958A] transition-transform duration-300 ${showPayment ? 'rotate-180' : ''}`}
+                    className={`text-white/60 transition-transform duration-300 ${showPayment ? 'rotate-180' : ''}`}
                   />
                 </button>
 
                 {showPayment && (
-                  <div className="mt-5 space-y-6 border border-[#0E0E0F]/8 rounded-2xl p-5 sm:p-6">
+                  <div className="mt-3 space-y-6 bg-[#F7F6F3] border border-[#0E0E0F]/8 rounded-2xl p-5 sm:p-6">
                     {/* CNPJ/CPF — necessário para cobrança */}
                     <div>
                       <label className="flex items-center gap-2 text-sm font-medium text-[#0E0E0F] mb-1.5">
@@ -539,10 +564,21 @@ export function CheckoutPage() {
             </form>
           </div>
 
-          {/* Right column — order summary (desktop) */}
+          {/* Right column — resumo colapsado (desktop) */}
           <div className="hidden lg:block lg:col-span-2">
-            <div className="sticky top-8">
-              <OrderSummary paymentMethod={form.paymentMethod} />
+            <div className="sticky top-8 space-y-2">
+              <button
+                type="button"
+                onClick={() => setShowSummary((v) => !v)}
+                className="w-full flex items-center justify-between gap-3 border border-[#9C958A]/20 hover:border-[#9C958A]/40 rounded-xl px-4 py-3 text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors"
+              >
+                <span className="flex items-center gap-2">
+                  <ShoppingBag size={15} />
+                  Ver resumo do pedido
+                </span>
+                <ChevronDown size={15} className={`shrink-0 transition-transform duration-200 ${showSummary ? 'rotate-180' : ''}`} />
+              </button>
+              {showSummary && <OrderSummary paymentMethod={form.paymentMethod} />}
             </div>
           </div>
         </div>
