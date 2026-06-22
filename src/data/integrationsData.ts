@@ -1,6 +1,8 @@
 export interface IntegrationDetail {
   name: string
   logo: string
+  iconBg: string      // cor de fundo do ícone (estilo app icon)
+  logoFilter: string  // CSS filter para logo branca ou preta
   desc: string
   detailText?: string
   detailPoints?: string[]
@@ -12,6 +14,8 @@ export const integrationsData: IntegrationDetail[] = [
   {
     name: 'iFood',
     logo: '/logos/ifood.png',
+    iconBg: '#EA1D2C',
+    logoFilter: 'brightness(0) invert(1)',
     desc: 'Receba e gerencie pedidos do iFood direto no painel Granular.',
     detailPoints: [
       'Pedidos recebidos automaticamente, sem necessidade de gerenciamento manual',
@@ -25,6 +29,8 @@ export const integrationsData: IntegrationDetail[] = [
   {
     name: 'Anota AI',
     logo: '/logos/anotaai.svg',
+    iconBg: '#29ABE2',
+    logoFilter: 'brightness(0) invert(1)',
     desc: 'Receba pedidos do Anota AI direto no painel Granular, sem lançamento manual.',
     detailPoints: [
       'Pedidos realizados pelo cardápio digital do Anota AI chegam automaticamente na Granular',
@@ -37,6 +43,8 @@ export const integrationsData: IntegrationDetail[] = [
   {
     name: '99Food',
     logo: '/logos/99food.svg',
+    iconBg: '#F5A623',
+    logoFilter: 'brightness(0)',
     desc: 'Integre pedidos do 99Food à gestão Granular e centralize sua operação de delivery.',
     detailPoints: [
       'Pedidos do 99Food recebidos e gerenciados diretamente no painel Granular',
@@ -49,6 +57,8 @@ export const integrationsData: IntegrationDetail[] = [
   {
     name: 'Open Delivery',
     logo: '/logos/opendelivery.webp',
+    iconBg: '#1976D2',
+    logoFilter: 'brightness(0) invert(1)',
     desc: 'Padrão aberto para conectar múltiplas plataformas de delivery.',
     detailPoints: [
       'Padrão aberto do mercado brasileiro de food service para integração entre plataformas',
@@ -61,6 +71,8 @@ export const integrationsData: IntegrationDetail[] = [
   {
     name: 'Omie',
     logo: '/logos/omie.png',
+    iconBg: '#F37021',
+    logoFilter: 'brightness(0) invert(1)',
     desc: 'Integração financeira completa com o ERP Omie.',
     detailPoints: [
       'Sincronização automática de contas a pagar e receber entre Granular e Omie',
@@ -73,6 +85,8 @@ export const integrationsData: IntegrationDetail[] = [
   {
     name: 'Foozi',
     logo: '/logos/foozi.svg',
+    iconBg: '#1D2433',
+    logoFilter: 'brightness(0) invert(1)',
     desc: 'Atendimento digital, BPO e acesso a +2.000 fornecedores para food service.',
     detailPoints: [
       'Atendimento profissional via WhatsApp com chatbot inteligente integrado',

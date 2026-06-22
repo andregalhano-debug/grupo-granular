@@ -92,16 +92,16 @@ export function Integrations() {
                 style={openIndex === i ? { boxShadow: `0 10px 30px ${accent}1a` } : {}}
               >
                 {/* Ícone em quadrado pequeno com bordas arredondadas */}
-                <div className={`w-14 h-14 rounded-2xl flex items-center justify-center p-2.5 transition-colors ${
-                  openIndex === i
-                    ? 'bg-[var(--accent)]/8'
-                    : 'bg-[#F2F2F2] group-hover:bg-[var(--accent)]/5'
-                }`}>
+                <div
+                  className="w-14 h-14 rounded-2xl flex items-center justify-center p-2.5 transition-all"
+                  style={{ backgroundColor: item.iconBg }}
+                >
                   <img
                     src={item.logo}
                     alt={item.name}
                     loading="lazy"
                     className="w-full h-full object-contain"
+                    style={{ filter: item.logoFilter }}
                   />
                 </div>
                 {/* Nome da integração */}
@@ -138,8 +138,8 @@ export function Integrations() {
               {/* Header */}
               <div className="flex items-start justify-between px-4 sm:px-8 py-4 sm:py-5 border-b border-[#0E0E0F]/5 gap-3">
                 <div className="flex items-start gap-3 sm:gap-4 min-w-0">
-                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl bg-[#F7F7F7] flex items-center justify-center overflow-hidden p-1.5 sm:p-2 flex-shrink-0">
-                    <img src={openIntegration.logo} alt={openIntegration.name} className="w-full h-full object-contain" />
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl flex items-center justify-center overflow-hidden p-1.5 sm:p-2 flex-shrink-0" style={{ backgroundColor: openIntegration.iconBg }}>
+                    <img src={openIntegration.logo} alt={openIntegration.name} className="w-full h-full object-contain" style={{ filter: openIntegration.logoFilter }} />
                   </div>
                   <div className="min-w-0">
                     <div className="flex flex-wrap items-center gap-2">
