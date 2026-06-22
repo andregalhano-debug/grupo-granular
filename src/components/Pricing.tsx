@@ -174,7 +174,7 @@ function MobileCards({
           <div className="px-4 pb-5">
             <Link
               to={plan.id === 'saas-3' ? '/agendar-demo' : `/checkout?plano=${plan.id}`}
-              className="block text-center font-medium py-3 px-6 rounded-xl text-sm transition-colors border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white"
+              className="flex items-center justify-center w-full h-11 font-medium px-4 rounded-xl text-sm transition-colors border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white whitespace-nowrap"
             >
               {plan.id === 'saas-3' ? t.pricingExtended.scheduleDemo : plan.cta}
             </Link>
@@ -369,7 +369,7 @@ function DesktopTable({
           >
             <Link
               to={plan.id === 'saas-3' ? '/agendar-demo' : `/checkout?plano=${plan.id}`}
-              className="inline-block w-full font-medium py-3 px-6 rounded-xl text-sm transition-colors border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white"
+              className="flex items-center justify-center w-full h-11 font-medium px-4 rounded-xl text-sm transition-colors border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white whitespace-nowrap"
             >
               {plan.id === 'saas-3' ? t.pricingExtended.scheduleDemo : plan.cta}
             </Link>
