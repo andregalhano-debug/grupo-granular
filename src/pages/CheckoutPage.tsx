@@ -473,7 +473,7 @@ export function CheckoutPage() {
               <div>
                 <button
                   type="button"
-                  onClick={() => setShowPayment((v) => !v)}
+                  onClick={() => { setShowPayment((v) => { const next = !v; if (next) setShowSummary(true); return next }) }}
                   className="w-full flex items-center justify-between gap-3 bg-[#0E0E0F] hover:bg-[#1a1a1b] text-white rounded-2xl px-5 py-4 text-sm font-semibold transition-colors shadow-lg shadow-black/10"
                 >
                   <span className="flex items-center gap-2.5">
