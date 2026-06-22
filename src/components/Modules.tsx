@@ -7,6 +7,7 @@ import { modulesDataRestaurantesEn, modulesDataMercadosEn } from '../data/module
 import { useCategoryAccent } from '../stores/CategoryContext'
 import { useT } from '../i18n/useT'
 import { useLanguage } from '../stores/useLanguageStore'
+import { ModulesMercados } from './ModulesMercados'
 
 export type Category = 'restaurantes' | 'mercados' | 'farmacias' | 'petshop'
 
@@ -91,6 +92,11 @@ export function Modules({ category = 'restaurantes' }: Props) {
     } else {
       setOpenIndex(i)
     }
+  }
+
+  /* Mercados — layout especial com dois painéis (Food + Market) */
+  if (category === 'mercados') {
+    return <ModulesMercados />
   }
 
   /* Em breve — Farmácias e Pet Shop */
