@@ -1,13 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
-  <rect width="120" height="120" fill="#FFFFFF"/>
-  <defs>
-    <linearGradient id="g99" x1="0" y1="90" x2="0" y2="30" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#F5A623"/>
-      <stop offset="100%" stop-color="#FDD835"/>
-    </linearGradient>
-  </defs>
   <!-- "99" large -->
-  <text x="10" y="72" font-family="'Arial Black', 'Arial Bold', Arial, sans-serif" font-size="62" font-weight="900" fill="url(#g99)">99</text>
+  <text x="10" y="72" font-family="'Arial Black', 'Arial Bold', Arial, sans-serif" font-size="62" font-weight="900" fill="#1A1A1A">99</text>
   <!-- "Food" below -->
-  <text x="12" y="100" font-family="'Arial Black', 'Arial Bold', Arial, sans-serif" font-size="26" font-weight="900" fill="url(#g99)" letter-spacing="1">Food</text>
+  <text x="12" y="100" font-family="'Arial Black', 'Arial Bold', Arial, sans-serif" font-size="26" font-weight="900" fill="#1A1A1A" letter-spacing="1">Food</text>
 </svg>

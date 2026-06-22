@@ -30,7 +30,7 @@ export const integrationsData: IntegrationDetail[] = [
     name: 'Anota AI',
     logo: '/logos/anotaai.svg',
     iconBg: '#29ABE2',
-    logoFilter: 'brightness(0) invert(1)',
+    logoFilter: 'none',
     desc: 'Receba pedidos do Anota AI direto no painel Granular, sem lançamento manual.',
     detailPoints: [
       'Pedidos realizados pelo cardápio digital do Anota AI chegam automaticamente na Granular',
@@ -44,7 +44,7 @@ export const integrationsData: IntegrationDetail[] = [
     name: '99Food',
     logo: '/logos/99food.svg',
     iconBg: '#F5A623',
-    logoFilter: 'brightness(0)',
+    logoFilter: 'none',
     desc: 'Integre pedidos do 99Food à gestão Granular e centralize sua operação de delivery.',
     detailPoints: [
       'Pedidos do 99Food recebidos e gerenciados diretamente no painel Granular',
@@ -57,7 +57,7 @@ export const integrationsData: IntegrationDetail[] = [
   {
     name: 'Open Delivery',
     logo: '/logos/opendelivery.webp',
-    iconBg: '#1976D2',
+    iconBg: '#2E7D32',
     logoFilter: 'brightness(0) invert(1)',
     desc: 'Padrão aberto para conectar múltiplas plataformas de delivery.',
     detailPoints: [
@@ -71,8 +71,8 @@ export const integrationsData: IntegrationDetail[] = [
   {
     name: 'Omie',
     logo: '/logos/omie.png',
-    iconBg: '#F37021',
-    logoFilter: 'brightness(0) invert(1)',
+    iconBg: '#00BCD4',
+    logoFilter: 'brightness(0)',
     desc: 'Integração financeira completa com o ERP Omie.',
     detailPoints: [
       'Sincronização automática de contas a pagar e receber entre Granular e Omie',
