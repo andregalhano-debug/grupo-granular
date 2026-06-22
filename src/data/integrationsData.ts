@@ -43,7 +43,7 @@ export const integrationsData: IntegrationDetail[] = [
   {
     name: '99Food',
     logo: '/logos/99food.svg',
-    iconBg: '#F5A623',
+    iconBg: '#F7BD29',
     logoFilter: 'none',
     desc: 'Integre pedidos do 99Food à gestão Granular e centralize sua operação de delivery.',
     detailPoints: [
