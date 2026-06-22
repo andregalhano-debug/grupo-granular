@@ -19,6 +19,8 @@ export interface Plan {
   subtitle: string
   price: number
   priceFormatted: string
+  monthlyPrice?: number
+  monthlyPriceFormatted?: string
   period: string
   months?: number
   features: string[]
@@ -47,6 +49,8 @@ export const saasPlans: Plan[] = [
     subtitle: 'Vendas, Operação, Portal iFood',
     price: 89,
     priceFormatted: '89',
+    monthlyPrice: 129,
+    monthlyPriceFormatted: '129',
     period: '/mês',
     features: [
       'Dashboard iFood completo de performance',
@@ -65,6 +69,8 @@ export const saasPlans: Plan[] = [
     subtitle: 'Estoque e Checklist',
     price: 489,
     priceFormatted: '489',
+    monthlyPrice: 699,
+    monthlyPriceFormatted: '699',
     period: '/mês',
     features: [
       'Dashboard iFood completo de performance',

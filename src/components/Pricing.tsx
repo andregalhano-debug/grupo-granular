@@ -1,10 +1,13 @@
 import { Check, Minus, Monitor, Handshake, ChevronRight, GraduationCap, CalendarDays, Star, Clock, Users, PhoneCall } from 'lucide-react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
 import { saasPlans, saasAddonFeatures, type Plan } from '../data/plans'
 import type { Category } from './Modules'
 import { useCategoryAccent } from '../stores/CategoryContext'
 import { useT } from '../i18n/useT'
+
+type BillingCycle = 'monthly' | 'annual'
 
 const saasCapacity: Record<string, string> = {
   'saas-1': 'Até 3 IDs e 3k pedidos/mês',
@@ -41,10 +44,12 @@ function MobileCards({
   plans,
   capacity,
   addonFeatures = [],
+  billingCycle = 'annual',
 }: {
   plans: Plan[]
   capacity?: Record<string, string>
   addonFeatures?: string[]
+  billingCycle?: BillingCycle
 }) {
   const t = useT()
   const allFeatures = getAllFeatures(plans)
@@ -89,11 +94,21 @@ function MobileCards({
                 <span className="text-xl font-bold text-[#0E0E0F]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{t.pricingExtended.onRequest}</span>
               </div>
             ) : (
-              <div className="flex items-baseline justify-center gap-0.5">
-                <span className="text-4xl font-bold text-[#0E0E0F]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-                  {plan.priceFormatted}
-                </span>
-                <span className="text-sm text-[#9C958A]">{plan.period}</span>
+              <div>
+                <div className="flex items-baseline justify-center gap-0.5">
+                  <span className="text-4xl font-bold text-[#0E0E0F]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                    {billingCycle === 'monthly' && plan.monthlyPriceFormatted
+                      ? plan.monthlyPriceFormatted
+                      : plan.priceFormatted}
+                  </span>
+                  <span className="text-sm text-[#9C958A]">{plan.period}</span>
+                </div>
+                {billingCycle === 'annual' && plan.monthlyPrice && (
+                  <p className="text-xs text-[#9C958A] mt-1">
+                    <span className="line-through">R${plan.monthlyPriceFormatted}</span>
+                    <span className="ml-1 text-green-600 font-medium">no mensal</span>
+                  </p>
+                )}
               </div>
             )}
           </div>
@@ -175,10 +190,12 @@ function DesktopTable({
   plans,
   capacity,
   addonFeatures = [],
+  billingCycle = 'annual',
 }: {
   plans: Plan[]
   capacity?: Record<string, string>
   addonFeatures?: string[]
+  billingCycle?: BillingCycle
 }) {
   const t = useT()
   const allFeatures = getAllFeatures(plans)
@@ -228,11 +245,21 @@ function DesktopTable({
                 <span className="text-xl font-bold text-[#0E0E0F]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{t.pricingExtended.onRequest}</span>
               </div>
             ) : (
-              <div className="flex items-baseline justify-center gap-0.5">
-                <span className="text-4xl font-bold text-[#0E0E0F]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-                  {plan.priceFormatted}
-                </span>
-                <span className="text-sm text-[#9C958A]">{plan.period}</span>
+              <div>
+                <div className="flex items-baseline justify-center gap-0.5">
+                  <span className="text-4xl font-bold text-[#0E0E0F]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                    {billingCycle === 'monthly' && plan.monthlyPriceFormatted
+                      ? plan.monthlyPriceFormatted
+                      : plan.priceFormatted}
+                  </span>
+                  <span className="text-sm text-[#9C958A]">{plan.period}</span>
+                </div>
+                {billingCycle === 'annual' && plan.monthlyPrice && (
+                  <p className="text-xs text-[#9C958A] mt-1">
+                    <span className="line-through">R${plan.monthlyPriceFormatted}</span>
+                    <span className="ml-1 text-green-600 font-medium">no mensal</span>
+                  </p>
+                )}
               </div>
             )}
           </div>
@@ -360,6 +387,7 @@ interface Props {
 export function Pricing({ category = 'restaurantes' }: Props) {
   useCategoryAccent() // CSS vars on root drive styling
   const t = useT()
+  const [billingCycle, setBillingCycle] = useState<BillingCycle>('annual')
   const consultoriaSteps = t.pricingExtended.consultoriaSteps
   const sampleMentors = t.pricingExtended.sampleMentors
   const translatedSaasPlans = saasPlans.map((plan, i) => ({
@@ -397,6 +425,43 @@ export function Pricing({ category = 'restaurantes' }: Props) {
             </div>
           </div>
         </FadeIn>
+
+        {/* Billing cycle toggle — só aparece em restaurantes (tabela padrão) */}
+        {category === 'restaurantes' && (
+          <FadeIn delay={50}>
+            <div className="flex justify-center mb-10">
+              <div className="inline-flex items-center bg-white border border-[#9C958A]/20 rounded-full p-1 shadow-sm gap-1">
+                <button
+                  onClick={() => setBillingCycle('monthly')}
+                  className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
+                    billingCycle === 'monthly'
+                      ? 'bg-[#0E0E0F] text-white shadow-sm'
+                      : 'text-[#9C958A] hover:text-[#0E0E0F]'
+                  }`}
+                >
+                  Mensal
+                </button>
+                <button
+                  onClick={() => setBillingCycle('annual')}
+                  className={`inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-medium transition-all ${
+                    billingCycle === 'annual'
+                      ? 'bg-[#0E0E0F] text-white shadow-sm'
+                      : 'text-[#9C958A] hover:text-[#0E0E0F]'
+                  }`}
+                >
+                  Anual
+                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full transition-colors ${
+                    billingCycle === 'annual'
+                      ? 'bg-green-400 text-green-900'
+                      : 'bg-green-100 text-green-700'
+                  }`}>
+                    Economize 31%
+                  </span>
+                </button>
+              </div>
+            </div>
+          </FadeIn>
+        )}
 
         {category === 'mercados' ? (
           /* Mercados: Sistema sob consulta (Televendas + Pessoas) */
@@ -540,8 +605,8 @@ export function Pricing({ category = 'restaurantes' }: Props) {
         ) : (
           /* Restaurantes: tabela padrão */
           <FadeIn delay={100} className="mb-8">
-            <DesktopTable plans={translatedSaasPlans} capacity={saasCapacity} addonFeatures={saasAddonFeatures} />
-            <MobileCards plans={translatedSaasPlans} capacity={saasCapacity} addonFeatures={saasAddonFeatures} />
+            <DesktopTable plans={translatedSaasPlans} capacity={saasCapacity} addonFeatures={saasAddonFeatures} billingCycle={billingCycle} />
+            <MobileCards plans={translatedSaasPlans} capacity={saasCapacity} addonFeatures={saasAddonFeatures} billingCycle={billingCycle} />
           </FadeIn>
         )}
 
