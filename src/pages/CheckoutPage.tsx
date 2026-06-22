@@ -1,6 +1,10 @@
-import { useEffect, useRef, useState } from 'react'
-import { useSearchParams, useNavigate } from 'react-router-dom'
-import { Loader2 } from 'lucide-react'
+import { useEffect, useRef, useState, useMemo } from 'react'
+import { useSearchParams, useNavigate, Link } from 'react-router-dom'
+import {
+  Loader2, ChevronDown, CalendarDays, CheckCircle2,
+  Send, Building2, User, MessageCircle, Mail, Store,
+  TrendingUp, FileText, CheckCircle, XCircle,
+} from 'lucide-react'
 import { Elements } from '@stripe/react-stripe-js'
 import { useT } from '../i18n/useT'
 import { getPlanById, saasPlans, getConsultoriaPixTotal } from '../data/plans'
@@ -10,23 +14,49 @@ import { useCheckoutForm } from '../hooks/useCheckoutForm'
 import { processPayment } from '../services/payment'
 import { stripePromise } from '../lib/stripe'
 import { CheckoutHeader } from '../components/checkout/CheckoutHeader'
-import { ContactForm } from '../components/checkout/ContactForm'
 import { PaymentMethodSelector } from '../components/checkout/PaymentMethodSelector'
 import { OrderSummary } from '../components/checkout/OrderSummary'
 import { SecurityBadge } from '../components/checkout/SecurityBadge'
 import { StripeCardForm } from '../components/checkout/StripeCardForm'
+import { MiniCalendar } from '../components/MiniCalendar'
+import { generateDemoSlots, saveDemoBooking } from '../data/demoSlots'
+
+const SEGMENTOS = ['Restaurante', 'Mercado', 'Atacado', 'Atacarejo', 'Farmácia', 'Pet Shop', 'Outros']
+const FAIXAS_FATURAMENTO = [
+  'Iniciando no Delivery', 'Até 50k', '50k a 150k',
+  '150k a 300k', '300k a 500k', '500k a 1M', 'Acima de 1M',
+]
+
+const inp = (hasError: boolean) =>
+  `w-full px-4 py-3 rounded-xl border text-sm bg-white outline-none transition-colors ${
+    hasError ? 'border-[#A31631]' : 'border-[#0E0E0F]/15 focus:border-[#A31631]'
+  }`
 
 export function CheckoutPage() {
   const t = useT()
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
-  const { form, errors, isProcessing, setIsProcessing, documentoStatus, updateField, setPaymentMethod, setAvulsoMethod, validate } = useCheckoutForm()
+
+  const {
+    form, errors: payErrors, isProcessing, setIsProcessing,
+    documentoStatus, updateField, setPaymentMethod, setAvulsoMethod, validate,
+  } = useCheckoutForm()
   const cart = useCart()
 
-  // Processar URL params apenas na primeira carga
+  // Demo-specific state
+  const [segmento, setSegmento] = useState('')
+  const [segmentoOutro, setSegmentoOutro] = useState('')
+  const [faturamento, setFaturamento] = useState('')
+  const [selectedSlot, setSelectedSlot] = useState<string | null>(null)
+  const [demoSubmitted, setDemoSubmitted] = useState(false)
+  const [showPayment, setShowPayment] = useState(false)
+  const [demoErrors, setDemoErrors] = useState<Record<string, string>>({})
+
+  const slots = useMemo(() => generateDemoSlots(), [])
+
+  // URL params on first load
   useEffect(() => {
     window.scrollTo(0, 0)
-
     const consultorId = searchParams.get('consultor')
     const slot = searchParams.get('slot')
     const planoId = searchParams.get('plano')
@@ -77,7 +107,6 @@ export function CheckoutPage() {
   const isCartao = form.paymentMethod === 'cartao'
   const hasAvulso = hasConsultants || (hasConsultoria && !consultoriaIsMensal)
 
-  // Calcular total em centavos para o Stripe
   const saasIsIncluded = hasConsultoria && saas?.id === 'saas-1'
   const saasPrice = saasIsIncluded ? 0 : (saas ? saas.price : 0)
   const modulosPrice = modulos.reduce((sum, m) => sum + m.price, 0)
@@ -87,7 +116,7 @@ export function CheckoutPage() {
   const totalCents = totalReais * 100
 
   const buttonText = canSubmit ? t.checkout.buttonFinish : t.checkout.buttonSelectSlots
-  // Se não há mentor e o método era pix, volta para cartão
+
   useEffect(() => {
     if (!hasConsultants && form.paymentMethod === 'pix') {
       setPaymentMethod('cartao')
@@ -98,16 +127,57 @@ export function CheckoutPage() {
   const [showStickyBar, setShowStickyBar] = useState(false)
 
   useEffect(() => {
+    if (!showPayment) return
     const handleScroll = () => {
       if (!paymentRef.current) return
-      const rect = paymentRef.current.getBoundingClientRect()
-      // Mostra a barra quando o painel de pagamento ainda não está visível na tela
-      setShowStickyBar(rect.top > window.innerHeight)
+      setShowStickyBar(paymentRef.current.getBoundingClientRect().top > window.innerHeight)
     }
     window.addEventListener('scroll', handleScroll, { passive: true })
     handleScroll()
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  }, [showPayment])
+
+  // ── Validate demo fields only ────────────────────────────────
+  const validateDemo = () => {
+    const e: Record<string, string> = {}
+    if (!form.empresa.trim()) e.empresa = 'Informe o nome da empresa'
+    if (!segmento) e.segmento = 'Selecione o segmento'
+    if (segmento === 'Outros' && !segmentoOutro.trim()) e.segmentoOutro = 'Descreva o segmento'
+    if (!form.nome.trim()) e.nome = 'Informe seu nome'
+    if (!form.whatsapp.replace(/\D/g, '') || form.whatsapp.replace(/\D/g, '').length < 10) e.whatsapp = 'Informe um WhatsApp válido'
+    if (!form.email.trim() || !form.email.includes('@')) e.email = 'Informe um e-mail válido'
+    setDemoErrors(e)
+    return Object.keys(e).length === 0
+  }
+
+  const handleDemoSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!validateDemo()) return
+
+    let slotDate = '', slotTime = ''
+    if (selectedSlot) {
+      const lastDash = selectedSlot.lastIndexOf('-')
+      slotDate = selectedSlot.substring(0, lastDash)
+      slotTime = selectedSlot.substring(lastDash + 1)
+    }
+
+    saveDemoBooking({
+      id: `demo-${Date.now()}`,
+      name: form.nome.trim(),
+      email: form.email.trim(),
+      whatsapp: form.whatsapp.trim(),
+      company: form.empresa.trim(),
+      segmento,
+      segmentoOutro: segmento === 'Outros' ? segmentoOutro.trim() : undefined,
+      units: faturamento || '-',
+      date: slotDate,
+      time: slotTime,
+      status: 'pendente',
+      createdAt: new Date().toISOString(),
+    })
+
+    setDemoSubmitted(true)
+  }
 
   const navigateToConfirmation = (orderId: string) => {
     navigate('/confirmacao', {
@@ -127,137 +197,349 @@ export function CheckoutPage() {
     cart.clearCart()
   }
 
-  // Handler para pagamento com cartão via Stripe
   const handleStripePayment = async (paymentMethodId: string) => {
-    if (!validate() || !canSubmit) {
-      setIsProcessing(false)
-      return
-    }
-
+    if (!validate() || !canSubmit) { setIsProcessing(false); return }
     try {
-      // TODO: Enviar paymentMethodId para o backend (Edge Function)
-      // que criará o PaymentIntent e confirmará o pagamento
       const result = await processPayment({
-        nome: form.nome,
-        whatsapp: form.whatsapp,
-        email: form.email,
-        method: 'cartao',
-        planIds: cart.plans.map((p) => p.id),
-        totalCents,
-        stripePaymentMethodId: paymentMethodId,
+        nome: form.nome, whatsapp: form.whatsapp, email: form.email,
+        method: 'cartao', planIds: cart.plans.map((p) => p.id),
+        totalCents, stripePaymentMethodId: paymentMethodId,
       })
-
-      if (result.success) {
-        navigateToConfirmation(result.orderId)
-      }
-    } finally {
-      setIsProcessing(false)
-    }
+      if (result.success) navigateToConfirmation(result.orderId)
+    } finally { setIsProcessing(false) }
   }
 
-  // Handler para pagamento via Pix
   const handlePixSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!validate() || isProcessing || !canSubmit) return
-
     setIsProcessing(true)
     try {
       const result = await processPayment({
-        nome: form.nome,
-        whatsapp: form.whatsapp,
-        email: form.email,
-        method: 'pix',
-        planIds: cart.plans.map((p) => p.id),
-        totalCents,
+        nome: form.nome, whatsapp: form.whatsapp, email: form.email,
+        method: 'pix', planIds: cart.plans.map((p) => p.id), totalCents,
       })
-
-      if (result.success) {
-        navigateToConfirmation(result.orderId)
-      }
-    } finally {
-      setIsProcessing(false)
-    }
+      if (result.success) navigateToConfirmation(result.orderId)
+    } finally { setIsProcessing(false) }
   }
 
+  // ── Success screen ───────────────────────────────────────────
+  if (demoSubmitted) {
+    return (
+      <div className="min-h-screen bg-white flex flex-col">
+        <CheckoutHeader />
+        <main className="flex-1 flex items-center justify-center px-4 py-16">
+          <div className="text-center max-w-md">
+            <CheckCircle2 size={52} className="text-green-500 mx-auto mb-5" />
+            <h1 className="text-2xl font-bold text-[#0E0E0F] mb-2">
+              {selectedSlot ? 'Demonstração agendada!' : 'Dados recebidos!'}
+            </h1>
+            <p className="text-sm text-[#9C958A] mb-8 leading-relaxed">
+              {selectedSlot
+                ? <>Agendamos para <strong className="text-[#0E0E0F]">{selectedSlot.replace(/-(?=[^-]*$)/, ' às ')}</strong>. Entraremos em contato pelo WhatsApp para confirmar.</>
+                : 'Recebemos seus dados. Nossa equipe entrará em contato pelo WhatsApp em até 1 dia útil para agendar a demonstração.'}
+            </p>
+            <Link
+              to="/"
+              className="inline-flex items-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors"
+            >
+              Voltar ao site
+            </Link>
+          </div>
+        </main>
+      </div>
+    )
+  }
+
+  // ── Main checkout ────────────────────────────────────────────
   return (
     <div className="min-h-screen bg-white">
       <CheckoutHeader />
 
       <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
         <div className="grid lg:grid-cols-5 gap-8 lg:gap-12">
+
+          {/* Left column */}
           <div className="lg:col-span-3 space-y-8">
             <div>
-              <h1 className="text-2xl font-bold text-[#0E0E0F] mb-1">{t.checkout.title}</h1>
-              <p className="text-sm text-[#9C958A]">{t.checkout.subtitle}</p>
+              <h1 className="text-2xl font-bold text-[#0E0E0F] mb-1">Fale com a Granular</h1>
+              <p className="text-sm text-[#9C958A]">
+                Preencha seus dados e nossa equipe entra em contato para apresentar o sistema.
+              </p>
             </div>
 
-            {/* 1. Dados */}
-            <ContactForm
-              empresa={form.empresa}
-              documento={form.documento}
-              documentoStatus={documentoStatus}
-              nome={form.nome}
-              whatsapp={form.whatsapp}
-              email={form.email}
-              errors={errors}
-              onUpdate={updateField}
-            />
+            {/* ── Formulário principal (demo path) ── */}
+            <form onSubmit={handleDemoSubmit} className="space-y-8">
 
-            {/* 2. Resumo do pedido — apenas mobile */}
-            <div className="lg:hidden">
-              <OrderSummary paymentMethod={form.paymentMethod} />
-            </div>
+              {/* Seus dados */}
+              <div className="space-y-5">
+                <h2 className="text-base font-bold text-[#0E0E0F]">Seus dados</h2>
 
-            {/* 3. Pagamento */}
-            <div ref={paymentRef}>
-              <Elements stripe={stripePromise} options={{ locale: 'pt-BR' }}>
-                <PaymentMethodSelector
-                  selected={form.paymentMethod}
-                  onSelect={setPaymentMethod}
-                  hasSaas={hasSaas}
-                  hasConsultoria={hasConsultoria || hasConsultants}
-                  hasMentor={hasConsultants}
-                  hasAvulso={hasAvulso && isCartao}
-                  avulsoMethod={form.avulsoMethod}
-                  onAvulsoMethodChange={setAvulsoMethod}
-                  cardContent={
-                    <StripeCardForm
-                      onPaymentSuccess={handleStripePayment}
-                      onError={(err) => console.error(err)}
-                      isProcessing={isProcessing}
-                      setIsProcessing={setIsProcessing}
-                      totalCents={totalCents}
-                      customerEmail={form.email}
-                      customerName={form.nome}
-                      buttonText={buttonText}
-                    />
+                {/* Empresa */}
+                <div>
+                  <label className="flex items-center gap-2 text-sm font-medium text-[#0E0E0F] mb-1.5">
+                    <Building2 size={15} className="text-[#9C958A]" />
+                    Empresa
+                  </label>
+                  <input
+                    type="text" autoFocus
+                    placeholder="Nome do estabelecimento ou rede"
+                    value={form.empresa}
+                    onChange={(e) => updateField('empresa', e.target.value)}
+                    className={inp(!!demoErrors.empresa)}
+                  />
+                  {demoErrors.empresa && <p className="text-xs text-[#A31631] mt-1">{demoErrors.empresa}</p>}
+                </div>
+
+                {/* Segmento */}
+                <div>
+                  <label className="flex items-center gap-2 text-sm font-medium text-[#0E0E0F] mb-1.5">
+                    <Store size={15} className="text-[#9C958A]" />
+                    Segmento
+                  </label>
+                  <select
+                    value={segmento}
+                    onChange={(e) => { setSegmento(e.target.value); setSegmentoOutro('') }}
+                    className={`${inp(!!demoErrors.segmento)} cursor-pointer ${!segmento ? 'text-[#9C958A]' : 'text-[#0E0E0F]'}`}
+                  >
+                    <option value="">Selecione o segmento</option>
+                    {SEGMENTOS.map((s) => <option key={s} value={s}>{s}</option>)}
+                  </select>
+                  {demoErrors.segmento && <p className="text-xs text-[#A31631] mt-1">{demoErrors.segmento}</p>}
+                  {segmento === 'Outros' && (
+                    <div className="mt-2">
+                      <input
+                        type="text" value={segmentoOutro}
+                        onChange={(e) => setSegmentoOutro(e.target.value)}
+                        className={inp(!!demoErrors.segmentoOutro)}
+                        placeholder="Descreva o segmento"
+                      />
+                      {demoErrors.segmentoOutro && <p className="text-xs text-[#A31631] mt-1">{demoErrors.segmentoOutro}</p>}
+                    </div>
+                  )}
+                </div>
+
+                {/* Nome completo */}
+                <div>
+                  <label className="flex items-center gap-2 text-sm font-medium text-[#0E0E0F] mb-1.5">
+                    <User size={15} className="text-[#9C958A]" />
+                    Nome completo
+                  </label>
+                  <input
+                    type="text" placeholder="Seu nome e sobrenome"
+                    value={form.nome}
+                    onChange={(e) => updateField('nome', e.target.value)}
+                    className={inp(!!demoErrors.nome)}
+                  />
+                  {demoErrors.nome && <p className="text-xs text-[#A31631] mt-1">{demoErrors.nome}</p>}
+                </div>
+
+                {/* WhatsApp */}
+                <div>
+                  <label className="flex items-center gap-2 text-sm font-medium text-[#0E0E0F] mb-1.5">
+                    <MessageCircle size={15} className="text-[#25D366]" />
+                    WhatsApp
+                  </label>
+                  <input
+                    type="tel" placeholder="(31) 99999-9999"
+                    value={form.whatsapp}
+                    onChange={(e) => updateField('whatsapp', e.target.value)}
+                    className={inp(!!demoErrors.whatsapp)}
+                  />
+                  {demoErrors.whatsapp
+                    ? <p className="text-xs text-[#A31631] mt-1">{demoErrors.whatsapp}</p>
+                    : <p className="text-xs text-[#9C958A] mt-1">Usaremos para entrar em contato e confirmar a demonstração</p>}
+                </div>
+
+                {/* E-mail */}
+                <div>
+                  <label className="flex items-center gap-2 text-sm font-medium text-[#0E0E0F] mb-1.5">
+                    <Mail size={15} className="text-[#9C958A]" />
+                    E-mail
+                  </label>
+                  <input
+                    type="email" placeholder="seu@email.com"
+                    value={form.email}
+                    onChange={(e) => updateField('email', e.target.value)}
+                    className={inp(!!demoErrors.email)}
+                  />
+                  {demoErrors.email
+                    ? <p className="text-xs text-[#A31631] mt-1">{demoErrors.email}</p>
+                    : <p className="text-xs text-[#9C958A] mt-1">Enviaremos o resumo do contato por aqui</p>}
+                </div>
+
+                {/* Faixa de faturamento */}
+                <div>
+                  <label className="flex items-center gap-2 text-sm font-medium text-[#0E0E0F] mb-1.5">
+                    <TrendingUp size={15} className="text-[#9C958A]" />
+                    Faixa de faturamento
+                    <span className="text-[#9C958A] text-xs font-normal">(opcional)</span>
+                  </label>
+                  <select
+                    value={faturamento}
+                    onChange={(e) => setFaturamento(e.target.value)}
+                    className={`${inp(false)} cursor-pointer ${!faturamento ? 'text-[#9C958A]' : 'text-[#0E0E0F]'}`}
+                  >
+                    <option value="">Selecione a faixa</option>
+                    {FAIXAS_FATURAMENTO.map((f) => <option key={f} value={f}>{f}</option>)}
+                  </select>
+                </div>
+              </div>
+
+              {/* Calendário — opcional */}
+              <div className="space-y-4">
+                <div>
+                  <h2 className="text-base font-bold text-[#0E0E0F] mb-0.5">Prefere agendar um horário?</h2>
+                  <p className="text-xs text-[#9C958A]">
+                    Opcional — basta enviar seus dados que nossa equipe entra em contato pelo WhatsApp.
+                  </p>
+                </div>
+
+                <div className="rounded-xl border border-[#9C958A]/15 p-4">
+                  <MiniCalendar
+                    slots={slots}
+                    selectedSlot={selectedSlot}
+                    onSelectSlot={(key) => setSelectedSlot(selectedSlot === key ? null : key)}
+                  />
+                </div>
+
+                {selectedSlot && (
+                  <div className="flex items-center gap-2 rounded-lg bg-[#A31631]/5 border border-[#A31631]/10 px-3 py-2 text-xs text-[#0E0E0F]">
+                    <CalendarDays size={14} className="text-[#A31631] shrink-0" />
+                    Selecionado: <strong>{selectedSlot.replace(/-(?=[^-]*$)/, ' às ')}</strong>
+                    <button
+                      type="button"
+                      onClick={() => setSelectedSlot(null)}
+                      className="ml-auto text-[#9C958A] hover:text-[#A31631] transition-colors text-[10px]"
+                    >
+                      remover
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* Mobile order summary */}
+              <div className="lg:hidden">
+                <OrderSummary paymentMethod={form.paymentMethod} />
+              </div>
+
+              {/* CTA primário — enviar sem pagamento */}
+              <div className="space-y-3">
+                <button
+                  type="submit"
+                  className="w-full flex items-center justify-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-semibold py-4 px-8 rounded-xl text-base transition-colors cursor-pointer"
+                >
+                  {selectedSlot
+                    ? <><CalendarDays size={18} /> Confirmar agendamento</>
+                    : <><Send size={18} /> Enviar — Entraremos em contato</>
                   }
-                  pixContent={
-                    <form onSubmit={handlePixSubmit}>
-                      <button
-                        type="submit"
-                        disabled={isProcessing || !canSubmit}
-                        className="w-full flex items-center justify-center gap-2 bg-[#A31631] hover:bg-[#7A1025] disabled:opacity-70 text-white font-medium py-4 px-8 rounded-xl text-base transition-colors cursor-pointer"
-                      >
-                        {isProcessing ? (
-                          <>
-                            <Loader2 size={20} className="animate-spin" />
-                            {t.checkout.processing}
-                          </>
-                        ) : (
-                          buttonText
-                        )}
-                      </button>
-                    </form>
-                  }
-                />
-              </Elements>
-            </div>
+                </button>
+                <p className="text-[11px] text-[#9C958A] text-center">
+                  {selectedSlot
+                    ? 'Confirmaremos a data pelo WhatsApp informado.'
+                    : 'Nossa equipe entra em contato pelo WhatsApp em até 1 dia útil.'}
+                </p>
+              </div>
 
-            <SecurityBadge />
+              {/* Separador */}
+              <div className="relative flex items-center gap-4">
+                <div className="flex-1 h-px bg-[#9C958A]/20" />
+                <span className="text-xs text-[#9C958A] whitespace-nowrap">ou, se preferir</span>
+                <div className="flex-1 h-px bg-[#9C958A]/20" />
+              </div>
+
+              {/* ── Seção de pagamento colapsada ── */}
+              <div>
+                <button
+                  type="button"
+                  onClick={() => setShowPayment((v) => !v)}
+                  className="w-full flex items-center justify-between gap-3 border border-[#0E0E0F]/10 hover:border-[#A31631]/30 rounded-xl px-5 py-4 text-sm font-medium text-[#0E0E0F] transition-colors"
+                >
+                  <span>Quero contratar agora</span>
+                  <ChevronDown
+                    size={18}
+                    className={`text-[#9C958A] transition-transform duration-300 ${showPayment ? 'rotate-180' : ''}`}
+                  />
+                </button>
+
+                {showPayment && (
+                  <div className="mt-5 space-y-6 border border-[#0E0E0F]/8 rounded-2xl p-5 sm:p-6">
+                    {/* CNPJ/CPF — necessário para cobrança */}
+                    <div>
+                      <label className="flex items-center gap-2 text-sm font-medium text-[#0E0E0F] mb-1.5">
+                        <FileText size={15} className="text-[#9C958A]" />
+                        {t.checkout.contact.document}
+                      </label>
+                      <div className="relative">
+                        <input
+                          type="text" inputMode="numeric"
+                          placeholder="00.000.000/0000-00 ou 000.000.000-00"
+                          value={form.documento}
+                          onChange={(e) => updateField('documento', e.target.value)}
+                          className={`${inp(!!payErrors.documento)} pr-10`}
+                        />
+                        <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                          {documentoStatus === 'loading' && <Loader2 size={16} className="text-[#9C958A] animate-spin" />}
+                          {documentoStatus === 'valid' && <CheckCircle size={16} className="text-green-500" />}
+                          {documentoStatus === 'invalid' && <XCircle size={16} className="text-[#A31631]" />}
+                        </div>
+                      </div>
+                      {payErrors.documento
+                        ? <p className="text-xs text-[#A31631] mt-1">{payErrors.documento}</p>
+                        : documentoStatus === 'valid'
+                          ? <p className="text-xs text-green-600 mt-1">Documento validado</p>
+                          : <p className="text-xs text-[#9C958A] mt-1">{t.checkout.contact.documentHint}</p>}
+                    </div>
+
+                    {/* Pagamento */}
+                    <div ref={paymentRef}>
+                      <Elements stripe={stripePromise} options={{ locale: 'pt-BR' }}>
+                        <PaymentMethodSelector
+                          selected={form.paymentMethod}
+                          onSelect={setPaymentMethod}
+                          hasSaas={hasSaas}
+                          hasConsultoria={hasConsultoria || hasConsultants}
+                          hasMentor={hasConsultants}
+                          hasAvulso={hasAvulso && isCartao}
+                          avulsoMethod={form.avulsoMethod}
+                          onAvulsoMethodChange={setAvulsoMethod}
+                          cardContent={
+                            <StripeCardForm
+                              onPaymentSuccess={handleStripePayment}
+                              onError={(err) => console.error(err)}
+                              isProcessing={isProcessing}
+                              setIsProcessing={setIsProcessing}
+                              totalCents={totalCents}
+                              customerEmail={form.email}
+                              customerName={form.nome}
+                              buttonText={buttonText}
+                            />
+                          }
+                          pixContent={
+                            <form onSubmit={handlePixSubmit}>
+                              <button
+                                type="submit"
+                                disabled={isProcessing || !canSubmit}
+                                className="w-full flex items-center justify-center gap-2 bg-[#A31631] hover:bg-[#7A1025] disabled:opacity-70 text-white font-medium py-4 px-8 rounded-xl text-base transition-colors cursor-pointer"
+                              >
+                                {isProcessing
+                                  ? <><Loader2 size={20} className="animate-spin" />{t.checkout.processing}</>
+                                  : buttonText}
+                              </button>
+                            </form>
+                          }
+                        />
+                      </Elements>
+                    </div>
+
+                    <SecurityBadge />
+                  </div>
+                )}
+              </div>
+
+            </form>
           </div>
 
-          {/* Resumo do pedido — desktop (sticky) */}
+          {/* Right column — order summary (desktop) */}
           <div className="hidden lg:block lg:col-span-2">
             <div className="sticky top-8">
               <OrderSummary paymentMethod={form.paymentMethod} />
@@ -266,24 +548,29 @@ export function CheckoutPage() {
         </div>
       </main>
 
-      {/* CTA fixo deslizante — apenas mobile, visível enquanto pagamento está fora da tela */}
-      <div
-        className={`lg:hidden fixed bottom-0 left-0 right-0 z-50 transition-transform duration-300 ${
-          showStickyBar ? 'translate-y-0' : 'translate-y-full'
-        }`}
-      >
-        <div className="bg-white border-t border-[#9C958A]/20 shadow-2xl px-4 py-3 flex items-center justify-between gap-3">
-          <p className="text-xs text-[#9C958A] leading-tight">
-            {t.checkout.totalLabel} <span className="font-bold text-[#0E0E0F] text-sm">R$ {totalReais.toLocaleString('pt-BR')}{t.checkout.perMonth}</span>
-          </p>
-          <button
-            onClick={() => paymentRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-            className="flex-shrink-0 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-5 py-2.5 rounded-xl text-sm transition-colors"
-          >
-            {t.checkout.goToPayment}
-          </button>
+      {/* Sticky mobile bar — aparece só quando pagamento expandido e fora da tela */}
+      {showPayment && (
+        <div
+          className={`lg:hidden fixed bottom-0 left-0 right-0 z-50 transition-transform duration-300 ${
+            showStickyBar ? 'translate-y-0' : 'translate-y-full'
+          }`}
+        >
+          <div className="bg-white border-t border-[#9C958A]/20 shadow-2xl px-4 py-3 flex items-center justify-between gap-3">
+            <p className="text-xs text-[#9C958A] leading-tight">
+              {t.checkout.totalLabel}{' '}
+              <span className="font-bold text-[#0E0E0F] text-sm">
+                R$ {totalReais.toLocaleString('pt-BR')}{t.checkout.perMonth}
+              </span>
+            </p>
+            <button
+              onClick={() => paymentRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+              className="flex-shrink-0 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-5 py-2.5 rounded-xl text-sm transition-colors"
+            >
+              {t.checkout.goToPayment}
+            </button>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }

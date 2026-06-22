@@ -114,7 +114,7 @@ export function Footer() {
               <li>{t.footer.city}</li>
               <li className="pt-1">
                 <a
-                  href="https://wa.me/5511999999999"
+                  href="https://wa.me/5531984355542"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 text-[#25D366] hover:text-[#1ebe5d] transition-colors font-medium"

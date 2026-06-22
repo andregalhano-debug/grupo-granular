@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowLeft, CalendarDays, CheckCircle2, AlertCircle } from 'lucide-react'
+import { ArrowLeft, CalendarDays, CheckCircle2, Send } from 'lucide-react'
 import { GranularLogo } from '../components/GranularLogo'
 import { generateDemoSlots, saveDemoBooking } from '../data/demoSlots'
 import { MiniCalendar } from '../components/MiniCalendar'
@@ -55,7 +55,7 @@ export function AgendarDemoPage() {
     if (!name.trim()) e.name = 'Informe seu nome'
     if (!whatsapp.trim() || whatsapp.replace(/\D/g, '').length < 10) e.whatsapp = 'Informe um WhatsApp válido'
     if (!email.trim() || !email.includes('@')) e.email = 'Informe um e-mail válido'
-    if (!selectedSlot) e.slot = 'Selecione uma data e horário'
+    // horário é opcional — não valida selectedSlot
     setErrors(e)
     return Object.keys(e).length === 0
   }
@@ -64,9 +64,12 @@ export function AgendarDemoPage() {
     e.preventDefault()
     if (!validate()) return
 
-    const lastDash = selectedSlot!.lastIndexOf('-')
-    const slotDate = selectedSlot!.substring(0, lastDash)
-    const slotTime = selectedSlot!.substring(lastDash + 1)
+    let slotDate = '', slotTime = ''
+    if (selectedSlot) {
+      const lastDash = selectedSlot.lastIndexOf('-')
+      slotDate = selectedSlot.substring(0, lastDash)
+      slotTime = selectedSlot.substring(lastDash + 1)
+    }
 
     saveDemoBooking({
       id: `demo-${Date.now()}`,
@@ -100,10 +103,13 @@ export function AgendarDemoPage() {
         <main className="flex-1 flex items-center justify-center px-4 py-16">
           <div className="text-center max-w-md">
             <CheckCircle2 size={48} className="text-green-500 mx-auto mb-4" />
-            <h1 className="text-2xl font-bold text-[#0E0E0F] mb-2">Demonstração agendada!</h1>
+            <h1 className="text-2xl font-bold text-[#0E0E0F] mb-2">
+              {selectedSlot ? 'Demonstração agendada!' : 'Dados recebidos!'}
+            </h1>
             <p className="text-sm text-[#9C958A] mb-6">
-              Recebemos seu agendamento para <strong className="text-[#0E0E0F]">{selectedSlot?.replace(/-(?=[^-]*$)/, ' às ')}</strong>.
-              Entraremos em contato pelo WhatsApp para confirmar.
+              {selectedSlot
+                ? <>Agendamos para <strong className="text-[#0E0E0F]">{selectedSlot.replace(/-(?=[^-]*$)/, ' às ')}</strong>. Entraremos em contato pelo WhatsApp para confirmar.</>
+                : 'Recebemos seus dados. Nossa equipe entrará em contato pelo WhatsApp em breve para agendar a melhor data.'}
             </p>
             <Link to="/" className="inline-flex items-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors">
               Voltar ao site
@@ -131,7 +137,9 @@ export function AgendarDemoPage() {
       <main className="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
         <div className="mb-6 sm:mb-8">
           <h1 className="text-xl sm:text-2xl font-bold text-[#0E0E0F] mb-1">Agendar demonstração</h1>
-          <p className="text-xs sm:text-sm text-[#9C958A]">Escolha o melhor dia e horário para conhecer a plataforma.</p>
+          <p className="text-xs sm:text-sm text-[#9C958A]">
+            Preencha seus dados e nossa equipe entra em contato. Escolher um horário é opcional.
+          </p>
         </div>
 
         <form onSubmit={handleSubmit} className="grid lg:grid-cols-2 gap-6 sm:gap-8">
@@ -144,7 +152,7 @@ export function AgendarDemoPage() {
               <label className="block text-xs font-medium text-[#0E0E0F] mb-1.5">Empresa</label>
               <input type="text" value={company} onChange={(e) => setCompany(e.target.value)}
                 className={inputClass(!!errors.company)}
-                placeholder="Nome do estabelecimento ou rede" />
+                placeholder="Nome do estabelecimento ou rede" autoFocus />
               {errors.company && <p className="text-xs text-red-500 mt-1">{errors.company}</p>}
             </div>
 
@@ -157,21 +165,14 @@ export function AgendarDemoPage() {
                 className={`${inputClass(!!errors.segmento)} cursor-pointer ${!segmento ? 'text-[#9C958A]' : 'text-[#0E0E0F]'}`}
               >
                 <option value="">Selecione o segmento</option>
-                {SEGMENTOS.map((s) => (
-                  <option key={s} value={s}>{s}</option>
-                ))}
+                {SEGMENTOS.map((s) => <option key={s} value={s}>{s}</option>)}
               </select>
               {errors.segmento && <p className="text-xs text-red-500 mt-1">{errors.segmento}</p>}
               {segmento === 'Outros' && (
                 <div className="mt-2">
-                  <input
-                    type="text"
-                    value={segmentoOutro}
-                    onChange={(e) => setSegmentoOutro(e.target.value)}
+                  <input type="text" value={segmentoOutro} onChange={(e) => setSegmentoOutro(e.target.value)}
                     className={inputClass(!!errors.segmentoOutro)}
-                    placeholder="Descreva o segmento"
-                    autoFocus
-                  />
+                    placeholder="Descreva o segmento" autoFocus />
                   {errors.segmentoOutro && <p className="text-xs text-red-500 mt-1">{errors.segmentoOutro}</p>}
                 </div>
               )}
@@ -206,30 +207,28 @@ export function AgendarDemoPage() {
 
             {/* Faixa de faturamento */}
             <div>
-              <label className="block text-xs font-medium text-[#0E0E0F] mb-1.5">Faixa de faturamento</label>
+              <label className="block text-xs font-medium text-[#0E0E0F] mb-1.5">
+                Faixa de faturamento <span className="text-[#9C958A] font-normal">(opcional)</span>
+              </label>
               <select
                 value={faturamento}
                 onChange={(e) => setFaturamento(e.target.value)}
                 className={`${inputClass(false)} cursor-pointer ${!faturamento ? 'text-[#9C958A]' : 'text-[#0E0E0F]'}`}
               >
                 <option value="">Selecione a faixa</option>
-                {FAIXAS_FATURAMENTO.map((f) => (
-                  <option key={f} value={f}>{f}</option>
-                ))}
+                {FAIXAS_FATURAMENTO.map((f) => <option key={f} value={f}>{f}</option>)}
               </select>
             </div>
           </div>
 
-          {/* Horários com MiniCalendar */}
+          {/* Calendário + submit */}
           <div className="space-y-5">
-            <h2 className="text-sm font-bold text-[#0E0E0F]">Escolha data e horário</h2>
-
-            {errors.slot && (
-              <div className="flex items-center gap-2 rounded-lg bg-amber-50 border border-amber-200 px-3 py-2 text-xs text-amber-700">
-                <AlertCircle size={14} className="flex-shrink-0" />
-                {errors.slot}
-              </div>
-            )}
+            <div>
+              <h2 className="text-sm font-bold text-[#0E0E0F] mb-0.5">Escolha data e horário</h2>
+              <p className="text-xs text-[#9C958A]">
+                Opcional — se preferir, basta enviar seus dados que entraremos em contato.
+              </p>
+            </div>
 
             <div className="rounded-xl border border-[#9C958A]/15 p-4">
               <MiniCalendar
@@ -241,21 +240,25 @@ export function AgendarDemoPage() {
 
             {selectedSlot && (
               <div className="flex items-center gap-2 rounded-lg bg-[#A31631]/5 px-3 py-2 text-xs text-[#0E0E0F]">
-                <CalendarDays size={14} className="text-[#A31631]" />
+                <CalendarDays size={14} className="text-[#A31631] shrink-0" />
                 Selecionado: <strong>{selectedSlot.replace(/-(?=[^-]*$)/, ' às ')}</strong>
               </div>
             )}
 
             <button
               type="submit"
-              className="w-full flex items-center justify-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium py-3.5 sm:py-4 px-6 sm:px-8 rounded-xl text-sm transition-colors cursor-pointer"
+              className="w-full flex items-center justify-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium py-3.5 sm:py-4 px-6 rounded-xl text-sm transition-colors cursor-pointer"
             >
-              <CalendarDays size={16} />
-              Confirmar agendamento
+              {selectedSlot
+                ? <><CalendarDays size={16} /> Confirmar agendamento</>
+                : <><Send size={16} /> Enviar — Entraremos em contato</>
+              }
             </button>
 
             <p className="text-[11px] text-[#9C958A] text-center">
-              Ao agendar, você receberá uma confirmação no WhatsApp informado.
+              {selectedSlot
+                ? 'Você receberá uma confirmação no WhatsApp informado.'
+                : 'Nossa equipe entrará em contato pelo WhatsApp em até 1 dia útil.'}
             </p>
           </div>
         </form>
