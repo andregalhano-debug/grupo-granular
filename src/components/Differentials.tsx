@@ -24,7 +24,7 @@ export function Differentials() {
             const Icon = itemIcons[i]
             return (
               <FadeIn key={item.title} delay={i * 100}>
-                <div className="rounded-2xl border border-[#FAF7F0]/[0.08] bg-[#FAF7F0]/[0.03] p-8 hover:bg-[#FAF7F0]/[0.06] transition-colors h-full">
+                <div className="rounded-2xl border border-[#FAF7F0]/[0.08] bg-[#FAF7F0]/[0.03] p-5 sm:p-8 hover:bg-[#FAF7F0]/[0.06] transition-colors h-full">
                   <div className="w-11 h-11 rounded-xl bg-[var(--accent-40)] flex items-center justify-center mb-5">
                     <Icon size={22} className="text-[var(--accent)]" />
                   </div>

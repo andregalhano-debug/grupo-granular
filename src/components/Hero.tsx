@@ -210,7 +210,7 @@ export function Hero({ category, setCategory }: Props) {
                 title="Clique para ampliar"
               />
             ) : (
-              <div className="w-full bg-[#F7F7F7] flex items-center justify-center" style={{ minHeight: '340px' }}>
+              <div className="w-full bg-[#F7F7F7] flex items-center justify-center" style={{ minHeight: 'clamp(180px, 40vw, 340px)' }}>
                 <div className="text-center px-6 py-12">
                   <div className="w-14 h-14 rounded-2xl bg-[var(--accent-10)] flex items-center justify-center mx-auto mb-4">
                     {category === 'petshop' && <PawPrint size={28} className="text-[var(--accent)]" />}

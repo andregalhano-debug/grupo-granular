@@ -159,7 +159,7 @@ export function Modules({ category = 'restaurantes' }: Props) {
           <button
             data-module
             onClick={() => handleToggle(i)}
-            className={`group relative rounded-2xl border p-6 transition-all duration-300 h-full w-full text-left cursor-pointer ${
+            className={`group relative rounded-2xl border p-4 sm:p-6 transition-all duration-300 h-full w-full text-left cursor-pointer ${
               openIndex === i
                 ? 'border-[var(--accent)] bg-[var(--accent)]/5 shadow-lg shadow-[var(--accent-10)] -translate-y-1'
                 : mod.standalone
