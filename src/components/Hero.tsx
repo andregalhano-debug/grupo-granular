@@ -3,7 +3,7 @@ import { ArrowRight, UtensilsCrossed, ShoppingCart, Pill, PawPrint, X, Clock, Ch
 import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
 import telaSistema from '../assets/Tela Maestro.jpg'
-import telaMarket from '../assets/TEla sistema televendas Granular 2 para Market.jpg'
+import telaMarket from '../assets/tela-granular-market.png'
 import { useT } from '../i18n/useT'
 import type { Category } from './Modules'
 
