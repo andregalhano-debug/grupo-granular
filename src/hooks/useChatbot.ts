@@ -152,7 +152,21 @@ export function useChatbot() {
         setIsTyping(false)
         setMessages((prev) => [...prev, { id: `bot-${Date.now()}`, role: 'bot', text: reply }])
       } catch {
-        const fb = faqFallback(trimmed)
+        // LLM fora → degrada pra CAPTURA (não pro FAQ de preços velhos). A EF grava
+        // o transcript — incl. o contato que o lead digitar — mesmo num 502, então o
+        // lead NÃO se perde: pede nome+WhatsApp e um consultor humano dá seguimento.
+        const jaPediuContato = snapshot.some((m) => m.id === 'fallback-captura')
+        const fb: ChatMessage = jaPediuContato
+          ? {
+              id: `bot-${Date.now()}`,
+              role: 'bot',
+              text: 'Perfeito, já anotei aqui 😊 Um dos nossos consultores entra em contato com você em breve. Obrigada!',
+            }
+          : {
+              id: 'fallback-captura',
+              role: 'bot',
+              text: 'Estamos com bastante procura no momento 😊 Me passa seu nome e o seu WhatsApp (com DDD) que um dos nossos consultores já entra em contato com você.',
+            }
         await sleep(Math.max(0, humanDelayMs(fb.text) - (Date.now() - startedAt)))
         setIsTyping(false)
         setMessages((prev) => [...prev, fb])
