@@ -21,6 +21,7 @@ const TermosPage           = lazy(() => import('./pages/TermosPage').then(m => (
 const PrivacidadePage      = lazy(() => import('./pages/PrivacidadePage').then(m => ({ default: m.PrivacidadePage })))
 const CookiesPage          = lazy(() => import('./pages/CookiesPage').then(m => ({ default: m.CookiesPage })))
 const ChatbotWidget        = lazy(() => import('./components/chatbot/ChatbotWidget').then(m => ({ default: m.ChatbotWidget })))
+const CookieBanner         = lazy(() => import('./components/CookieBanner').then(m => ({ default: m.CookieBanner })))
 
 function PageLoader() {
   return (
@@ -71,6 +72,7 @@ function AppContent() {
           <Route path="/cookies" element={<CookiesPage />} />
         </Routes>
         {showChat && <ChatbotWidget />}
+        <CookieBanner />
       </Suspense>
     </>
   )

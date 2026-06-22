@@ -39,6 +39,7 @@ export function AgendarDemoPage() {
   const [email, setEmail] = useState('')
   const [faturamento, setFaturamento] = useState('')
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null)
+  const [showCalendar, setShowCalendar] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
 
@@ -224,24 +225,54 @@ export function AgendarDemoPage() {
           {/* Calendário + submit */}
           <div className="space-y-5">
             <div>
-              <h2 className="text-sm font-bold text-[#0E0E0F] mb-0.5">Escolha data e horário</h2>
+              <h2 className="text-sm font-bold text-[#0E0E0F] mb-0.5">Horário</h2>
               <p className="text-xs text-[#9C958A]">
                 Opcional — se preferir, basta enviar seus dados que entraremos em contato.
               </p>
             </div>
 
-            <div className="rounded-xl border border-[#9C958A]/15 p-4">
-              <MiniCalendar
-                slots={slots}
-                selectedSlot={selectedSlot}
-                onSelectSlot={(key) => setSelectedSlot(selectedSlot === key ? null : key)}
-              />
-            </div>
+            {/* Calendar toggle */}
+            {!showCalendar && !selectedSlot ? (
+              <button
+                type="button"
+                onClick={() => setShowCalendar(true)}
+                className="w-full flex items-center justify-center gap-2 border border-dashed border-[#9C958A]/40 rounded-xl py-3 text-sm text-[#9C958A] hover:border-[#A31631]/40 hover:text-[#A31631] transition-colors"
+              >
+                <CalendarDays size={15} />
+                Quero escolher um horário (opcional)
+              </button>
+            ) : (
+              <div className="rounded-xl border border-[#9C958A]/15 p-4">
+                <MiniCalendar
+                  slots={slots}
+                  selectedSlot={selectedSlot}
+                  onSelectSlot={(key) => setSelectedSlot(selectedSlot === key ? null : key)}
+                />
+                {!selectedSlot && (
+                  <button
+                    type="button"
+                    onClick={() => setShowCalendar(false)}
+                    className="mt-3 text-xs text-[#9C958A] hover:text-[#0E0E0F] transition-colors"
+                  >
+                    Cancelar
+                  </button>
+                )}
+              </div>
+            )}
 
             {selectedSlot && (
-              <div className="flex items-center gap-2 rounded-lg bg-[#A31631]/5 px-3 py-2 text-xs text-[#0E0E0F]">
-                <CalendarDays size={14} className="text-[#A31631] shrink-0" />
-                Selecionado: <strong>{selectedSlot.replace(/-(?=[^-]*$)/, ' às ')}</strong>
+              <div className="flex items-center justify-between gap-2 rounded-lg bg-[#A31631]/5 px-3 py-2 text-xs text-[#0E0E0F]">
+                <span className="flex items-center gap-2">
+                  <CalendarDays size={14} className="text-[#A31631] shrink-0" />
+                  Selecionado: <strong>{selectedSlot.replace(/-(?=[^-]*$)/, ' às ')}</strong>
+                </span>
+                <button
+                  type="button"
+                  onClick={() => { setSelectedSlot(null); setShowCalendar(false) }}
+                  className="text-[#9C958A] hover:text-[#0E0E0F] transition-colors text-[11px]"
+                >
+                  Remover
+                </button>
               </div>
             )}
 

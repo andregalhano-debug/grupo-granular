@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom'
 import { GranularLogo } from '../components/GranularLogo'
+import { useCookieConsent } from '../stores/useCookieConsent'
+import { CookiePreferencesModal } from '../components/CookiePreferencesModal'
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -66,8 +68,11 @@ const cookieCategories = [
 ]
 
 export function CookiesPage() {
+  const { setModalOpen } = useCookieConsent()
+
   return (
     <div className="min-h-screen bg-[#F7F7F7]">
+      <CookiePreferencesModal />
       {/* Header */}
       <header className="bg-white border-b border-[#0E0E0F]/8 sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
@@ -161,7 +166,7 @@ export function CookiesPage() {
               <p className="text-sm text-[#4B4B4B] leading-relaxed mb-3">Você pode revisar e atualizar suas preferências de cookies a qualquer momento clicando no link abaixo. Sua escolha será salva por 365 dias.</p>
               <button
                 className="text-xs font-medium text-white bg-[#A31631] hover:bg-[#7A1025] transition-colors px-4 py-2 rounded-lg cursor-pointer"
-                onClick={() => alert('Painel de preferências de cookies — em breve')}
+                onClick={() => setModalOpen(true)}
               >
                 Gerenciar preferências
               </button>
