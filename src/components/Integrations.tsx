@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { X, Plus, Info, Handshake } from 'lucide-react'
+import { X, Plus, Handshake } from 'lucide-react'
 import { FadeIn } from './FadeIn'
 import { integrationsData } from '../data/integrationsData'
 import { useCategoryAccent } from '../stores/CategoryContext'
@@ -68,11 +68,9 @@ export function Integrations() {
             {t.integrations.sectionSubtitle}
           </p>
           <div className="inline-flex items-center gap-2 sm:gap-3 bg-white border border-[var(--accent)]/15 rounded-xl px-3 sm:px-5 py-2.5 sm:py-3 shadow-sm">
-            <img
-              src="/logos/ifood.png"
-              alt="iFood"
-              className="w-9 h-9 object-contain"
-            />
+            <div className="w-9 h-9 rounded-xl bg-[#F2F2F2] flex items-center justify-center p-1.5 flex-shrink-0">
+              <img src="/logos/ifood.png" alt="iFood" className="w-full h-full object-contain" />
+            </div>
             <p className="text-sm text-[#0E0E0F]">
               {t.integrations.oneClick} <strong>{t.integrations.oneClickBold}</strong> {t.integrations.oneClickSuffix}{' '}
               <span className="text-[var(--accent)] font-semibold">{t.integrations.ifoodPartner}</span>
@@ -80,30 +78,39 @@ export function Integrations() {
           </div>
         </FadeIn>
 
-        <div className="flex flex-wrap items-stretch justify-center gap-4 sm:gap-6">
+        <div className="flex flex-wrap items-stretch justify-center gap-3 sm:gap-4">
           {integrationsData.map((item, i) => (
             <FadeIn key={item.name} delay={i * 100}>
               <button
                 data-integration
                 onClick={() => handleToggle(i)}
-                className={`group relative flex flex-col items-center justify-center rounded-2xl border p-4 transition-all duration-300 cursor-pointer w-24 h-24 sm:w-28 sm:h-28 ${
+                className={`group relative flex flex-col items-center gap-2.5 rounded-2xl border px-4 py-5 transition-all duration-300 cursor-pointer w-28 sm:w-32 ${
                   openIndex === i
                     ? 'border-[var(--accent)] bg-white shadow-lg'
                     : 'border-[#9C958A]/20 bg-white shadow-sm hover:shadow-lg hover:border-[var(--accent-20)]'
                 }`}
                 style={openIndex === i ? { boxShadow: `0 10px 30px ${accent}1a` } : {}}
               >
-                <img
-                  src={item.logo}
-                  alt={item.name}
-                  loading="lazy"
-                  className={`object-contain ${item.name === 'iFood' ? 'w-16 h-16 sm:w-18 sm:h-18' : 'w-12 h-12 sm:w-14 sm:h-14'}`}
-                />
-                <span className={`flex items-center gap-1 text-[10px] mt-2 font-medium transition-colors ${
-                  openIndex === i ? 'text-[var(--accent)]' : 'text-[#9C958A] group-hover:text-[var(--accent)]'
+                {/* Ícone em quadrado pequeno com bordas arredondadas */}
+                <div className={`w-14 h-14 rounded-2xl flex items-center justify-center p-2.5 transition-colors ${
+                  openIndex === i
+                    ? 'bg-[var(--accent)]/8'
+                    : 'bg-[#F2F2F2] group-hover:bg-[var(--accent)]/5'
                 }`}>
-                  <Info size={10} />
-                  {t.integrations.learnMore}
+                  <img
+                    src={item.logo}
+                    alt={item.name}
+                    loading="lazy"
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+                {/* Nome da integração */}
+                <span className={`text-[11px] font-semibold text-center leading-tight transition-colors ${
+                  openIndex === i
+                    ? 'text-[var(--accent)]'
+                    : 'text-[#0E0E0F] group-hover:text-[var(--accent)]'
+                }`}>
+                  {item.name}
                 </span>
               </button>
             </FadeIn>
@@ -111,8 +118,11 @@ export function Integrations() {
 
           {/* Em breve */}
           <FadeIn delay={integrationsData.length * 100}>
-            <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl border-2 border-dashed border-[#9C958A]/30 flex items-center justify-center">
-              <Plus size={28} className="text-[#9C958A]/40" />
+            <div className="flex flex-col items-center gap-2.5 px-4 py-5 w-28 sm:w-32 rounded-2xl border-2 border-dashed border-[#9C958A]/25">
+              <div className="w-14 h-14 rounded-2xl border-2 border-dashed border-[#9C958A]/20 flex items-center justify-center">
+                <Plus size={22} className="text-[#9C958A]/35" />
+              </div>
+              <span className="text-[11px] font-medium text-[#9C958A]/50">Em breve</span>
             </div>
           </FadeIn>
         </div>
