@@ -66,7 +66,7 @@ const allMarketModules: MarketModule[] = [
   // Operação
   { ...modulesDataMercados[1],  area: 'Operação' },        // iFood & Pedidos
   { ...modulesDataMercados[6],  area: 'Operação' },        // Produção & Padaria
-  { ...modulesDataMercados[7],  area: 'Operação' },        // KDS - Kitchen Display
+  { ...modulesDataMercados[7],  area: 'Operação' },        // MDS - Market Display System
   { ...modulesDataMercados[9],  area: 'Operação' },        // Checklists Operacionais
   // Estoque
   { ...modulesDataMercados[4],  area: 'Estoque' },         // Estoque Inteligente

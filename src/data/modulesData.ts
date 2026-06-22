@@ -289,7 +289,7 @@ export const modulesDataMercados: ModuleDetail[] = [
   },
   {
     icon: Monitor,
-    title: 'KDS - Kitchen Display',
+    title: 'MDS - Market Display System',
     desc: 'Painel digital para cozinha, padaria e rotisserie com tempos e status em tempo real.',
     features: ['Fila de pedidos', 'Tempos por estação', 'Priorização automática', 'Status em tempo real', 'Alertas de atraso'],
     detailPoints: [
