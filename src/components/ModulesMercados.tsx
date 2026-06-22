@@ -443,7 +443,7 @@ export function ModulesMercados() {
     }
   }, [openMarketIdx])
 
-  // Click-outside — close detail panel and scroll to top of section
+  // Click-outside — close detail panel and scroll to start of expanded panel
   useEffect(() => {
     if (openFoodIdx === null && openMarketIdx === null) return
     const handler = (e: MouseEvent) => {
@@ -453,7 +453,7 @@ export function ModulesMercados() {
       if (marketDetailRef.current?.contains(target)) return
       setOpenFoodIdx(null)
       setOpenMarketIdx(null)
-      sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      expandedRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
     document.addEventListener('mousedown', handler)
     return () => document.removeEventListener('mousedown', handler)
@@ -467,12 +467,12 @@ export function ModulesMercados() {
 
   const closeFoodDetail = () => {
     setOpenFoodIdx(null)
-    sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    expandedRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 
   const closeMarketDetail = () => {
     setOpenMarketIdx(null)
-    sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    expandedRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 
   return (
@@ -508,7 +508,7 @@ export function ModulesMercados() {
               title="Granular Food"
               subtitle="Food service · 12 módulos"
               description="Todos os módulos da plataforma Granular Food: pedidos, produção, estoque, financeiro, IA e mais."
-              tags={['iFood', 'Produção', 'Estoque', 'Financeiro', 'KDS', 'CRM', 'IA', '+5']}
+              tags={['iFood', 'Produção', 'Pessoas', 'Financeiro', 'Checklists', 'CRM', 'IA', '+5']}
               cta={activePane === 'food' ? 'Ocultar módulos' : 'Ver 12 módulos'}
             />
           </FadeIn>
