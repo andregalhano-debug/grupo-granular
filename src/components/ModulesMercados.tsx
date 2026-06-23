@@ -63,26 +63,19 @@ interface MarketModule extends ModuleDetail {
 }
 
 const allMarketModules: MarketModule[] = [
-  // Operação
   { ...modulesDataMercados[1],  area: 'Operação' },        // iFood & Pedidos
-  { ...modulesDataMercados[6],  area: 'Operação' },        // Produção & Padaria
+  { ...modulesDataMercados[2],  area: 'Gestão' },          // Pessoas (RH)
+  { ...modulesDataMercados[0],  area: 'Televendas' },      // Televendas
   { ...modulesDataMercados[7],  area: 'Operação' },        // MDS - Market Display System
-  { ...modulesDataMercados[9],  area: 'Operação' },        // Checklists Operacionais
-  // Estoque
-  { ...modulesDataMercados[4],  area: 'Estoque' },         // Estoque Inteligente
-  // Gestão
+  { ...cftvModules[0],          area: 'CFTV e Segurança' }, // CFTV
+  { ...cftvModules[1],          area: 'CFTV e Segurança' }, // Alarme
+  { ...cftvModules[2],          area: 'CFTV e Segurança' }, // Controle de Acesso
+  { ...modulesDataMercados[6],  area: 'Operação' },        // Produção & Padaria
   { ...modulesDataMercados[3],  area: 'Gestão' },          // Relatórios
   { ...modulesDataMercados[5],  area: 'Gestão' },          // Financeiro & DRE
+  { ...modulesDataMercados[4],  area: 'Estoque' },         // Estoque Inteligente
   { ...modulesDataMercados[8],  area: 'Gestão' },          // CRM & Clientes
-  { ...modulesDataMercados[2],  area: 'Gestão' },          // Pessoas (RH)
   { ...modulesDataMercados[10], area: 'Gestão' },          // 15 Agentes de IA
-  // Televendas
-  { ...modulesDataMercados[0],  area: 'Televendas' },      // Televendas
-  // CFTV e Segurança
-  { ...cftvModules[0],          area: 'CFTV e Segurança' }, // Câmeras
-  { ...cftvModules[1],          area: 'CFTV e Segurança' }, // Alarmes
-  { ...cftvModules[2],          area: 'CFTV e Segurança' }, // Controle de Acesso
-  // Configurações
   { ...modulesDataMercados[11], area: 'Configurações' },   // Integrações
 ]
 
