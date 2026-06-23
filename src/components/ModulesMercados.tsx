@@ -490,8 +490,8 @@ export function ModulesMercados() {
         </FadeIn>
 
         {/* ── Level 1: Two entry cards (mesmo tamanho e formato) ── */}
-        <div className="grid sm:grid-cols-2 gap-5 max-w-3xl mx-auto mb-10">
-          <FadeIn delay={80}>
+        <div className="flex flex-col sm:flex-row items-stretch gap-0 max-w-3xl mx-auto mb-10">
+          <FadeIn delay={80} className="flex-1">
             <EntryCard
               isActive={activePane === 'food'}
               onClick={() => togglePane('food')}
@@ -504,16 +504,23 @@ export function ModulesMercados() {
             />
           </FadeIn>
 
-          <FadeIn delay={150}>
+          {/* "+" separator between the two cards */}
+          <div className="flex items-center justify-center py-3 sm:py-0 sm:px-4">
+            <div className="w-9 h-9 rounded-full bg-[var(--accent)] flex items-center justify-center shadow-md shadow-[var(--accent)]/25 flex-shrink-0">
+              <Plus size={18} className="text-white" />
+            </div>
+          </div>
+
+          <FadeIn delay={150} className="flex-1">
             <EntryCard
               isActive={activePane === 'market'}
               onClick={() => togglePane('market')}
               icon={<ShoppingCart size={22} />}
               title="Granular Market"
               subtitle=""
-              description="Tudo do Granular Food mais 15 módulos exclusivos organizados em 6 grandes áreas operacionais."
-              tags={['Operação', 'Estoque', 'Gestão', 'Televendas', 'CFTV', 'Config']}
-              cta={activePane === 'market' ? 'Ocultar módulos' : 'Ver 15 módulos'}
+              description="Tudo do Granular Food mais 12 módulos exclusivos organizados por área operacional."
+              tags={['Operação', 'Estoque', 'Gestão', 'Televendas', 'CFTV', 'Segurança']}
+              cta={activePane === 'market' ? 'Ocultar módulos' : 'Ver 12 módulos'}
               badge="Completo"
               foodPill
             />
@@ -548,42 +555,6 @@ export function ModulesMercados() {
         {/* ── Level 2b: Granular Market expanded panel ── */}
         {activePane === 'market' && (
           <div ref={expandedRef} style={{ animation: 'slideDown 0.35s ease forwards' }}>
-
-            {/* Granular Food modules */}
-            <div className="flex items-center gap-3 mb-6 px-1">
-              <div className="h-px flex-1 bg-[#9C958A]/15" />
-              <span className="text-xs text-[#9C958A] font-medium flex items-center gap-1.5 px-3">
-                <UtensilsCrossed size={11} /> 12 Módulos · Granular Food
-              </span>
-              <div className="h-px flex-1 bg-[#9C958A]/15" />
-            </div>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <ModuleGrid
-                modules={modulesDataRestaurantes}
-                openIdx={openFoodIdx}
-                cols={foodCols}
-                detailRef={foodDetailRef}
-                onToggle={i => setOpenFoodIdx(prev => prev === i ? null : i)}
-                onClose={closeFoodDetail}
-                onLightbox={setLightbox}
-                t={t}
-              />
-            </div>
-
-            {/* "+" separator */}
-            <div className="flex items-center gap-4 my-10 px-1">
-              <div className="h-px flex-1 bg-[#9C958A]/20" />
-              <div className="flex items-center gap-3">
-                <span className="text-xs font-semibold text-[#9C958A] uppercase tracking-widest">Granular Food</span>
-                <div className="w-9 h-9 rounded-full bg-[var(--accent)] flex items-center justify-center shadow-md shadow-[var(--accent)]/20 flex-shrink-0">
-                  <Plus size={18} className="text-white" />
-                </div>
-                <span className="text-xs font-semibold text-[var(--accent)] uppercase tracking-widest">Granular Market</span>
-              </div>
-              <div className="h-px flex-1 bg-[#9C958A]/20" />
-            </div>
-
-            {/* Granular Market exclusive modules */}
             <div className="flex items-center gap-3 mb-6 px-1">
               <div className="h-px flex-1 bg-[#9C958A]/15" />
               <span className="text-xs text-[#9C958A] font-medium flex items-center gap-1.5 px-3">
