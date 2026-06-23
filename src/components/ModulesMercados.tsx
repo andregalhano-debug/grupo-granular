@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import {
   Camera, Shield, Lock, ChevronRight,
-  X, CalendarDays, ZoomIn, UtensilsCrossed, ShoppingCart, Check, Plus, Smartphone, BarChart3
+  X, CalendarDays, ZoomIn, UtensilsCrossed, ShoppingCart, Plus, Smartphone, BarChart3
 } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
@@ -75,8 +75,6 @@ const allMarketModules: MarketModule[] = [
   { ...modulesDataMercados[5],  area: 'Gestão' },          // Financeiro & DRE
   { ...modulesDataMercados[4],  area: 'Estoque' },         // Estoque Inteligente
   { ...modulesDataMercados[8],  area: 'Gestão' },          // CRM & Clientes
-  { ...modulesDataMercados[10], area: 'Gestão' },          // 15 Agentes de IA
-  { ...modulesDataMercados[11], area: 'Configurações' },   // Integrações
 ]
 
 // ─── Helpers ───────────────────────────────────────────────────────────────
@@ -550,25 +548,49 @@ export function ModulesMercados() {
         {/* ── Level 2b: Granular Market expanded panel ── */}
         {activePane === 'market' && (
           <div ref={expandedRef} style={{ animation: 'slideDown 0.35s ease forwards' }}>
-            {/* "Food included" strip */}
-            <div className="flex items-center gap-3 bg-[#0E0E0F]/3 border border-[#0E0E0F]/8 rounded-2xl px-5 py-3.5 mb-7">
-              <div className="w-8 h-8 rounded-lg bg-[var(--accent)]/10 flex items-center justify-center flex-shrink-0">
-                <Check size={16} className="text-[var(--accent)]" />
-              </div>
-              <p className="text-sm text-[#0E0E0F]">
-                <strong>Granular Market inclui todos os módulos do Granular Food</strong>
-                {' '}— mais os 15 módulos exclusivos abaixo, organizados por área.
-              </p>
-            </div>
 
+            {/* Granular Food modules */}
             <div className="flex items-center gap-3 mb-6 px-1">
               <div className="h-px flex-1 bg-[#9C958A]/15" />
               <span className="text-xs text-[#9C958A] font-medium flex items-center gap-1.5 px-3">
-                <ShoppingCart size={11} /> 15 Módulos · Granular Market
+                <UtensilsCrossed size={11} /> 12 Módulos · Granular Food
               </span>
               <div className="h-px flex-1 bg-[#9C958A]/15" />
             </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <ModuleGrid
+                modules={modulesDataRestaurantes}
+                openIdx={openFoodIdx}
+                cols={foodCols}
+                detailRef={foodDetailRef}
+                onToggle={i => setOpenFoodIdx(prev => prev === i ? null : i)}
+                onClose={closeFoodDetail}
+                onLightbox={setLightbox}
+                t={t}
+              />
+            </div>
 
+            {/* "+" separator */}
+            <div className="flex items-center gap-4 my-10 px-1">
+              <div className="h-px flex-1 bg-[#9C958A]/20" />
+              <div className="flex items-center gap-3">
+                <span className="text-xs font-semibold text-[#9C958A] uppercase tracking-widest">Granular Food</span>
+                <div className="w-9 h-9 rounded-full bg-[var(--accent)] flex items-center justify-center shadow-md shadow-[var(--accent)]/20 flex-shrink-0">
+                  <Plus size={18} className="text-white" />
+                </div>
+                <span className="text-xs font-semibold text-[var(--accent)] uppercase tracking-widest">Granular Market</span>
+              </div>
+              <div className="h-px flex-1 bg-[#9C958A]/20" />
+            </div>
+
+            {/* Granular Market exclusive modules */}
+            <div className="flex items-center gap-3 mb-6 px-1">
+              <div className="h-px flex-1 bg-[#9C958A]/15" />
+              <span className="text-xs text-[#9C958A] font-medium flex items-center gap-1.5 px-3">
+                <ShoppingCart size={11} /> 12 Módulos Exclusivos · Granular Market
+              </span>
+              <div className="h-px flex-1 bg-[#9C958A]/15" />
+            </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
               <ModuleGrid
                 modules={allMarketModules}
