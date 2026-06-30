@@ -7,7 +7,7 @@ export const pt = {
     faq: 'FAQ',
     beMentor: 'Seja um Mentor',
     login: 'Login',
-    startNow: 'Começar Agora',
+    startNow: 'Ver Planos',
     changeSegment: '↑ Trocar segmento',
   },
   hero: {
@@ -21,7 +21,7 @@ export const pt = {
     comingSoon: 'Em breve',
     seeSolution: 'Ver solução',
     segmentComingSoon: 'Estamos desenvolvendo essa jornada — em breve disponível.',
-    startNow: 'Começar Agora',
+    startNow: 'Ver Planos',
     seeModules: 'Ver Módulos',
     categories: {
       restaurantes: { label: 'Restaurantes', description: 'Bares, lanchonetes, fast food e delivery' },
@@ -192,7 +192,7 @@ export const pt = {
     title: 'Pronto para transformar sua operação?',
     subtitle: 'Comece hoje com o plano ideal para o seu negócio.',
     joinUs: 'Junte-se às operações que já usam a Granular para crescer com inteligência e lucro.',
-    startNow: 'Começar Agora',
+    startNow: 'Ver Planos',
     scheduleDemo: 'Agendar demonstração',
   },
   checkout: {

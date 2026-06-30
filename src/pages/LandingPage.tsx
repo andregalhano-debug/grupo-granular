@@ -11,6 +11,7 @@ import { Testimonials } from '../components/Testimonials'
 import { Faq } from '../components/Faq'
 import { CtaSection } from '../components/CtaSection'
 import { Footer } from '../components/Footer'
+import { AiAgentsSection } from '../components/AiAgentsSection'
 import { CategoryContext } from '../stores/CategoryContext'
 import { categoryAccent, withAlpha } from '../data/categoryColors'
 
@@ -52,6 +53,7 @@ export function LandingPage() {
         <Hero category={category} setCategory={setCategory} />
         <SocialProof category={category} />
         <Modules category={category} />
+        <AiAgentsSection />
         <Integrations />
         <Differentials />
         <Pricing category={category} />

@@ -7,7 +7,7 @@ export const en = {
     faq: 'FAQ',
     beMentor: 'Become a Mentor',
     login: 'Login',
-    startNow: 'Get Started',
+    startNow: 'See Plans',
     changeSegment: '↑ Change segment',
   },
   hero: {
@@ -21,7 +21,7 @@ export const en = {
     comingSoon: 'Coming soon',
     seeSolution: 'See solution',
     segmentComingSoon: 'We are building this journey — coming soon.',
-    startNow: 'Get Started',
+    startNow: 'See Plans',
     seeModules: 'See Modules',
     categories: {
       restaurantes: { label: 'Restaurants', description: 'Bars, snack bars, fast food and delivery' },
@@ -192,7 +192,7 @@ export const en = {
     title: 'Ready to transform your operation?',
     subtitle: 'Start today with the ideal plan for your business.',
     joinUs: 'Join the operations already using Granular to grow with intelligence and profit.',
-    startNow: 'Get Started',
+    startNow: 'See Plans',
     scheduleDemo: 'Schedule a demo',
   },
   checkout: {

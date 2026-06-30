@@ -20,6 +20,9 @@ const AdminPage            = lazy(() => import('./pages/AdminPage').then(m => ({
 const TermosPage           = lazy(() => import('./pages/TermosPage').then(m => ({ default: m.TermosPage })))
 const PrivacidadePage      = lazy(() => import('./pages/PrivacidadePage').then(m => ({ default: m.PrivacidadePage })))
 const CookiesPage          = lazy(() => import('./pages/CookiesPage').then(m => ({ default: m.CookiesPage })))
+const RestaurantesPage     = lazy(() => import('./pages/RestaurantesPage').then(m => ({ default: m.RestaurantesPage })))
+const MercadosPage         = lazy(() => import('./pages/MercadosPage').then(m => ({ default: m.MercadosPage })))
+const ComparativoPage      = lazy(() => import('./pages/ComparativoPage').then(m => ({ default: m.ComparativoPage })))
 const ChatbotWidget        = lazy(() => import('./components/chatbot/ChatbotWidget').then(m => ({ default: m.ChatbotWidget })))
 const CookieBanner         = lazy(() => import('./components/CookieBanner').then(m => ({ default: m.CookieBanner })))
 
@@ -70,6 +73,9 @@ function AppContent() {
           <Route path="/termos" element={<TermosPage />} />
           <Route path="/privacidade" element={<PrivacidadePage />} />
           <Route path="/cookies" element={<CookiesPage />} />
+          <Route path="/restaurantes" element={<RestaurantesPage />} />
+          <Route path="/mercados" element={<MercadosPage />} />
+          <Route path="/comparativo" element={<ComparativoPage />} />
         </Routes>
         {showChat && <ChatbotWidget />}
         <CookieBanner />
