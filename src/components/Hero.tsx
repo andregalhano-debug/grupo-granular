@@ -38,7 +38,7 @@ export function Hero({ category, setCategory }: Props) {
   const [lightbox, setLightbox] = useState(false)
   const t = useT()
 
-  const isComingSoon = category === 'farmacias' || category === 'petshop'
+  const isComingSoon = categoryComingSoon[category]
   const showContent = !isComingSoon
 
   return (
@@ -200,26 +200,14 @@ export function Hero({ category, setCategory }: Props) {
             </div>
 
             {/* Imagem por segmento */}
-            {(category === 'restaurantes' || category === 'mercados') ? (
-              <img
-                src={category === 'mercados' ? telaMarket : telaSistema}
-                alt={`Dashboard ${t.hero.systemNames[category]} — Visão geral da operação`}
-                className="w-full block cursor-pointer hover:opacity-90 transition-opacity"
-                fetchPriority="high"
-                onClick={() => setLightbox(true)}
-                title="Clique para ampliar"
-              />
-            ) : (
-              <div className="w-full bg-[#F7F7F7] flex items-center justify-center" style={{ minHeight: 'clamp(180px, 40vw, 340px)' }}>
-                <div className="text-center px-6 py-12">
-                  <div className="w-14 h-14 rounded-2xl bg-[var(--accent-10)] flex items-center justify-center mx-auto mb-4">
-                    {category === 'petshop' && <PawPrint size={28} className="text-[var(--accent)]" />}
-                  </div>
-                  <p className="text-sm font-semibold text-[#0E0E0F] mb-1">Screenshot {t.hero.systemNames[category]}</p>
-                  <p className="text-xs text-[#9C958A]">Aguardando validação do print de tela</p>
-                </div>
-              </div>
-            )}
+            <img
+              src={category === 'mercados' ? telaMarket : telaSistema}
+              alt={`Dashboard ${t.hero.systemNames[category]} — Visão geral da operação`}
+              className="w-full block cursor-pointer hover:opacity-90 transition-opacity"
+              fetchPriority="high"
+              onClick={() => setLightbox(true)}
+              title="Clique para ampliar"
+            />
           </div>
         </FadeIn>
       )}
