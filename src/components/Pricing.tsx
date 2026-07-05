@@ -6,6 +6,7 @@ import { saasPlans, saasAddonFeatures, type Plan } from '../data/plans'
 import type { Category } from './Modules'
 import { useCategoryAccent } from '../stores/CategoryContext'
 import { useT } from '../i18n/useT'
+import { modulesDataMercadosCFTV } from '../data/modulesData'
 
 type BillingCycle = 'monthly' | 'annual'
 
@@ -537,6 +538,37 @@ export function Pricing({ category = 'restaurantes' }: Props) {
                     </Link>
                   </div>
                 </div>
+              </div>
+
+              {/* CFTV & Segurança — Plano 3 · Sob consulta */}
+              <div className="flex items-center gap-4 mt-8 mb-5">
+                <div className="w-1 h-8 rounded-full bg-[#9C958A]/30" />
+                <div>
+                  <p className="text-sm font-bold text-[#0E0E0F]">CFTV & Segurança · Plano 3</p>
+                  <p className="text-xs text-[#9C958A]">Módulos de segurança física — preço sob consulta</p>
+                </div>
+              </div>
+              <div className="grid sm:grid-cols-3 gap-4">
+                {modulesDataMercadosCFTV.map((mod) => (
+                  <div key={mod.title} className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-white border border-[#9C958A]/15">
+                    <div className="flex items-center gap-3">
+                      <div className="w-9 h-9 rounded-xl bg-[#9C958A]/10 flex items-center justify-center flex-shrink-0">
+                        <mod.icon size={16} className="text-[#9C958A]" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-[#0E0E0F]">{mod.title}</p>
+                        <p className="text-[10px] text-[#9C958A] leading-snug line-clamp-2">{mod.desc}</p>
+                      </div>
+                    </div>
+                    <Link
+                      to="/agendar-demo"
+                      className="inline-flex items-center gap-1.5 border border-[#9C958A]/30 text-[#9C958A] hover:border-[var(--accent)] hover:text-[var(--accent)] text-[10px] font-medium px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap flex-shrink-0"
+                    >
+                      <CalendarDays size={11} />
+                      Sob consulta
+                    </Link>
+                  </div>
+                ))}
               </div>
             </div>
           </FadeIn>

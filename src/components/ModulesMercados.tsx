@@ -5,7 +5,7 @@ import {
 } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
-import { modulesDataRestaurantes, modulesDataMercadosBase, modulesDataMercadosStandalone } from '../data/modulesData'
+import { modulesDataRestaurantes, modulesDataMercadosBase, modulesDataMercadosStandalone, modulesDataMercadosCFTV } from '../data/modulesData'
 import type { ModuleDetail } from '../data/modulesData'
 import { useCategoryAccent } from '../stores/CategoryContext'
 import { useT } from '../i18n/useT'
@@ -439,8 +439,8 @@ export function ModulesMercados() {
               icon={<ShoppingCart size={22} />}
               title="Granular Market"
               subtitle=""
-              description={`${modulesDataMercadosBase.length} módulos exclusivos do Market + Televendas e Pessoas como adicionais no Plano 3.`}
-              tags={['Produção & Padaria', 'Monitor de Pedidos', 'Checklists', 'Agente IA', 'Integrações']}
+              description={`${modulesDataMercadosBase.length + modulesDataMercadosCFTV.length} módulos exclusivos do Market + Televendas e Pessoas como adicionais no Plano 3.`}
+              tags={['Produção & Padaria', 'CFTV & Câmeras', 'Alarmes & Zonas', 'Acesso', 'Agente IA']}
               cta={activePane === 'market' ? 'Ocultar módulos' : 'Ver módulos Market'}
               badge="Completo"
               foodPill
@@ -476,17 +476,17 @@ export function ModulesMercados() {
         {/* ── Level 2b: Granular Market expanded panel ── */}
         {activePane === 'market' && (
           <div ref={expandedRef} style={{ animation: 'slideDown 0.35s ease forwards' }}>
-            {/* Base modules */}
+            {/* Base + CFTV modules — all in one grid */}
             <div className="flex items-center gap-3 mb-6 px-1">
               <div className="h-px flex-1 bg-[#9C958A]/15" />
               <span className="text-xs text-[#9C958A] font-medium flex items-center gap-1.5 px-3">
-                <ShoppingCart size={11} /> {modulesDataMercadosBase.length} Módulos Base · Granular Market
+                <ShoppingCart size={11} /> {modulesDataMercadosBase.length + modulesDataMercadosCFTV.length} Módulos · Granular Market
               </span>
               <div className="h-px flex-1 bg-[#9C958A]/15" />
             </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
               <ModuleGrid
-                modules={modulesDataMercadosBase}
+                modules={[...modulesDataMercadosBase, ...modulesDataMercadosCFTV]}
                 openIdx={openMarketIdx}
                 cols={marketCols}
                 detailRef={marketDetailRef}

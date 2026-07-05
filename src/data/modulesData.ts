@@ -1,4 +1,4 @@
-import { Package, ChefHat, Monitor, TrendingUp, ShoppingBag, Users, ClipboardCheck, Bot, UserCog, FileBarChart, Plug, PhoneCall, Tablet, LayoutGrid } from 'lucide-react'
+import { Package, ChefHat, Monitor, TrendingUp, ShoppingBag, Users, ClipboardCheck, Bot, UserCog, FileBarChart, Plug, PhoneCall, Tablet, LayoutGrid, Camera, Shield, Lock } from 'lucide-react'
 
 export interface ModuleDetail {
   icon: typeof Package
@@ -406,6 +406,53 @@ export const modulesDataMercadosBase: ModuleDetail[] = modulesDataMercados.filte
 export const modulesDataMercadosStandalone: ModuleDetail[] = [
   modulesDataMercados.find((m) => m.title === 'Televendas')!,
   modulesDataMercados.find((m) => m.title === 'Pessoas (RH)')!,
+]
+
+// Market: CFTV & Security modules — exclusive to Plano 3, "sob consulta"
+export const modulesDataMercadosCFTV: ModuleDetail[] = [
+  {
+    icon: Camera,
+    title: 'CFTV & Câmeras',
+    desc: '16 câmeras integradas ao sistema, com foco em açougue, caixa e estoque.',
+    features: ['Grade ao vivo 4/9/16', 'Anti-fraude no caixa', '5 câmeras açougue', 'Zonas configuráveis', 'Alertas automáticos', 'Auditoria de pesagem'],
+    detailPoints: [
+      'Grade ao vivo com 4, 9 ou 16 câmeras simultâneas no painel de gestão',
+      'Câmera posicionada abaixo do caixa para conferência de carrinho e prevenção de fraude',
+      '5 câmeras overhead no açougue: cada corte, pesagem e etiquetagem é registrado',
+      'Cruzamento automático balança × etiqueta — alerta imediato em divergência acima de 5%',
+      'Zonas independentes: frente/caixa, açougue, estoque, entrada, corredor, carregamento',
+      'Clips exportáveis para auditoria, processos e treinamento de equipe',
+    ],
+    screenshot: '',
+  },
+  {
+    icon: Shield,
+    title: 'Alarmes & Zonas',
+    desc: 'Arme e desarme por zona, com escalonamento automático de contatos em ocorrências.',
+    features: ['8 zonas independentes', 'Sensores PIR e porta', 'Fumaça e pânico', 'Escalonamento automático', 'Painel de eventos', 'Histórico auditável'],
+    detailPoints: [
+      '8 zonas de segurança com arme e desarme independentes por área da loja',
+      'Sensores PIR de movimento, abertura de porta, fumaça/incêndio e botão de pânico',
+      'Escalonamento automático: Gerente → Coordenador → Central → Polícia → Bombeiros',
+      'Painel de eventos em tempo real com histórico auditável por turno',
+      'Registro preciso de horário, responsável e zona para cada ocorrência',
+    ],
+    screenshot: '',
+  },
+  {
+    icon: Lock,
+    title: 'Controle de Acesso',
+    desc: 'RFID, biometria e PIN para áreas restritas, com log auditável de cada entrada e saída.',
+    features: ['6 áreas restritas', 'RFID + biometria + PIN', 'Controle de lotação', 'Registro de visitantes', 'Log em tempo real', 'Permissões por cargo'],
+    detailPoints: [
+      '6 áreas restritas com autenticação por RFID, biometria ou biometria + PIN',
+      'Controle de lotação em tempo real por área da loja',
+      'Permissões configuradas por cargo: separador, coordenador, gestor, admin',
+      'Registro de visitantes com entrada, saída e responsável identificados',
+      'Log auditável completo: quem entrou, onde, quando e por quanto tempo',
+    ],
+    screenshot: '',
+  },
 ]
 
 const farmaciaPetshopExclude = new Set(['Foozi — Atendimento & Compras', 'Totem de Autoatendimento', 'Gestão de Salão'])
