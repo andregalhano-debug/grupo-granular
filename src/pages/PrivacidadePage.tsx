@@ -93,7 +93,7 @@ export function PrivacidadePage() {
             <p><strong>E-mail:</strong> <a href="mailto:contato@grupogranular.com.br" className="text-[#A31631] hover:underline">contato@grupogranular.com.br</a></p>
             <p><strong>Endereço:</strong> R. Rio Grande do Norte, 1435, Sala 708, Pavimento 7 — Savassi, Belo Horizonte/MG — CEP 30.130-138</p>
           </div>
-          <p className={p}>O Encarregado de Proteção de Dados (DPO) é o canal oficial para exercício dos direitos dos titulares e esclarecimentos sobre o tratamento de dados.</p>
+          <p className={p}>Para dúvidas, solicitações ou exercício dos seus direitos previstos na LGPD, entre em contato pelo e-mail acima. Todas as comunicações relacionadas à privacidade e proteção de dados devem ser encaminhadas diretamente para esse canal, que é monitorado pela nossa equipe responsável.</p>
         </Section>
 
         {/* Dados por público */}
