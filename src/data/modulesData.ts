@@ -392,6 +392,17 @@ const adaptModuleForFarmaciaPetshop = (m: ModuleDetail): ModuleDetail => {
   return m
 }
 
+// Market: base modules = mercados array without Televendas and Pessoas (those are standalone add-ons)
+export const modulesDataMercadosBase: ModuleDetail[] = modulesDataMercados.filter(
+  (m) => m.title !== 'Televendas' && m.title !== 'Pessoas (RH)'
+)
+
+// Market: standalone add-on modules shown separately with "Agendar Demo" CTA
+export const modulesDataMercadosStandalone: ModuleDetail[] = [
+  modulesDataMercados.find((m) => m.title === 'Televendas')!,
+  modulesDataMercados.find((m) => m.title === 'Pessoas (RH)')!,
+]
+
 const farmaciaPetshopExclude = new Set(['Foozi — Atendimento & Compras', 'Totem de Autoatendimento', 'Gestão de Salão'])
 
 export const modulesDataFarmacias: ModuleDetail[] = modulesDataRestaurantes

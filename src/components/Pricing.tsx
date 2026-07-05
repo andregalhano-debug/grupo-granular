@@ -433,8 +433,8 @@ export function Pricing({ category = 'restaurantes' }: Props) {
           </div>
         </FadeIn>
 
-        {/* Billing cycle toggle — restaurantes, farmácias e petshop */}
-        {(category === 'restaurantes' || category === 'farmacias' || category === 'petshop') && (
+        {/* Billing cycle toggle — todos exceto mercados (mercados tem preço próprio) */}
+        {(category === 'restaurantes' || category === 'farmacias' || category === 'petshop' || category === 'mercados') && (
           <FadeIn delay={50}>
             <div className="flex justify-center mb-10">
               <div className="inline-flex items-center bg-white border border-[#9C958A]/20 rounded-full p-1 shadow-sm gap-1">
@@ -471,85 +471,58 @@ export function Pricing({ category = 'restaurantes' }: Props) {
         )}
 
         {category === 'mercados' ? (
-          /* Mercados: Sistema sob consulta (Televendas + Pessoas) */
-          <FadeIn delay={100}>
-            <div className="max-w-6xl mx-auto mb-24">
-              <div className="rounded-2xl border border-[var(--accent)]/15 bg-white p-6 sm:p-8">
-                <p className="text-base font-bold text-[#0E0E0F] mb-1.5">{t.pricingExtended.marketSystem}</p>
-                <p className="text-sm text-[#9C958A] leading-relaxed mb-6">
-                  {t.pricingExtended.marketSystemDesc}
-                </p>
-
-                {/* Módulos avulsos */}
-                <div className="mb-6">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-1 h-5 rounded-full bg-[var(--accent)]" />
-                    <p className="text-sm font-bold text-[var(--accent)] uppercase tracking-wide">
-                      {t.pricingExtended.availableModules}
-                    </p>
-                  </div>
-                  <div className="space-y-3">
-                    {/* Televendas */}
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl bg-[#F7F7F7] border border-[#9C958A]/15">
-                      <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-lg bg-[var(--accent)]/10 flex items-center justify-center flex-shrink-0">
-                          <PhoneCall size={16} className="text-[var(--accent)]" />
-                        </div>
-                        <div>
-                          <p className="text-sm font-semibold text-[#0E0E0F]">{t.pricingExtended.televendasName}</p>
-                          <p className="text-xs text-[#9C958A]">{t.pricingExtended.televendasDesc}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-3 sm:flex-shrink-0">
-                        <div className="text-right">
-                          <span className="text-base font-bold text-[#0E0E0F]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>R$ 419</span>
-                          <span className="text-xs text-[#9C958A]">{t.pricingExtended.perMonth}</span>
-                        </div>
-                        <Link
-                          to="/checkout?plano=modulo-televendas"
-                          className="inline-flex items-center gap-1.5 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white text-xs font-medium px-4 py-2 rounded-lg transition-colors whitespace-nowrap"
-                        >
-                          <PhoneCall size={12} />
-                          {t.pricingExtended.add}
-                        </Link>
-                      </div>
-                    </div>
-
-                    {/* Pessoas (RH) */}
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl bg-[#F7F7F7] border border-[#9C958A]/15">
-                      <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-lg bg-[var(--accent)]/10 flex items-center justify-center flex-shrink-0">
-                          <Users size={16} className="text-[var(--accent)]" />
-                        </div>
-                        <div>
-                          <p className="text-sm font-semibold text-[#0E0E0F]">{t.pricingExtended.pessoasName}</p>
-                          <p className="text-xs text-[#9C958A]">{t.pricingExtended.pessoasDesc}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-3 sm:flex-shrink-0">
-                        <div className="text-right">
-                          <span className="text-base font-bold text-[#0E0E0F]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>R$ 599</span>
-                          <span className="text-xs text-[#9C958A]">{t.pricingExtended.perMonth}</span>
-                        </div>
-                        <Link
-                          to="/checkout?plano=modulo-pessoas"
-                          className="inline-flex items-center gap-1.5 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white text-xs font-medium px-4 py-2 rounded-lg transition-colors whitespace-nowrap"
-                        >
-                          <Users size={12} />
-                          {t.pricingExtended.add}
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
+          /* Mercados: mesma tabela de planos + módulos adicionais abaixo */
+          <FadeIn delay={100} className="mb-8">
+            <DesktopTable plans={translatedSaasPlans} capacity={saasCapacity} addonFeatures={saasAddonFeatures} billingCycle={billingCycle} />
+            <MobileCards plans={translatedSaasPlans} capacity={saasCapacity} addonFeatures={saasAddonFeatures} billingCycle={billingCycle} />
+            {/* Módulos adicionais Market */}
+            <div className="max-w-6xl mx-auto mt-10">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-1 h-8 rounded-full bg-[var(--accent)]" />
+                <div>
+                  <p className="text-sm font-bold text-[#0E0E0F]">Módulos adicionais · Granular Market</p>
+                  <p className="text-xs text-[#9C958A]">Disponíveis como complemento ao plano base — consulte preço via demonstração</p>
                 </div>
-
-                <Link
-                  to="/agendar-demo"
-                  className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors"
-                >
-                  <CalendarDays size={16} />
-                  {t.pricingExtended.scheduleDemo2}
-                </Link>
+              </div>
+              <div className="grid sm:grid-cols-2 gap-4">
+                {/* Televendas */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl bg-white border border-[#9C958A]/20">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-[var(--accent)]/10 flex items-center justify-center flex-shrink-0">
+                      <PhoneCall size={18} className="text-[var(--accent)]" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-[#0E0E0F]">{t.pricingExtended.televendasName}</p>
+                      <p className="text-xs text-[#9C958A]">{t.pricingExtended.televendasDesc}</p>
+                    </div>
+                  </div>
+                  <Link
+                    to="/agendar-demo"
+                    className="inline-flex items-center gap-2 border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white text-xs font-medium px-4 py-2 rounded-xl transition-colors whitespace-nowrap flex-shrink-0"
+                  >
+                    <CalendarDays size={13} />
+                    Consultar preço
+                  </Link>
+                </div>
+                {/* Pessoas (RH) */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl bg-white border border-[#9C958A]/20">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-[var(--accent)]/10 flex items-center justify-center flex-shrink-0">
+                      <Users size={18} className="text-[var(--accent)]" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-[#0E0E0F]">{t.pricingExtended.pessoasName}</p>
+                      <p className="text-xs text-[#9C958A]">{t.pricingExtended.pessoasDesc}</p>
+                    </div>
+                  </div>
+                  <Link
+                    to="/agendar-demo"
+                    className="inline-flex items-center gap-2 border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white text-xs font-medium px-4 py-2 rounded-xl transition-colors whitespace-nowrap flex-shrink-0"
+                  >
+                    <CalendarDays size={13} />
+                    Consultar preço
+                  </Link>
+                </div>
               </div>
             </div>
           </FadeIn>
