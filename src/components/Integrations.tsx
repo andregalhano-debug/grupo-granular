@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { X, Plus, Handshake } from 'lucide-react'
+import { X, Handshake } from 'lucide-react'
 import { FadeIn } from './FadeIn'
 import { integrationsData } from '../data/integrationsData'
 import { useCategoryAccent } from '../stores/CategoryContext'
@@ -116,15 +116,6 @@ export function Integrations() {
             </FadeIn>
           ))}
 
-          {/* Em breve */}
-          <FadeIn delay={integrationsData.length * 100}>
-            <div className="flex flex-col items-center gap-2.5 px-4 py-5 w-28 sm:w-32 rounded-2xl border-2 border-dashed border-[#9C958A]/25">
-              <div className="w-14 h-14 rounded-2xl border-2 border-dashed border-[#9C958A]/20 flex items-center justify-center">
-                <Plus size={22} className="text-[#9C958A]/35" />
-              </div>
-              <span className="text-[11px] font-medium text-[#9C958A]/50">Em breve</span>
-            </div>
-          </FadeIn>
         </div>
 
         {/* Painel expandido inline */}
