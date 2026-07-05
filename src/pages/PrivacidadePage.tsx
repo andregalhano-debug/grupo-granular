@@ -88,7 +88,7 @@ export function PrivacidadePage() {
         {/* Controlador */}
         <Section title="1. Quem é o Controlador dos Dados">
           <div className="bg-white rounded-xl border border-[#0E0E0F]/10 p-4 text-sm text-[#0E0E0F] space-y-1 mb-4">
-            <p><strong>Controlador:</strong> Granular Consultoria em Gestão Empresarial Ltda</p>
+            <p><strong>Controlador:</strong> GRANULAR CONSULTORIA EM GESTAO EMPRESARIAL LTDA</p>
             <p><strong>CNPJ:</strong> 67.771.869/0001-00</p>
             <p><strong>E-mail do Encarregado (DPO):</strong> <a href="mailto:contato@grupogranular.com.br" className="text-[#A31631] hover:underline">contato@grupogranular.com.br</a></p>
             <p><strong>Endereço:</strong> R. Rio Grande do Norte, 1435, Sala 708, Pavimento 7 — Savassi, Belo Horizonte/MG — CEP 30.130-138</p>
