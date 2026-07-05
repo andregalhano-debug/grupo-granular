@@ -55,7 +55,7 @@ function MobileCards({
 }) {
   const t = useT()
   const allFeatures = getAllFeatures(plans)
-  const featureAvulso: Record<string, { label: string; ctas: { text: string; link: string }[] }> = {
+  const featureAvulso: Record<string, { label: string; ctas: { text: string; link: string }[] }> = category === 'mercados' ? {} : {
     [t.plansData.addonPessoas]: {
       label: 'Avulso',
       ctas: [{ text: '599/mês', link: '/checkout?plano=modulo-pessoas' }],
@@ -203,7 +203,7 @@ function DesktopTable({
 }) {
   const t = useT()
   const allFeatures = getAllFeatures(plans)
-  const featureAvulso: Record<string, { label: string; ctas: { text: string; link: string }[] }> = {
+  const featureAvulso: Record<string, { label: string; ctas: { text: string; link: string }[] }> = category === 'mercados' ? {} : {
     [t.plansData.addonPessoas]: {
       label: 'Avulso',
       ctas: [{ text: '599/mês', link: '/checkout?plano=modulo-pessoas' }],
@@ -489,25 +489,6 @@ export function Pricing({ category = 'restaurantes' }: Props) {
                 </div>
               </div>
               <div className="grid sm:grid-cols-2 gap-4">
-                {/* Televendas */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl bg-white border border-[#9C958A]/20">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-[var(--accent)]/10 flex items-center justify-center flex-shrink-0">
-                      <PhoneCall size={18} className="text-[var(--accent)]" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold text-[#0E0E0F]">{t.pricingExtended.televendasName}</p>
-                      <p className="text-xs text-[#9C958A]">{t.pricingExtended.televendasDesc}</p>
-                    </div>
-                  </div>
-                  <Link
-                    to="/agendar-demo"
-                    className="inline-flex items-center gap-2 border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white text-xs font-medium px-4 py-2 rounded-xl transition-colors whitespace-nowrap flex-shrink-0"
-                  >
-                    <CalendarDays size={13} />
-                    Consultar preço
-                  </Link>
-                </div>
                 {/* Pessoas (RH) */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl bg-white border border-[#9C958A]/20">
                   <div className="flex items-center gap-3">
@@ -519,13 +500,42 @@ export function Pricing({ category = 'restaurantes' }: Props) {
                       <p className="text-xs text-[#9C958A]">{t.pricingExtended.pessoasDesc}</p>
                     </div>
                   </div>
-                  <Link
-                    to="/agendar-demo"
-                    className="inline-flex items-center gap-2 border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white text-xs font-medium px-4 py-2 rounded-xl transition-colors whitespace-nowrap flex-shrink-0"
-                  >
-                    <CalendarDays size={13} />
-                    Consultar preço
-                  </Link>
+                  <div className="flex items-center gap-3 flex-shrink-0">
+                    <div className="text-right">
+                      <p className="text-base font-bold text-[#0E0E0F]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>R$ 599</p>
+                      <p className="text-[10px] text-[#9C958A]">/mês</p>
+                    </div>
+                    <Link
+                      to="/checkout?plano=modulo-pessoas&segmento=mercados"
+                      className="inline-flex items-center gap-1.5 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white text-xs font-medium px-4 py-2 rounded-xl transition-colors whitespace-nowrap"
+                    >
+                      Contratar
+                    </Link>
+                  </div>
+                </div>
+                {/* Televendas */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl bg-white border border-[#9C958A]/20">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-[var(--accent)]/10 flex items-center justify-center flex-shrink-0">
+                      <PhoneCall size={18} className="text-[var(--accent)]" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-[#0E0E0F]">{t.pricingExtended.televendasName}</p>
+                      <p className="text-xs text-[#9C958A]">{t.pricingExtended.televendasDesc}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 flex-shrink-0">
+                    <div className="text-right">
+                      <p className="text-base font-bold text-[#0E0E0F]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>R$ 419</p>
+                      <p className="text-[10px] text-[#9C958A]">/mês</p>
+                    </div>
+                    <Link
+                      to="/checkout?plano=modulo-televendas&segmento=mercados"
+                      className="inline-flex items-center gap-1.5 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white text-xs font-medium px-4 py-2 rounded-xl transition-colors whitespace-nowrap"
+                    >
+                      Contratar
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
