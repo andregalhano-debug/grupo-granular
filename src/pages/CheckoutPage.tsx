@@ -4,6 +4,7 @@ import {
   Loader2, ChevronDown, CalendarDays, CheckCircle2,
   Send, Building2, User, MessageCircle, Mail, Store,
   TrendingUp, FileText, CheckCircle, XCircle, CreditCard, ShoppingBag,
+  UtensilsCrossed, ShoppingCart, Pill, PawPrint,
 } from 'lucide-react'
 import { Elements } from '@stripe/react-stripe-js'
 import { useT } from '../i18n/useT'
@@ -20,6 +21,15 @@ import { SecurityBadge } from '../components/checkout/SecurityBadge'
 import { StripeCardForm } from '../components/checkout/StripeCardForm'
 import { MiniCalendar } from '../components/MiniCalendar'
 import { generateDemoSlots, saveDemoBooking } from '../data/demoSlots'
+import { categoryAccent, withAlpha } from '../data/categoryColors'
+import type { Category } from '../components/Modules'
+
+const CHECKOUT_CATEGORIES: { id: Category; label: string; icon: typeof UtensilsCrossed }[] = [
+  { id: 'restaurantes', label: 'Food', icon: UtensilsCrossed },
+  { id: 'mercados', label: 'Mercado', icon: ShoppingCart },
+  { id: 'farmacias', label: 'Farmácia', icon: Pill },
+  { id: 'petshop', label: 'Pet Shop', icon: PawPrint },
+]
 
 const SEGMENTOS = ['Restaurante', 'Mercado', 'Atacado', 'Atacarejo', 'Farmácia', 'Pet Shop', 'Outros']
 const FAIXAS_FATURAMENTO = [
@@ -29,13 +39,28 @@ const FAIXAS_FATURAMENTO = [
 
 const inp = (hasError: boolean) =>
   `w-full px-4 py-3 rounded-xl border text-sm bg-white outline-none transition-colors ${
-    hasError ? 'border-[#A31631]' : 'border-[#0E0E0F]/15 focus:border-[#A31631]'
+    hasError ? 'border-[var(--accent)]' : 'border-[#0E0E0F]/15 focus:border-[var(--accent)]'
   }`
 
 export function CheckoutPage() {
   const t = useT()
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
+  const [checkoutCategory, setCheckoutCategory] = useState<Category>('restaurantes')
+
+  useEffect(() => {
+    const accent = categoryAccent[checkoutCategory]
+    const root = document.documentElement
+    root.style.setProperty('--accent', accent.primary)
+    root.style.setProperty('--accent-dark', accent.dark)
+    root.style.setProperty('--accent-05', withAlpha(accent.primary, 5))
+    root.style.setProperty('--accent-08', withAlpha(accent.primary, 8))
+    root.style.setProperty('--accent-10', withAlpha(accent.primary, 10))
+    root.style.setProperty('--accent-15', withAlpha(accent.primary, 15))
+    root.style.setProperty('--accent-20', withAlpha(accent.primary, 20))
+    root.style.setProperty('--accent-30', withAlpha(accent.primary, 30))
+    root.style.setProperty('--accent-40', withAlpha(accent.primary, 40))
+  }, [checkoutCategory])
 
   const {
     form, errors: payErrors, isProcessing, setIsProcessing,
@@ -242,7 +267,7 @@ export function CheckoutPage() {
             </p>
             <Link
               to="/"
-              className="inline-flex items-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors"
+              className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors"
             >
               Voltar ao site
             </Link>
@@ -392,10 +417,10 @@ export function CheckoutPage() {
                 <button
                   type="button"
                   onClick={() => setShowCalendar((v) => !v)}
-                  className="w-full flex items-center justify-between gap-3 border border-dashed border-[#9C958A]/30 hover:border-[#A31631]/40 rounded-xl px-4 py-3 text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors"
+                  className="w-full flex items-center justify-between gap-3 border border-dashed border-[#9C958A]/30 hover:border-[var(--accent)] rounded-xl px-4 py-3 text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors"
                 >
                   <span className="flex items-center gap-2">
-                    <CalendarDays size={15} className={selectedSlot ? 'text-[#A31631]' : ''} />
+                    <CalendarDays size={15} style={selectedSlot ? { color: 'var(--accent)' } : {}} />
                     {selectedSlot
                       ? <><strong className="text-[#0E0E0F]">Horário selecionado:</strong> {selectedSlot.replace(/-(?=[^-]*$)/, ' às ')}</>
                       : 'Quero escolher um horário (opcional)'}
@@ -414,18 +439,45 @@ export function CheckoutPage() {
                 )}
 
                 {selectedSlot && (
-                  <div className="flex items-center gap-2 rounded-lg bg-[#A31631]/5 border border-[#A31631]/10 px-3 py-2 text-xs text-[#0E0E0F]">
-                    <CalendarDays size={14} className="text-[#A31631] shrink-0" />
+                  <div className="flex items-center gap-2 rounded-lg bg-[var(--accent-05)] border border-[var(--accent-10)] px-3 py-2 text-xs text-[#0E0E0F]">
+                    <CalendarDays size={14} style={{ color: 'var(--accent)' }} className="shrink-0" />
                     <strong>{selectedSlot.replace(/-(?=[^-]*$)/, ' às ')}</strong>
                     <button
                       type="button"
                       onClick={() => { setSelectedSlot(null); setShowCalendar(false) }}
-                      className="ml-auto text-[#9C958A] hover:text-[#A31631] transition-colors text-[10px]"
+                      className="ml-auto text-[#9C958A] hover:text-[var(--accent)] transition-colors text-[10px]"
                     >
                       remover
                     </button>
                   </div>
                 )}
+              </div>
+
+              {/* Seletor de segmento — mobile */}
+              <div className="lg:hidden rounded-2xl border border-[#0E0E0F]/10 bg-[#F7F7F7] px-4 py-4">
+                <p className="text-[11px] font-semibold uppercase tracking-wider text-[#9C958A] mb-3" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+                  Seu segmento
+                </p>
+                <div className="grid grid-cols-2 gap-2">
+                  {CHECKOUT_CATEGORIES.map(({ id, label, icon: Icon }) => {
+                    const isActive = checkoutCategory === id
+                    const accent = categoryAccent[id]
+                    return (
+                      <button
+                        key={id}
+                        type="button"
+                        onClick={() => setCheckoutCategory(id)}
+                        className={`flex items-center gap-2 rounded-xl px-3 py-2.5 text-left text-xs font-medium transition-all cursor-pointer border ${
+                          isActive ? 'border-[1.5px] text-white' : 'border-[#0E0E0F]/10 bg-white text-[#9C958A] hover:text-[#0E0E0F] hover:border-[#0E0E0F]/20'
+                        }`}
+                        style={isActive ? { backgroundColor: accent.primary, borderColor: accent.primary } : {}}
+                      >
+                        <Icon size={13} />
+                        {label}
+                      </button>
+                    )
+                  })}
+                </div>
               </div>
 
               {/* Resumo do pedido — colapsado por padrão */}
@@ -448,7 +500,7 @@ export function CheckoutPage() {
               <div className="space-y-3">
                 <button
                   type="submit"
-                  className="w-full flex items-center justify-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-semibold py-4 px-8 rounded-xl text-base transition-colors cursor-pointer"
+                  className="w-full flex items-center justify-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-semibold py-4 px-8 rounded-xl text-base transition-colors cursor-pointer"
                 >
                   {selectedSlot
                     ? <><CalendarDays size={18} /> Confirmar agendamento</>
@@ -544,7 +596,7 @@ export function CheckoutPage() {
                               <button
                                 type="submit"
                                 disabled={isProcessing || !canSubmit}
-                                className="w-full flex items-center justify-center gap-2 bg-[#A31631] hover:bg-[#7A1025] disabled:opacity-70 text-white font-medium py-4 px-8 rounded-xl text-base transition-colors cursor-pointer"
+                                className="w-full flex items-center justify-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] disabled:opacity-70 text-white font-medium py-4 px-8 rounded-xl text-base transition-colors cursor-pointer"
                               >
                                 {isProcessing
                                   ? <><Loader2 size={20} className="animate-spin" />{t.checkout.processing}</>
@@ -564,9 +616,37 @@ export function CheckoutPage() {
             </form>
           </div>
 
-          {/* Right column — resumo colapsado (desktop) */}
+          {/* Right column — seletor de categoria + resumo (desktop) */}
           <div className="hidden lg:block lg:col-span-2">
-            <div className="sticky top-8 space-y-2">
+            <div className="sticky top-8 space-y-3">
+
+              {/* Seletor de segmento */}
+              <div className="rounded-2xl border border-[#0E0E0F]/10 bg-[#F7F7F7] px-4 py-4">
+                <p className="text-[11px] font-semibold uppercase tracking-wider text-[#9C958A] mb-3" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+                  Seu segmento
+                </p>
+                <div className="grid grid-cols-2 gap-2">
+                  {CHECKOUT_CATEGORIES.map(({ id, label, icon: Icon }) => {
+                    const isActive = checkoutCategory === id
+                    const accent = categoryAccent[id]
+                    return (
+                      <button
+                        key={id}
+                        type="button"
+                        onClick={() => setCheckoutCategory(id)}
+                        className={`flex items-center gap-2 rounded-xl px-3 py-2.5 text-left text-xs font-medium transition-all cursor-pointer border ${
+                          isActive ? 'border-[1.5px] text-white' : 'border-[#0E0E0F]/10 bg-white text-[#9C958A] hover:text-[#0E0E0F] hover:border-[#0E0E0F]/20'
+                        }`}
+                        style={isActive ? { backgroundColor: accent.primary, borderColor: accent.primary } : {}}
+                      >
+                        <Icon size={13} />
+                        {label}
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+
               <button
                 type="button"
                 onClick={() => setShowSummary((v) => !v)}
@@ -600,7 +680,7 @@ export function CheckoutPage() {
             </p>
             <button
               onClick={() => paymentRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-              className="flex-shrink-0 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-5 py-2.5 rounded-xl text-sm transition-colors"
+              className="flex-shrink-0 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-5 py-2.5 rounded-xl text-sm transition-colors"
             >
               {t.checkout.goToPayment}
             </button>

@@ -24,7 +24,7 @@ function PlanSelector({ plans, currentPlan, onSelect, label, changeLabel }: {
   const [open, setOpen] = useState(false)
   return (
     <div className="relative">
-      <button type="button" onClick={() => setOpen(!open)} className="w-full flex items-center justify-between gap-2 text-xs text-[#A31631] font-medium mt-2 px-2 py-1.5 rounded-lg hover:bg-[#A31631]/5 transition-colors cursor-pointer">
+      <button type="button" onClick={() => setOpen(!open)} className="w-full flex items-center justify-between gap-2 text-xs text-[var(--accent)] font-medium mt-2 px-2 py-1.5 rounded-lg hover:bg-[var(--accent-05)] transition-colors cursor-pointer">
         {changeLabel} {label}
         <ChevronDown size={14} className={`transition-transform ${open ? 'rotate-180' : ''}`} />
       </button>
@@ -32,7 +32,7 @@ function PlanSelector({ plans, currentPlan, onSelect, label, changeLabel }: {
         <div className="mt-1 rounded-xl border border-[#0E0E0F]/10 bg-white shadow-lg overflow-hidden z-10 relative">
           {plans.map((plan) => (
             <button key={plan.id} type="button" onClick={() => { onSelect(plan); setOpen(false) }}
-              className={`w-full flex items-center justify-between px-4 py-3 text-left text-sm transition-colors cursor-pointer ${plan.id === currentPlan.id ? 'bg-[#A31631]/5 text-[#A31631] font-medium' : 'hover:bg-[#F7F7F7] text-[#0E0E0F]'}`}>
+              className={`w-full flex items-center justify-between px-4 py-3 text-left text-sm transition-colors cursor-pointer ${plan.id === currentPlan.id ? 'bg-[var(--accent-05)] text-[var(--accent)] font-medium' : 'hover:bg-[#F7F7F7] text-[#0E0E0F]'}`}>
               <span>{plan.name}</span>
               <span className="text-xs text-[#9C958A]">R$ {plan.priceFormatted}/mês</span>
             </button>
@@ -78,7 +78,7 @@ function CollapsibleCard({ label, name, price, period, borderClass, borderColor,
       >
         <div className="flex items-center gap-3 min-w-0">
           <div className="text-left min-w-0">
-            <span className="text-[10px] font-medium uppercase tracking-wider text-[#A31631] block" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+            <span className="text-[10px] font-medium uppercase tracking-wider text-[var(--accent)] block" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
               {label}
             </span>
             <h3 className="font-semibold text-[#0E0E0F] text-sm truncate">{name}</h3>
@@ -98,7 +98,7 @@ function CollapsibleCard({ label, name, price, period, borderClass, borderColor,
         <div className="px-4 pb-4 pt-0 border-t border-[#0E0E0F]/5">
           {onRemove && (
             <div className="flex justify-end mb-2">
-              <button type="button" onClick={onRemove} className="flex items-center gap-1 text-[10px] text-[#9C958A] hover:text-[#A31631] transition-colors">
+              <button type="button" onClick={onRemove} className="flex items-center gap-1 text-[10px] text-[#9C958A] hover:text-[var(--accent)] transition-colors">
                 <X size={12} /> {os.remove}
               </button>
             </div>
@@ -124,13 +124,13 @@ function ConsultantSlotCard({ cartConsultant, forceToggle }: { cartConsultant: {
       name={c.name}
       price={String(c.hourlyRate)}
       period={os.perHour}
-      borderClass={needsSlot ? 'border-amber-300' : 'border-[#A31631]/20'}
+      borderClass={needsSlot ? 'border-amber-300' : 'border-[var(--accent-20)]'}
       forceToggle={forceToggle}
       onRemove={() => cart.removeConsultant(c.id)}
     >
       <div className="flex items-center gap-3 mb-3">
-        <div className="w-10 h-10 rounded-full bg-[#A31631]/10 flex items-center justify-center flex-shrink-0">
-          <span className="text-sm font-bold text-[#A31631]">{getInitials(c.name)}</span>
+        <div className="w-10 h-10 rounded-full bg-[var(--accent-10)] flex items-center justify-center flex-shrink-0">
+          <span className="text-sm font-bold text-[var(--accent)]">{getInitials(c.name)}</span>
         </div>
         <div>
           <p className="text-xs text-[#9C958A]">{c.title}</p>
@@ -144,12 +144,12 @@ function ConsultantSlotCard({ cartConsultant, forceToggle }: { cartConsultant: {
       </div>
 
       {c.slot ? (
-        <div className="flex items-center justify-between rounded-lg bg-[#A31631]/5 px-3 py-2">
+        <div className="flex items-center justify-between rounded-lg bg-[var(--accent-05)] px-3 py-2">
           <div className="flex items-center gap-2 text-xs text-[#0E0E0F]">
-            <CalendarDays size={14} className="text-[#A31631]" />
+            <CalendarDays size={14} style={{ color: 'var(--accent)' }} />
             {os.scheduled} <strong>{c.slot.replace('-', ' às ')}</strong>
           </div>
-          <button type="button" onClick={() => cart.updateConsultantSlot(c.id, null)} className="text-[10px] text-[#A31631] font-medium hover:underline cursor-pointer">
+          <button type="button" onClick={() => cart.updateConsultantSlot(c.id, null)} className="text-[10px] text-[var(--accent)] font-medium hover:underline cursor-pointer">
             {os.change}
           </button>
         </div>
@@ -202,7 +202,7 @@ export function OrderSummary({ paymentMethod: _paymentMethod }: OrderSummaryProp
         <button
           type="button"
           onClick={() => setToggleAll((prev) => ({ count: prev.count + 1, expand: !prev.expand }))}
-          className="flex items-center gap-1.5 text-[10px] font-medium text-[#9C958A] hover:text-[#A31631] transition-colors cursor-pointer px-2 py-1 rounded-lg hover:bg-[#A31631]/5"
+          className="flex items-center gap-1.5 text-[10px] font-medium text-[#9C958A] hover:text-[var(--accent)] transition-colors cursor-pointer px-2 py-1 rounded-lg hover:bg-[var(--accent-05)]"
         >
           <ChevronsDownUp size={12} />
           {allExpanded ? os.collapseAll : os.expandAll}
@@ -212,7 +212,7 @@ export function OrderSummary({ paymentMethod: _paymentMethod }: OrderSummaryProp
       {/* ═══════════ SEÇÃO: SISTEMA ═══════════ */}
       <div className="space-y-3">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-[#A31631] flex items-center justify-center flex-shrink-0">
+          <div className="w-8 h-8 rounded-lg bg-[var(--accent)] flex items-center justify-center flex-shrink-0">
             <Monitor size={16} className="text-white" />
           </div>
           <h3 className="text-sm font-bold text-[#0E0E0F] uppercase tracking-wider">{os.system}</h3>
@@ -242,7 +242,7 @@ export function OrderSummary({ paymentMethod: _paymentMethod }: OrderSummaryProp
             <ul className="space-y-1.5 mb-3">
               {saas.features.slice(0, 3).map((f) => (
                 <li key={f} className="flex items-start gap-2 text-xs text-[#9C958A]">
-                  <Check size={12} className="mt-0.5 flex-shrink-0" style={{ color: saas.segment?.color || '#A31631' }} />{f}
+                  <Check size={12} className="mt-0.5 flex-shrink-0" style={{ color: saas.segment?.color || 'var(--accent)' }} />{f}
                 </li>
               ))}
               {saas.features.length > 3 && <li className="text-xs text-[#9C958A]">+{saas.features.length - 3} {os.includedFeatures}</li>}
@@ -254,7 +254,6 @@ export function OrderSummary({ paymentMethod: _paymentMethod }: OrderSummaryProp
         {/* Módulos avulsos */}
         {modulos.map((mod) => {
           const seg = mod.segment
-          const borderStyle = seg ? `border-[1.5px]` : 'border-[#A31631]/20'
           return (
             <CollapsibleCard
               key={mod.id}
@@ -262,7 +261,7 @@ export function OrderSummary({ paymentMethod: _paymentMethod }: OrderSummaryProp
               name={mod.name}
               price={mod.priceFormatted}
               period={perMonth}
-              borderClass={borderStyle}
+              borderClass={seg ? 'border-[1.5px]' : 'border-[var(--accent-20)]'}
               borderColor={seg?.color}
               forceToggle={toggleAll}
               onRemove={() => cart.removePlan(mod.id)}
@@ -279,7 +278,7 @@ export function OrderSummary({ paymentMethod: _paymentMethod }: OrderSummaryProp
               <ul className="space-y-1.5">
                 {mod.features.slice(0, 4).map((f) => (
                   <li key={f} className="flex items-start gap-2 text-xs text-[#9C958A]">
-                    <Check size={12} className="mt-0.5 flex-shrink-0" style={{ color: seg?.color || '#A31631' }} />{f}
+                    <Check size={12} className="mt-0.5 flex-shrink-0" style={{ color: seg?.color || 'var(--accent)' }} />{f}
                   </li>
                 ))}
                 {mod.features.length > 4 && <li className="text-xs text-[#9C958A]">+{mod.features.length - 4} {os.includedFeatures}</li>}
@@ -296,13 +295,13 @@ export function OrderSummary({ paymentMethod: _paymentMethod }: OrderSummaryProp
             name={addon.name}
             price="—"
             period=""
-            borderClass="border-[#A31631]/20"
+            borderClass="border-[var(--accent-20)]"
             forceToggle={toggleAll}
             onRemove={() => cart.removeAddon(addon.id)}
           >
             <p className="text-xs text-[#9C958A] leading-relaxed mb-2">{addon.description}</p>
-            <div className="flex items-center gap-2 rounded-lg bg-[#A31631]/5 border border-[#A31631]/10 px-3 py-2 text-[11px] text-[#9C958A] leading-relaxed">
-              <Check size={12} className="mt-0.5 text-[#A31631] flex-shrink-0" />
+            <div className="flex items-center gap-2 rounded-lg bg-[var(--accent-05)] border border-[var(--accent-10)] px-3 py-2 text-[11px] text-[#9C958A] leading-relaxed">
+              <Check size={12} className="mt-0.5 text-[var(--accent)] flex-shrink-0" />
               <span><strong className="text-[#0E0E0F]">{os.specialistContact}</strong> {os.specialistContactSuffix}</span>
             </div>
           </CollapsibleCard>
@@ -316,8 +315,8 @@ export function OrderSummary({ paymentMethod: _paymentMethod }: OrderSummaryProp
         {/* Adicionar Sistema */}
         {!hasSaas && (
           <button type="button" onClick={() => cart.addPlan(upsellSaas)}
-            className="w-full flex items-center gap-3 rounded-xl border border-dashed border-[#A31631]/30 bg-[#A31631]/5 p-4 text-left hover:bg-[#A31631]/10 transition-colors cursor-pointer">
-            <div className="w-8 h-8 rounded-lg bg-[#A31631]/10 flex items-center justify-center flex-shrink-0"><Plus size={16} className="text-[#A31631]" /></div>
+            className="w-full flex items-center gap-3 rounded-xl border border-dashed border-[var(--accent-30)] bg-[var(--accent-05)] p-4 text-left hover:bg-[var(--accent-10)] transition-colors cursor-pointer">
+            <div className="w-8 h-8 rounded-lg bg-[var(--accent-10)] flex items-center justify-center flex-shrink-0"><Plus size={16} style={{ color: 'var(--accent)' }} /></div>
             <div>
               <p className="text-sm font-medium text-[#0E0E0F]">{os.addSystem}</p>
               <p className="text-xs text-[#9C958A]">{upsellSaas.name} — R$ {upsellSaas.priceFormatted}{perMonth}</p>

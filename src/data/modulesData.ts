@@ -1,4 +1,4 @@
-import { Package, ChefHat, Monitor, TrendingUp, ShoppingBag, Users, ClipboardCheck, Bot, UserCog, FileBarChart, Plug, Headphones, PhoneCall } from 'lucide-react'
+import { Package, ChefHat, Monitor, TrendingUp, ShoppingBag, Users, ClipboardCheck, Bot, UserCog, FileBarChart, Plug, PhoneCall, Tablet, LayoutGrid } from 'lucide-react'
 
 export interface ModuleDetail {
   icon: typeof Package
@@ -124,7 +124,7 @@ export const modulesDataRestaurantes: ModuleDetail[] = [
     ],
     screenshot: '',
   },
-  // ─── LINHA 3: Checklists, IA, Foozi, Integrações ───
+  // ─── LINHA 3: Checklists, IA, Totem, Salão ───
   {
     icon: ClipboardCheck,
     title: 'Checklists Operacionais',
@@ -153,30 +153,32 @@ export const modulesDataRestaurantes: ModuleDetail[] = [
     screenshot: '',
   },
   {
-    icon: Headphones,
-    title: 'Foozi — Atendimento & Compras',
-    desc: 'Atendimento digital, BPO e acesso a +2.000 fornecedores para food service.',
-    features: ['WhatsApp', 'Chatbot', 'BPO de atendimento', '+2.000 fornecedores', 'Executivo de compras', 'Cotação e negociação', 'Central terceirizada', 'Gestão na Granular'],
+    icon: Tablet,
+    title: 'Totem de Autoatendimento',
+    desc: 'Pedidos direto pelo cliente, sem fila no balcão. Cardápio digital interativo com pagamento integrado.',
+    features: ['Cardápio digital', 'Pedido autônomo', 'Pagamento integrado', 'Upsell automático', 'Envio direto ao KDS'],
     detailPoints: [
-      'Atendimento profissional via WhatsApp com chatbot inteligente',
-      'BPO de atendimento: central terceirizada e gerenciada pela Foozi',
-      'Acesso a mais de 2.000 fornecedores homologados para food service',
-      'Cotação, negociação e pedidos centralizados diretamente na Granular',
+      'Cliente faz o pedido diretamente no totem com cardápio visual e preços sempre atualizados',
+      'Pagamento integrado: cartão de débito/crédito, PIX e voucher alimentação no próprio totem',
+      'Pedido enviado automaticamente ao KDS da cozinha, sem intervenção manual no balcão',
+      'Upsell inteligente: sugestão de combos e adicionais no fluxo do pedido aumenta o ticket médio',
+      'Controle de senhas e retirada no balcão com painel de chamada integrado',
+      'Redução de fila e aumento de capacidade de atendimento nos horários de pico',
     ],
     screenshot: '',
   },
   {
-    icon: Plug,
-    title: 'Integrações',
-    desc: 'Conecte seu ecossistema com iFood, Anota AI, 99Food, Omie, Open Delivery e mais.',
-    features: ['iFood', 'Anota AI', '99Food', 'Omie', 'Open Delivery', 'Foozi'],
+    icon: LayoutGrid,
+    title: 'Gestão de Salão',
+    desc: 'Mapa de mesas, comanda digital e controle de ocupação para operação de salão completa.',
+    features: ['Mapa de mesas', 'Comanda digital', 'App do garçom', 'Giro de mesas', 'Divisão de conta'],
     detailPoints: [
-      'iFood: pedidos recebidos automaticamente, sem gestão manual',
-      'Anota AI: pedidos do cardápio digital centralizados na Granular',
-      '99Food: gestão de pedidos integrada ao painel Granular',
-      'Omie: sincronização financeira em tempo real',
-      'Open Delivery: padrão aberto de integração com marketplaces',
-      'Novas integrações adicionadas continuamente',
+      'Mapa visual do salão com status de cada mesa em tempo real: livre, ocupada ou aguardando pagamento',
+      'Comanda digital pelo garçom via app mobile — pedidos enviados diretamente ao KDS da cozinha',
+      'Controle de ocupação, tempo de mesa e giro por turno para identificar gargalos',
+      'Divisão de conta flexível: por item, por pessoa ou valor livre sem necessidade de reimpressão',
+      'Pagamento na mesa com cartão ou PIX sem deslocar o cliente até o caixa',
+      'Histórico por mesa para identificar horários de pico e oportunidades de giro no salão',
     ],
     screenshot: '',
   },
@@ -390,12 +392,14 @@ const adaptModuleForFarmaciaPetshop = (m: ModuleDetail): ModuleDetail => {
   return m
 }
 
+const farmaciaPetshopExclude = new Set(['Foozi — Atendimento & Compras', 'Totem de Autoatendimento', 'Gestão de Salão'])
+
 export const modulesDataFarmacias: ModuleDetail[] = modulesDataRestaurantes
-  .filter((m) => m.title !== 'Foozi — Atendimento & Compras')
+  .filter((m) => !farmaciaPetshopExclude.has(m.title))
   .map(adaptModuleForFarmaciaPetshop)
 
 export const modulesDataPetshop: ModuleDetail[] = modulesDataRestaurantes
-  .filter((m) => m.title !== 'Foozi — Atendimento & Compras')
+  .filter((m) => !farmaciaPetshopExclude.has(m.title))
   .map(adaptModuleForFarmaciaPetshop)
 
 // Alias para compatibilidade com código existente
