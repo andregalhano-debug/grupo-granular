@@ -40,7 +40,7 @@ export function AiAgentsSection() {
         <FadeIn delay={100}>
           <div className="bg-white/5 border border-white/10 rounded-3xl p-8 sm:p-10">
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {skills.map((skill, i) => (
+              {skills.map((skill) => (
                 <div
                   key={skill.name}
                   className="flex items-start gap-3 p-4 rounded-2xl bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.07] transition-colors"
