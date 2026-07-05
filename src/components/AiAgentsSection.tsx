@@ -30,7 +30,7 @@ export function AiAgentsSection() {
             Inteligência Artificial
           </p>
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white mb-4">
-            Agente Granular — mais de 15 habilidades trabalhando pela sua operação
+            Agente Granular — mais de 15 habilidades operando 24/7 pelo seu negócio
           </h2>
         </FadeIn>
 
