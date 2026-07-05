@@ -185,7 +185,7 @@ export const en = {
       privacy: 'Privacy',
       cookies: 'Cookies',
     },
-    city: 'São Paulo, SP',
+    city: 'Belo Horizonte, MG · São Paulo, SP',
     copyright: '© 2026 Granular. All rights reserved.',
   },
   cta: {
