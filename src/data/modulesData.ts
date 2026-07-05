@@ -374,13 +374,29 @@ const producaoCMVFarmaciaPetshop: ModuleDetail = {
   screenshot: '',
 }
 
+const adaptModuleForFarmaciaPetshop = (m: ModuleDetail): ModuleDetail => {
+  if (m.title === 'Produção & Fichas Técnicas') return producaoCMVFarmaciaPetshop
+  if (m.title === 'KDS - Kitchen Display') return {
+    ...m,
+    title: 'Delivery System',
+    desc: 'Painel digital para operação de delivery com tempos, prioridades e status em tempo real dos pedidos.',
+    detailPoints: [
+      'Fila de pedidos de delivery organizada por canal, sem comandas de papel',
+      'Priorização automática com tempo de preparo visível em tempo real',
+      'Alertas visuais e sonoros para pedidos em atraso',
+      'Visão simultânea de todos os pedidos ativos por status de entrega',
+    ],
+  }
+  return m
+}
+
 export const modulesDataFarmacias: ModuleDetail[] = modulesDataRestaurantes
   .filter((m) => m.title !== 'Foozi — Atendimento & Compras')
-  .map((m) => m.title === 'Produção & Fichas Técnicas' ? producaoCMVFarmaciaPetshop : m)
+  .map(adaptModuleForFarmaciaPetshop)
 
 export const modulesDataPetshop: ModuleDetail[] = modulesDataRestaurantes
   .filter((m) => m.title !== 'Foozi — Atendimento & Compras')
-  .map((m) => m.title === 'Produção & Fichas Técnicas' ? producaoCMVFarmaciaPetshop : m)
+  .map(adaptModuleForFarmaciaPetshop)
 
 // Alias para compatibilidade com código existente
 export const modulesData = modulesDataRestaurantes

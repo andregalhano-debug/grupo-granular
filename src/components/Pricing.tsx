@@ -390,14 +390,21 @@ export function Pricing({ category = 'restaurantes' }: Props) {
   const [billingCycle, setBillingCycle] = useState<BillingCycle>('annual')
   const consultoriaSteps = t.pricingExtended.consultoriaSteps
   const sampleMentors = t.pricingExtended.sampleMentors
-  const translatedSaasPlans = saasPlans.map((plan, i) => ({
-    ...plan,
-    name: t.plansData.saas[i]?.name ?? plan.name,
-    subtitle: t.plansData.saas[i]?.subtitle ?? plan.subtitle,
-    features: t.plansData.saas[i]?.features ?? plan.features,
-    period: t.plansData.saas[i]?.period ?? plan.period,
-    cta: t.plansData.saas[i]?.cta ?? plan.cta,
-  }))
+  const translatedSaasPlans = saasPlans.map((plan, i) => {
+    const features = (t.plansData.saas[i]?.features ?? plan.features).map((f: string) =>
+      (category === 'farmacias' || category === 'petshop')
+        ? f.replace('KDS para cozinha e expedição', 'Delivery System')
+        : f
+    )
+    return {
+      ...plan,
+      name: t.plansData.saas[i]?.name ?? plan.name,
+      subtitle: t.plansData.saas[i]?.subtitle ?? plan.subtitle,
+      features,
+      period: t.plansData.saas[i]?.period ?? plan.period,
+      cta: t.plansData.saas[i]?.cta ?? plan.cta,
+    }
+  })
   return (
     <section id="precos" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-[#F7F7F7]">
       <div className="max-w-7xl mx-auto">
