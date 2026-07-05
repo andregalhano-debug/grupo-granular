@@ -121,49 +121,55 @@ function MobileCards({
           {/* Features */}
           <div className="p-4">
             <ul className="space-y-2.5">
-              {allFeatures.map((feature) => {
-                const has = plan.features.includes(feature)
-                const customLabel = featureLabels[feature]?.[plan.id]
-                return (
-                  <li key={feature} className="flex items-start gap-3 text-sm">
-                    {has ? (
-                      <>
-                        <div className="w-5 h-5 rounded-full flex items-center justify-center bg-green-500/10 flex-shrink-0 mt-0.5">
-                          <Check size={12} className="text-green-600" />
-                        </div>
-                        <div>
-                          <span className="text-[#0E0E0F]">
-                            {feature}
-                            {customLabel && (
-                              <span className="ml-2 text-[11px] font-semibold text-green-600 bg-green-500/10 px-2 py-0.5 rounded-full">
-                                {customLabel}
-                              </span>
+              {(() => {
+                const LAST_FEATURE = 'Envio automático de Relatórios'
+                const head = allFeatures.filter(f => f !== LAST_FEATURE)
+                const hasLast = allFeatures.includes(LAST_FEATURE)
+                const merged: Array<{ feature: string; isP3: boolean }> = [
+                  ...head.map(f => ({ feature: f, isP3: false })),
+                  ...plan3ConsultFeatures.map(f => ({ feature: f, isP3: true })),
+                  ...(hasLast ? [{ feature: LAST_FEATURE, isP3: false }] : []),
+                ]
+                return merged.map(({ feature, isP3 }) => {
+                  const has = isP3 ? plan.id === 'saas-3' : plan.features.includes(feature)
+                  const customLabel = featureLabels[feature]?.[plan.id]
+                  return (
+                    <li key={feature} className="flex items-start gap-3 text-sm">
+                      {has ? (
+                        <>
+                          <div className="w-5 h-5 rounded-full flex items-center justify-center bg-green-500/10 flex-shrink-0 mt-0.5">
+                            <Check size={12} className="text-green-600" />
+                          </div>
+                          <div>
+                            <span className="text-[#0E0E0F]">
+                              {feature}
+                              {customLabel && (
+                                <span className="ml-2 text-[11px] font-semibold text-green-600 bg-green-500/10 px-2 py-0.5 rounded-full">
+                                  {customLabel}
+                                </span>
+                              )}
+                            </span>
+                            {featureAvulso[feature] && (
+                              <div className="flex items-center gap-1.5 mt-1">
+                                {featureAvulso[feature].ctas.map((cta) => (
+                                  <Link key={cta.link} to={cta.link} className="inline-flex items-center justify-center text-[10px] font-semibold text-white bg-[var(--accent)] hover:bg-[var(--accent-dark)] w-[100px] py-1 rounded-full whitespace-nowrap transition-colors text-center">
+                                    {cta.text}
+                                  </Link>
+                                ))}
+                              </div>
                             )}
-                          </span>
-                          {featureAvulso[feature] && (
-                            <div className="flex items-center gap-1.5 mt-1">
-                              {featureAvulso[feature].ctas.map((cta) => (
-                                <Link
-                                  key={cta.link}
-                                  to={cta.link}
-                                  className="inline-flex items-center justify-center text-[10px] font-semibold text-white bg-[var(--accent)] hover:bg-[var(--accent-dark)] w-[100px] py-1 rounded-full whitespace-nowrap transition-colors text-center"
-                                >
-                                  {cta.text}
-                                </Link>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <Minus size={14} className="text-[#9C958A]/40 flex-shrink-0 ml-0.5 mt-0.5" />
-                        <span className="text-[#9C958A]/50 line-through">{feature}</span>
-                      </>
-                    )}
-                  </li>
-                )
-              })}
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <Minus size={14} className="text-[#9C958A]/40 flex-shrink-0 ml-0.5 mt-0.5" />
+                          <span className="text-[#9C958A]/50 line-through">{feature}</span>
+                        </>
+                      )}
+                    </li>
+                  )
+                })
+              })()}
               {/* Addon features — sempre com traço (contratação avulsa) */}
               {addonFeatures.map((feature) => (
                 <li key={feature} className="flex items-center gap-3 text-sm pt-2 border-t border-dashed border-[#9C958A]/20 mt-2">
@@ -172,26 +178,7 @@ function MobileCards({
                   <span className="text-[9px] font-medium uppercase tracking-wider text-[var(--accent)] bg-[var(--accent)]/10 px-2 py-0.5 rounded-full whitespace-nowrap">{t.pricingExtended.modulesAvulsos}</span>
                 </li>
               ))}
-              {/* Plano 3 sob consulta features */}
-              {plan3ConsultFeatures.map((feature) => (
-                <li key={feature} className="flex items-start gap-3 text-sm pt-2 border-t border-dashed border-[#9C958A]/20 mt-2">
-                  {plan.id === 'saas-3' ? (
-                    <div className="w-5 h-5 rounded-full flex items-center justify-center bg-green-500/10 flex-shrink-0 mt-0.5">
-                      <Check size={12} className="text-green-600" />
-                    </div>
-                  ) : (
-                    <Minus size={14} className="text-[#9C958A]/40 flex-shrink-0 ml-0.5 mt-0.5" />
-                  )}
-                  <div>
-                    <span className={plan.id === 'saas-3' ? 'text-[#0E0E0F]' : 'text-[#9C958A]/50 line-through'}>{feature}</span>
-                    {plan.id === 'saas-3' && (
-                      <span className="ml-2 text-[11px] font-semibold text-green-600 bg-green-500/10 px-2 py-0.5 rounded-full">
-                        Sob consulta
-                      </span>
-                    )}
-                  </div>
-                </li>
-              ))}
+              {/* Plano 3 sob consulta features — renderizadas antes de "Envio automático de Relatórios" */}
             </ul>
           </div>
 
@@ -295,60 +282,55 @@ function DesktopTable({
         ))}
       </div>
 
-      {/* Linhas de features */}
-      {allFeatures.map((feature, idx) => {
-        const avulso = featureAvulso[feature]
-        return (
-          <div
-            key={feature}
-            className="grid gap-0"
-            style={{ gridTemplateColumns: `1.5fr repeat(${plans.length}, 1fr)` }}
-          >
-            <div className={`flex items-center justify-between gap-2 px-4 py-3 text-sm text-[#0E0E0F] ${idx % 2 === 0 ? 'bg-[#F7F7F7]' : 'bg-white'}`}>
-              <span className="truncate">{feature}</span>
-              {avulso && (
-                <div className="flex items-center gap-1.5 flex-shrink-0">
-                  {avulso.ctas.map((cta) => (
-                    <Link
-                      key={cta.link}
-                      to={cta.link}
-                      className="inline-flex items-center justify-center text-[10px] font-semibold text-white bg-[var(--accent)] hover:bg-[var(--accent-dark)] w-[100px] py-1 rounded-full whitespace-nowrap transition-colors text-center"
-                    >
-                      {cta.text}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-            {plans.map((plan) => {
-              const has = plan.features.includes(feature)
-              const customLabel = featureLabels[feature]?.[plan.id]
-              return (
-                <div
-                  key={plan.id}
-                  className={`flex items-center justify-center px-4 py-3 ${
-                    idx % 2 === 0 ? 'bg-[#F7F7F7] border-x border-[#9C958A]/10' : 'bg-white border-x border-[#9C958A]/10'
-                  }`}
-                >
-                  {has ? (
-                    customLabel ? (
-                      <span className="text-xs font-semibold text-green-600 bg-green-500/10 px-3 py-1 rounded-full">
-                        {customLabel}
-                      </span>
+      {/* Linhas de features — injetando plan3ConsultFeatures antes de "Envio automático de Relatórios" */}
+      {(() => {
+        const LAST_FEATURE = 'Envio automático de Relatórios'
+        const head = allFeatures.filter(f => f !== LAST_FEATURE)
+        const hasLast = allFeatures.includes(LAST_FEATURE)
+        const merged: Array<{ feature: string; isP3: boolean }> = [
+          ...head.map(f => ({ feature: f, isP3: false })),
+          ...plan3ConsultFeatures.map(f => ({ feature: f, isP3: true })),
+          ...(hasLast ? [{ feature: LAST_FEATURE, isP3: false }] : []),
+        ]
+        return merged.map(({ feature, isP3 }, idx) => {
+          const avulso = featureAvulso[feature]
+          return (
+            <div key={feature} className="grid gap-0" style={{ gridTemplateColumns: `1.5fr repeat(${plans.length}, 1fr)` }}>
+              <div className={`flex items-center justify-between gap-2 px-4 py-3 text-sm text-[#0E0E0F] ${idx % 2 === 0 ? 'bg-[#F7F7F7]' : 'bg-white'}`}>
+                <span className="truncate">{feature}</span>
+                {avulso && (
+                  <div className="flex items-center gap-1.5 flex-shrink-0">
+                    {avulso.ctas.map((cta) => (
+                      <Link key={cta.link} to={cta.link} className="inline-flex items-center justify-center text-[10px] font-semibold text-white bg-[var(--accent)] hover:bg-[var(--accent-dark)] w-[100px] py-1 rounded-full whitespace-nowrap transition-colors text-center">
+                        {cta.text}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+              {plans.map((plan) => {
+                const has = isP3 ? plan.id === 'saas-3' : plan.features.includes(feature)
+                const customLabel = featureLabels[feature]?.[plan.id]
+                return (
+                  <div key={plan.id} className={`flex items-center justify-center px-4 py-3 ${idx % 2 === 0 ? 'bg-[#F7F7F7] border-x border-[#9C958A]/10' : 'bg-white border-x border-[#9C958A]/10'}`}>
+                    {has ? (
+                      customLabel ? (
+                        <span className="text-xs font-semibold text-green-600 bg-green-500/10 px-3 py-1 rounded-full">{customLabel}</span>
+                      ) : (
+                        <div className="w-6 h-6 rounded-full flex items-center justify-center bg-green-500/10">
+                          <Check size={14} className="text-green-600" />
+                        </div>
+                      )
                     ) : (
-                      <div className="w-6 h-6 rounded-full flex items-center justify-center bg-green-500/10">
-                        <Check size={14} className="text-green-600" />
-                      </div>
-                    )
-                  ) : (
-                    <Minus size={16} className="text-[#9C958A]/40" />
-                  )}
-                </div>
-              )
-            })}
-          </div>
-        )
-      })}
+                      <Minus size={16} className="text-[#9C958A]/40" />
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+          )
+        })
+      })()}
 
       {/* Addon features — linhas avulsas com traço em todos os planos */}
       {addonFeatures.length > 0 && (
@@ -380,45 +362,6 @@ function DesktopTable({
                     }`}
                   >
                     <Minus size={16} className="text-[#9C958A]/40" />
-                  </div>
-                ))}
-              </div>
-            )
-          })}
-        </>
-      )}
-
-      {/* Plano 3 sob consulta features */}
-      {plan3ConsultFeatures.length > 0 && (
-        <>
-          <div className="grid gap-0" style={{ gridTemplateColumns: `1.5fr repeat(${plans.length}, 1fr)` }}>
-            <div className="px-4 py-1 border-t-2 border-dashed border-[#9C958A]/20" />
-            {plans.map((plan) => (
-              <div key={plan.id} className="px-4 py-1 border-t-2 border-dashed border-[#9C958A]/20 border-x border-x-[#9C958A]/10" />
-            ))}
-          </div>
-          {plan3ConsultFeatures.map((feature, idx) => {
-            const rowIdx = allFeatures.length + addonFeatures.length + idx
-            return (
-              <div key={feature} className="grid gap-0" style={{ gridTemplateColumns: `1.5fr repeat(${plans.length}, 1fr)` }}>
-                <div className={`flex items-center gap-2 px-4 py-3 text-sm ${rowIdx % 2 === 0 ? 'bg-[#F7F7F7]' : 'bg-white'}`}>
-                  <span className="text-[#0E0E0F]/70">{feature}</span>
-                  <span className="text-[9px] font-bold uppercase tracking-wider text-[#9C958A] bg-[#9C958A]/10 px-2 py-0.5 rounded-full whitespace-nowrap">Plano 3</span>
-                </div>
-                {plans.map((plan) => (
-                  <div
-                    key={plan.id}
-                    className={`flex items-center justify-center px-4 py-3 ${
-                      rowIdx % 2 === 0 ? 'bg-[#F7F7F7] border-x border-[#9C958A]/10' : 'bg-white border-x border-[#9C958A]/10'
-                    }`}
-                  >
-                    {plan.id === 'saas-3' ? (
-                      <span className="text-xs font-semibold text-green-600 bg-green-500/10 px-3 py-1 rounded-full whitespace-nowrap">
-                        Sob consulta
-                      </span>
-                    ) : (
-                      <Minus size={16} className="text-[#9C958A]/40" />
-                    )}
                   </div>
                 ))}
               </div>
