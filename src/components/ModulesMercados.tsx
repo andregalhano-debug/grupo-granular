@@ -229,7 +229,7 @@ function ModuleGrid({
                         </p>
                       </div>
                       <Link
-                        to="/checkout?plano=modulo-televendas"
+                        to="/checkout?plano=modulo-televendas&segmento=mercados"
                         className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors whitespace-nowrap flex-shrink-0"
                       >
                         Adicionar ao carrinho
@@ -246,7 +246,7 @@ function ModuleGrid({
                         </p>
                       </div>
                       <Link
-                        to="/checkout?plano=modulo-pessoas"
+                        to="/checkout?plano=modulo-pessoas&segmento=mercados"
                         className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors whitespace-nowrap flex-shrink-0"
                       >
                         {t.modules.startNow} — R$ 599/mês
@@ -256,7 +256,7 @@ function ModuleGrid({
                 ) : (
                   <div className="flex flex-wrap items-center gap-3 self-start">
                     <Link
-                      to="/checkout?plano=saas-2"
+                      to="/checkout?plano=saas-2&segmento=mercados"
                       className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors"
                     >
                       {t.modules.startNow}
@@ -638,7 +638,7 @@ export function ModulesMercados() {
         {/* ── Bottom CTAs ── */}
         <FadeIn delay={500} className="flex flex-wrap items-center justify-center gap-4 mt-10">
           <Link
-            to="/checkout?plano=saas-2"
+            to="/checkout?plano=saas-2&segmento=mercados"
             className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-8 py-4 rounded-xl text-base transition-colors"
           >
             {t.modules.startNow}

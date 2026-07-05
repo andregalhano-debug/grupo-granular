@@ -1,8 +1,13 @@
 import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
 import { useT } from '../i18n/useT'
+import type { Category } from './Modules'
 
-export function CtaSection() {
+interface Props {
+  category?: Category
+}
+
+export function CtaSection({ category }: Props) {
   const t = useT()
   return (
     <section className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-[#0E0E0F]">
@@ -14,7 +19,7 @@ export function CtaSection() {
           {t.cta.joinUs}
         </p>
         <Link
-          to="/checkout?plano=saas-2"
+          to={`/checkout?plano=saas-2&segmento=${category || 'restaurantes'}`}
           className="inline-flex items-center gap-2 bg-white hover:bg-[#F7F7F7] text-[var(--accent)] font-medium px-8 py-4 rounded-xl text-base transition-colors"
         >
           {t.cta.startNow}

@@ -100,7 +100,7 @@ export function Header({ category }: Props) {
           )}
 
           <Link
-            to="/checkout?plano=saas-2"
+            to={`/checkout?plano=saas-2&segmento=${category || 'restaurantes'}`}
             className="text-sm font-medium text-white bg-[var(--accent)] hover:bg-[var(--accent-dark)] px-5 py-2.5 rounded-xl transition-colors"
           >
             {t.nav.startNow}
@@ -165,7 +165,7 @@ export function Header({ category }: Props) {
             <a href="/login" className="block text-sm text-[#9C958A] py-2">{t.nav.login}</a>
             <button onClick={toggleLang} className="block text-sm text-[#9C958A] py-2 text-left">{lang === 'pt' ? 'EN' : 'PT'}</button>
             <Link
-              to="/checkout?plano=saas-2"
+              to={`/checkout?plano=saas-2&segmento=${category || 'restaurantes'}`}
               className="block text-center text-sm font-medium text-white bg-[var(--accent)] px-5 py-2.5 rounded-xl"
               onClick={() => setMenuOpen(false)}
             >

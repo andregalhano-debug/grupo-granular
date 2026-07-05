@@ -59,7 +59,7 @@ export function LandingPage() {
         <Pricing category={category} />
         <Testimonials />
         <Faq category={category} />
-        <CtaSection />
+        <CtaSection category={category} />
         <Footer />
       </div>
     </CategoryContext.Provider>

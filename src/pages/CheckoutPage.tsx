@@ -42,11 +42,23 @@ const inp = (hasError: boolean) =>
     hasError ? 'border-[var(--accent)]' : 'border-[#0E0E0F]/15 focus:border-[var(--accent)]'
   }`
 
+const SEGMENTO_TO_CATEGORY: Record<string, Category> = {
+  restaurante: 'restaurantes', restaurantes: 'restaurantes',
+  mercado: 'mercados',         mercados: 'mercados',
+  farmacia: 'farmacias',       farmacias: 'farmacias',
+  petshop: 'petshop',
+}
+
 export function CheckoutPage() {
   const t = useT()
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
-  const [checkoutCategory, setCheckoutCategory] = useState<Category>('restaurantes')
+
+  // Initialise category from URL ?segmento= param so every CTA on the site
+  // can pre-select the right segment when landing on checkout.
+  const initialCategory: Category =
+    SEGMENTO_TO_CATEGORY[searchParams.get('segmento') ?? ''] ?? 'restaurantes'
+  const [checkoutCategory, setCheckoutCategory] = useState<Category>(initialCategory)
 
   useEffect(() => {
     const accent = categoryAccent[checkoutCategory]

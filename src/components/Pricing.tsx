@@ -173,7 +173,7 @@ function MobileCards({
           {/* CTA */}
           <div className="px-4 pb-5">
             <Link
-              to={plan.id === 'saas-3' ? '/agendar-demo' : `/checkout?plano=${plan.id}`}
+              to={plan.id === 'saas-3' ? '/agendar-demo' : `/checkout?plano=${plan.id}&segmento=${category}`}
               className="flex items-center justify-center w-full h-11 font-medium px-4 rounded-xl text-sm transition-colors border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white whitespace-nowrap"
             >
               {plan.id === 'saas-3' ? t.pricingExtended.scheduleDemo : plan.cta}
@@ -368,7 +368,7 @@ function DesktopTable({
             className="p-6 text-center rounded-b-2xl bg-white border-b border-x border-[#9C958A]/20"
           >
             <Link
-              to={plan.id === 'saas-3' ? '/agendar-demo' : `/checkout?plano=${plan.id}`}
+              to={plan.id === 'saas-3' ? '/agendar-demo' : `/checkout?plano=${plan.id}&segmento=${category}`}
               className="flex items-center justify-center w-full h-11 font-medium px-4 rounded-xl text-sm transition-colors border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white whitespace-nowrap"
             >
               {plan.id === 'saas-3' ? t.pricingExtended.scheduleDemo : plan.cta}
