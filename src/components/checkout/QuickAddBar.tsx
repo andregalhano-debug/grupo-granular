@@ -3,6 +3,7 @@ import { Plus, Check, Monitor, Package, ChevronDown } from 'lucide-react'
 import { saasPlans, moduloPlans, type Plan } from '../../data/plans'
 import { useCart } from '../../stores/useCartStore'
 import { useT } from '../../i18n/useT'
+import type { Category } from '../Modules'
 
 interface QuickAddItemProps {
   plan: Plan
@@ -20,14 +21,14 @@ function QuickAddItem({ plan, inCart, onAdd }: QuickAddItemProps) {
       className={`w-full flex items-center justify-between px-3 py-2.5 text-left transition-colors ${
         inCart
           ? 'bg-green-50/50 cursor-default'
-          : 'hover:bg-[#A31631]/5 cursor-pointer'
+          : 'hover:bg-[var(--accent-05)] cursor-pointer'
       }`}
     >
       <div className="flex items-center gap-2 min-w-0">
         {inCart ? (
           <Check size={14} className="text-green-500 flex-shrink-0" />
         ) : (
-          <Plus size={14} className="text-[#A31631] flex-shrink-0" />
+          <Plus size={14} style={{ color: 'var(--accent)' }} className="flex-shrink-0" />
         )}
         <span className={`text-xs truncate ${inCart ? 'text-green-700' : 'text-[#0E0E0F]'}`}>
           {plan.name}
@@ -40,7 +41,11 @@ function QuickAddItem({ plan, inCart, onAdd }: QuickAddItemProps) {
   )
 }
 
-export function QuickAddBar() {
+interface QuickAddBarProps {
+  category?: Category
+}
+
+export function QuickAddBar({ category = 'restaurantes' }: QuickAddBarProps) {
   const cart = useCart()
   const { checkout: { quickAdd: qa } } = useT()
   const [openSection, setOpenSection] = useState<string | null>(null)
@@ -72,6 +77,11 @@ export function QuickAddBar() {
     return `${inCartPlans[0].name} +${inCartPlans.length - 1}`
   }
 
+  // Televendas é exclusivo do segmento Mercados
+  const filteredModuloPlans = moduloPlans.filter(
+    (p) => p.id !== 'modulo-televendas' || category === 'mercados'
+  )
+
   const sections = [
     {
       id: 'sistema',
@@ -84,7 +94,7 @@ export function QuickAddBar() {
       id: 'modulos',
       label: qa.modules,
       icon: Package,
-      plans: moduloPlans,
+      plans: filteredModuloPlans,
       addFn: (plan: Plan) => cart.addPlan(plan),
     },
   ]
@@ -92,10 +102,10 @@ export function QuickAddBar() {
   return (
     <div
       ref={containerRef}
-      className="rounded-2xl border border-[#A31631]/20 bg-white overflow-hidden mb-4 shadow-sm shadow-[#A31631]/5"
+      className="rounded-2xl border border-[var(--accent-20)] bg-white overflow-hidden mb-4 shadow-sm"
     >
-      <div className="flex items-center gap-2.5 px-4 py-3 bg-[#A31631]/[0.04] border-b border-[#A31631]/10">
-        <div className="w-7 h-7 rounded-lg bg-[#A31631] flex items-center justify-center flex-shrink-0">
+      <div className="flex items-center gap-2.5 px-4 py-3 bg-[var(--accent-05)] border-b border-[var(--accent-10)]">
+        <div className="w-7 h-7 rounded-lg bg-[var(--accent)] flex items-center justify-center flex-shrink-0">
           <Plus size={14} className="text-white" />
         </div>
         <p className="text-xs font-bold text-[#0E0E0F] uppercase tracking-wider">
@@ -117,9 +127,10 @@ export function QuickAddBar() {
               onClick={() => toggleSection(section.id)}
               className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 text-xs font-medium transition-colors cursor-pointer border-b-2 ${
                 isOpen
-                  ? 'text-[#A31631] border-[#A31631] bg-[#A31631]/[0.03]'
+                  ? 'border-b-[var(--accent)] bg-[var(--accent-05)]'
                   : 'text-[#9C958A] border-transparent hover:text-[#0E0E0F]'
               }`}
+              style={isOpen ? { color: 'var(--accent)', borderBottomColor: 'var(--accent)' } : {}}
             >
               <Icon size={14} />
               <span className="truncate max-w-[80px]">{displayLabel}</span>

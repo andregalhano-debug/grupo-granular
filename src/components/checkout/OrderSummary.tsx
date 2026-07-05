@@ -9,9 +9,18 @@ import type { PaymentMethod } from '../../hooks/useCheckoutForm'
 import { MiniCalendar } from '../MiniCalendar'
 import { QuickAddBar } from './QuickAddBar'
 import { useT } from '../../i18n/useT'
+import type { Category } from '../Modules'
+
+const CATEGORY_LABELS: Record<Category, string> = {
+  restaurantes: 'Restaurantes',
+  mercados: 'Mercados',
+  farmacias: 'Farmácias',
+  petshop: 'Pet Shops',
+}
 
 interface OrderSummaryProps {
   paymentMethod: PaymentMethod
+  category?: Category
 }
 
 function PlanSelector({ plans, currentPlan, onSelect, label, changeLabel }: {
@@ -173,13 +182,14 @@ function ConsultantSlotCard({ cartConsultant, forceToggle }: { cartConsultant: {
   )
 }
 
-export function OrderSummary({ paymentMethod: _paymentMethod }: OrderSummaryProps) {
+export function OrderSummary({ paymentMethod: _paymentMethod, category = 'restaurantes' }: OrderSummaryProps) {
   const cart = useCart()
   const t = useT()
   const os = t.checkout.orderSummary
   const perMonth = t.checkout.perMonth
   const [toggleAll, setToggleAll] = useState({ count: 0, expand: false })
   const allExpanded = toggleAll.expand
+  const categoryLabel = CATEGORY_LABELS[category]
 
   const saas = cart.plans.find((p) => p.type === 'saas')
   const modulos = cart.plans.filter((p) => p.type === 'modulo')
@@ -194,7 +204,7 @@ export function OrderSummary({ paymentMethod: _paymentMethod }: OrderSummaryProp
 
   return (
     <div className="space-y-0">
-      <QuickAddBar />
+      <QuickAddBar category={category} />
 
     <div className="rounded-2xl border border-[#0E0E0F]/10 bg-[#F7F7F7] p-4 sm:p-6 space-y-4">
       <div className="flex items-center justify-between">
@@ -222,7 +232,7 @@ export function OrderSummary({ paymentMethod: _paymentMethod }: OrderSummaryProp
         {/* Plano de sistema */}
         {saas && (
           <CollapsibleCard
-            label={saas.segment ? `${os.planLabel} · ${saas.segment.label}` : os.planLabel}
+            label={`${os.planLabel} · ${categoryLabel}`}
             name={saas.name}
             price={saas.priceFormatted}
             period={perMonth}
@@ -257,7 +267,7 @@ export function OrderSummary({ paymentMethod: _paymentMethod }: OrderSummaryProp
           return (
             <CollapsibleCard
               key={mod.id}
-              label={seg ? `${os.planLabel} · ${seg.label}` : os.moduleLabel}
+              label={seg ? `${os.moduleLabel} · ${seg.label}` : `${os.moduleLabel} · ${categoryLabel}`}
               name={mod.name}
               price={mod.priceFormatted}
               period={perMonth}

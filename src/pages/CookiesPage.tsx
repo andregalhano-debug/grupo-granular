@@ -263,7 +263,7 @@ export function CookiesPage() {
         <Section title="7. Contato">
           <p className={p}>Para dúvidas sobre esta Política ou sobre o uso de cookies pela Granular, entre em contato com nosso Encarregado de Proteção de Dados:</p>
           <div className="bg-white rounded-xl border border-[#0E0E0F]/10 p-4 text-sm text-[#0E0E0F] space-y-1">
-            <p><strong>E-mail:</strong> <a href="mailto:privacidade@grupogranular.com.br" className="text-[#A31631] hover:underline">privacidade@grupogranular.com.br</a></p>
+            <p><strong>E-mail:</strong> <a href="mailto:contato@grupogranular.com.br" className="text-[#A31631] hover:underline">contato@grupogranular.com.br</a></p>
             <p><strong>Assunto sugerido:</strong> "Cookies — [sua dúvida]"</p>
           </div>
         </Section>

@@ -493,7 +493,7 @@ export function CheckoutPage() {
                   </span>
                   <ChevronDown size={15} className={`shrink-0 transition-transform duration-200 ${showSummary ? 'rotate-180' : ''}`} />
                 </button>
-                {showSummary && <OrderSummary paymentMethod={form.paymentMethod} />}
+                {showSummary && <OrderSummary paymentMethod={form.paymentMethod} category={checkoutCategory} />}
               </div>
 
               {/* CTA primário — enviar sem pagamento */}
@@ -658,7 +658,7 @@ export function CheckoutPage() {
                 </span>
                 <ChevronDown size={15} className={`shrink-0 transition-transform duration-200 ${showSummary ? 'rotate-180' : ''}`} />
               </button>
-              {showSummary && <OrderSummary paymentMethod={form.paymentMethod} />}
+              {showSummary && <OrderSummary paymentMethod={form.paymentMethod} category={checkoutCategory} />}
             </div>
           </div>
         </div>
