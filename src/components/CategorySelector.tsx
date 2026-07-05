@@ -34,14 +34,12 @@ const categories: {
     emoji: '💊',
     label: 'Farmácias',
     description: 'Redes farmacêuticas e drogarias',
-    comingSoon: true,
   },
   {
     id: 'petshop',
     emoji: '🐾',
     label: 'Pet Shops',
     description: 'Clínicas veterinárias e pet shops',
-    comingSoon: true,
   },
 ]
 

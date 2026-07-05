@@ -30,8 +30,8 @@ const categoryIcons: Record<Category, typeof UtensilsCrossed> = {
 const categoryComingSoon: Record<Category, boolean> = {
   restaurantes: false,
   mercados: false,
-  farmacias: true,
-  petshop: true,
+  farmacias: false,
+  petshop: false,
 }
 
 export function Hero({ category, setCategory }: Props) {
