@@ -455,7 +455,7 @@ export function Pricing({ category = 'restaurantes' }: Props) {
                       ? 'bg-green-400 text-green-900'
                       : 'bg-green-100 text-green-700'
                   }`}>
-                    Economize 31%
+                    Economize 25%
                   </span>
                 </button>
               </div>
