@@ -1,9 +1,8 @@
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowLeft, CalendarDays, CheckCircle2, Send } from 'lucide-react'
 import { GranularLogo } from '../components/GranularLogo'
-import { generateDemoSlots, saveDemoBooking } from '../data/demoSlots'
-import { MiniCalendar } from '../components/MiniCalendar'
+import { saveDemoBooking } from '../data/demoSlots'
 
 const SEGMENTOS = [
   'Restaurante',
@@ -38,15 +37,12 @@ export function AgendarDemoPage() {
   const [whatsapp, setWhatsapp] = useState('')
   const [email, setEmail] = useState('')
   const [faturamento, setFaturamento] = useState('')
-  const [selectedSlot, setSelectedSlot] = useState<string | null>(null)
-  const [showCalendar, setShowCalendar] = useState(false)
+  const [datePreferences, setDatePreferences] = useState('')
   const [submitted, setSubmitted] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
 
   useEffect(() => { window.scrollTo(0, 0) }, [])
   useEffect(() => { if (submitted) window.scrollTo({ top: 0, behavior: 'smooth' }) }, [submitted])
-
-  const slots = useMemo(() => generateDemoSlots(), [])
 
   const validate = () => {
     const e: Record<string, string> = {}
@@ -56,7 +52,6 @@ export function AgendarDemoPage() {
     if (!name.trim()) e.name = 'Informe seu nome'
     if (!whatsapp.trim() || whatsapp.replace(/\D/g, '').length < 10) e.whatsapp = 'Informe um WhatsApp válido'
     if (!email.trim() || !email.includes('@')) e.email = 'Informe um e-mail válido'
-    // horário é opcional — não valida selectedSlot
     setErrors(e)
     return Object.keys(e).length === 0
   }
@@ -64,13 +59,6 @@ export function AgendarDemoPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (!validate()) return
-
-    let slotDate = '', slotTime = ''
-    if (selectedSlot) {
-      const lastDash = selectedSlot.lastIndexOf('-')
-      slotDate = selectedSlot.substring(0, lastDash)
-      slotTime = selectedSlot.substring(lastDash + 1)
-    }
 
     saveDemoBooking({
       id: `demo-${Date.now()}`,
@@ -81,8 +69,8 @@ export function AgendarDemoPage() {
       segmento,
       segmentoOutro: segmento === 'Outros' ? segmentoOutro.trim() : undefined,
       units: faturamento || '-',
-      date: slotDate,
-      time: slotTime,
+      date: datePreferences.trim() || '-',
+      time: '',
       status: 'pendente',
       createdAt: new Date().toISOString(),
     })
@@ -104,13 +92,9 @@ export function AgendarDemoPage() {
         <main className="flex-1 flex items-center justify-center px-4 py-16">
           <div className="text-center max-w-md">
             <CheckCircle2 size={48} className="text-green-500 mx-auto mb-4" />
-            <h1 className="text-2xl font-bold text-[#0E0E0F] mb-2">
-              {selectedSlot ? 'Demonstração agendada!' : 'Dados recebidos!'}
-            </h1>
+            <h1 className="text-2xl font-bold text-[#0E0E0F] mb-2">Dados recebidos!</h1>
             <p className="text-sm text-[#9C958A] mb-6">
-              {selectedSlot
-                ? <>Agendamos para <strong className="text-[#0E0E0F]">{selectedSlot.replace(/-(?=[^-]*$)/, ' às ')}</strong>. Entraremos em contato pelo WhatsApp para confirmar.</>
-                : 'Recebemos seus dados. Nossa equipe entrará em contato pelo WhatsApp em breve para agendar a melhor data.'}
+              Nossa equipe entrará em contato pelo WhatsApp em breve para confirmar a melhor data para a sua demonstração.
             </p>
             <Link to="/" className="inline-flex items-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors">
               Voltar ao site
@@ -139,7 +123,7 @@ export function AgendarDemoPage() {
         <div className="mb-6 sm:mb-8">
           <h1 className="text-xl sm:text-2xl font-bold text-[#0E0E0F] mb-1">Agendar demonstração</h1>
           <p className="text-xs sm:text-sm text-[#9C958A]">
-            Preencha seus dados e nossa equipe entra em contato. Escolher um horário é opcional.
+            Preencha seus dados e nossa equipe entrará em contato para confirmar a demonstração.
           </p>
         </div>
 
@@ -173,7 +157,7 @@ export function AgendarDemoPage() {
                 <div className="mt-2">
                   <input type="text" value={segmentoOutro} onChange={(e) => setSegmentoOutro(e.target.value)}
                     className={inputClass(!!errors.segmentoOutro)}
-                    placeholder="Descreva o segmento" autoFocus />
+                    placeholder="Descreva o segmento" />
                   {errors.segmentoOutro && <p className="text-xs text-red-500 mt-1">{errors.segmentoOutro}</p>}
                 </div>
               )}
@@ -222,74 +206,47 @@ export function AgendarDemoPage() {
             </div>
           </div>
 
-          {/* Calendário + submit */}
+          {/* Horário + submit */}
           <div className="space-y-5">
             <div>
-              <h2 className="text-sm font-bold text-[#0E0E0F] mb-0.5">Horário</h2>
+              <h2 className="text-sm font-bold text-[#0E0E0F] mb-0.5">
+                Sugestão de horário{' '}
+                <span className="text-[#9C958A] font-normal">(opcional)</span>
+              </h2>
               <p className="text-xs text-[#9C958A]">
-                Opcional — se preferir, basta enviar seus dados que entraremos em contato.
+                Não se preocupe — nossa equipe entrará em contato pelo WhatsApp para confirmar o melhor horário para você.
               </p>
             </div>
 
-            {/* Calendar toggle */}
-            {!showCalendar && !selectedSlot ? (
-              <button
-                type="button"
-                onClick={() => setShowCalendar(true)}
-                className="w-full flex items-center justify-center gap-2 border border-dashed border-[#9C958A]/40 rounded-xl py-3 text-sm text-[#9C958A] hover:border-[#A31631]/40 hover:text-[#A31631] transition-colors"
-              >
-                <CalendarDays size={15} />
-                Quero escolher um horário (opcional)
-              </button>
-            ) : (
-              <div className="rounded-xl border border-[#9C958A]/15 p-4">
-                <MiniCalendar
-                  slots={slots}
-                  selectedSlot={selectedSlot}
-                  onSelectSlot={(key) => setSelectedSlot(selectedSlot === key ? null : key)}
-                />
-                {!selectedSlot && (
-                  <button
-                    type="button"
-                    onClick={() => setShowCalendar(false)}
-                    className="mt-3 text-xs text-[#9C958A] hover:text-[#0E0E0F] transition-colors"
-                  >
-                    Cancelar
-                  </button>
-                )}
+            {/* Campo de sugestão */}
+            <div className="rounded-xl border border-[#9C958A]/20 p-4 bg-[#F7F7F7]/50">
+              <div className="flex items-center gap-2 mb-3">
+                <CalendarDays size={14} className="text-[#A31631] flex-shrink-0" />
+                <p className="text-xs font-medium text-[#0E0E0F]">
+                  Sugira até 3 datas e horários de preferência
+                </p>
               </div>
-            )}
-
-            {selectedSlot && (
-              <div className="flex items-center justify-between gap-2 rounded-lg bg-[#A31631]/5 px-3 py-2 text-xs text-[#0E0E0F]">
-                <span className="flex items-center gap-2">
-                  <CalendarDays size={14} className="text-[#A31631] shrink-0" />
-                  Selecionado: <strong>{selectedSlot.replace(/-(?=[^-]*$)/, ' às ')}</strong>
-                </span>
-                <button
-                  type="button"
-                  onClick={() => { setSelectedSlot(null); setShowCalendar(false) }}
-                  className="text-[#9C958A] hover:text-[#0E0E0F] transition-colors text-[11px]"
-                >
-                  Remover
-                </button>
-              </div>
-            )}
+              <textarea
+                value={datePreferences}
+                onChange={(e) => setDatePreferences(e.target.value)}
+                rows={4}
+                className="w-full px-3 py-2.5 rounded-lg border border-[#9C958A]/20 text-sm outline-none transition-colors focus:border-[#A31631] bg-white resize-none text-[#0E0E0F] placeholder:text-[#9C958A]"
+                placeholder={`Ex:\n1ª opção: Terça, 08/07, às 10h\n2ª opção: Quarta, 09/07, às 14h\n3ª opção: Quinta, 10/07, às 16h`}
+              />
+              <p className="text-[11px] text-[#9C958A] mt-2">
+                Faremos o possível para encaixar em uma das suas sugestões.
+              </p>
+            </div>
 
             <button
               type="submit"
               className="w-full flex items-center justify-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium py-3.5 sm:py-4 px-6 rounded-xl text-sm transition-colors cursor-pointer"
             >
-              {selectedSlot
-                ? <><CalendarDays size={16} /> Confirmar agendamento</>
-                : <><Send size={16} /> Enviar — Entraremos em contato</>
-              }
+              <Send size={16} /> Enviar — Entraremos em contato
             </button>
 
             <p className="text-[11px] text-[#9C958A] text-center">
-              {selectedSlot
-                ? 'Você receberá uma confirmação no WhatsApp informado.'
-                : 'Nossa equipe entrará em contato pelo WhatsApp em até 1 dia útil.'}
+              Nossa equipe entrará em contato pelo WhatsApp em até 1 dia útil para confirmar a demonstração.
             </p>
           </div>
         </form>
