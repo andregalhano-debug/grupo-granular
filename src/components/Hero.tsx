@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { ArrowRight, UtensilsCrossed, ShoppingCart, Pill, PawPrint, X, Clock, ChevronRight } from 'lucide-react'
+import { UtensilsCrossed, ShoppingCart, Pill, PawPrint, X, Clock, ChevronRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
 import telaSistema from '../assets/Tela Maestro.jpg'
