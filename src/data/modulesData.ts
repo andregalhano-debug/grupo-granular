@@ -378,7 +378,7 @@ const adaptModuleForFarmaciaPetshop = (m: ModuleDetail): ModuleDetail => {
   if (m.title === 'Produção & Fichas Técnicas') return producaoCMVFarmaciaPetshop
   if (m.title === 'KDS - Kitchen Display') return {
     ...m,
-    title: 'Delivery System',
+    title: 'Monitor de Pedidos',
     desc: 'Painel digital para operação de delivery com tempos, prioridades e status em tempo real dos pedidos.',
     detailPoints: [
       'Fila de pedidos de delivery organizada por canal, sem comandas de papel',

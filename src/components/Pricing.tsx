@@ -393,7 +393,7 @@ export function Pricing({ category = 'restaurantes' }: Props) {
   const translatedSaasPlans = saasPlans.map((plan, i) => {
     const features = (t.plansData.saas[i]?.features ?? plan.features).map((f: string) =>
       (category === 'farmacias' || category === 'petshop')
-        ? f.replace('KDS para cozinha e expedição', 'Delivery System')
+        ? f.replace('KDS para cozinha e expedição', 'Monitor de Pedidos')
         : f
     )
     return {
