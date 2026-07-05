@@ -6,8 +6,8 @@ import { useT } from '../i18n/useT'
 const PRODUCT_ITEMS = [
   { label: 'Granular Food',    href: '/?segmento=restaurantes', badge: null },
   { label: 'Granular Market',  href: '/?segmento=mercados',     badge: null },
-  { label: 'Granular Farma',   href: null,                      badge: 'em breve' },
-  { label: 'Granular Pet',     href: null,                      badge: 'em breve' },
+  { label: 'Granular Farma',   href: '/?segmento=farmacias',    badge: null },
+  { label: 'Granular Pet',     href: '/?segmento=petshop',      badge: null },
   { label: 'Módulo Televendas', href: '/#planos',               badge: 'avulso' },
   { label: 'Módulo Pessoas',   href: '/#planos',                badge: 'avulso' },
 ]
