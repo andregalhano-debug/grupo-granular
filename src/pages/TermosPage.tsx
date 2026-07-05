@@ -231,6 +231,7 @@ export function TermosPage() {
           <p className={p}>Dúvidas sobre estes Termos devem ser encaminhadas para:</p>
           <div className="bg-white rounded-xl border border-[#0E0E0F]/10 p-4 text-sm text-[#0E0E0F] space-y-1">
             <p><strong>Grupo Granular Tecnologia</strong></p>
+            <p>CNPJ: 67.771.869/0001-00 — Granular Consultoria em Gestão Empresarial Ltda</p>
             <p>E-mail: <a href="mailto:contato@grupogranular.com.br" className="text-[#A31631] hover:underline">contato@grupogranular.com.br</a></p>
             <p>Cidade: São Paulo, SP — Brasil</p>
             <p>Site: <a href="https://www.grupogranular.com.br" className="text-[#A31631] hover:underline">www.grupogranular.com.br</a></p>
