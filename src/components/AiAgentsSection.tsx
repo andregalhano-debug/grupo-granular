@@ -32,9 +32,6 @@ export function AiAgentsSection() {
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white mb-4">
             Agente Granular — mais de 15 habilidades trabalhando pela sua operação
           </h2>
-          <p className="text-white/50 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
-            Um único agente com inteligência completa: ele conhece sua operação, age sobre os dados certos e entrega o resultado — sem você precisar pedir duas vezes.
-          </p>
         </FadeIn>
 
         <FadeIn delay={100}>
