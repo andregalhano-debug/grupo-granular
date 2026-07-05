@@ -426,8 +426,8 @@ export function Pricing({ category = 'restaurantes' }: Props) {
           </div>
         </FadeIn>
 
-        {/* Billing cycle toggle — só aparece em restaurantes (tabela padrão) */}
-        {category === 'restaurantes' && (
+        {/* Billing cycle toggle — restaurantes, farmácias e petshop */}
+        {(category === 'restaurantes' || category === 'farmacias' || category === 'petshop') && (
           <FadeIn delay={50}>
             <div className="flex justify-center mb-10">
               <div className="inline-flex items-center bg-white border border-[#9C958A]/20 rounded-full p-1 shadow-sm gap-1">
@@ -547,60 +547,10 @@ export function Pricing({ category = 'restaurantes' }: Props) {
             </div>
           </FadeIn>
         ) : (category === 'farmacias' || category === 'petshop') ? (
-          /* Farmácias / Pet Shop: Sistema sob consulta (só Pessoas) */
-          <FadeIn delay={100}>
-            <div className="max-w-6xl mx-auto mb-24">
-              <div className="rounded-2xl border border-[var(--accent)]/15 bg-white p-6 sm:p-8">
-                <p className="text-base font-bold text-[#0E0E0F] mb-1.5">
-                  Sistema {category === 'farmacias' ? 'Granular Farma' : 'Granular PET'} — {t.pricingExtended.onRequest}
-                </p>
-                <p className="text-sm text-[#9C958A] leading-relaxed mb-6">
-                  {t.pricingExtended.farmaciasPetSystem}
-                </p>
-
-                {/* Módulo avulso */}
-                <div className="mb-6">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-1 h-5 rounded-full bg-[var(--accent)]" />
-                    <p className="text-sm font-bold text-[var(--accent)] uppercase tracking-wide">
-                      {t.pricingExtended.availableModule}
-                    </p>
-                  </div>
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl bg-[#F7F7F7] border border-[#9C958A]/15">
-                    <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-lg bg-[var(--accent)]/10 flex items-center justify-center flex-shrink-0">
-                        <Users size={16} className="text-[var(--accent)]" />
-                      </div>
-                      <div>
-                        <p className="text-sm font-semibold text-[#0E0E0F]">{t.pricingExtended.pessoasName}</p>
-                        <p className="text-xs text-[#9C958A]">{t.pricingExtended.pessoasDesc}</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3 sm:flex-shrink-0">
-                      <div className="text-right">
-                        <span className="text-base font-bold text-[#0E0E0F]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>R$ 599</span>
-                        <span className="text-xs text-[#9C958A]">{t.pricingExtended.perMonth}</span>
-                      </div>
-                      <Link
-                        to="/checkout?plano=modulo-pessoas"
-                        className="inline-flex items-center gap-1.5 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white text-xs font-medium px-4 py-2 rounded-lg transition-colors whitespace-nowrap"
-                      >
-                        <Users size={12} />
-                        {t.pricingExtended.add}
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-
-                <Link
-                  to="/agendar-demo"
-                  className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors"
-                >
-                  <CalendarDays size={16} />
-                  {t.pricingExtended.scheduleDemo2}
-                </Link>
-              </div>
-            </div>
+          /* Farmácias / Pet Shop: mesma tabela do Food */
+          <FadeIn delay={100} className="mb-8">
+            <DesktopTable plans={translatedSaasPlans} capacity={saasCapacity} addonFeatures={saasAddonFeatures} billingCycle={billingCycle} />
+            <MobileCards plans={translatedSaasPlans} capacity={saasCapacity} addonFeatures={saasAddonFeatures} billingCycle={billingCycle} />
           </FadeIn>
         ) : (
           /* Restaurantes: tabela padrão */

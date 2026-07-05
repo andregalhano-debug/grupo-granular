@@ -357,5 +357,30 @@ export const modulesDataMercados: ModuleDetail[] = [
   },
 ]
 
+// Módulo Produção & CMV adaptado para farmácias e pet shops
+const producaoCMVFarmaciaPetshop: ModuleDetail = {
+  icon: ChefHat,
+  title: 'Produção & CMV',
+  desc: 'Controle de produção de itens promocionais e CMV para ações dentro da loja e no online.',
+  features: ['Fichas de combos', 'Custo por combo', 'Ações promocionais', 'Controle de CMV', 'Produção in-store e online'],
+  detailPoints: [
+    'Cadastro de combos e kits promocionais com cálculo automático de custo e margem',
+    'Controle de CMV por ação promocional: saiba exatamente quanto cada combo ou oferta consome',
+    'Gestão de itens manipulados para venda: fracionamento, reembalagem e montagem de kits',
+    'Ações in-store: controle de produção de combos e itens especiais no ponto de venda',
+    'Ações online: gestão de combos publicados em plataformas de delivery com rastreio de CMV',
+    'Simulador de precificação para garantir margem mínima em cada promoção criada',
+  ],
+  screenshot: '',
+}
+
+export const modulesDataFarmacias: ModuleDetail[] = modulesDataRestaurantes.map((m) =>
+  m.title === 'Produção & Fichas Técnicas' ? producaoCMVFarmaciaPetshop : m
+)
+
+export const modulesDataPetshop: ModuleDetail[] = modulesDataRestaurantes.map((m) =>
+  m.title === 'Produção & Fichas Técnicas' ? producaoCMVFarmaciaPetshop : m
+)
+
 // Alias para compatibilidade com código existente
 export const modulesData = modulesDataRestaurantes

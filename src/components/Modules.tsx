@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from 'react'
-import { Smartphone, Shield, BarChart3, X, ChevronRight, CalendarDays, Clock, ShoppingCart, UtensilsCrossed, Pill, PawPrint, ZoomIn } from 'lucide-react'
+import { Smartphone, Shield, BarChart3, X, ChevronRight, CalendarDays, ShoppingCart, UtensilsCrossed, Pill, PawPrint, ZoomIn } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
-import { modulesDataRestaurantes, modulesDataMercados } from '../data/modulesData'
+import { modulesDataRestaurantes, modulesDataMercados, modulesDataFarmacias, modulesDataPetshop } from '../data/modulesData'
 import { modulesDataRestaurantesEn, modulesDataMercadosEn } from '../data/modulesDataEn'
 import { useCategoryAccent } from '../stores/CategoryContext'
 import { useT } from '../i18n/useT'
@@ -42,7 +42,10 @@ export function Modules({ category = 'restaurantes' }: Props) {
 
   const modules = lang === 'en'
     ? (category === 'mercados' ? modulesDataMercadosEn : modulesDataRestaurantesEn)
-    : (category === 'mercados' ? modulesDataMercados : modulesDataRestaurantes)
+    : category === 'mercados' ? modulesDataMercados
+    : category === 'farmacias' ? modulesDataFarmacias
+    : category === 'petshop' ? modulesDataPetshop
+    : modulesDataRestaurantes
 
   /* Reset open panel when category changes */
   useEffect(() => {
@@ -97,52 +100,6 @@ export function Modules({ category = 'restaurantes' }: Props) {
   /* Mercados — layout especial com dois painéis (Food + Market) */
   if (category === 'mercados') {
     return <ModulesMercados />
-  }
-
-  /* Em breve — Farmácias e Pet Shop */
-  if (category === 'farmacias' || category === 'petshop') {
-    const cfg = t.modules.comingSoon[category]
-    return (
-      <section ref={sectionRef} id="modulos" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <FadeIn className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#0E0E0F] mb-4">
-              {t.modules.sectionTitle}
-            </h2>
-            <p className="text-[#9C958A] text-base sm:text-lg max-w-2xl mx-auto mb-6">
-              {t.modules.sectionSubtitle}
-            </p>
-            <a
-              href="#hero"
-              className="inline-flex items-center gap-2 bg-[#F7F7F7] border border-[#9C958A]/20 hover:border-[var(--accent-30)] px-4 py-2 rounded-full text-xs text-[#9C958A] transition-colors group"
-            >
-              <span>{categoryLabels[category].emoji}</span>
-              <span className="font-medium text-[#0E0E0F]">{categoryLabels[category].label}</span>
-              <span className="text-[#9C958A]/60">·</span>
-              <span className="text-[var(--accent)] group-hover:underline">{t.modules.changeSegment}</span>
-            </a>
-          </FadeIn>
-          <FadeIn>
-            <div className="max-w-2xl mx-auto text-center py-16 px-6 rounded-3xl border-2 border-dashed border-[#9C958A]/25 bg-[#F7F7F7]">
-              <div className="text-5xl mb-6">{cfg.emoji}</div>
-              <div className="inline-flex items-center gap-2 bg-[var(--accent)]/10 text-[var(--accent)] px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-5">
-                <Clock size={12} />
-                Em breve
-              </div>
-              <h3 className="text-2xl font-bold text-[#0E0E0F] mb-3">{cfg.label}</h3>
-              <p className="text-[#9C958A] leading-relaxed mb-8">{cfg.desc}</p>
-              <Link
-                to="/agendar-demo"
-                className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors"
-              >
-                <CalendarDays size={16} />
-                {t.modules.scheduleDemo}
-              </Link>
-            </div>
-          </FadeIn>
-        </div>
-      </section>
-    )
   }
 
   /* Índice do último item da linha do módulo aberto */
