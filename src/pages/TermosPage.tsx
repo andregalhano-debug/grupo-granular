@@ -233,7 +233,7 @@ export function TermosPage() {
             <p><strong>Grupo Granular Tecnologia</strong></p>
             <p>CNPJ: 67.771.869/0001-00 — Granular Consultoria em Gestão Empresarial Ltda</p>
             <p>E-mail: <a href="mailto:contato@grupogranular.com.br" className="text-[#A31631] hover:underline">contato@grupogranular.com.br</a></p>
-            <p>Cidade: São Paulo, SP — Brasil</p>
+            <p>Cidades: Belo Horizonte, MG e São Paulo, SP — Brasil</p>
             <p>Site: <a href="https://www.grupogranular.com.br" className="text-[#A31631] hover:underline">www.grupogranular.com.br</a></p>
           </div>
         </Section>
