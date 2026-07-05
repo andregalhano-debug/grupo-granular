@@ -5,7 +5,7 @@ import {
 } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
-import { modulesDataRestaurantes, modulesDataMercadosBase, modulesDataMercadosStandalone, modulesDataMercadosCFTV } from '../data/modulesData'
+import { modulesDataRestaurantes, modulesDataMercadosBase, modulesDataMercadosCFTV } from '../data/modulesData'
 import type { ModuleDetail } from '../data/modulesData'
 import { useCategoryAccent } from '../stores/CategoryContext'
 import { useT } from '../i18n/useT'
@@ -497,57 +497,6 @@ export function ModulesMercados() {
               />
             </div>
 
-            {/* Additional / standalone modules — Plano 3 only */}
-            <div className="flex items-center gap-3 mb-6 px-1 mt-10">
-              <div className="h-px flex-1 bg-[var(--accent)]/20" />
-              <div className="flex items-center gap-2 px-3">
-                <span className="text-xs text-[var(--accent)] font-bold flex items-center gap-1.5 uppercase tracking-wider" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
-                  <Plus size={10} /> Módulos adicionais
-                </span>
-                <span className="text-[9px] font-bold uppercase tracking-wider bg-[var(--accent)] text-white px-2 py-0.5 rounded-full">
-                  Plano 3 · Sob consulta
-                </span>
-              </div>
-              <div className="h-px flex-1 bg-[var(--accent)]/20" />
-            </div>
-            <div className="grid sm:grid-cols-2 gap-4">
-              {modulesDataMercadosStandalone.map((mod) => (
-                <div
-                  key={mod.title}
-                  className="rounded-2xl border-2 border-[var(--accent)]/20 bg-white p-6 flex flex-col gap-4"
-                >
-                  <div className="flex items-start justify-between">
-                    <div className="w-11 h-11 rounded-xl bg-[var(--accent)]/10 flex items-center justify-center">
-                      <mod.icon size={22} className="text-[var(--accent)]" />
-                    </div>
-                    <span className="text-[9px] font-bold uppercase tracking-wider bg-[var(--accent)] text-white px-2.5 py-0.5 rounded-full">
-                      Módulo adicional
-                    </span>
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-[#0E0E0F] mb-1">{mod.title}</h3>
-                    <p className="text-sm text-[#9C958A] leading-relaxed">{mod.desc}</p>
-                  </div>
-                  <div className="flex flex-wrap gap-1.5">
-                    {mod.features.slice(0, 4).map((f) => (
-                      <span key={f} className="text-[10px] bg-[var(--accent)]/10 text-[var(--accent)] px-2 py-0.5 rounded-full font-medium">
-                        {f}
-                      </span>
-                    ))}
-                    {mod.features.length > 4 && (
-                      <span className="text-[10px] text-[#9C958A] px-2 py-0.5">+{mod.features.length - 4}</span>
-                    )}
-                  </div>
-                  <Link
-                    to="/agendar-demo"
-                    className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-5 py-2.5 rounded-xl text-sm transition-colors self-start"
-                  >
-                    <CalendarDays size={15} />
-                    Consultar preço
-                  </Link>
-                </div>
-              ))}
-            </div>
           </div>
         )}
 
