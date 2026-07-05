@@ -57,26 +57,6 @@ const cftvModules: ModuleDetail[] = [
   },
 ]
 
-// ─── 15 módulos do Market com área temática ────────────────────────────────
-interface MarketModule extends ModuleDetail {
-  area: string
-}
-
-const allMarketModules: MarketModule[] = [
-  { ...modulesDataMercados[1],  area: 'Operação' },        // iFood & Pedidos
-  { ...modulesDataMercados[2],  area: 'Gestão' },          // Pessoas (RH)
-  { ...modulesDataMercados[0],  area: 'Televendas' },      // Televendas
-  { ...modulesDataMercados[7],  area: 'Operação' },        // MDS - Market Display System
-  { ...cftvModules[0],          area: 'CFTV e Segurança' }, // CFTV
-  { ...cftvModules[1],          area: 'CFTV e Segurança' }, // Alarme
-  { ...cftvModules[2],          area: 'CFTV e Segurança' }, // Controle de Acesso
-  { ...modulesDataMercados[6],  area: 'Operação' },        // Produção & Padaria
-  { ...modulesDataMercados[3],  area: 'Gestão' },          // Relatórios
-  { ...modulesDataMercados[5],  area: 'Gestão' },          // Financeiro & DRE
-  { ...modulesDataMercados[4],  area: 'Estoque' },         // Estoque Inteligente
-  { ...modulesDataMercados[8],  area: 'Gestão' },          // CRM & Clientes
-]
-
 // ─── Helpers ───────────────────────────────────────────────────────────────
 function getRowEndIndex(clickedIndex: number, cols: number): number {
   return Math.floor(clickedIndex / cols) * cols + (cols - 1)
@@ -90,19 +70,18 @@ const BADGES = [
 
 // ─── Shared module grid + detail panel ────────────────────────────────────
 interface ModuleGridProps {
-  modules: (ModuleDetail | MarketModule)[]
+  modules: ModuleDetail[]
   openIdx: number | null
   cols: number
   detailRef: React.RefObject<HTMLDivElement | null>
   onToggle: (i: number) => void
   onClose: () => void
   onLightbox: (src: string) => void
-  showAreaBadge?: boolean
   t: ReturnType<typeof useT>
 }
 
 function ModuleGrid({
-  modules, openIdx, cols, detailRef, onToggle, onClose, onLightbox, showAreaBadge = false, t
+  modules, openIdx, cols, detailRef, onToggle, onClose, onLightbox, t
 }: ModuleGridProps) {
   const insertAfter = openIdx !== null
     ? Math.min(getRowEndIndex(openIdx, cols), modules.length - 1)
@@ -112,7 +91,6 @@ function ModuleGrid({
   const items: React.ReactNode[] = []
 
   modules.forEach((mod, i) => {
-    const area = (mod as MarketModule).area
     items.push(
       <FadeIn key={mod.title} delay={i * 50}>
         <button
@@ -142,11 +120,6 @@ function ModuleGrid({
               }`}
             />
           </div>
-          {showAreaBadge && area && (
-            <span className="inline-block text-[9px] font-bold uppercase tracking-wider bg-[var(--accent)]/10 text-[var(--accent)] px-2 py-0.5 rounded-full mb-1.5">
-              {area}
-            </span>
-          )}
           <h3 className="font-semibold text-[#0E0E0F] mb-2">{mod.title}</h3>
           <p className="text-sm text-[#9C958A] leading-relaxed">{mod.desc}</p>
         </button>
@@ -170,11 +143,6 @@ function ModuleGrid({
                   <openMod.icon size={22} className="text-[var(--accent)]" />
                 </div>
                 <div className="min-w-0">
-                  {showAreaBadge && (openMod as MarketModule).area && (
-                    <span className="inline-block text-[9px] font-bold uppercase tracking-wider bg-[var(--accent)]/10 text-[var(--accent)] px-2 py-0.5 rounded-full mb-1">
-                      {(openMod as MarketModule).area}
-                    </span>
-                  )}
                   <h3 className="text-base sm:text-lg font-bold text-[#0E0E0F]">{openMod.title}</h3>
                   <p className="text-xs sm:text-sm text-[#9C958A] line-clamp-2">{openMod.desc}</p>
                 </div>
@@ -518,8 +486,8 @@ export function ModulesMercados() {
               icon={<ShoppingCart size={22} />}
               title="Granular Market"
               subtitle=""
-              description="Módulos base do Granular Food (sem Totem e Salão) + Televendas e Pessoas como módulos adicionais."
-              tags={['Televendas', 'Pessoas (RH)', 'iFood', 'Estoque', 'Financeiro', 'IA']}
+              description={`${modulesDataMercadosBase.length} módulos exclusivos do Market + Televendas e Pessoas como adicionais no Plano 3.`}
+              tags={['Produção & Padaria', 'Monitor de Pedidos', 'Checklists', 'Agente IA', 'Integrações']}
               cta={activePane === 'market' ? 'Ocultar módulos' : 'Ver módulos Market'}
               badge="Completo"
               foodPill
@@ -576,12 +544,17 @@ export function ModulesMercados() {
               />
             </div>
 
-            {/* Additional / standalone modules */}
-            <div className="flex items-center gap-3 mb-6 px-1">
+            {/* Additional / standalone modules — Plano 3 only */}
+            <div className="flex items-center gap-3 mb-6 px-1 mt-10">
               <div className="h-px flex-1 bg-[var(--accent)]/20" />
-              <span className="text-xs text-[var(--accent)] font-bold flex items-center gap-1.5 px-3 uppercase tracking-wider" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
-                <Plus size={10} /> Módulos adicionais
-              </span>
+              <div className="flex items-center gap-2 px-3">
+                <span className="text-xs text-[var(--accent)] font-bold flex items-center gap-1.5 uppercase tracking-wider" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+                  <Plus size={10} /> Módulos adicionais
+                </span>
+                <span className="text-[9px] font-bold uppercase tracking-wider bg-[var(--accent)] text-white px-2 py-0.5 rounded-full">
+                  Plano 3 · Sob consulta
+                </span>
+              </div>
               <div className="h-px flex-1 bg-[var(--accent)]/20" />
             </div>
             <div className="grid sm:grid-cols-2 gap-4">

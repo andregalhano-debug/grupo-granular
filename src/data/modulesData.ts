@@ -100,8 +100,8 @@ export const modulesDataRestaurantes: ModuleDetail[] = [
   },
   {
     icon: Monitor,
-    title: 'KDS - Kitchen Display',
-    desc: 'Painel digital para cozinha com tempos, prioridades e status em tempo real.',
+    title: 'Monitor de Pedidos',
+    desc: 'KDS (Kitchen Display System): painel digital para cozinha com tempos, prioridades e status em tempo real.',
     features: ['Fila de pedidos', 'Tempos por estação', 'Priorização automática', 'Status em tempo real', 'Alertas de atraso'],
     detailPoints: [
       'Fila de pedidos organizada por estação de trabalho, sem comandas de papel',
@@ -291,7 +291,7 @@ export const modulesDataMercados: ModuleDetail[] = [
   },
   {
     icon: Monitor,
-    title: 'MDS - Market Display System',
+    title: 'Monitor de Pedidos',
     desc: 'Painel digital para cozinha, padaria e rotisserie com tempos e status em tempo real.',
     features: ['Fila de pedidos', 'Tempos por estação', 'Priorização automática', 'Status em tempo real', 'Alertas de atraso'],
     detailPoints: [
@@ -378,7 +378,7 @@ const producaoCMVFarmaciaPetshop: ModuleDetail = {
 
 const adaptModuleForFarmaciaPetshop = (m: ModuleDetail): ModuleDetail => {
   if (m.title === 'Produção & Fichas Técnicas') return producaoCMVFarmaciaPetshop
-  if (m.title === 'KDS - Kitchen Display') return {
+  if (m.title === 'Monitor de Pedidos') return {
     ...m,
     title: 'Monitor de Pedidos',
     desc: 'Painel digital para operação de delivery com tempos, prioridades e status em tempo real dos pedidos.',
@@ -392,9 +392,14 @@ const adaptModuleForFarmaciaPetshop = (m: ModuleDetail): ModuleDetail => {
   return m
 }
 
-// Market: base modules = mercados array without Televendas and Pessoas (those are standalone add-ons)
+// Market: base modules = mercados array, keeping only Market-specific modules
+// Removed duplicates shared with Food: iFood & Pedidos, Financeiro & DRE, Relatórios, Estoque Inteligente, CRM & Clientes
+const mercadosBaseExclude = new Set([
+  'Televendas', 'Pessoas (RH)',
+  'iFood & Pedidos', 'Financeiro & DRE', 'Relatórios', 'Estoque Inteligente', 'CRM & Clientes',
+])
 export const modulesDataMercadosBase: ModuleDetail[] = modulesDataMercados.filter(
-  (m) => m.title !== 'Televendas' && m.title !== 'Pessoas (RH)'
+  (m) => !mercadosBaseExclude.has(m.title)
 )
 
 // Market: standalone add-on modules shown separately with "Agendar Demo" CTA
