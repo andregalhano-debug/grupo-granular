@@ -45,11 +45,13 @@ function MobileCards({
   capacity,
   addonFeatures = [],
   billingCycle = 'annual',
+  category = 'restaurantes',
 }: {
   plans: Plan[]
   capacity?: Record<string, string>
   addonFeatures?: string[]
   billingCycle?: BillingCycle
+  category?: string
 }) {
   const t = useT()
   const allFeatures = getAllFeatures(plans)
@@ -191,11 +193,13 @@ function DesktopTable({
   capacity,
   addonFeatures = [],
   billingCycle = 'annual',
+  category = 'restaurantes',
 }: {
   plans: Plan[]
   capacity?: Record<string, string>
   addonFeatures?: string[]
   billingCycle?: BillingCycle
+  category?: string
 }) {
   const t = useT()
   const allFeatures = getAllFeatures(plans)
@@ -473,8 +477,8 @@ export function Pricing({ category = 'restaurantes' }: Props) {
         {category === 'mercados' ? (
           /* Mercados: mesma tabela de planos + módulos adicionais abaixo */
           <FadeIn delay={100} className="mb-8">
-            <DesktopTable plans={translatedSaasPlans} capacity={saasCapacity} addonFeatures={saasAddonFeatures} billingCycle={billingCycle} />
-            <MobileCards plans={translatedSaasPlans} capacity={saasCapacity} addonFeatures={saasAddonFeatures} billingCycle={billingCycle} />
+            <DesktopTable plans={translatedSaasPlans} capacity={saasCapacity} addonFeatures={saasAddonFeatures} billingCycle={billingCycle} category={category} />
+            <MobileCards plans={translatedSaasPlans} capacity={saasCapacity} addonFeatures={saasAddonFeatures} billingCycle={billingCycle} category={category} />
             {/* Módulos adicionais Market */}
             <div className="max-w-6xl mx-auto mt-10">
               <div className="flex items-center gap-4 mb-6">
@@ -529,14 +533,14 @@ export function Pricing({ category = 'restaurantes' }: Props) {
         ) : (category === 'farmacias' || category === 'petshop') ? (
           /* Farmácias / Pet Shop: mesma tabela do Food */
           <FadeIn delay={100} className="mb-8">
-            <DesktopTable plans={translatedSaasPlans} capacity={saasCapacity} addonFeatures={saasAddonFeatures} billingCycle={billingCycle} />
-            <MobileCards plans={translatedSaasPlans} capacity={saasCapacity} addonFeatures={saasAddonFeatures} billingCycle={billingCycle} />
+            <DesktopTable plans={translatedSaasPlans} capacity={saasCapacity} addonFeatures={saasAddonFeatures} billingCycle={billingCycle} category={category} />
+            <MobileCards plans={translatedSaasPlans} capacity={saasCapacity} addonFeatures={saasAddonFeatures} billingCycle={billingCycle} category={category} />
           </FadeIn>
         ) : (
           /* Restaurantes: tabela padrão */
           <FadeIn delay={100} className="mb-8">
-            <DesktopTable plans={translatedSaasPlans} capacity={saasCapacity} addonFeatures={saasAddonFeatures} billingCycle={billingCycle} />
-            <MobileCards plans={translatedSaasPlans} capacity={saasCapacity} addonFeatures={saasAddonFeatures} billingCycle={billingCycle} />
+            <DesktopTable plans={translatedSaasPlans} capacity={saasCapacity} addonFeatures={saasAddonFeatures} billingCycle={billingCycle} category={category} />
+            <MobileCards plans={translatedSaasPlans} capacity={saasCapacity} addonFeatures={saasAddonFeatures} billingCycle={billingCycle} category={category} />
           </FadeIn>
         )}
 
