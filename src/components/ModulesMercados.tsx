@@ -304,7 +304,7 @@ export function ModulesMercados() {
   useCategoryAccent()
   const t = useT()
 
-  const [activePane, setActivePane] = useState<'food' | 'market' | null>(null)
+  const [activePane, setActivePane] = useState<'food' | 'market' | null>('market')
 
   // Food module grid
   const [openFoodIdx, setOpenFoodIdx] = useState<number | null>(null)
