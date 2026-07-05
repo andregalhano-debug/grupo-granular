@@ -140,8 +140,8 @@ export const modulesDataRestaurantes: ModuleDetail[] = [
   },
   {
     icon: Bot,
-    title: '15 Agentes de IA',
-    desc: 'Assistentes inteligentes para compras, precificação, previsão e mais.',
+    title: 'Agente Granular',
+    desc: 'Mais de 15 habilidades disponíveis 24 horas para a sua operação.',
     features: ['IA de compras', 'IA de precificação', 'Previsão de demanda', 'Alertas inteligentes', 'Recomendações automáticas'],
     detailPoints: [
       'Sugestões de compra baseadas no consumo histórico de cada insumo',
@@ -328,8 +328,8 @@ export const modulesDataMercados: ModuleDetail[] = [
   },
   {
     icon: Bot,
-    title: '15 Agentes de IA',
-    desc: 'Assistentes inteligentes para compras, precificação, previsão de demanda e mais.',
+    title: 'Agente Granular',
+    desc: 'Mais de 15 habilidades disponíveis 24 horas para a sua operação.',
     features: ['IA de compras', 'IA de precificação', 'Previsão de demanda', 'Alertas inteligentes', 'Recomendações automáticas'],
     detailPoints: [
       'Sugestões de compra baseadas no consumo histórico de cada produto',
@@ -374,13 +374,13 @@ const producaoCMVFarmaciaPetshop: ModuleDetail = {
   screenshot: '',
 }
 
-export const modulesDataFarmacias: ModuleDetail[] = modulesDataRestaurantes.map((m) =>
-  m.title === 'Produção & Fichas Técnicas' ? producaoCMVFarmaciaPetshop : m
-)
+export const modulesDataFarmacias: ModuleDetail[] = modulesDataRestaurantes
+  .filter((m) => m.title !== 'Foozi — Atendimento & Compras')
+  .map((m) => m.title === 'Produção & Fichas Técnicas' ? producaoCMVFarmaciaPetshop : m)
 
-export const modulesDataPetshop: ModuleDetail[] = modulesDataRestaurantes.map((m) =>
-  m.title === 'Produção & Fichas Técnicas' ? producaoCMVFarmaciaPetshop : m
-)
+export const modulesDataPetshop: ModuleDetail[] = modulesDataRestaurantes
+  .filter((m) => m.title !== 'Foozi — Atendimento & Compras')
+  .map((m) => m.title === 'Produção & Fichas Técnicas' ? producaoCMVFarmaciaPetshop : m)
 
 // Alias para compatibilidade com código existente
 export const modulesData = modulesDataRestaurantes
