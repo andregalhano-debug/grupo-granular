@@ -47,12 +47,14 @@ function MobileCards({
   addonFeatures = [],
   billingCycle = 'annual',
   category = 'restaurantes',
+  plan3ConsultFeatures = [],
 }: {
   plans: Plan[]
   capacity?: Record<string, string>
   addonFeatures?: string[]
   billingCycle?: BillingCycle
   category?: string
+  plan3ConsultFeatures?: string[]
 }) {
   const t = useT()
   const allFeatures = getAllFeatures(plans)
@@ -170,6 +172,26 @@ function MobileCards({
                   <span className="text-[9px] font-medium uppercase tracking-wider text-[var(--accent)] bg-[var(--accent)]/10 px-2 py-0.5 rounded-full whitespace-nowrap">{t.pricingExtended.modulesAvulsos}</span>
                 </li>
               ))}
+              {/* Plano 3 sob consulta features */}
+              {plan3ConsultFeatures.map((feature) => (
+                <li key={feature} className="flex items-start gap-3 text-sm pt-2 border-t border-dashed border-[#9C958A]/20 mt-2">
+                  {plan.id === 'saas-3' ? (
+                    <div className="w-5 h-5 rounded-full flex items-center justify-center bg-green-500/10 flex-shrink-0 mt-0.5">
+                      <Check size={12} className="text-green-600" />
+                    </div>
+                  ) : (
+                    <Minus size={14} className="text-[#9C958A]/40 flex-shrink-0 ml-0.5 mt-0.5" />
+                  )}
+                  <div>
+                    <span className={plan.id === 'saas-3' ? 'text-[#0E0E0F]' : 'text-[#9C958A]/50 line-through'}>{feature}</span>
+                    {plan.id === 'saas-3' && (
+                      <span className="ml-2 text-[11px] font-semibold text-green-600 bg-green-500/10 px-2 py-0.5 rounded-full">
+                        Sob consulta
+                      </span>
+                    )}
+                  </div>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -195,12 +217,14 @@ function DesktopTable({
   addonFeatures = [],
   billingCycle = 'annual',
   category = 'restaurantes',
+  plan3ConsultFeatures = [],
 }: {
   plans: Plan[]
   capacity?: Record<string, string>
   addonFeatures?: string[]
   billingCycle?: BillingCycle
   category?: string
+  plan3ConsultFeatures?: string[]
 }) {
   const t = useT()
   const allFeatures = getAllFeatures(plans)
@@ -364,6 +388,45 @@ function DesktopTable({
         </>
       )}
 
+      {/* Plano 3 sob consulta features */}
+      {plan3ConsultFeatures.length > 0 && (
+        <>
+          <div className="grid gap-0" style={{ gridTemplateColumns: `1.5fr repeat(${plans.length}, 1fr)` }}>
+            <div className="px-4 py-1 border-t-2 border-dashed border-[#9C958A]/20" />
+            {plans.map((plan) => (
+              <div key={plan.id} className="px-4 py-1 border-t-2 border-dashed border-[#9C958A]/20 border-x border-x-[#9C958A]/10" />
+            ))}
+          </div>
+          {plan3ConsultFeatures.map((feature, idx) => {
+            const rowIdx = allFeatures.length + addonFeatures.length + idx
+            return (
+              <div key={feature} className="grid gap-0" style={{ gridTemplateColumns: `1.5fr repeat(${plans.length}, 1fr)` }}>
+                <div className={`flex items-center gap-2 px-4 py-3 text-sm ${rowIdx % 2 === 0 ? 'bg-[#F7F7F7]' : 'bg-white'}`}>
+                  <span className="text-[#0E0E0F]/70">{feature}</span>
+                  <span className="text-[9px] font-bold uppercase tracking-wider text-[#9C958A] bg-[#9C958A]/10 px-2 py-0.5 rounded-full whitespace-nowrap">Plano 3</span>
+                </div>
+                {plans.map((plan) => (
+                  <div
+                    key={plan.id}
+                    className={`flex items-center justify-center px-4 py-3 ${
+                      rowIdx % 2 === 0 ? 'bg-[#F7F7F7] border-x border-[#9C958A]/10' : 'bg-white border-x border-[#9C958A]/10'
+                    }`}
+                  >
+                    {plan.id === 'saas-3' ? (
+                      <span className="text-xs font-semibold text-green-600 bg-green-500/10 px-3 py-1 rounded-full whitespace-nowrap">
+                        Sob consulta
+                      </span>
+                    ) : (
+                      <Minus size={16} className="text-[#9C958A]/40" />
+                    )}
+                  </div>
+                ))}
+              </div>
+            )
+          })}
+        </>
+      )}
+
       {/* CTAs */}
       <div className="grid gap-0" style={{ gridTemplateColumns: `1.5fr repeat(${plans.length}, 1fr)` }}>
         <div className="p-4" />
@@ -478,8 +541,8 @@ export function Pricing({ category = 'restaurantes' }: Props) {
         {category === 'mercados' ? (
           /* Mercados: mesma tabela de planos + módulos adicionais abaixo */
           <FadeIn delay={100} className="mb-8">
-            <DesktopTable plans={translatedSaasPlans} capacity={saasCapacity} addonFeatures={saasAddonFeatures} billingCycle={billingCycle} category={category} />
-            <MobileCards plans={translatedSaasPlans} capacity={saasCapacity} addonFeatures={saasAddonFeatures} billingCycle={billingCycle} category={category} />
+            <DesktopTable plans={translatedSaasPlans} capacity={saasCapacity} addonFeatures={saasAddonFeatures} billingCycle={billingCycle} category={category} plan3ConsultFeatures={modulesDataMercadosCFTV.map(m => m.title)} />
+            <MobileCards plans={translatedSaasPlans} capacity={saasCapacity} addonFeatures={saasAddonFeatures} billingCycle={billingCycle} category={category} plan3ConsultFeatures={modulesDataMercadosCFTV.map(m => m.title)} />
             {/* Módulos adicionais Market */}
             <div className="max-w-6xl mx-auto mt-10">
               <div className="flex items-center gap-4 mb-6">
@@ -540,36 +603,6 @@ export function Pricing({ category = 'restaurantes' }: Props) {
                 </div>
               </div>
 
-              {/* CFTV & Segurança — Plano 3 · Sob consulta */}
-              <div className="flex items-center gap-4 mt-8 mb-5">
-                <div className="w-1 h-8 rounded-full bg-[#9C958A]/30" />
-                <div>
-                  <p className="text-sm font-bold text-[#0E0E0F]">CFTV & Segurança · Plano 3</p>
-                  <p className="text-xs text-[#9C958A]">Módulos de segurança física — preço sob consulta</p>
-                </div>
-              </div>
-              <div className="grid sm:grid-cols-3 gap-4">
-                {modulesDataMercadosCFTV.map((mod) => (
-                  <div key={mod.title} className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-white border border-[#9C958A]/15">
-                    <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-xl bg-[#9C958A]/10 flex items-center justify-center flex-shrink-0">
-                        <mod.icon size={16} className="text-[#9C958A]" />
-                      </div>
-                      <div>
-                        <p className="text-sm font-semibold text-[#0E0E0F]">{mod.title}</p>
-                        <p className="text-[10px] text-[#9C958A] leading-snug line-clamp-2">{mod.desc}</p>
-                      </div>
-                    </div>
-                    <Link
-                      to="/agendar-demo"
-                      className="inline-flex items-center gap-1.5 border border-[#9C958A]/30 text-[#9C958A] hover:border-[var(--accent)] hover:text-[var(--accent)] text-[10px] font-medium px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap flex-shrink-0"
-                    >
-                      <CalendarDays size={11} />
-                      Sob consulta
-                    </Link>
-                  </div>
-                ))}
-              </div>
             </div>
           </FadeIn>
         ) : (category === 'farmacias' || category === 'petshop') ? (
