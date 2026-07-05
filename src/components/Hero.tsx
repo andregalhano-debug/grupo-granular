@@ -159,10 +159,9 @@ export function Hero({ category, setCategory }: Props) {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-4">
             <Link
               to={`/checkout?plano=saas-2&segmento=${category}`}
-              className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-8 py-4 rounded-xl text-base transition-colors"
+              className="bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-8 py-4 rounded-xl text-base transition-colors"
             >
               {t.hero.startNow}
-              <ArrowRight size={18} />
             </Link>
             <a
               href="#modulos"
