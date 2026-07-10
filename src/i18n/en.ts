@@ -186,7 +186,7 @@ export const en = {
       cookies: 'Cookies',
     },
     city: 'Belo Horizonte, MG · São Paulo, SP',
-    copyright: '© 2026 Granular. All rights reserved.',
+    copyright: '© 2026 Granular Technology. All rights reserved.',
   },
   cta: {
     title: 'Ready to transform your operation?',
@@ -360,7 +360,7 @@ export const en = {
     admin: 'Administration',
     adminDesc: 'Manage demo schedules, configure available time slots and integrate with Google Calendar.',
     accessAdmin: 'Access admin',
-    copyright: '© 2026 Granular. All rights reserved.',
+    copyright: '© 2026 Granular Technology. All rights reserved.',
   },
   pricingExtended: {
     systemSaas: 'SaaS platform for managing your operation',

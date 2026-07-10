@@ -65,7 +65,7 @@ export function TermosPage() {
           <p className={p}>Para fins destes Termos, os termos a seguir terão os significados indicados:</p>
           <ul className="space-y-2 list-none pl-0">
             {[
-              ['Granular / Plataforma', 'Grupo Granular Tecnologia Ltda., responsável pelo sistema SaaS de gestão operacional e pela rede de mentores e consultores.'],
+              ['Granular / Plataforma', 'Granular Consultoria em Gestão Empresarial Ltda, responsável pelo sistema SaaS de gestão operacional e pela rede de mentores e consultores.'],
               ['Usuário do Sistema', 'Pessoa jurídica ou física que contrata os Módulos 1, 2 e/ou 3 do sistema Granular para gestão operacional de seu estabelecimento.'],
               ['Mentorado', 'Pessoa jurídica ou física que contrata pacotes de mentoria ou especialista sob demanda para acompanhamento estratégico de sua operação.'],
               ['Mentor / Consultor', 'Profissional aceito na rede Granular para prestar sessões de orientação especializada a Mentorados.'],
@@ -230,7 +230,7 @@ export function TermosPage() {
         <Section title="10. Contato">
           <p className={p}>Dúvidas sobre estes Termos devem ser encaminhadas para:</p>
           <div className="bg-white rounded-xl border border-[#0E0E0F]/10 p-4 text-sm text-[#0E0E0F] space-y-1">
-            <p><strong>Grupo Granular Tecnologia</strong></p>
+            <p><strong>Granular Tecnologia</strong></p>
             <p>CNPJ: 67.771.869/0001-00 — Granular Consultoria em Gestão Empresarial Ltda</p>
             <p>E-mail: <a href="mailto:contato@grupogranular.com.br" className="text-[#A31631] hover:underline">contato@grupogranular.com.br</a></p>
             <p>Cidades: Belo Horizonte, MG e São Paulo, SP — Brasil</p>

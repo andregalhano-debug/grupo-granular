@@ -186,7 +186,7 @@ export const pt = {
       cookies: 'Cookies',
     },
     city: 'Belo Horizonte, MG · São Paulo, SP',
-    copyright: '© 2026 Granular. Todos os direitos reservados.',
+    copyright: '© 2026 Granular Tecnologia. Todos os direitos reservados.',
   },
   cta: {
     title: 'Pronto para transformar sua operação?',
@@ -360,7 +360,7 @@ export const pt = {
     admin: 'Administração',
     adminDesc: 'Gerencie agendas de demonstração, configure horários disponíveis e integre com o Google Agenda.',
     accessAdmin: 'Acessar admin',
-    copyright: '© 2026 Granular. Todos os direitos reservados.',
+    copyright: '© 2026 Granular Tecnologia. Todos os direitos reservados.',
   },
   pricingExtended: {
     systemSaas: 'Plataforma SaaS para gestão da sua operação',
