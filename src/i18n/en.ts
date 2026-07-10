@@ -16,7 +16,6 @@ export const en = {
     subtitle: 'Complete management for delivery,',
     subtitleAccent: 'with AI end-to-end',
     segmentPrompt: 'Which segment do you want to see the solution for?',
-    segmentHint: 'Select below to personalize your entire experience',
     selected: 'Selected',
     comingSoon: 'Coming soon',
     seeSolution: 'See solution',
@@ -277,6 +276,9 @@ export const en = {
       system: 'System',
       modules: 'Modules',
       inCart: 'In cart',
+      monthly: 'Monthly',
+      annual: 'Annual',
+      saveBadge: '-25%',
     },
   },
   sejaConsultor: {

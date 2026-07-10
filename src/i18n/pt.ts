@@ -16,7 +16,6 @@ export const pt = {
     subtitle: 'Gestão completa para delivery,',
     subtitleAccent: 'com IA de ponta a ponta',
     segmentPrompt: 'Para qual segmento você quer ver a solução?',
-    segmentHint: 'Selecione abaixo para personalizar toda a navegação',
     selected: 'Selecionado',
     comingSoon: 'Em breve',
     seeSolution: 'Ver solução',
@@ -277,6 +276,9 @@ export const pt = {
       system: 'Sistema',
       modules: 'Módulos',
       inCart: 'No carrinho',
+      monthly: 'Mensal',
+      annual: 'Anual',
+      saveBadge: '-25%',
     },
   },
   sejaConsultor: {
