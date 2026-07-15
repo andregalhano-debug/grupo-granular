@@ -54,7 +54,7 @@ export function TermosPage() {
             Termos de Uso
           </p>
           <h1 className="text-3xl font-bold text-[#0E0E0F] mb-3">Termos e Condições de Uso</h1>
-          <p className={p}>Última atualização: 13 de junho de 2026. Vigência imediata.</p>
+          <p className={p}>Última atualização: 15 de julho de 2026. Vigência imediata.</p>
           <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 text-sm text-amber-800 leading-relaxed">
             Ao utilizar qualquer serviço do Grupo Granular — sistema, mentoria ou rede de consultores — você declara ter lido, compreendido e concordado com estes Termos. Caso não concorde, interrompa imediatamente o uso da plataforma.
           </div>
@@ -105,7 +105,8 @@ export function TermosPage() {
 
           <SubSection title="2.3 Pagamento e Cobrança">
             <p className={p}>A cobrança é realizada mensalmente via cartão de crédito ou Pix. O não pagamento por mais de 7 (sete) dias corridos implica suspensão automática do acesso. Após 30 (trinta) dias em inadimplência, a conta poderá ser encerrada e os dados excluídos conforme política de retenção.</p>
-            <p className={p}>Os preços podem ser reajustados com aviso prévio de 30 (trinta) dias. O usuário que não concordar com o reajuste poderá cancelar o plano sem multa durante o período de aviso.</p>
+            <p className={p}>O atraso no pagamento sujeitará o usuário à cobrança de multa de 2% (dois por cento) sobre o valor devido, acrescida de juros de mora de 1% (um por cento) ao mês, calculados pro rata die, até a data do efetivo pagamento.</p>
+            <p className={p}>Os preços dos planos poderão ser reajustados anualmente com base na variação do IPCA (IBGE), sem prejuízo de reajustes adicionais, sempre com aviso prévio de 30 (trinta) dias. O usuário que não concordar com o reajuste poderá cancelar o plano sem multa durante o período de aviso.</p>
           </SubSection>
 
           <SubSection title="2.4 Cancelamento">
@@ -114,6 +115,11 @@ export function TermosPage() {
 
           <SubSection title="2.5 Disponibilidade do Sistema">
             <p className={p}>A Granular se compromete a manter o sistema disponível 99% do tempo mensal, excluídas janelas de manutenção programada comunicadas com antecedência mínima de 24 horas. Eventuais interrupções não programadas não configuram direito a reembolso, mas serão comunicadas e registradas.</p>
+          </SubSection>
+
+          <SubSection title="2.6 Rescisão pela Granular">
+            <p className={p}>A Granular poderá encerrar o acesso do usuário à plataforma, a qualquer momento e sem necessidade de aviso prévio, nas hipóteses de descumprimento destes Termos, uso indevido ou fraudulento da plataforma, ou conduta ofensiva com a equipe ou a rede de mentores da Granular.</p>
+            <p className={p}>Nos demais casos, a Granular poderá encerrar o acesso mediante aviso prévio de 30 (trinta) dias ao e-mail cadastrado, com reembolso proporcional de eventuais valores pagos e não usufruídos.</p>
           </SubSection>
         </Section>
 
@@ -179,6 +185,7 @@ export function TermosPage() {
 
           <SubSection title="4.3 Remuneração">
             <p className={p}>As condições de remuneração são definidas individualmente no contrato firmado com cada Mentor, observando a tabela de faixas por senioridade vigente. Pagamentos são realizados mensalmente, condicionados à confirmação das sessões pelo Mentorado e emissão de nota fiscal pelo Mentor.</p>
+            <p className={p}>O Mentor é o único responsável pela veracidade e atualização dos dados bancários cadastrados para recebimento. Eventual atraso no repasse decorrente de dados incorretos ou desatualizados não será imputável à Granular.</p>
           </SubSection>
 
           <SubSection title="4.4 Propriedade Intelectual">
@@ -211,23 +218,37 @@ export function TermosPage() {
           <p className={p}>Em qualquer hipótese, a responsabilidade total da Granular perante um usuário estará limitada ao valor pago nos últimos 3 (três) meses de contratação.</p>
         </Section>
 
+        {/* Indenização */}
+        <Section title="7. Indenização">
+          <p className={p}>O usuário compromete-se a indenizar e manter a Granular indene de quaisquer perdas, danos ou despesas decorrentes do descumprimento destes Termos ou do uso indevido da plataforma.</p>
+          <p className={p}>Reciprocamente, a Granular indenizará o usuário por perdas efetivamente comprovadas decorrentes de descumprimento destes Termos pela Granular, observado o limite de responsabilidade previsto na Seção 6.</p>
+        </Section>
+
         {/* Privacidade */}
-        <Section title="7. Privacidade e Dados Pessoais">
+        <Section title="8. Privacidade e Dados Pessoais">
           <p className={p}>O tratamento de dados pessoais realizado pela Granular obedece à Lei Geral de Proteção de Dados (LGPD — Lei nº 13.709/2018) e está detalhado na nossa <Link to="/privacidade" className="text-[#A31631] hover:underline font-medium">Política de Privacidade</Link>.</p>
         </Section>
 
         {/* Modificações */}
-        <Section title="8. Modificações dos Termos">
+        <Section title="9. Modificações dos Termos">
           <p className={p}>A Granular pode atualizar estes Termos a qualquer momento, comunicando as alterações por e-mail cadastrado e/ou aviso na plataforma com antecedência mínima de 15 (quinze) dias. O uso continuado após o prazo de aviso implica aceitação das novas condições. Caso não concorde, você poderá encerrar sua conta sem ônus adicionais durante o período de aviso.</p>
         </Section>
 
+        {/* Disposições Gerais */}
+        <Section title="10. Disposições Gerais">
+          <p className={p}>É vedado ao usuário ceder ou transferir, total ou parcialmente, os direitos e obrigações decorrentes destes Termos, sem autorização prévia e escrita da Granular.</p>
+          <p className={p}>A tolerância de qualquer das partes quanto ao descumprimento de obrigações aqui previstas não constitui novação ou renúncia de direitos.</p>
+          <p className={p}>A eventual nulidade de qualquer cláusula não afetará a validade das demais.</p>
+          <p className={p}>As disposições relativas a propriedade intelectual, confidencialidade, indenização e foro sobreviverão ao término destes Termos, independentemente da forma de encerramento.</p>
+        </Section>
+
         {/* Legislação */}
-        <Section title="9. Legislação e Foro">
+        <Section title="11. Legislação e Foro">
           <p className={p}>Estes Termos são regidos pelas leis da República Federativa do Brasil. As partes elegem o Foro da Comarca de São Paulo/SP como competente para dirimir quaisquer controvérsias, com renúncia expressa a qualquer outro, por mais privilegiado que seja.</p>
         </Section>
 
         {/* Contato */}
-        <Section title="10. Contato">
+        <Section title="12. Contato">
           <p className={p}>Dúvidas sobre estes Termos devem ser encaminhadas para:</p>
           <div className="bg-white rounded-xl border border-[#0E0E0F]/10 p-4 text-sm text-[#0E0E0F] space-y-1">
             <p><strong>Grupo Granular Tecnologia</strong></p>

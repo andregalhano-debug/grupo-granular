@@ -79,7 +79,7 @@ export function PrivacidadePage() {
             Privacidade
           </p>
           <h1 className="text-3xl font-bold text-[#0E0E0F] mb-3">Política de Privacidade</h1>
-          <p className={p}>Última atualização: 13 de junho de 2026. Em conformidade com a LGPD (Lei nº 13.709/2018).</p>
+          <p className={p}>Última atualização: 15 de julho de 2026. Em conformidade com a LGPD (Lei nº 13.709/2018).</p>
           <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 text-sm text-blue-800 leading-relaxed">
             O Grupo Granular está comprometido com a proteção de seus dados pessoais. Esta Política descreve como coletamos, usamos, armazenamos e compartilhamos informações de todos os perfis que interagem com nossa plataforma.
           </div>
@@ -93,7 +93,17 @@ export function PrivacidadePage() {
             <p><strong>E-mail:</strong> <a href="mailto:contato@grupogranular.com.br" className="text-[#A31631] hover:underline">contato@grupogranular.com.br</a></p>
             <p><strong>Endereço:</strong> R. Rio Grande do Norte, 1435, Sala 708, Pavimento 7 — Savassi, Belo Horizonte/MG — CEP 30.130-138</p>
           </div>
-          <p className={p}>Para dúvidas, solicitações ou exercício dos seus direitos previstos na LGPD, entre em contato pelo e-mail acima. Todas as comunicações relacionadas à privacidade e proteção de dados devem ser encaminhadas diretamente para esse canal, que é monitorado pela nossa equipe responsável.</p>
+
+          <SubSection title="1.1 Encarregado de Proteção de Dados (DPO)">
+            <div className="bg-white rounded-xl border border-[#0E0E0F]/10 p-4 text-sm text-[#0E0E0F] space-y-1 mb-3">
+              <p><strong>Canal dedicado:</strong> <a href="mailto:privacidade@grupogranular.com.br" className="text-[#A31631] hover:underline">privacidade@grupogranular.com.br</a></p>
+            </div>
+            <p className={p}>Para dúvidas, solicitações ou exercício dos seus direitos previstos na LGPD, entre em contato pelo canal dedicado do Encarregado acima. Solicitações são respondidas em até 15 (quinze) dias.</p>
+          </SubSection>
+
+          <SubSection title="1.2 Controlador e Operador">
+            <p className={p}>Para os dados cadastrais, de faturamento e de uso da própria conta, a Granular atua como <strong>Controladora</strong>. Para os dados operacionais inseridos pelo Usuário do Sistema sobre sua própria operação — incluindo dados de funcionários, clientes finais e fornecedores —, a Granular atua como <strong>Operadora</strong>, processando-os de acordo com as instruções e finalidades definidas pelo Usuário, que figura como Controlador desses dados e é responsável por garantir base legal adequada para sua coleta e uso.</p>
+          </SubSection>
         </Section>
 
         {/* Dados por público */}
@@ -157,6 +167,18 @@ export function PrivacidadePage() {
               ['Dados da empresa e representante legal', 'Formalização do acordo de parceria e comunicações contratuais', 'Execução de contrato (art. 7º, V)'],
               ['Dados técnicos da integração (tokens, webhooks, logs)', 'Funcionamento, monitoramento e depuração da integração', 'Execução de contrato (art. 7º, V)'],
               ['Volume de transações e métricas de uso', 'Relatórios de desempenho da parceria e faturamento', 'Execução de contrato (art. 7º, V)'],
+            ]} />
+          </SubSection>
+
+          {/* Visitantes e Leads */}
+          <SubSection title="2.5 Visitantes e Leads do Site">
+            <div className="mb-3">
+              <Audience label="Visitantes e Leads" color="text-slate-700 bg-slate-50 border-slate-200" />
+            </div>
+            <p className={p}>Pessoas que visitam o site institucional ou preenchem formulários de contato comercial, antes de se tornarem Usuários, Mentorados, Mentores ou Parceiros.</p>
+            <DataTable rows={[
+              ['Nome, e-mail, telefone e empresa informados em formulários', 'Contato comercial e envio de conteúdo relacionado aos nossos serviços', 'Legítimo interesse ou consentimento (art. 7º, I ou IX)'],
+              ['Dados de navegação e origem de campanha (UTM, cookies)', 'Mensuração da eficácia de campanhas de marketing', 'Consentimento (art. 7º, I) — detalhado na Política de Cookies'],
             ]} />
           </SubSection>
         </Section>
@@ -227,9 +249,10 @@ export function PrivacidadePage() {
               </div>
             ))}
           </div>
-          <div className="bg-[#A31631]/5 border border-[#A31631]/20 rounded-xl p-4 text-sm text-[#0E0E0F]">
-            Para exercer qualquer um desses direitos, envie sua solicitação para <a href="mailto:contato@grupogranular.com.br" className="text-[#A31631] hover:underline font-medium">contato@grupogranular.com.br</a>. Responderemos em até 15 dias úteis.
+          <div className="bg-[#A31631]/5 border border-[#A31631]/20 rounded-xl p-4 text-sm text-[#0E0E0F] mb-3">
+            Para exercer qualquer um desses direitos, envie sua solicitação para <a href="mailto:privacidade@grupogranular.com.br" className="text-[#A31631] hover:underline font-medium">privacidade@grupogranular.com.br</a>. Responderemos em até 15 dias úteis.
           </div>
+          <p className="text-xs text-[#9C958A] leading-relaxed">A exclusão de determinados dados pode impedir a continuidade do uso da plataforma, quando esses dados forem necessários à prestação do serviço contratado.</p>
         </Section>
 
         {/* Segurança */}
@@ -248,23 +271,33 @@ export function PrivacidadePage() {
           <p className={p}>Em caso de incidente de segurança que possa causar risco ou dano relevante aos titulares, a Granular notificará a Autoridade Nacional de Proteção de Dados (ANPD) e os titulares afetados conforme exigências da LGPD.</p>
         </Section>
 
+        {/* Inteligência Artificial */}
+        <Section title="7. Uso de Inteligência Artificial">
+          <p className={p}>A Granular utiliza recursos de inteligência artificial para geração de relatórios, análises e recomendações a partir dos dados operacionais inseridos na plataforma. O tratamento realizado por esses recursos observa as mesmas finalidades e bases legais descritas nesta Política, e os dados utilizados para treinamento ou aprimoramento dos modelos são, sempre que possível, anonimizados.</p>
+        </Section>
+
         {/* Transferência internacional */}
-        <Section title="7. Transferência Internacional de Dados">
+        <Section title="8. Transferência Internacional de Dados">
           <p className={p}>Os dados podem ser processados por servidores localizados fora do Brasil (ex: AWS em regiões internacionais). Nesses casos, adotamos mecanismos de transferência adequados, incluindo cláusulas contratuais padrão e avaliação de adequação do país receptor, conforme exigências da LGPD e orientações da ANPD.</p>
         </Section>
 
+        {/* Reestruturação societária */}
+        <Section title="9. Continuidade em Reestruturação Societária">
+          <p className={p}>Em caso de fusão, aquisição ou reestruturação societária envolvendo a Granular, os dados pessoais tratados nos termos desta Política poderão ser transferidos à nova entidade, que permanecerá vinculada às mesmas obrigações de proteção de dados aqui descritas.</p>
+        </Section>
+
         {/* Menores */}
-        <Section title="8. Crianças e Adolescentes">
+        <Section title="10. Crianças e Adolescentes">
           <p className={p}>A plataforma Granular é destinada exclusivamente a pessoas jurídicas e pessoas físicas maiores de 18 anos. Não coletamos intencionalmente dados de menores de idade. Caso identifiquemos tal coleta inadvertida, os dados serão imediatamente excluídos.</p>
         </Section>
 
         {/* Cookies */}
-        <Section title="9. Cookies">
+        <Section title="11. Cookies">
           <p className={p}>Utilizamos cookies e tecnologias similares para funcionamento da plataforma e melhoria da experiência. Consulte nossa <Link to="/cookies" className="text-[#A31631] hover:underline font-medium">Política de Cookies</Link> para informações detalhadas e opções de gerenciamento.</p>
         </Section>
 
         {/* Atualizações */}
-        <Section title="10. Atualizações desta Política">
+        <Section title="12. Atualizações desta Política">
           <p className={p}>Esta Política pode ser atualizada periodicamente para refletir mudanças legais, tecnológicas ou em nossos serviços. Notificaremos os titulares sobre alterações relevantes por e-mail ou aviso na plataforma. Recomendamos revisão periódica desta página.</p>
         </Section>
 
