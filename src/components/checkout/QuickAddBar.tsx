@@ -5,14 +5,19 @@ import { useCart } from '../../stores/useCartStore'
 import { useT } from '../../i18n/useT'
 import type { Category } from '../Modules'
 
+type BillingCycle = 'monthly' | 'annual'
+
 interface QuickAddItemProps {
   plan: Plan
   inCart: boolean
+  billingCycle: BillingCycle
   onAdd: () => void
 }
 
-function QuickAddItem({ plan, inCart, onAdd }: QuickAddItemProps) {
+function QuickAddItem({ plan, inCart, billingCycle, onAdd }: QuickAddItemProps) {
   const { checkout: { quickAdd: qa } } = useT()
+  const showMonthlyPrice = billingCycle === 'monthly' && plan.monthlyPriceFormatted
+  const displayPrice = showMonthlyPrice ? plan.monthlyPriceFormatted : plan.priceFormatted
   return (
     <button
       type="button"
@@ -35,7 +40,7 @@ function QuickAddItem({ plan, inCart, onAdd }: QuickAddItemProps) {
         </span>
       </div>
       <span className={`text-[11px] flex-shrink-0 ml-2 ${inCart ? 'text-green-500 font-medium' : 'text-[#9C958A]'}`}>
-        {inCart ? qa.inCart : `R$ ${plan.priceFormatted}${plan.period}`}
+        {inCart ? qa.inCart : `R$ ${displayPrice}${plan.period}`}
       </span>
     </button>
   )
@@ -49,6 +54,7 @@ export function QuickAddBar({ category = 'restaurantes' }: QuickAddBarProps) {
   const cart = useCart()
   const { checkout: { quickAdd: qa } } = useT()
   const [openSection, setOpenSection] = useState<string | null>(null)
+  const [billingCycle, setBillingCycle] = useState<BillingCycle>('annual')
   const containerRef = useRef<HTMLDivElement>(null)
 
   const cartPlanIds = new Set(cart.plans.map((p) => p.id))
@@ -113,6 +119,41 @@ export function QuickAddBar({ category = 'restaurantes' }: QuickAddBarProps) {
         </p>
       </div>
 
+      {/* Toggle Mensal / Anual */}
+      <div className="flex items-center justify-center py-2 border-b border-[#0E0E0F]/5">
+        <div className="inline-flex items-center bg-[#F7F7F7] rounded-full p-0.5 gap-0.5">
+          <button
+            type="button"
+            onClick={() => setBillingCycle('monthly')}
+            className={`px-3 py-1 rounded-full text-[11px] font-medium transition-all cursor-pointer ${
+              billingCycle === 'monthly'
+                ? 'bg-[#0E0E0F] text-white shadow-sm'
+                : 'text-[#9C958A] hover:text-[#0E0E0F]'
+            }`}
+          >
+            {qa.monthly}
+          </button>
+          <button
+            type="button"
+            onClick={() => setBillingCycle('annual')}
+            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-medium transition-all cursor-pointer ${
+              billingCycle === 'annual'
+                ? 'bg-[#0E0E0F] text-white shadow-sm'
+                : 'text-[#9C958A] hover:text-[#0E0E0F]'
+            }`}
+          >
+            {qa.annual}
+            <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full transition-colors ${
+              billingCycle === 'annual'
+                ? 'bg-green-400 text-green-900'
+                : 'bg-green-100 text-green-700'
+            }`}>
+              {qa.saveBadge}
+            </span>
+          </button>
+        </div>
+      </div>
+
       {/* Botões de categoria lado a lado */}
       <div className="flex border-b border-[#0E0E0F]/5">
         {sections.map((section) => {
@@ -153,8 +194,12 @@ export function QuickAddBar({ category = 'restaurantes' }: QuickAddBarProps) {
               key={plan.id}
               plan={plan}
               inCart={cartPlanIds.has(plan.id)}
+              billingCycle={billingCycle}
               onAdd={() => {
-                sections.find((s) => s.id === openSection)?.addFn(plan)
+                const effectivePlan = billingCycle === 'monthly' && plan.monthlyPrice && plan.monthlyPriceFormatted
+                  ? { ...plan, price: plan.monthlyPrice, priceFormatted: plan.monthlyPriceFormatted }
+                  : plan
+                sections.find((s) => s.id === openSection)?.addFn(effectivePlan)
                 setOpenSection(null)
               }}
             />

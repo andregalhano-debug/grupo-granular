@@ -392,22 +392,6 @@ const adaptModuleForFarmaciaPetshop = (m: ModuleDetail): ModuleDetail => {
   return m
 }
 
-// Market: base modules = mercados array, keeping only Market-specific modules
-// Removed duplicates shared with Food: iFood & Pedidos, Financeiro & DRE, Relatórios, Estoque Inteligente, CRM & Clientes
-const mercadosBaseExclude = new Set([
-  'Televendas', 'Pessoas (RH)',
-  'iFood & Pedidos', 'Financeiro & DRE', 'Relatórios', 'Estoque Inteligente', 'CRM & Clientes',
-])
-export const modulesDataMercadosBase: ModuleDetail[] = modulesDataMercados.filter(
-  (m) => !mercadosBaseExclude.has(m.title)
-)
-
-// Market: standalone add-on modules shown separately with "Agendar Demo" CTA
-export const modulesDataMercadosStandalone: ModuleDetail[] = [
-  modulesDataMercados.find((m) => m.title === 'Televendas')!,
-  modulesDataMercados.find((m) => m.title === 'Pessoas (RH)')!,
-]
-
 // Market: CFTV & Security modules — exclusive to Plano 3, "sob consulta"
 export const modulesDataMercadosCFTV: ModuleDetail[] = [
   {

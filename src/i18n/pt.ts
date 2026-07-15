@@ -16,7 +16,6 @@ export const pt = {
     subtitle: 'Gestão completa para delivery,',
     subtitleAccent: 'com IA de ponta a ponta',
     segmentPrompt: 'Para qual segmento você quer ver a solução?',
-    segmentHint: 'Selecione abaixo para personalizar toda a navegação',
     selected: 'Selecionado',
     comingSoon: 'Em breve',
     seeSolution: 'Ver solução',
@@ -186,7 +185,7 @@ export const pt = {
       cookies: 'Cookies',
     },
     city: 'Belo Horizonte, MG · São Paulo, SP',
-    copyright: '© 2026 Granular. Todos os direitos reservados.',
+    copyright: '© 2026 Granular Tecnologia. Todos os direitos reservados.',
   },
   cta: {
     title: 'Pronto para transformar sua operação?',
@@ -277,6 +276,9 @@ export const pt = {
       system: 'Sistema',
       modules: 'Módulos',
       inCart: 'No carrinho',
+      monthly: 'Mensal',
+      annual: 'Anual',
+      saveBadge: '-25%',
     },
   },
   sejaConsultor: {
@@ -360,7 +362,7 @@ export const pt = {
     admin: 'Administração',
     adminDesc: 'Gerencie agendas de demonstração, configure horários disponíveis e integre com o Google Agenda.',
     accessAdmin: 'Acessar admin',
-    copyright: '© 2026 Granular. Todos os direitos reservados.',
+    copyright: '© 2026 Granular Tecnologia. Todos os direitos reservados.',
   },
   pricingExtended: {
     systemSaas: 'Plataforma SaaS para gestão da sua operação',

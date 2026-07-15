@@ -2,12 +2,11 @@ import { useState, useRef, useEffect } from 'react'
 import { Smartphone, Shield, BarChart3, X, ChevronRight, CalendarDays, ShoppingCart, UtensilsCrossed, Pill, PawPrint, ZoomIn } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
-import { modulesDataRestaurantes, modulesDataMercados, modulesDataFarmacias, modulesDataPetshop } from '../data/modulesData'
+import { modulesDataRestaurantes, modulesDataMercados, modulesDataMercadosCFTV, modulesDataFarmacias, modulesDataPetshop } from '../data/modulesData'
 import { modulesDataRestaurantesEn, modulesDataMercadosEn } from '../data/modulesDataEn'
 import { useCategoryAccent } from '../stores/CategoryContext'
 import { useT } from '../i18n/useT'
 import { useLanguage } from '../stores/useLanguageStore'
-import { ModulesMercados } from './ModulesMercados'
 
 export type Category = 'restaurantes' | 'mercados' | 'farmacias' | 'petshop'
 
@@ -42,7 +41,7 @@ export function Modules({ category = 'restaurantes' }: Props) {
 
   const modules = lang === 'en'
     ? (category === 'mercados' ? modulesDataMercadosEn : modulesDataRestaurantesEn)
-    : category === 'mercados' ? modulesDataMercados
+    : category === 'mercados' ? [...modulesDataMercados, ...modulesDataMercadosCFTV]
     : category === 'farmacias' ? modulesDataFarmacias
     : category === 'petshop' ? modulesDataPetshop
     : modulesDataRestaurantes
@@ -95,11 +94,6 @@ export function Modules({ category = 'restaurantes' }: Props) {
     } else {
       setOpenIndex(i)
     }
-  }
-
-  /* Mercados — layout especial com dois painéis (Food + Market) */
-  if (category === 'mercados') {
-    return <ModulesMercados />
   }
 
   /* Índice do último item da linha do módulo aberto */

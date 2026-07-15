@@ -64,7 +64,6 @@ export function Hero({ category, setCategory }: Props) {
             <h2 className="text-xl sm:text-2xl font-bold text-[#0E0E0F] mb-2">
               {t.hero.segmentPrompt}
             </h2>
-            <p className="text-sm text-[#9C958A]">{t.hero.segmentHint}</p>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-5 max-w-3xl mx-auto">
