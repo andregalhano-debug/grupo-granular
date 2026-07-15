@@ -17,6 +17,7 @@ const MentorCallbackPage   = lazy(() => import('./pages/MentorCallbackPage').the
 const TrilhaPage           = lazy(() => import('./pages/TrilhaPage').then(m => ({ default: m.TrilhaPage })))
 const AgendarDemoPage      = lazy(() => import('./pages/AgendarDemoPage').then(m => ({ default: m.AgendarDemoPage })))
 const AdminPage            = lazy(() => import('./pages/AdminPage').then(m => ({ default: m.AdminPage })))
+const AceitePage           = lazy(() => import('./pages/AceitePage').then(m => ({ default: m.AceitePage })))
 const TermosPage           = lazy(() => import('./pages/TermosPage').then(m => ({ default: m.TermosPage })))
 const PrivacidadePage      = lazy(() => import('./pages/PrivacidadePage').then(m => ({ default: m.PrivacidadePage })))
 const CookiesPage          = lazy(() => import('./pages/CookiesPage').then(m => ({ default: m.CookiesPage })))
@@ -70,6 +71,7 @@ function AppContent() {
           <Route path="/trilha" element={<TrilhaPage />} />
           <Route path="/agendar-demo" element={<AgendarDemoPage />} />
           <Route path="/admin" element={<AdminPage />} />
+          <Route path="/aceite" element={<AceitePage />} />
           <Route path="/termos" element={<TermosPage />} />
           <Route path="/privacidade" element={<PrivacidadePage />} />
           <Route path="/cookies" element={<CookiesPage />} />

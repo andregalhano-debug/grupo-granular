@@ -18,6 +18,10 @@ export async function sendConviteMentor(payload: { to: string; nome: string; log
   await post('convite-mentor', payload)
 }
 
+export async function sendConfirmacaoAceite(payload: { to: string; nome: string; empresa: string; tipo: string }) {
+  await post('confirmacao-aceite', payload)
+}
+
 export async function sendLembreteCompletarPerfil(payload: { to: string; nome: string; completude: number }) {
   await post('lembrete-perfil', { ...payload, completude: String(payload.completude) })
 }

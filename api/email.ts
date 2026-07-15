@@ -173,6 +173,78 @@ function conviteMentorHtml(nome: string, loginUrl: string) {
 </html>`
 }
 
+const TIPO_CONTRATACAO_LABEL: Record<string, string> = {
+  sistema: 'Sistema Granular',
+  especialista: 'Especialista sob demanda',
+  mentoria: 'Mentoria',
+}
+
+function confirmacaoAceiteHtml(nome: string, empresa: string, tipo: string) {
+  const primeiroNome = nome.split(' ')[0] || nome
+  const tipoLabel = TIPO_CONTRATACAO_LABEL[tipo] || tipo
+  return `<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#F7F7F7;font-family:'Helvetica Neue',Arial,sans-serif">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#F7F7F7;padding:40px 16px">
+    <tr><td align="center">
+      <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#ffffff;border-radius:16px;overflow:hidden;border:1px solid #E5E5E5">
+        <!-- Header -->
+        <tr>
+          <td style="background:#0E0E0F;padding:28px 40px;text-align:center">
+            <table cellpadding="0" cellspacing="0" style="margin:0 auto">
+              <tr>
+                <td style="vertical-align:middle;padding-right:12px">
+                  <img src="${LOGO_URL}" width="36" height="36" alt="Granular" style="display:block;border:0">
+                </td>
+                <td style="vertical-align:middle">
+                  <span style="color:#ffffff;font-size:22px;font-weight:700;letter-spacing:-0.5px;font-family:'Helvetica Neue',Arial,sans-serif">Granular</span>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <!-- Body -->
+        <tr>
+          <td style="padding:40px 40px 32px">
+            <p style="margin:0 0 8px;font-size:13px;font-weight:600;color:#A31631;text-transform:uppercase;letter-spacing:1.5px">Aceite confirmado</p>
+            <h1 style="margin:0 0 20px;font-size:24px;font-weight:700;color:#0E0E0F;line-height:1.3">Olá, ${primeiroNome}!</h1>
+            <p style="margin:0 0 16px;font-size:15px;color:#4B4B4B;line-height:1.6">
+              Confirmamos o aceite dos Termos de Uso e da Política de Privacidade da Granular em nome de <strong>${empresa}</strong>, referente à contratação de <strong>${tipoLabel}</strong>. Nossa equipe já foi avisada e vai entrar em contato para dar início à sua utilização.
+            </p>
+            <table width="100%" cellpadding="0" cellspacing="0" style="background:#F7F7F7;border-radius:12px;margin-bottom:28px">
+              <tr><td style="padding:24px 28px">
+                <p style="margin:0 0 4px;font-size:12px;font-weight:700;color:#9C958A;text-transform:uppercase;letter-spacing:1px">Contratação</p>
+                <p style="margin:0 0 16px;font-size:13px;color:#4B4B4B">${tipoLabel}</p>
+                <p style="margin:0 0 4px;font-size:12px;font-weight:700;color:#9C958A;text-transform:uppercase;letter-spacing:1px">Documentos aceitos</p>
+                <p style="margin:0;font-size:13px;color:#4B4B4B;line-height:1.6">
+                  <a href="https://www.grupogranular.com.br/termos" style="color:#A31631;text-decoration:none;font-weight:600">Termos e Condições de Uso</a><br>
+                  <a href="https://www.grupogranular.com.br/privacidade" style="color:#A31631;text-decoration:none;font-weight:600">Política de Privacidade</a>
+                </p>
+              </td></tr>
+            </table>
+            <p style="margin:0;font-size:14px;color:#4B4B4B;line-height:1.6">
+              Dúvidas? Responda este e-mail ou acesse
+              <a href="https://www.grupogranular.com.br" style="color:#A31631;text-decoration:none;font-weight:600">grupogranular.com.br</a>.
+            </p>
+          </td>
+        </tr>
+        <!-- Footer -->
+        <tr>
+          <td style="background:#F7F7F7;padding:24px 40px;border-top:1px solid #E5E5E5">
+            <p style="margin:0;font-size:12px;color:#9C958A;line-height:1.6;text-align:center">
+              Granular · São Paulo, SP · Brasil<br>
+              <a href="https://www.grupogranular.com.br" style="color:#9C958A">grupogranular.com.br</a>
+            </p>
+          </td>
+        </tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`
+}
+
 /* ── Handler ────────────────────────────────────────────────────── */
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -200,6 +272,15 @@ export default async function handler(req: any, res: any) {
         to,
         subject: `${nome}, você foi aprovado como Mentor Granular 🎉`,
         html: conviteMentorHtml(nome, loginUrl),
+      })
+
+    } else if (template === 'confirmacao-aceite') {
+      const { to, nome, empresa, tipo } = payload
+      await resend.emails.send({
+        from: FROM,
+        to,
+        subject: `Aceite confirmado — ${empresa} na Granular`,
+        html: confirmacaoAceiteHtml(nome, empresa, tipo),
       })
 
     } else {
