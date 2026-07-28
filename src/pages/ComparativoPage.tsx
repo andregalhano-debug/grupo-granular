@@ -18,7 +18,7 @@ const rows: ComparisonRow[] = [
   { feature: 'Gestão de estoque', granular: true, saipos: true, anotaAi: false },
   { feature: 'Previsão de demanda com IA', granular: true, saipos: false, anotaAi: false },
   { feature: 'Suporte em português', granular: true, saipos: true, anotaAi: true },
-  { feature: 'Plano a partir de R$89/mês', granular: true, saipos: false, anotaAi: false },
+  { feature: 'Planos sob consulta', granular: true, saipos: false, anotaAi: false },
 ]
 
 function Cell({ value }: { value: boolean }) {
@@ -148,7 +148,7 @@ export function ComparativoPage() {
                 icon: '🎓',
               },
               {
-                title: 'R$89 para começar',
+                title: 'Comece sob consulta',
                 desc: 'Comece com o plano básico e expanda conforme cresce. Sem lock-in, sem instalação, cancele quando quiser.',
                 icon: '💰',
               },
@@ -170,14 +170,14 @@ export function ComparativoPage() {
             Pronto para fazer a troca?
           </h2>
           <p className="text-white/50 text-base mb-8">
-            Comece com R$89/mês. Sem instalação, sem fidelidade, cancele quando quiser.
+            Fale com a gente. Sem instalação, sem fidelidade, cancele quando quiser.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
-              to="/checkout"
+              to="/agendar-demo"
               className="inline-flex items-center gap-2 bg-[#E63946] hover:bg-[#7d101f] text-white font-medium px-8 py-4 rounded-xl text-base transition-colors"
             >
-              Começar agora
+              Falar com a gente
               <ArrowRight size={18} />
             </Link>
             <Link

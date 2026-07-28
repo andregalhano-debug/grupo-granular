@@ -16,13 +16,13 @@ export const faqEntries: FaqEntry[] = [
     id: 'planos-sistema',
     keywords: ['plano', 'pacote', 'sistema', 'preco', 'valor', 'quanto', 'custa'],
     question: 'Quais são os planos do sistema?',
-    answer: 'Temos 3 pacotes: Pacote 1 (R$ 89/mês, até 3 IDs), Pacote 2 (R$ 489/mês, até 10 IDs) e Pacote 3 (R$ 3.899/mês, até 20 IDs). Todos incluem o Portal Granular e dashboard completo.',
+    answer: 'Temos 3 pacotes: Pacote 1 (até 3 IDs), Pacote 2 (até 10 IDs) e Pacote 3 (até 20 IDs). Todos incluem o Portal Granular e dashboard completo. Os valores estão sob consulta — agende uma demonstração para receber um orçamento.',
   },
   {
     id: 'consultoria',
     keywords: ['consultoria', 'consultor', 'especialista', 'in loco', 'especialista sob demanda'],
     question: 'Como funciona o Especialista sob demanda?',
-    answer: 'Nossos especialistas atuam in loco e orientam sua operação com um plano de ação personalizado. Oferecemos pacotes de 1 mês (R$ 3.890), 3 meses (R$ 3.590/mês) e 6 meses (R$ 2.990/mês). Inclui diagnóstico, estratégias e acompanhamento.',
+    answer: 'Nossos especialistas atuam in loco e orientam sua operação com um plano de ação personalizado. Oferecemos pacotes de 1, 3 e 6 meses (valores sob consulta). Inclui diagnóstico, estratégias e acompanhamento.',
   },
   {
     id: 'teste-gratis',

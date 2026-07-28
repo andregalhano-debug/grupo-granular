@@ -1,5 +1,4 @@
 import { Check, Minus, Monitor, Handshake, ChevronRight, GraduationCap, CalendarDays, Star, Clock, Users, PhoneCall } from 'lucide-react'
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
 import { saasPlans, saasAddonFeatures, type Plan } from '../data/plans'
@@ -9,6 +8,13 @@ import { useT } from '../i18n/useT'
 import { modulesDataMercadosCFTV } from '../data/modulesData'
 
 type BillingCycle = 'monthly' | 'annual'
+
+// Enquanto refinamos os preços, os 3 módulos SaaS ficam "Sob consulta" (preço oculto,
+// CTA leva ao formulário de contato). Reverter: reduzir o Set para new Set(['saas-3']).
+const SOB_CONSULTA_IDS = new Set(['saas-1', 'saas-2', 'saas-3'])
+function isSobConsulta(plan: Plan): boolean {
+  return SOB_CONSULTA_IDS.has(plan.id)
+}
 
 const saasCapacity: Record<string, string> = {
   'saas-1': 'Até 3 IDs e 3k pedidos/mês',
@@ -61,7 +67,7 @@ function MobileCards({
   const featureAvulso: Record<string, { label: string; ctas: { text: string; link: string }[] }> = category === 'mercados' ? {} : {
     [t.plansData.addonPessoas]: {
       label: 'Avulso',
-      ctas: [{ text: '599/mês', link: '/checkout?plano=modulo-pessoas' }],
+      ctas: [{ text: 'Sob consulta', link: '/agendar-demo' }],
     },
   }
 
@@ -94,7 +100,7 @@ function MobileCards({
                 {capacity[plan.id]}
               </p>
             )}
-            {plan.id === 'saas-3' ? (
+            {isSobConsulta(plan) ? (
               <div className="mt-1">
                 <span className="text-xl font-bold text-[#0E0E0F]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{t.pricingExtended.onRequest}</span>
               </div>
@@ -185,10 +191,10 @@ function MobileCards({
           {/* CTA */}
           <div className="px-4 pb-5">
             <Link
-              to={plan.id === 'saas-3' ? '/agendar-demo' : `/checkout?plano=${plan.id}&segmento=${category}`}
+              to={isSobConsulta(plan) ? '/agendar-demo' : `/checkout?plano=${plan.id}&segmento=${category}`}
               className="flex items-center justify-center w-full h-11 font-medium px-4 rounded-xl text-sm transition-colors border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white whitespace-nowrap"
             >
-              {plan.id === 'saas-3' ? t.pricingExtended.scheduleDemo : plan.cta}
+              {isSobConsulta(plan) ? t.pricingExtended.scheduleDemo : plan.cta}
             </Link>
           </div>
         </div>
@@ -218,7 +224,7 @@ function DesktopTable({
   const featureAvulso: Record<string, { label: string; ctas: { text: string; link: string }[] }> = category === 'mercados' ? {} : {
     [t.plansData.addonPessoas]: {
       label: 'Avulso',
-      ctas: [{ text: '599/mês', link: '/checkout?plano=modulo-pessoas' }],
+      ctas: [{ text: 'Sob consulta', link: '/agendar-demo' }],
     },
   }
 
@@ -256,7 +262,7 @@ function DesktopTable({
                 {capacity[plan.id]}
               </p>
             )}
-            {plan.id === 'saas-3' ? (
+            {isSobConsulta(plan) ? (
               <div className="mt-1">
                 <span className="text-xl font-bold text-[#0E0E0F]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{t.pricingExtended.onRequest}</span>
               </div>
@@ -379,10 +385,10 @@ function DesktopTable({
             className="p-6 text-center rounded-b-2xl bg-white border-b border-x border-[#9C958A]/20"
           >
             <Link
-              to={plan.id === 'saas-3' ? '/agendar-demo' : `/checkout?plano=${plan.id}&segmento=${category}`}
+              to={isSobConsulta(plan) ? '/agendar-demo' : `/checkout?plano=${plan.id}&segmento=${category}`}
               className="flex items-center justify-center w-full h-11 font-medium px-4 rounded-xl text-sm transition-colors border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white whitespace-nowrap"
             >
-              {plan.id === 'saas-3' ? t.pricingExtended.scheduleDemo : plan.cta}
+              {isSobConsulta(plan) ? t.pricingExtended.scheduleDemo : plan.cta}
             </Link>
           </div>
         ))}
@@ -398,7 +404,8 @@ interface Props {
 export function Pricing({ category = 'restaurantes' }: Props) {
   useCategoryAccent() // CSS vars on root drive styling
   const t = useT()
-  const [billingCycle, setBillingCycle] = useState<BillingCycle>('annual')
+  // Preços dos módulos estão sob consulta — ciclo fixo (o toggle Mensal/Anual foi ocultado).
+  const billingCycle: BillingCycle = 'annual'
   const consultoriaSteps = t.pricingExtended.consultoriaSteps
   const sampleMentors = t.pricingExtended.sampleMentors
   const translatedSaasPlans = saasPlans.map((plan, i) => {
@@ -444,42 +451,7 @@ export function Pricing({ category = 'restaurantes' }: Props) {
           </div>
         </FadeIn>
 
-        {/* Billing cycle toggle — todos exceto mercados (mercados tem preço próprio) */}
-        {(category === 'restaurantes' || category === 'farmacias' || category === 'petshop' || category === 'mercados') && (
-          <FadeIn delay={50}>
-            <div className="flex justify-center mb-10">
-              <div className="inline-flex items-center bg-white border border-[#9C958A]/20 rounded-full p-1 shadow-sm gap-1">
-                <button
-                  onClick={() => setBillingCycle('monthly')}
-                  className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
-                    billingCycle === 'monthly'
-                      ? 'bg-[#0E0E0F] text-white shadow-sm'
-                      : 'text-[#9C958A] hover:text-[#0E0E0F]'
-                  }`}
-                >
-                  Mensal
-                </button>
-                <button
-                  onClick={() => setBillingCycle('annual')}
-                  className={`inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-medium transition-all ${
-                    billingCycle === 'annual'
-                      ? 'bg-[#0E0E0F] text-white shadow-sm'
-                      : 'text-[#9C958A] hover:text-[#0E0E0F]'
-                  }`}
-                >
-                  Anual
-                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full transition-colors ${
-                    billingCycle === 'annual'
-                      ? 'bg-green-400 text-green-900'
-                      : 'bg-green-100 text-green-700'
-                  }`}>
-                    Economize 25%
-                  </span>
-                </button>
-              </div>
-            </div>
-          </FadeIn>
-        )}
+        {/* Toggle Mensal/Anual ocultado enquanto os preços dos módulos estão sob consulta. */}
 
         {category === 'mercados' ? (
           /* Mercados: mesma tabela de planos + módulos adicionais abaixo */
@@ -509,14 +481,13 @@ export function Pricing({ category = 'restaurantes' }: Props) {
                   </div>
                   <div className="flex items-center gap-3 flex-shrink-0">
                     <div className="text-right">
-                      <p className="text-base font-bold text-[#0E0E0F]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>R$ 599</p>
-                      <p className="text-[10px] text-[#9C958A]">/mês</p>
+                      <p className="text-sm font-semibold text-[#0E0E0F]">Sob consulta</p>
                     </div>
                     <Link
-                      to="/checkout?plano=modulo-pessoas&segmento=mercados"
+                      to="/agendar-demo"
                       className="inline-flex items-center gap-1.5 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white text-xs font-medium px-4 py-2 rounded-xl transition-colors whitespace-nowrap"
                     >
-                      Contratar
+                      Falar com a gente
                     </Link>
                   </div>
                 </div>
@@ -533,14 +504,13 @@ export function Pricing({ category = 'restaurantes' }: Props) {
                   </div>
                   <div className="flex items-center gap-3 flex-shrink-0">
                     <div className="text-right">
-                      <p className="text-base font-bold text-[#0E0E0F]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>R$ 419</p>
-                      <p className="text-[10px] text-[#9C958A]">/mês</p>
+                      <p className="text-sm font-semibold text-[#0E0E0F]">Sob consulta</p>
                     </div>
                     <Link
-                      to="/checkout?plano=modulo-televendas&segmento=mercados"
+                      to="/agendar-demo"
                       className="inline-flex items-center gap-1.5 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white text-xs font-medium px-4 py-2 rounded-xl transition-colors whitespace-nowrap"
                     >
-                      Contratar
+                      Falar com a gente
                     </Link>
                   </div>
                 </div>

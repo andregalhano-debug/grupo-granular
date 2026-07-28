@@ -67,11 +67,11 @@ export function MercadosPage() {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
-              to="/checkout?plano=saas-2&segmento=mercado"
+              to="/agendar-demo"
               className="inline-flex items-center gap-2 text-white font-medium px-8 py-4 rounded-xl text-base transition-colors"
               style={{ backgroundColor: '#0A4D68' }}
             >
-              Ver planos para mercados
+              Falar com a gente
               <ArrowRight size={18} />
             </Link>
             <a
@@ -127,11 +127,11 @@ export function MercadosPage() {
                 Do estoque ao televendas — o Granular Market é a plataforma completa para supermercados, atacarejos e atacados de todos os tamanhos.
               </p>
               <Link
-                to="/checkout?plano=saas-2&segmento=mercado"
+                to="/agendar-demo"
                 className="inline-flex items-center gap-2 text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors"
                 style={{ backgroundColor: '#0A4D68' }}
               >
-                Ver planos para mercados
+                Falar com a gente
                 <ArrowRight size={16} />
               </Link>
             </div>
@@ -160,11 +160,11 @@ export function MercadosPage() {
             Sistema precificado sob consulta de acordo com o porte da operação e módulos contratados.
           </p>
           <Link
-            to="/checkout?plano=saas-2&segmento=mercado"
+            to="/agendar-demo"
             className="inline-flex items-center gap-2 bg-white font-medium px-8 py-4 rounded-xl text-base transition-colors"
             style={{ color: '#0A4D68' }}
           >
-            Ver planos para mercados
+            Falar com a gente
             <ArrowRight size={18} />
           </Link>
         </div>

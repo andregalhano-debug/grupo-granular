@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Granular — Nova Arquitetura do Site</title>
+<style>
+  :root{
+    --paper:#FBFBF9; --paper-2:#F3F4F0; --card:#FFFFFF;
+    --ink:#16181A; --ink-2:#3A3F44; --muted:#6B7069; --line:#E3E6E1; --line-2:#D3D7CF;
+    --amber:#E8A020; --amber-deep:#B97810; --amber-soft:#FBF3E4;
+    --green:#1F5F4B; --green-soft:#E6F0EA;
+    --food:#B83A2B; --farma:#23705A; --merc:#2C5F82; --pet:#B26A48;
+    --shadow:0 1px 2px rgba(0,0,0,.04),0 10px 30px -18px rgba(0,0,0,.22);
+    --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    --mono:ui-monospace,"SF Mono","Cascadia Mono","Roboto Mono",Menlo,monospace;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --paper:#131517; --paper-2:#1A1D20; --card:#1F2327;
+      --ink:#F3F4F1; --ink-2:#C5CAC4; --muted:#9AA39C; --line:#2C3136; --line-2:#363C42;
+      --amber-deep:#F6B93B; --amber-soft:#241B0B; --green:#4FB894; --green-soft:#13251E;
+      --food:#E58A78; --farma:#65C0A0; --merc:#7CB2D8; --pet:#E0A07E;
+      --shadow:0 1px 2px rgba(0,0,0,.3),0 14px 34px -20px rgba(0,0,0,.7);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#131517; --paper-2:#1A1D20; --card:#1F2327;
+    --ink:#F3F4F1; --ink-2:#C5CAC4; --muted:#9AA39C; --line:#2C3136; --line-2:#363C42;
+    --amber-deep:#F6B93B; --amber-soft:#241B0B; --green:#4FB894; --green-soft:#13251E;
+    --food:#E58A78; --farma:#65C0A0; --merc:#7CB2D8; --pet:#E0A07E;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 14px 34px -20px rgba(0,0,0,.7);
+  }
+  :root[data-theme="light"]{
+    --paper:#FBFBF9; --paper-2:#F3F4F0; --card:#FFFFFF;
+    --ink:#16181A; --ink-2:#3A3F44; --muted:#6B7069; --line:#E3E6E1; --line-2:#D3D7CF;
+    --amber-deep:#B97810; --amber-soft:#FBF3E4; --green:#1F5F4B; --green-soft:#E6F0EA;
+    --food:#B83A2B; --farma:#23705A; --merc:#2C5F82; --pet:#B26A48;
+    --shadow:0 1px 2px rgba(0,0,0,.04),0 10px 30px -18px rgba(0,0,0,.22);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+    line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1080px;margin:0 auto;padding:48px 24px 80px}
+  .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--amber-deep);font-weight:700}
+  h1{font-size:clamp(28px,4vw,40px);letter-spacing:-.025em;margin:10px 0 8px;text-wrap:balance;font-weight:800}
+  .sub{color:var(--muted);font-size:16.5px;max-width:64ch}
+  .mono{font-family:var(--mono)}
+
+  /* legend */
+  .legend{display:flex;flex-wrap:wrap;gap:10px 18px;margin:22px 0 6px;padding:14px 16px;
+    background:var(--paper-2);border:1px solid var(--line);border-radius:12px}
+  .lg{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-2)}
+  .lg b{color:var(--ink);font-weight:600}
+  .tag{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.04em;
+    padding:3px 7px;border-radius:6px;white-space:nowrap;text-transform:uppercase;border:1px solid transparent}
+  .t-reorg{background:var(--amber-soft);color:var(--amber-deep);border-color:color-mix(in srgb,var(--amber-deep) 30%,transparent)}
+  .t-reuse{background:var(--green-soft);color:var(--green);border-color:color-mix(in srgb,var(--green) 30%,transparent)}
+  .t-new{background:color-mix(in srgb,var(--merc) 14%,transparent);color:var(--merc);border-color:color-mix(in srgb,var(--merc) 30%,transparent)}
+  .t-keep{background:color-mix(in srgb,var(--muted) 12%,transparent);color:var(--muted);border-color:color-mix(in srgb,var(--muted) 28%,transparent)}
+
+  /* nav bar mock */
+  .navbar{margin:30px 0 10px;background:var(--card);border:1px solid var(--line);border-radius:14px;
+    box-shadow:var(--shadow);padding:14px 18px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+  .brand{font-weight:800;font-size:18px;letter-spacing:-.03em;display:flex;align-items:center;gap:8px}
+  .brand .dot{width:11px;height:11px;border-radius:3px;background:var(--amber);
+    box-shadow:0 0 0 3px color-mix(in srgb,var(--amber) 20%,transparent)}
+  .navitem{font-size:14px;font-weight:500;color:var(--ink-2);display:flex;align-items:center;gap:5px}
+  .navcta{margin-left:auto;font-size:13px;font-weight:600;background:var(--amber);color:#231603;
+    padding:9px 15px;border-radius:9px}
+  .navnote{width:100%;font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:2px}
+
+  .zone{margin-top:34px}
+  .zone-h{display:flex;align-items:baseline;gap:12px;margin-bottom:4px}
+  .zone-h h2{font-size:18px;letter-spacing:-.01em;margin:0;font-weight:700}
+  .zone-h .z-num{font-family:var(--mono);font-size:12px;color:var(--amber-deep);font-weight:700}
+  .zone-desc{color:var(--muted);font-size:14px;margin:0 0 16px}
+
+  .grid{display:grid;gap:14px}
+  .g4{grid-template-columns:repeat(4,1fr)}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .g2{grid-template-columns:repeat(2,1fr)}
+
+  .node{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:15px 16px;
+    box-shadow:var(--shadow);position:relative;display:flex;flex-direction:column;gap:7px;
+    border-left:3px solid var(--edge,var(--line-2))}
+  .node .top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+  .node .name{font-weight:700;font-size:15.5px;letter-spacing:-.01em;line-height:1.2}
+  .node .route{font-family:var(--mono);font-size:11.5px;color:var(--amber-deep);font-weight:600}
+  .node .desc{font-size:12.5px;color:var(--muted);line-height:1.45}
+  .node .from{font-family:var(--mono);font-size:10.5px;color:var(--ink-2);
+    padding-top:6px;border-top:1px dashed var(--line);margin-top:auto}
+  .node .from b{color:var(--ink)}
+  .soon{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--amber-deep);border:1px solid color-mix(in srgb,var(--amber-deep) 35%,transparent);
+    border-radius:5px;padding:2px 6px;align-self:flex-start}
+  .seg-food{--edge:var(--food)} .seg-farma{--edge:var(--farma)}
+  .seg-merc{--edge:var(--merc)} .seg-pet{--edge:var(--pet)}
+  .seg-food .name{color:var(--food)} .seg-farma .name{color:var(--farma)}
+  .seg-merc .name{color:var(--merc)} .seg-pet .name{color:var(--pet)}
+  .amber-edge{--edge:var(--amber)} .green-edge{--edge:var(--green)}
+
+  /* CTA logic callout */
+  .callout{margin-top:16px;background:var(--amber-soft);border:1px solid color-mix(in srgb,var(--amber-deep) 26%,transparent);
+    border-radius:12px;padding:16px 18px}
+  .callout h3{margin:0 0 10px;font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px}
+  .flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:13.5px;color:var(--ink-2)}
+  .chip{font-family:var(--mono);font-size:12px;background:var(--card);border:1px solid var(--line);
+    border-radius:7px;padding:5px 10px;color:var(--ink);font-weight:600}
+  .chip.amber{background:var(--amber);color:#231603;border-color:var(--amber)}
+  .arrow{color:var(--amber-deep);font-weight:800}
+  .callout .row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:7px 0}
+
+  /* enterprise hub */
+  .hub{background:var(--paper-2);border:1px dashed var(--line-2);border-radius:14px;padding:18px}
+  .hub .huform{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+  .subnode{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:11px 12px}
+  .subnode .name{font-weight:600;font-size:13.5px;line-height:1.15}
+  .subnode .route{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-top:3px}
+
+  .foot{margin-top:38px;padding-top:18px;border-top:1px solid var(--line);
+    display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center}
+  .foot .fl{font-size:12.5px;color:var(--muted);font-family:var(--mono)}
+  .note{margin-top:26px;font-size:12.5px;color:var(--muted);font-family:var(--mono);
+    background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+
+  @media (max-width:820px){.g4{grid-template-columns:1fr 1fr}.hub .huform{grid-template-columns:1fr 1fr}}
+  @media (max-width:520px){.g4,.g3,.g2,.hub .huform{grid-template-columns:1fr}}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+  .node,.subnode{transition:transform .15s ease,box-shadow .15s ease}
+  .node:hover{transform:translateY(-2px)}
+</style>
+
+<div class="wrap">
+  <div class="eyebrow">Reestruturação · protótipo validado</div>
+  <h1>Nova arquitetura do site Granular</h1>
+  <p class="sub">Mapa dos caminhos do novo site, com as 3 decisões travadas: o CTA principal leva ao <b>agendamento real</b>, a página de Planos mantém <b>venda self-service + demonstração</b>, e o ecossistema de mentores vive dentro de <b>Enterprise</b> (rodapé). Cada bloco mostra a rota, a origem no app atual e o status.</p>
+
+  <div class="legend">
+    <span class="lg"><span class="tag t-reorg">Reorganizar</span><b>reescrever</b> em cima do que existe</span>
+    <span class="lg"><span class="tag t-reuse">Reaproveitar</span>rota/componente <b>já existe</b></span>
+    <span class="lg"><span class="tag t-new">Criar</span>página <b>nova</b></span>
+    <span class="lg"><span class="tag t-keep">Preservar</span>mantém como está</span>
+  </div>
+
+  <!-- NAV MOCK -->
+  <div class="navbar">
+    <span class="brand"><span class="dot"></span>Granular</span>
+    <span class="navitem">A Ferramenta</span>
+    <span class="navitem">Agente de IA</span>
+    <span class="navitem">Para o seu delivery ⌄</span>
+    <span class="navitem">Planos</span>
+    <span class="navcta">Agendar demonstração →</span>
+    <span class="navnote">menu principal: 4 itens · CTA fixo em todas as páginas</span>
+  </div>
+
+  <!-- ZONE 1: MENU PRINCIPAL -->
+  <div class="zone">
+    <div class="zone-h"><span class="z-num">01</span><h2>Menu principal</h2></div>
+    <p class="zone-desc">As páginas de topo, sempre visíveis no menu.</p>
+    <div class="grid g4">
+      <div class="node amber-edge">
+        <div class="top"><span class="name">Home</span><span class="tag t-reorg">Reorg.</span></div>
+        <span class="route">/</span>
+        <p class="desc">Herói + visão geral, prova social, "faça a conta", agente. Funil para a demonstração.</p>
+        <div class="from">de <b>LandingPage</b> + Hero/Modules/Pricing</div>
+      </div>
+      <div class="node">
+        <div class="top"><span class="name">A Ferramenta</span><span class="tag t-reorg">Reorg.</span></div>
+        <span class="route">/ferramenta</span>
+        <p class="desc">Os 4 módulos empilhados: Delivery → Operação → Gestão → Salão. Relatoria + IA.</p>
+        <div class="from">de <b>Modules.tsx</b></div>
+      </div>
+      <div class="node">
+        <div class="top"><span class="name">Agente de IA</span><span class="tag t-reorg">Reorg.</span></div>
+        <span class="route">/agente</span>
+        <p class="desc">Alertas (ele avisa) + Chat (você pergunta). Página dedicada.</p>
+        <div class="from">de <b>AiAgentsSection.tsx</b></div>
+      </div>
+      <div class="node amber-edge">
+        <div class="top"><span class="name">Planos</span><span class="tag t-reorg">Reorg.</span></div>
+        <span class="route">/planos</span>
+        <p class="desc">Preço por faixa de pedidos/mês. <b>CTA dupla</b> em cada card (ver bloco 03).</p>
+        <div class="from">de <b>Pricing.tsx</b></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ZONE 2: SEGMENTOS -->
+  <div class="zone">
+    <div class="zone-h"><span class="z-num">02</span><h2>Para o seu delivery</h2><span class="mono" style="font-size:12px;color:var(--muted)">dropdown do menu</span></div>
+    <p class="zone-desc">Cada segmento é uma <b>possibilidade de plugar</b> na Granular — mesma plataforma, jornada e cor próprias por ramo. Todos disponíveis como caminho de entrada, sem "em breve".</p>
+    <div class="grid g4">
+      <div class="node seg-food">
+        <div class="top"><span class="name">Food</span><span class="tag t-reuse">Reaprov.</span></div>
+        <span class="route">/food</span>
+        <p class="desc">"Pare de perder o que já ganha." Margem por pedido, conciliação iFood, CMV.</p>
+        <div class="from">alias de <b>/restaurantes</b></div>
+      </div>
+      <div class="node seg-farma">
+        <div class="top"><span class="name">Farmácia</span><span class="tag t-new">Criar</span></div>
+        <span class="route">/farmacia</span>
+        <p class="desc">"Veja se o seu delivery dá lucro." Separa delivery do balcão, margem real.</p>
+        <div class="from">nova · alias <b>/farmacias</b></div>
+      </div>
+      <div class="node seg-merc">
+        <div class="top"><span class="name">Mercado</span><span class="tag t-reuse">Reaprov.</span></div>
+        <span class="route">/mercado</span>
+        <p class="desc">"A operação inteira sob controle." Muito SKU, margem fina, tudo num lugar.</p>
+        <div class="from">alias de <b>/mercados</b></div>
+      </div>
+      <div class="node seg-pet">
+        <div class="top"><span class="name">Pet Shop</span><span class="tag t-new">Criar</span></div>
+        <span class="route">/pet</span>
+        <p class="desc">"Seu delivery de pet, sob controle." Mesma lógica aplicada ao ramo pet.</p>
+        <div class="from">nova · alias <b>/petshops</b></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ZONE 3: CONVERSAO -->
+  <div class="zone">
+    <div class="zone-h"><span class="z-num">03</span><h2>Conversão</h2></div>
+    <p class="zone-desc">Para onde os botões levam. Decisão travada: os dois caminhos convivem.</p>
+    <div class="callout">
+      <h3>🎯 Lógica dos botões</h3>
+      <div class="row">
+        <span class="chip amber">Agendar demonstração</span><span class="arrow">→</span>
+        <span class="chip">/agendar-demo</span>
+        <span style="font-size:13px;color:var(--muted)">CTA principal do menu e das páginas · agendamento real com calendário</span>
+      </div>
+      <div class="row">
+        <span class="chip amber">Assinar agora</span><span class="arrow">→</span>
+        <span class="chip">/checkout</span>
+        <span style="font-size:13px;color:var(--muted)">self-service via Stripe · botão secundário nos cards de Planos</span>
+      </div>
+    </div>
+    <div class="grid g3" style="margin-top:14px">
+      <div class="node amber-edge">
+        <div class="top"><span class="name">Agendar demonstração</span><span class="tag t-keep">Preservar</span></div>
+        <span class="route">/agendar-demo</span>
+        <p class="desc">Fluxo com mini-calendário. Vira o destino do CTA principal.</p>
+        <div class="from">de <b>AgendarDemoPage</b> ✅</div>
+      </div>
+      <div class="node green-edge">
+        <div class="top"><span class="name">Checkout</span><span class="tag t-keep">Preservar</span></div>
+        <span class="route">/checkout</span>
+        <p class="desc">Assinatura self-service com Stripe. Mantida no fluxo público.</p>
+        <div class="from">de <b>CheckoutPage</b> ✅</div>
+      </div>
+      <div class="node green-edge">
+        <div class="top"><span class="name">Confirmação</span><span class="tag t-keep">Preservar</span></div>
+        <span class="route">/confirmacao</span>
+        <p class="desc">Pós-checkout / pós-agendamento.</p>
+        <div class="from">de <b>ConfirmacaoPage</b> ✅</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ZONE 4: ENTERPRISE HUB -->
+  <div class="zone">
+    <div class="zone-h"><span class="z-num">04</span><h2>Enterprise — hub de mentores</h2><span class="mono" style="font-size:12px;color:var(--muted)">via rodapé</span></div>
+    <p class="zone-desc">Fora do menu principal, para mantê-lo enxuto. A página Enterprise concentra o ecossistema de consultores/mentores que já existe.</p>
+    <div class="hub">
+      <div class="node amber-edge" style="border-left-width:3px">
+        <div class="top"><span class="name">Enterprise</span><span class="tag t-new">Criar</span></div>
+        <span class="route">/enterprise</span>
+        <p class="desc">Atendimento para grandes operações + porta de entrada da rede de mentores. Concentra os links abaixo.</p>
+      </div>
+      <div class="huform">
+        <div class="subnode"><div class="name">Consultores</div><div class="route">/consultores · reaprov.</div></div>
+        <div class="subnode"><div class="name">Seja consultor</div><div class="route">/seja-consultor · reaprov.</div></div>
+        <div class="subnode"><div class="name">Painel do consultor</div><div class="route">/painel-consultor · reaprov.</div></div>
+        <div class="subnode"><div class="name">Trilha</div><div class="route">/trilha · reaprov.</div></div>
+        <div class="subnode"><div class="name">Assessment</div><div class="route">/assessment · reaprov.</div></div>
+        <div class="subnode"><div class="name">Diagnóstico</div><div class="route">/diagnostico · reaprov.</div></div>
+        <div class="subnode"><div class="name">Aceite de termos</div><div class="route">/aceite · reaprov.</div></div>
+        <div class="subnode"><div class="name">Login mentor</div><div class="route">/mentor/entrar · reaprov.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ZONE 5: RODAPE / INSTITUCIONAL -->
+  <div class="zone">
+    <div class="zone-h"><span class="z-num">05</span><h2>Institucional &amp; legal</h2><span class="mono" style="font-size:12px;color:var(--muted)">rodapé</span></div>
+    <p class="zone-desc">Preservados no rodapé. A página Sobre (em construção no working tree) entra aqui.</p>
+    <div class="grid g4">
+      <div class="node">
+        <div class="top"><span class="name">Sobre</span><span class="tag t-reuse">Reaprov.</span></div>
+        <span class="route">/sobre</span>
+        <p class="desc">Em construção agora no projeto.</p>
+        <div class="from">de <b>SobrePage.tsx</b> 🚧</div>
+      </div>
+      <div class="node"><div class="top"><span class="name">Termos de Uso</span><span class="tag t-keep">Preservar</span></div><span class="route">/termos</span><div class="from" style="border:0;padding:0;margin-top:2px">LGPD ✅</div></div>
+      <div class="node"><div class="top"><span class="name">Privacidade</span><span class="tag t-keep">Preservar</span></div><span class="route">/privacidade</span><div class="from" style="border:0;padding:0;margin-top:2px">LGPD ✅</div></div>
+      <div class="node"><div class="top"><span class="name">Cookies</span><span class="tag t-keep">Preservar</span></div><span class="route">/cookies</span><div class="from" style="border:0;padding:0;margin-top:2px">LGPD ✅</div></div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <span class="fl">Não mostradas (internas, mantidas):</span>
+    <span class="fl">/login</span><span class="fl">/admin</span><span class="fl">/mentor/callback</span><span class="fl">/comparativo → vira seção da Home</span>
+  </div>
+
+  <p class="note">Placeholders de números (X mil pedidos, Z% de margem, valores dos planos) seguem marcados como "a definir" — herdado do protótipo. Nada do app atual é apagado: aliases preservam as rotas antigas (/restaurantes, /mercados, /farmacias, /petshops) redirecionando para as novas (/food, /mercado, /farmacia, /pet).</p>
+</div>
+</html>

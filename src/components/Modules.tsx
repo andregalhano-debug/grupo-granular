@@ -217,15 +217,15 @@ export function Modules({ category = 'restaurantes' }: Props) {
                             {t.modules.moduleAvulso}
                           </p>
                           <p className="text-xs text-[#9C958A] leading-relaxed">
-                            O módulo Televendas pode ser contratado de forma independente por <strong className="text-[#0E0E0F]">R$ 419/mês</strong>. Central de vendas por telefone e WhatsApp totalmente integrada ao Granular Market.
+                            O módulo Televendas pode ser contratado de forma independente. Central de vendas por telefone e WhatsApp totalmente integrada ao Granular Market.
                           </p>
                         </div>
                         <Link
-                          to={`/checkout?plano=modulo-televendas&segmento=${category}`}
+                          to="/agendar-demo"
                           className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors whitespace-nowrap flex-shrink-0"
                         >
-                          <ShoppingCart size={15} />
-                          Adicionar ao carrinho
+                          <CalendarDays size={15} />
+                          Falar com a gente
                         </Link>
                       </div>
                     </div>
@@ -237,19 +237,19 @@ export function Modules({ category = 'restaurantes' }: Props) {
                             {t.modules.hireModule}
                           </p>
                           <p className="text-xs text-[#9C958A] leading-relaxed">
-                            O módulo Pessoas (RH) pode ser adquirido de forma independente por <strong className="text-[#0E0E0F]">R$ 599/mês</strong>. Ideal para operações que já possuem ERP mas precisam de gestão de equipe especializada em food service.
+                            O módulo Pessoas (RH) pode ser adquirido de forma independente. Ideal para operações que já possuem ERP mas precisam de gestão de equipe especializada em food service.
                           </p>
                         </div>
                         <Link
-                          to={`/checkout?plano=modulo-pessoas&segmento=${category}`}
+                          to="/agendar-demo"
                           className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors whitespace-nowrap flex-shrink-0"
                         >
-                          {t.modules.startNow} — R$ 599/mês
+                          {t.modules.startNow}
                           <ChevronRight size={16} />
                         </Link>
                       </div>
                       <Link
-                        to={`/checkout?plano=saas-3&segmento=${category}`}
+                        to="/agendar-demo"
                         className="inline-flex items-center gap-2 text-[var(--accent)] hover:text-[var(--accent-dark)] font-medium text-xs transition-colors self-start"
                       >
                         Ou veja o Módulo 3 completo (RH + Produção) →
@@ -261,7 +261,7 @@ export function Modules({ category = 'restaurantes' }: Props) {
                   ) : (
                     <div className="flex flex-wrap items-center gap-3 self-start">
                       <Link
-                        to={`/checkout?plano=saas-2&segmento=${category}`}
+                        to="/agendar-demo"
                         className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors"
                       >
                         {t.modules.startNow}
@@ -356,7 +356,7 @@ export function Modules({ category = 'restaurantes' }: Props) {
 
         <FadeIn delay={500} className="flex flex-wrap items-center justify-center gap-4 mt-10">
           <Link
-            to={`/checkout?plano=saas-2&segmento=${category}`}
+            to="/agendar-demo"
             className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-8 py-4 rounded-xl text-base transition-colors"
           >
             {t.modules.startNow}

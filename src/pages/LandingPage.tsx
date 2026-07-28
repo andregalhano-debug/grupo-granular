@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Header } from '../components/Header'
 import { Hero } from '../components/Hero'
 import { SocialProof } from '../components/SocialProof'
+import { EcosystemSection } from '../components/EcosystemSection'
 import { Modules } from '../components/Modules'
 import type { Category } from '../components/Modules'
 import { Integrations } from '../components/Integrations'
@@ -52,6 +53,7 @@ export function LandingPage() {
         <Header category={category} />
         <Hero category={category} setCategory={setCategory} />
         <SocialProof category={category} />
+        <EcosystemSection />
         <Modules category={category} />
         <AiAgentsSection />
         <Integrations />

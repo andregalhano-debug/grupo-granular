@@ -157,7 +157,7 @@ export function Hero({ category, setCategory }: Props) {
         {showContent && (
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-4">
             <Link
-              to={`/checkout?plano=saas-2&segmento=${category}`}
+              to="/agendar-demo"
               className="bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-8 py-4 rounded-xl text-base transition-colors"
             >
               {t.hero.startNow}

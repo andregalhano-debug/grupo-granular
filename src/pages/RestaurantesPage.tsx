@@ -67,10 +67,10 @@ export function RestaurantesPage() {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
-              to="/checkout?plano=saas-2&segmento=restaurante"
+              to="/agendar-demo"
               className="inline-flex items-center gap-2 bg-[#E63946] hover:bg-[#7d101f] text-white font-medium px-8 py-4 rounded-xl text-base transition-colors"
             >
-              Ver planos para restaurantes
+              Falar com a gente
               <ArrowRight size={18} />
             </Link>
             <a
@@ -126,10 +126,10 @@ export function RestaurantesPage() {
                 Da operação ao financeiro — o Granular Food é o sistema completo para restaurantes, bares, lanchonetes e dark kitchens.
               </p>
               <Link
-                to="/checkout?plano=saas-2&segmento=restaurante"
+                to="/agendar-demo"
                 className="inline-flex items-center gap-2 bg-[#E63946] hover:bg-[#7d101f] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors"
               >
-                Ver planos para restaurantes
+                Falar com a gente
                 <ArrowRight size={16} />
               </Link>
             </div>
@@ -155,13 +155,13 @@ export function RestaurantesPage() {
             Pronto para transformar sua operação?
           </h2>
           <p className="text-white/50 text-base mb-8">
-            Comece com R$89/mês e veja o impacto nos primeiros 30 dias.
+            Fale com a gente e veja o impacto nos primeiros 30 dias.
           </p>
           <Link
-            to="/checkout?plano=saas-2&segmento=restaurante"
+            to="/agendar-demo"
             className="inline-flex items-center gap-2 bg-white hover:bg-[#F7F7F7] text-[#E63946] font-medium px-8 py-4 rounded-xl text-base transition-colors"
           >
-            Ver planos para restaurantes
+            Falar com a gente
             <ArrowRight size={18} />
           </Link>
         </div>

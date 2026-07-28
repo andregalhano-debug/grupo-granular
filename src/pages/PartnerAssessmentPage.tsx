@@ -185,7 +185,7 @@ function BriefingResult({ briefing, nome, onReset }: { briefing: NonNullable<Ret
       <FadeIn delay={300}>
         <div className="space-y-3">
           <Link
-            to="/checkout?plano=consultoria-1"
+            to="/agendar-demo"
             className="w-full flex items-center justify-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium py-4 rounded-xl text-base transition-colors"
           >
             Agendar com especialista

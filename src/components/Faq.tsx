@@ -54,7 +54,7 @@ const faqSchema = {
       name: 'Qual a diferença entre os Módulos 1, 2 e 3 do sistema?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Módulo 1 (R$ 89/mês): Dashboard, operações, KDS e relatórios. Módulo 2 (R$ 489/mês): tudo do 1 + controle de estoque e checklists operacionais. Módulo 3 (R$ 3.899/mês): tudo do 2 + gestão de pessoas (RH), produção com fichas técnicas, CMV e suporte técnico.',
+        text: 'Módulo 1: Dashboard, operações, KDS e relatórios. Módulo 2: tudo do 1 + controle de estoque e checklists operacionais. Módulo 3: tudo do 2 + gestão de pessoas (RH), produção com fichas técnicas, CMV e suporte técnico. Os três módulos estão com valores sob consulta — fale com a gente para um orçamento.',
       },
     },
     {
