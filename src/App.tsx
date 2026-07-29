@@ -23,11 +23,6 @@ const CookiesPage          = lazy(() => import('./pages/CookiesPage').then(m => 
 const RestaurantesPage     = lazy(() => import('./pages/RestaurantesPage').then(m => ({ default: m.RestaurantesPage })))
 const MercadosPage         = lazy(() => import('./pages/MercadosPage').then(m => ({ default: m.MercadosPage })))
 const ComparativoPage      = lazy(() => import('./pages/ComparativoPage').then(m => ({ default: m.ComparativoPage })))
-const FerramentaPage       = lazy(() => import('./pages/FerramentaPage').then(m => ({ default: m.FerramentaPage })))
-const AgentePage           = lazy(() => import('./pages/AgentePage').then(m => ({ default: m.AgentePage })))
-const FarmaciaPage         = lazy(() => import('./pages/FarmaciaPage').then(m => ({ default: m.FarmaciaPage })))
-const PetPage              = lazy(() => import('./pages/PetPage').then(m => ({ default: m.PetPage })))
-const EnterprisePage       = lazy(() => import('./pages/EnterprisePage').then(m => ({ default: m.EnterprisePage })))
 const ChatbotWidget        = lazy(() => import('./components/chatbot/ChatbotWidget').then(m => ({ default: m.ChatbotWidget })))
 const CookieBanner         = lazy(() => import('./components/CookieBanner').then(m => ({ default: m.CookieBanner })))
 
@@ -81,24 +76,9 @@ function AppContent() {
           <Route path="/termos" element={<TermosPage />} />
           <Route path="/privacidade" element={<PrivacidadePage />} />
           <Route path="/cookies" element={<CookiesPage />} />
-          <Route path="/comparativo" element={<ComparativoPage />} />
-
-          {/* Nova arquitetura: segmentos */}
-          <Route path="/food" element={<RestaurantesPage />} />
-          <Route path="/farmacia" element={<FarmaciaPage />} />
-          <Route path="/mercado" element={<MercadosPage />} />
-          <Route path="/pet" element={<PetPage />} />
-
-          {/* Aliases das rotas antigas (não quebrar links) */}
           <Route path="/restaurantes" element={<RestaurantesPage />} />
           <Route path="/mercados" element={<MercadosPage />} />
-          <Route path="/farmacias" element={<FarmaciaPage />} />
-          <Route path="/petshops" element={<PetPage />} />
-
-          {/* Nova arquitetura: produto */}
-          <Route path="/ferramenta" element={<FerramentaPage />} />
-          <Route path="/agente" element={<AgentePage />} />
-          <Route path="/enterprise" element={<EnterprisePage />} />
+          <Route path="/comparativo" element={<ComparativoPage />} />
         </Routes>
         {showChat && <ChatbotWidget />}
         <CookieBanner />

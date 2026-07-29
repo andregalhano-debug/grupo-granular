@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Menu, X, Briefcase, Sun, Moon, ChevronDown } from 'lucide-react'
+import { Menu, X, Briefcase, Sun, Moon } from 'lucide-react'
 import { GranularLogo } from './GranularLogo'
 import { useCart } from '../stores/useCartStore'
 import { useTheme } from '../stores/useThemeStore'
@@ -29,17 +29,13 @@ export function Header({ category }: Props) {
   const suffix = category ? categoryName[category] : ''
   const logoColor = theme === 'dark' ? '#F0EFED' : '#0E0E0F'
 
-  const segments = [
-    { label: 'Food', href: '/food' },
-    { label: 'Farmácia', href: '/farmacia' },
-    { label: 'Mercado', href: '/mercado' },
-    { label: 'Pet Shop', href: '/pet' },
-  ]
-
   const navLinks = [
-    { label: t.nav.tool, href: '/ferramenta' },
-    { label: t.nav.agent, href: '/agente' },
-    { label: t.nav.plans, href: '/#precos' },
+    { label: t.nav.modules, href: '/#modulos' },
+    { label: t.nav.integrations, href: '/#integracoes' },
+    { label: t.nav.differentials, href: '/#diferenciais' },
+    { label: t.nav.pricing, href: '/#precos' },
+    // { label: 'Mentores', href: '/consultores' }, // temporariamente oculto
+    { label: t.nav.faq, href: '/#faq' },
   ]
 
   useEffect(() => {
@@ -64,31 +60,22 @@ export function Header({ category }: Props) {
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-8">
-          <a href="/ferramenta" className="text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors">{t.nav.tool}</a>
-          <a href="/agente" className="text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors">{t.nav.agent}</a>
-
-          {/* Dropdown: Para o seu delivery */}
-          <div className="relative group">
-            <button className="flex items-center gap-1 text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors">
-              {t.nav.forYourDelivery}
-              <ChevronDown size={14} className="transition-transform group-hover:rotate-180" />
-            </button>
-            <div className="absolute left-1/2 -translate-x-1/2 top-full pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150">
-              <div className="bg-white border border-[#9C958A]/20 rounded-xl shadow-xl p-2 min-w-[190px]">
-                {segments.map((s) => (
-                  <a key={s.href} href={s.href} className="block px-3 py-2 rounded-lg text-sm text-[#0E0E0F] hover:bg-[#F5F6F3] transition-colors">
-                    {s.label}
-                  </a>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <a href="/#precos" className="text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors">{t.nav.plans}</a>
+          {navLinks.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              className="text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors"
+            >
+              {link.label}
+            </a>
+          ))}
         </nav>
 
         {/* Desktop CTA */}
         <div className="hidden md:flex items-center gap-3">
+          <Link to="/seja-consultor" className="text-xs font-medium text-[var(--accent)] hover:bg-[var(--accent-05)] px-3 py-1.5 rounded-lg transition-colors">
+            {t.nav.beMentor}
+          </Link>
           <a href="/login" className="text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors">
             {t.nav.login}
           </a>
@@ -116,7 +103,7 @@ export function Header({ category }: Props) {
             to="/agendar-demo"
             className="text-sm font-medium text-white bg-[var(--accent)] hover:bg-[var(--accent-dark)] px-5 py-2.5 rounded-xl transition-colors"
           >
-            {t.nav.scheduleDemo}
+            {t.nav.startNow}
           </Link>
         </div>
 
@@ -150,6 +137,15 @@ export function Header({ category }: Props) {
       {/* Mobile Menu */}
       {menuOpen && (
         <div className="md:hidden bg-white border-t border-[#9C958A]/20 px-4 py-4 space-y-3">
+          {/* Link para trocar segmento no mobile */}
+          <a
+            href="#hero"
+            onClick={() => setMenuOpen(false)}
+            className="flex items-center gap-2 text-xs font-medium text-[#9C958A] hover:text-[#0E0E0F] py-1 transition-colors"
+            style={{ animation: 'menuSlideIn 0.25s cubic-bezier(0.16,1,0.3,1) both' }}
+          >
+            {t.nav.changeSegment}
+          </a>
           {navLinks.map((link, i) => (
             <a
               key={link.href}
@@ -161,22 +157,11 @@ export function Header({ category }: Props) {
               {link.label}
             </a>
           ))}
-          {/* Segmentos */}
-          <div className="pt-2 border-t border-[#9C958A]/20">
-            <p className="text-xs font-mono uppercase tracking-wider text-[#9C958A]/70 py-2">{t.nav.forYourDelivery}</p>
-            {segments.map((s, i) => (
-              <a
-                key={s.href}
-                href={s.href}
-                className="block text-sm text-[#9C958A] hover:text-[#0E0E0F] py-2 pl-3 transition-colors"
-                onClick={() => setMenuOpen(false)}
-                style={{ animation: `menuSlideIn 0.25s cubic-bezier(0.16,1,0.3,1) ${(navLinks.length + i + 1) * 50}ms both` }}
-              >
-                {s.label}
-              </a>
-            ))}
-          </div>
-          <div className="pt-3 border-t border-[#9C958A]/20 space-y-2">
+          <div
+            className="pt-3 border-t border-[#9C958A]/20 space-y-2"
+            style={{ animation: `menuSlideIn 0.25s cubic-bezier(0.16,1,0.3,1) ${(navLinks.length + 1) * 50}ms both` }}
+          >
+            <Link to="/seja-consultor" className="block text-sm text-[var(--accent)] font-medium py-2" onClick={() => setMenuOpen(false)}>{t.nav.beMentor}</Link>
             <a href="/login" className="block text-sm text-[#9C958A] py-2">{t.nav.login}</a>
             <button onClick={toggleLang} className="block text-sm text-[#9C958A] py-2 text-left">{lang === 'pt' ? 'EN' : 'PT'}</button>
             <Link
@@ -184,7 +169,7 @@ export function Header({ category }: Props) {
               className="block text-center text-sm font-medium text-white bg-[var(--accent)] px-5 py-2.5 rounded-xl"
               onClick={() => setMenuOpen(false)}
             >
-              {t.nav.scheduleDemo}
+              {t.nav.startNow}
             </Link>
           </div>
         </div>
