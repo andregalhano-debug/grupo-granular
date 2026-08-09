@@ -1,5 +1,55 @@
 {
   "rewrites": [
+    { "source": "/pitch", "destination": "https://granular-pitch-v2.vercel.app/" },
+    { "source": "/pitch/", "destination": "https://granular-pitch-v2.vercel.app/" },
+    { "source": "/pitch/:path*", "destination": "https://granular-pitch-v2.vercel.app/:path*" },
+    { "source": "/apresentacao", "destination": "https://granu-sistema-v2.vercel.app/" },
+    { "source": "/apresentacao/", "destination": "https://granu-sistema-v2.vercel.app/" },
+    { "source": "/apresentacao/:path*", "destination": "https://granu-sistema-v2.vercel.app/:path*" },
     { "source": "/((?!api/).*)", "destination": "/index.html" }
+  ],
+  "headers": [
+    {
+      "source": "/pitch/og-share.jpg",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=604800, immutable" },
+        { "key": "Access-Control-Allow-Origin", "value": "*" }
+      ]
+    },
+    {
+      "source": "/pitch/og-share.png",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=604800, immutable" },
+        { "key": "Access-Control-Allow-Origin", "value": "*" }
+      ]
+    },
+    {
+      "source": "/pitch/og.png",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=604800, immutable" },
+        { "key": "Access-Control-Allow-Origin", "value": "*" }
+      ]
+    },
+    {
+      "source": "/apresentacao/og-share.jpg",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=604800, immutable" },
+        { "key": "Access-Control-Allow-Origin", "value": "*" }
+      ]
+    },
+    {
+      "source": "/apresentacao/og-share.png",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=604800, immutable" },
+        { "key": "Access-Control-Allow-Origin", "value": "*" }
+      ]
+    },
+    {
+      "source": "/apresentacao/og.png",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=604800, immutable" },
+        { "key": "Access-Control-Allow-Origin", "value": "*" }
+      ]
+    }
   ]
 }
