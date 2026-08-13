@@ -27,6 +27,8 @@ export const pt = {
     startNow: 'Agendar demonstração',
     seePlans: 'Ver planos',
     seeModules: 'Ver Módulos',
+    categoriesLead: 'Para',
+    categoriesEnd: '.',
     categories: {
       restaurantes: { label: 'Restaurantes', description: 'Bares, lanchonetes, fast food e delivery' },
       mercados: { label: 'Mercados', description: 'Supermercados, atacarejos e atacados' },

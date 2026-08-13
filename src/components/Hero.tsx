@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
 import { GranuGrain } from './granu/GranuGrain'
 import { useT } from '../i18n/useT'
+import { CATEGORY_LINKS } from '../data/categories'
 import type { Category } from './Modules'
 
 interface Props {
@@ -46,6 +47,26 @@ export function Hero(_props: Props) {
             {t.hero.subtitle}{' '}
             <strong className="text-[#2c241f] font-semibold">{t.hero.granuName}</strong>
             {t.hero.subtitleAfter}
+          </p>
+          <p className="mt-4 text-[15px] sm:text-base leading-relaxed text-[#8a7a6e] max-w-[46ch]">
+            {t.hero.categoriesLead}{' '}
+            {CATEGORY_LINKS.map((c, i) => {
+              const label = t.hero.categories[c.id].label.toLowerCase()
+              const last = i === CATEGORY_LINKS.length - 1
+              const mid = i > 0 && !last
+              return (
+                <span key={c.id}>
+                  {i === 0 ? '' : last ? ' e ' : mid ? ', ' : ''}
+                  <Link
+                    to={c.href}
+                    className="text-[#2c241f] font-medium underline-offset-4 hover:text-[#7c2d3e] hover:underline"
+                  >
+                    {label}
+                  </Link>
+                </span>
+              )
+            })}
+            {t.hero.categoriesEnd}
           </p>
           <div className="flex flex-col sm:flex-row flex-wrap gap-3 mt-8">
             <Link
