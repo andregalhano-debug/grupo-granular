@@ -55,7 +55,7 @@ export function GranuPage() {
         </div>
       </section>
 
-      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-white border-y border-[#E4DDD2]">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-white border-t border-[#E4DDD2]">
         <div className="max-w-6xl mx-auto">
         <div className="grid lg:grid-cols-[auto_1fr] gap-10 lg:gap-14 items-center">
           <FadeIn className="justify-self-center lg:justify-self-start">
@@ -112,21 +112,24 @@ export function GranuPage() {
         </div>
       </section>
 
-      <section className="pb-20 px-4 sm:px-6 lg:px-8">
+      <section className="px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20 pb-20 sm:pb-24">
         <FadeIn>
-          <div className="max-w-3xl mx-auto text-center rounded-3xl bg-[#0E0E0F] px-6 py-12 sm:py-14">
-            <h2
-              className="text-2xl sm:text-3xl font-bold text-white mb-3"
-              style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+          <div className="max-w-6xl mx-auto text-center rounded-[22px] bg-[#241d1a] px-6 py-12 sm:px-12 sm:py-16">
+            <p
+              className="text-[11.5px] tracking-[.24em] uppercase text-[#c9a27a] mb-3"
+              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
+              Próximo passo
+            </p>
+            <h2 className="text-[clamp(26px,3.4vw,40px)] font-semibold tracking-[-.03em] text-[#f0ede8] mb-3">
               Quero a Granu na minha operação.
             </h2>
-            <p className="text-sm text-white/50 mb-7 max-w-md mx-auto">
+            <p className="text-[15px] text-[#bdb0a4] mb-8 max-w-md mx-auto leading-relaxed">
               Uma conversa de 30 minutos. Você vê o grão rodando com dado real.
             </p>
             <Link
               to="/agendar-demo"
-              className="inline-flex items-center justify-center bg-[#7c2d3e] hover:bg-[#5f2130] text-[#f7f2ee] font-medium px-6 py-3.5 rounded-full text-sm transition-colors"
+              className="inline-flex items-center justify-center bg-[#f0ede8] hover:bg-white text-[#241d1a] font-medium px-8 min-h-[52px] rounded-full text-[15px] transition-colors"
             >
               Agendar demonstração
             </Link>
