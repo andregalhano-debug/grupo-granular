@@ -118,11 +118,17 @@ export function Faq({ category = 'restaurantes' }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
       <div className="max-w-3xl mx-auto">
-        <FadeIn className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#0E0E0F] mb-4">
+        <FadeIn className="mb-10 sm:mb-12">
+          <p
+            className="text-[11.5px] tracking-[.24em] uppercase text-[#7c2d3e]"
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          >
+            {t.faq.eyebrow}
+          </p>
+          <h2 className="mt-3 text-[clamp(24px,2.8vw,34px)] leading-[1.08] tracking-[-.03em] font-semibold text-[#2c241f] text-balance">
             {t.faq.sectionTitle}
           </h2>
-          <p className="text-[#9C958A] text-base sm:text-lg">
+          <p className="mt-3 text-[clamp(16px,1.5vw,19px)] leading-relaxed text-[#5f5248] text-pretty">
             {t.faq.subtitles[category]}
           </p>
         </FadeIn>
@@ -130,21 +136,21 @@ export function Faq({ category = 'restaurantes' }: Props) {
         <div className="space-y-2">
           {visibleFaqs.map((faq, i) => (
             <FadeIn key={`${category}-${i}`} delay={i * 30}>
-              <div className="rounded-xl border border-[#9C958A]/15 overflow-hidden">
+              <div className="rounded-xl border border-[#e4ddd2] overflow-hidden bg-[#faf9f7]">
                 <button
                   type="button"
                   onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                  className="w-full flex items-center justify-between gap-3 px-4 sm:px-5 py-3.5 sm:py-4 text-left cursor-pointer hover:bg-[#F7F7F7]/50 transition-colors"
+                  className="w-full flex items-center justify-between gap-3 min-h-11 px-4 sm:px-5 py-3.5 sm:py-4 text-left cursor-pointer hover:bg-[#f0ede8]/70 transition-colors"
                 >
-                  <span className="text-sm font-medium text-[#0E0E0F]">{faq.q}</span>
+                  <span className="text-sm font-medium text-[#2c241f]">{faq.q}</span>
                   <ChevronDown
                     size={16}
-                    className={`text-[#9C958A] flex-shrink-0 transition-transform ${openIndex === i ? 'rotate-180' : ''}`}
+                    className={`text-[#8a7a6e] flex-shrink-0 transition-transform ${openIndex === i ? 'rotate-180' : ''}`}
                   />
                 </button>
                 {openIndex === i && (
                   <div className="px-4 sm:px-5 pb-3.5 sm:pb-4">
-                    <p className="text-sm text-[#9C958A] leading-relaxed">{faq.a}</p>
+                    <p className="text-sm text-[#5f5248] leading-relaxed">{faq.a}</p>
                   </div>
                 )}
               </div>
@@ -170,7 +176,7 @@ export function Faq({ category = 'restaurantes' }: Props) {
             <button
               type="button"
               onClick={collapse}
-              className="mt-6 mx-auto flex items-center gap-2 text-sm font-medium text-[#9C958A] hover:text-[#0E0E0F] transition-colors cursor-pointer"
+              className="mt-6 mx-auto flex items-center gap-2 text-sm font-medium text-[#8a7a6e] hover:text-[#2c241f] transition-colors cursor-pointer"
             >
               <ChevronUp size={16} />
               {t.faq.collapse}

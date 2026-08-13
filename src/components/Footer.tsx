@@ -29,9 +29,9 @@ export function Footer() {
                 Granular
               </span>
             </a>
-            <p className="text-[14.5px] leading-relaxed max-w-[34ch]">
-              <span className="block">{t.footer.tagline}</span>
-              <span className="block">{t.footer.taglineMid}</span>
+            <p className="text-[14.5px] leading-relaxed max-w-[40ch] text-pretty">
+              {t.footer.tagline}{' '}
+              {t.footer.taglineMid}
               <span className="block mt-1.5 text-[#f7f2ee] font-semibold">
                 {t.footer.taglineAccent}
               </span>
