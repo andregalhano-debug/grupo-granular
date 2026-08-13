@@ -1,4 +1,4 @@
-import { Check, Minus, Monitor, Handshake, ChevronRight, GraduationCap, CalendarDays, Star, Clock, Users, PhoneCall } from 'lucide-react'
+import { Check, Minus, Monitor, ChevronRight, GraduationCap, Star, Users, PhoneCall } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
 import { saasPlans, saasAddonFeatures, type Plan } from '../data/plans'
@@ -406,7 +406,6 @@ export function Pricing({ category = 'restaurantes' }: Props) {
   const t = useT()
   // Preços dos módulos estão sob consulta — ciclo fixo (o toggle Mensal/Anual foi ocultado).
   const billingCycle: BillingCycle = 'annual'
-  const consultoriaSteps = t.pricingExtended.consultoriaSteps
   const sampleMentors = t.pricingExtended.sampleMentors
   const translatedSaasPlans = saasPlans.map((plan, i) => {
     const features = (t.plansData.saas[i]?.features ?? plan.features).map((f: string) =>
@@ -534,128 +533,7 @@ export function Pricing({ category = 'restaurantes' }: Props) {
 
         <div className="mb-24" />
 
-        {/* CONSULTORIA */}
-        <FadeIn>
-          <div className="max-w-6xl mx-auto mb-6">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-[var(--accent)] flex items-center justify-center">
-                <Handshake size={22} className="text-[#F7F7F7]" />
-              </div>
-              <div>
-                <h3 className="text-2xl font-bold text-[#0E0E0F]">{t.pricingExtended.consultoriaTitle}</h3>
-                <p className="text-sm text-[#9C958A]">{t.pricingExtended.consultoriaSubtitle}</p>
-              </div>
-              <div className="hidden sm:block flex-1 h-px bg-[#9C958A]/30 ml-4" />
-            </div>
-          </div>
-        </FadeIn>
-
-        <FadeIn delay={50}>
-          <div className="max-w-6xl mx-auto mb-10 rounded-xl bg-[#0E0E0F]/[0.03] border border-[#9C958A]/15 p-4 sm:p-5">
-            <p className="text-xs sm:text-sm text-[#0E0E0F] leading-relaxed">
-              {t.pricingExtended.consultoriaInfo}
-            </p>
-          </div>
-        </FadeIn>
-
-        {/* Timeline de consultoria */}
-        <FadeIn delay={80}>
-          <div className="max-w-6xl mx-auto mb-10">
-            {/* Linha do tempo desktop */}
-            <div className="hidden sm:block">
-              <div className="relative flex items-stretch justify-between gap-4">
-                {/* Linha conectora */}
-                <div className="absolute top-5 left-[calc(16.66%)] right-[calc(16.66%)] h-0.5 bg-[var(--accent)]/20" />
-                {consultoriaSteps.map((step) => (
-                  <div key={step.months} className="flex-1 flex flex-col">
-                    {/* Nó */}
-                    <div className="relative z-10 flex flex-col items-center mb-5">
-                      <div className="w-10 h-10 rounded-full bg-[var(--accent)] flex items-center justify-center shadow-md shadow-[var(--accent-20)] mb-3">
-                        <Clock size={18} className="text-white" />
-                      </div>
-                      <span
-                        className="text-sm font-bold text-[var(--accent)]"
-                        style={{ fontFamily: "'Space Grotesk', sans-serif" }}
-                      >
-                        {step.months}
-                      </span>
-                    </div>
-                    {/* Card do step — flex-1 garante mesma altura em todos */}
-                    <div className="flex-1 w-full rounded-2xl border bg-white p-5 border-[#9C958A]/20">
-                      <p className="text-xs font-semibold text-[#0E0E0F] mb-3 leading-snug">{step.label}</p>
-                      <ul className="space-y-1.5">
-                        {step.points.map((p) => (
-                          <li key={p} className="flex items-start gap-2 text-xs text-[#9C958A]">
-                            <Check size={11} className="text-[var(--accent)] flex-shrink-0 mt-0.5" />
-                            {p}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Mobile: stack vertical */}
-            <div className="sm:hidden space-y-4">
-              {consultoriaSteps.map((step, idx) => (
-                <div key={step.months} className="flex gap-4">
-                  <div className="flex flex-col items-center">
-                    <div className="w-9 h-9 rounded-full bg-[var(--accent)] flex items-center justify-center flex-shrink-0 shadow-md shadow-[var(--accent-20)]">
-                      <Clock size={16} className="text-white" />
-                    </div>
-                    {idx < consultoriaSteps.length - 1 && (
-                      <div className="w-0.5 flex-1 bg-[var(--accent)]/15 my-1" />
-                    )}
-                  </div>
-                  <div className={`flex-1 rounded-2xl border bg-white p-4 mb-1 ${idx === 2 ? 'border-[var(--accent)]/30' : 'border-[#9C958A]/20'}`}>
-                    <p className="text-sm font-bold text-[var(--accent)] mb-1">{step.months}</p>
-                    <p className="text-xs font-semibold text-[#0E0E0F] mb-2">{step.label}</p>
-                    <ul className="space-y-1">
-                      {step.points.map((p) => (
-                        <li key={p} className="flex items-start gap-2 text-xs text-[#9C958A]">
-                          <Check size={11} className="text-[var(--accent)] flex-shrink-0 mt-0.5" />
-                          {p}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </FadeIn>
-
-        {/* Sob consulta CTA */}
-        <FadeIn delay={120}>
-          <div className="max-w-6xl mx-auto mb-24">
-            <div className="rounded-2xl border border-[var(--accent)]/15 bg-white p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center gap-6">
-              <div className="flex-1 min-w-0">
-                <p className="text-base font-bold text-[#0E0E0F] mb-1.5">{t.pricingExtended.pricingOnRequest}</p>
-                <p className="text-sm text-[#9C958A] leading-relaxed mb-4">
-                  {t.pricingExtended.pricingOnRequestDesc}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {t.pricingExtended.consultoriaTags.map((f) => (
-                    <span key={f} className="text-xs bg-[#F7F7F7] text-[#0E0E0F] px-3 py-1 rounded-full border border-[#9C958A]/20">
-                      {f}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <Link
-                to="/agendar-demo"
-                className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors whitespace-nowrap flex-shrink-0"
-              >
-                <CalendarDays size={16} />
-                {t.pricingExtended.scheduleDemo2}
-              </Link>
-            </div>
-          </div>
-        </FadeIn>
-
-        {/* ESPECIALISTA SOB DEMANDA */}
+        {/* MENTORIA */}
         <FadeIn>
           <div className="max-w-6xl mx-auto mb-6">
             <div className="flex items-center gap-4">

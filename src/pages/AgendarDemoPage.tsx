@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { ArrowLeft, CalendarDays, CheckCircle2, Send, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react'
 import { GranularLogo } from '../components/GranularLogo'
 import { AddToCalendar } from '../components/AddToCalendar'
@@ -47,6 +47,8 @@ function slotKey(date: Date, time: string) {
 }
 
 export function AgendarDemoPage() {
+  const [searchParams] = useSearchParams()
+  const origemEspecialista = searchParams.get('origem') === 'especialista-sob-demanda'
   const [company, setCompany] = useState('')
   const [segmento, setSegmento] = useState('')
   const [segmentoOutro, setSegmentoOutro] = useState('')
@@ -151,7 +153,7 @@ export function AgendarDemoPage() {
           : '-',
         time: selectedTime || '-',
         dateIso: selectedDate ? dateKey(selectedDate) : '',
-        source: 'agendar-demo',
+        source: origemEspecialista ? 'especialista-sob-demanda' : 'agendar-demo',
       })
       setSubmitted(true)
     } catch {
@@ -229,9 +231,13 @@ export function AgendarDemoPage() {
 
       <main className="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
         <div className="mb-6 sm:mb-8">
-          <h1 className="text-xl sm:text-2xl font-bold text-[#0E0E0F] mb-1">Agendar demonstração</h1>
+          <h1 className="text-xl sm:text-2xl font-bold text-[#0E0E0F] mb-1">
+            {origemEspecialista ? 'Especialista sob demanda' : 'Agendar demonstração'}
+          </h1>
           <p className="text-xs sm:text-sm text-[#9C958A]">
-            Preencha seus dados e escolha o melhor dia e horário para você.
+            {origemEspecialista
+              ? 'Preencha seus dados para falar sobre o Especialista sob demanda. Se quiser, escolha também um dia e horário.'
+              : 'Preencha seus dados e escolha o melhor dia e horário para você.'}
           </p>
         </div>
 

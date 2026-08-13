@@ -11,7 +11,7 @@ export interface DemoBookingInput {
   date: string
   time: string
   dateIso?: string
-  source: 'agendar-demo' | 'checkout'
+  source: 'agendar-demo' | 'checkout' | 'especialista-sob-demanda'
 }
 
 function segmentoLabel(input: DemoBookingInput) {
