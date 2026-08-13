@@ -36,7 +36,6 @@ export function Header({ category }: Props) {
     { label: t.nav.differentials, href: '/#diferenciais' },
     { label: t.nav.pricing, href: '/#precos' },
     // { label: 'Mentores', href: '/consultores' }, // temporariamente oculto
-    { label: t.nav.faq, href: '/#faq' },
   ]
 
   useEffect(() => {
