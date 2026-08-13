@@ -4,7 +4,7 @@ export const pt = {
     modules: 'Módulos',
     integrations: 'Integrações',
     differentials: 'Diferenciais',
-    pricing: 'Preços',
+    pricing: 'Planos',
     faq: 'FAQ',
     beMentor: 'Seja um Mentor',
     login: 'Login',

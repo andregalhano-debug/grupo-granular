@@ -4,7 +4,7 @@ export const en = {
     modules: 'Modules',
     integrations: 'Integrations',
     differentials: 'Differentials',
-    pricing: 'Pricing',
+    pricing: 'Plans',
     faq: 'FAQ',
     beMentor: 'Become a Mentor',
     login: 'Login',
