@@ -58,6 +58,7 @@ function confirmacaoCadastroHtml(nome: string) {
                 <table width="100%" cellpadding="0" cellspacing="0">
                   ${[
                     ['✅', 'Candidatura recebida', 'Seu perfil foi salvo na plataforma.'],
+                    ['🧭', 'Faça a avaliação', 'Em 3 minutos identificamos suas forças: https://www.grupogranular.com.br/assessment'],
                     ['📝', 'Complete seu perfil', 'Acesse o portal e adicione bio, LinkedIn, foto, valor hora e disponibilidade.'],
                     ['🚀', 'Ative seu anúncio', 'Finalize o cadastro para que seu perfil apareça para os empreendedores.'],
                     ['📣', 'Divulgação nos canais', 'Quando atingirmos a cota de mentores na sua cidade, conectamos você com empreendedores e pessoas interessadas.'],
@@ -565,6 +566,69 @@ async function persistDemoBooking(payload: Record<string, string>) {
   }
 }
 
+function resultadoAssessmentHtml(p: {
+  nome: string; email: string; whatsapp: string; linkedin: string
+  perfil: string; perfilDesc: string; matchClientes: string; top: string
+  especialidades: string
+}) {
+  const wa = waMe(p.whatsapp)
+  const whatsappCell = wa
+    ? `<a href="${wa}" style="color:#A31631;font-weight:600;text-decoration:none">${escapeHtml(p.whatsapp)}</a>`
+    : escapeHtml(p.whatsapp || '—')
+  let rows = ''
+  try {
+    const items = JSON.parse(p.especialidades || '[]') as { label: string; self: string; scenario: string; final: string; tier: string }[]
+    rows = items.map((it) => `
+                  <tr>
+                    <td style="padding:8px 0;border-bottom:1px solid #E5E5E5;font-size:13px;color:#0E0E0F">${escapeHtml(it.label)}</td>
+                    <td style="padding:8px 0;border-bottom:1px solid #E5E5E5;font-size:13px;color:#4B4B4B;text-align:center">${escapeHtml(it.self)}</td>
+                    <td style="padding:8px 0;border-bottom:1px solid #E5E5E5;font-size:13px;color:#4B4B4B;text-align:center">${escapeHtml(it.scenario)}</td>
+                    <td style="padding:8px 0;border-bottom:1px solid #E5E5E5;font-size:13px;color:#0E0E0F;font-weight:700;text-align:center">${escapeHtml(it.final)}</td>
+                    <td style="padding:8px 0;border-bottom:1px solid #E5E5E5;font-size:12px;color:#A31631;text-align:right">${escapeHtml(it.tier)}</td>
+                  </tr>`).join('')
+  } catch {
+    rows = ''
+  }
+  return emailShell(`
+        <tr>
+          <td style="padding:40px 40px 32px">
+            <p style="margin:0 0 8px;font-size:13px;font-weight:600;color:#A31631;text-transform:uppercase;letter-spacing:1.5px">Avaliação de consultor</p>
+            <h1 style="margin:0 0 8px;font-size:24px;font-weight:700;color:#0E0E0F;line-height:1.3">${escapeHtml(p.nome)}</h1>
+            <p style="margin:0 0 20px;font-size:15px;color:#4B4B4B;line-height:1.5"><strong>${escapeHtml(p.perfil)}</strong> — ${escapeHtml(p.perfilDesc)}</p>
+            <table width="100%" cellpadding="0" cellspacing="0" style="background:#F7F7F7;border-radius:12px;margin-bottom:20px">
+              <tr><td style="padding:20px 24px">
+                <table width="100%" cellpadding="0" cellspacing="0">
+                  ${row('Nome', escapeHtml(p.nome))}
+                  ${row('WhatsApp', whatsappCell)}
+                  ${row('E-mail', p.email ? `<a href="mailto:${escapeHtml(p.email)}" style="color:#A31631;text-decoration:none">${escapeHtml(p.email)}</a>` : '—')}
+                  ${p.linkedin ? row('LinkedIn', `<a href="${escapeHtml(p.linkedin)}" style="color:#A31631;text-decoration:none">${escapeHtml(p.linkedin)}</a>`) : ''}
+                  ${p.top ? row('Top especialidades', escapeHtml(p.top)) : ''}
+                  ${p.matchClientes ? row('Encaixa com', escapeHtml(p.matchClientes)) : ''}
+                </table>
+              </td></tr>
+            </table>
+            ${rows ? `
+            <p style="margin:0 0 8px;font-size:12px;font-weight:700;color:#9C958A;text-transform:uppercase;letter-spacing:0.6px">Scores</p>
+            <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px">
+              <tr>
+                <td style="padding:6px 0;font-size:11px;color:#9C958A;font-weight:700">Área</td>
+                <td style="padding:6px 0;font-size:11px;color:#9C958A;font-weight:700;text-align:center">Auto</td>
+                <td style="padding:6px 0;font-size:11px;color:#9C958A;font-weight:700;text-align:center">Cenário</td>
+                <td style="padding:6px 0;font-size:11px;color:#9C958A;font-weight:700;text-align:center">Final</td>
+                <td style="padding:6px 0;font-size:11px;color:#9C958A;font-weight:700;text-align:right">Nível</td>
+              </tr>
+              ${rows}
+            </table>` : ''}
+            ${wa ? `
+            <table width="100%" cellpadding="0" cellspacing="0">
+              <tr><td align="center">
+                <a href="${wa}" style="display:inline-block;background:#25D366;color:#ffffff;font-size:15px;font-weight:700;text-decoration:none;padding:14px 32px;border-radius:12px">Abrir WhatsApp</a>
+              </td></tr>
+            </table>` : ''}
+          </td>
+        </tr>`)
+}
+
 function novaCandidaturaConsultorHtml(p: {
   nome: string; email: string; whatsapp: string; cargo: string
   segmentos: string; especialidades: string
@@ -625,7 +689,34 @@ export default async function handler(req: any, res: any) {
   const { template, ...payload } = req.body as Record<string, string>
 
   try {
-    if (template === 'nova-candidatura-consultor') {
+    if (template === 'resultado-assessment') {
+      const { nome, email, whatsapp, linkedin, perfil, perfilDesc, matchClientes, top, especialidades } = payload
+      if (!nome) {
+        return res.status(400).json({ error: 'Campos obrigatórios ausentes' })
+      }
+      const team = await resend.emails.send({
+        from: FROM,
+        to: TEAM_INBOX,
+        replyTo: email || undefined,
+        subject: `Avaliação de consultor — ${nome}`,
+        html: resultadoAssessmentHtml({
+          nome,
+          email: email || '',
+          whatsapp: whatsapp || '',
+          linkedin: linkedin || '',
+          perfil: perfil || '—',
+          perfilDesc: perfilDesc || '',
+          matchClientes: matchClientes || '',
+          top: top || '',
+          especialidades: especialidades || '[]',
+        }),
+      })
+      if (team.error) {
+        console.error('[email] Falha ao enviar assessment:', team.error)
+        return res.status(500).json({ error: 'Falha ao avisar a equipe' })
+      }
+
+    } else if (template === 'nova-candidatura-consultor') {
       const { nome, email, whatsapp, cargo, segmentos, especialidades } = payload
       if (!nome || !email || !whatsapp) {
         return res.status(400).json({ error: 'Campos obrigatórios ausentes' })

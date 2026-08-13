@@ -8,7 +8,10 @@ import {
   getTier,
   classifyProfile,
   priorityExercise,
+  categoryLabels,
+  tierLabels,
 } from '../data/assessmentQuestions'
+import { sendResultadoAssessment } from '../services/emailService'
 
 /* ── Types ── */
 
@@ -189,7 +192,7 @@ export function useAssessment() {
   const finishAssessment = useCallback(() => {
     const priScore = calculatePriorityScore(priorityOrder)
     const categories: ConsultantCategory[] = ['operacao', 'financeiro', 'marketing', 'cardapio', 'marketplaces', 'rh']
-    const scores: Record<ConsultantCategory, number> = {} as any
+    const scores = {} as Record<ConsultantCategory, number>
 
     const specialties: SpecialtyResult[] = categories.map((cat) => {
       const catAnswers = scenarioAnswers.filter((a) => {
@@ -220,7 +223,27 @@ export function useAssessment() {
     localStorage.removeItem(STORAGE_KEY)
     // Salva resultado para a trilha de conhecimento reutilizar
     localStorage.setItem('granular-assessment-result', JSON.stringify(assessmentResult))
-  }, [priorityOrder, scenarioAnswers, selfScores, selectedScenarios])
+
+    void sendResultadoAssessment({
+      nome: contact.nome.trim() || 'Consultor',
+      email: contact.email.trim(),
+      whatsapp: contact.whatsapp.trim(),
+      linkedin: contact.linkedin.trim(),
+      perfil: profile.label,
+      perfilDesc: profile.description,
+      matchClientes: profile.matchClients.join(' · '),
+      top: topCategories.map((c) => categoryLabels[c]).join(', '),
+      especialidades: JSON.stringify(
+        sorted.map((s) => ({
+          label: categoryLabels[s.category],
+          self: String(s.selfScore),
+          scenario: `${Math.round(s.scenarioScore)}`,
+          final: `${Math.round(s.finalScore)}`,
+          tier: tierLabels[s.tier],
+        })),
+      ),
+    })
+  }, [priorityOrder, scenarioAnswers, selfScores, selectedScenarios, contact])
 
   const resetAssessment = useCallback(() => {
     localStorage.removeItem(STORAGE_KEY)
