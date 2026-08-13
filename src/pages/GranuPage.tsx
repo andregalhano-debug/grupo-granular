@@ -4,7 +4,7 @@ import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
 import { FadeIn } from '../components/FadeIn'
 import { GranuGrain } from '../components/granu/GranuGrain'
-import { GranuWhatsApp } from '../components/granu/GranuWhatsApp'
+import { GranuDualPhones } from '../components/granu/GranuWhatsApp'
 
 const FAZ = [
   { t: 'Eu vejo o caixa', d: 'DRE, margem e CMV em tempo real — não no fechamento do mês.' },
@@ -49,31 +49,30 @@ export function GranuPage() {
       </section>
 
       <section className="bg-[#A31631] text-[#FAF7F0] py-16 sm:py-24 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-          <FadeIn>
+        <div className="max-w-6xl mx-auto">
+          <FadeIn className="max-w-2xl mb-10">
             <p
               className="text-xs font-semibold uppercase tracking-[0.22em] text-[#F7F3EB]/70 mb-3"
               style={{ fontFamily: "'JetBrains Mono', monospace" }}
             >
-              No seu bolso
+              No seu bolso · e no sistema
             </p>
             <h2
               className="text-3xl sm:text-4xl font-bold tracking-tight leading-[1.08] mb-4"
               style={{ fontFamily: "'Space Grotesk', sans-serif" }}
             >
-              Eu te chamo<br />no WhatsApp.
+              Eu te chamo no WhatsApp.<br />E respondo dentro da plataforma.
             </h2>
-            <p className="italic text-[#F7F3EB]/85 text-lg leading-snug max-w-[40ch] mb-8">
+            <p className="italic text-[#F7F3EB]/85 text-lg leading-snug max-w-[46ch] mb-6">
               “Você não abre dashboard às 8 da manhã. Eu te mando o dia — e você resolve com um toque.”
             </p>
-            <ul className="space-y-4 text-sm leading-relaxed text-[#F7F3EB]/80 max-w-[46ch]">
-              <li>Resumo diário e alertas — ruptura, anomalia, queda de faturamento.</li>
-              <li>Botões que executam — iniciar checklist, aprovar ou rejeitar, na conversa.</li>
-              <li>O mesmo cérebro do app — permissão por perfil, silêncio noturno.</li>
+            <ul className="space-y-3 text-sm leading-relaxed text-[#F7F3EB]/80 max-w-[48ch]">
+              <li><strong className="text-white font-medium">WhatsApp</strong> — resumo, alerta e botão de aprovar, no celular.</li>
+              <li><strong className="text-white font-medium">Plataforma</strong> — a mesma Granu, com tabela e evidência do cubo.</li>
             </ul>
           </FadeIn>
-          <FadeIn delay={100}>
-            <GranuWhatsApp />
+          <FadeIn delay={80}>
+            <GranuDualPhones />
           </FadeIn>
         </div>
       </section>
