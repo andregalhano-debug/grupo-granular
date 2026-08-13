@@ -56,7 +56,7 @@ export function GranuPage() {
         </div>
       </section>
 
-      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 border-t border-[#E4DDD2]">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-white border-y border-[#E4DDD2]">
         <div className="max-w-6xl mx-auto">
         <div className="grid lg:grid-cols-[auto_1fr] gap-10 lg:gap-14 items-center">
           <FadeIn className="justify-self-center lg:justify-self-start">
@@ -102,11 +102,11 @@ export function GranuPage() {
         </div>
 
           <FadeIn>
-            <div className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-0 sm:divide-x sm:divide-[#DDD4C8] border-t border-[#DDD4C8] pt-8">
+            <div className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-3">
               {METRICAS.map((m) => (
-                <div key={m.l} className="sm:px-6 first:sm:pl-0">
+                <div key={m.l} className="rounded-2xl bg-[#A31631]/[0.05] border border-[#A31631]/10 px-5 py-4">
                   <p className="text-3xl font-semibold text-[#A31631] tracking-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{m.v}</p>
-                  <p className="text-[11px] tracking-[0.14em] uppercase text-[#A2968A] mt-1" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{m.l}</p>
+                  <p className="text-[11px] tracking-[0.14em] uppercase text-[#9C958A] mt-1" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{m.l}</p>
                 </div>
               ))}
             </div>
