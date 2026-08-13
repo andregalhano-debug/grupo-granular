@@ -64,7 +64,7 @@ async function tryFoodSdr(
   }
 }
 
-async function persistChatLead(lead: ChatLead) {
+async function persistChatLead(lead: ChatLead, transcript: ChatMessage[]) {
   try {
     await fetch('/api/email', {
       method: 'POST',
@@ -81,6 +81,9 @@ async function persistChatLead(lead: ChatLead) {
         horario: '—',
         origem: 'chat',
         notas: lead.dor,
+        conversa: JSON.stringify(
+          transcript.map((m) => ({ role: m.role, text: m.text })),
+        ),
       }),
     })
   } catch (err) {
@@ -144,8 +147,14 @@ export function useChatbot() {
       if (llm) {
         const { state, turn } = nextChatTurn(stateRef.current, trimmed)
         stateRef.current = state
-        if (turn.lead) void persistChatLead(turn.lead)
-        await pushBot(splitBubbles(llm), {
+        const replies = splitBubbles(llm)
+        if (turn.lead) {
+          void persistChatLead(turn.lead, [
+            ...snapshot,
+            ...replies.map((text) => ({ id: uid(), role: 'bot' as const, text })),
+          ])
+        }
+        await pushBot(replies, {
           ctaUrl: turn.ctaUrl,
           ctaLabel: turn.ctaLabel,
         })
@@ -155,7 +164,12 @@ export function useChatbot() {
 
       const { state, turn } = nextChatTurn(stateRef.current, trimmed)
       stateRef.current = state
-      if (turn.lead) void persistChatLead(turn.lead)
+      if (turn.lead) {
+        void persistChatLead(turn.lead, [
+          ...snapshot,
+          ...turn.replies.map((text) => ({ id: uid(), role: 'bot' as const, text })),
+        ])
+      }
       await pushBot(turn.replies, {
         ctaUrl: turn.ctaUrl,
         ctaLabel: turn.ctaLabel,
