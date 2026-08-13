@@ -33,7 +33,6 @@ export function Header({ category }: Props) {
     { label: t.nav.granu, href: '/granu' },
     { label: t.nav.modules, href: '/#modulos' },
     { label: t.nav.integrations, href: '/#integracoes' },
-    { label: t.nav.differentials, href: '/#diferenciais' },
     { label: t.nav.pricing, href: '/#precos' },
     // { label: 'Mentores', href: '/consultores' }, // temporariamente oculto
   ]
