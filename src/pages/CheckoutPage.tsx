@@ -31,7 +31,7 @@ const CHECKOUT_CATEGORIES: { id: Category; label: string; icon: typeof UtensilsC
   { id: 'farmacias', label: 'Farmácia', icon: Pill },
   { id: 'petshop', label: 'Pet Shop', icon: PawPrint },
   { id: 'shopping', label: 'Shopping', icon: Store },
-}
+]
 
 const SEGMENTOS = ['Restaurante', 'Mercado', 'Atacado', 'Atacarejo', 'Farmácia', 'Pet Shop', 'Shopping', 'Outros']
 const FAIXAS_FATURAMENTO = [
