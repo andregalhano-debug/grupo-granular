@@ -322,13 +322,9 @@ function novoAgendamentoDemoHtml(p: {
   return emailShell(`
         <tr>
           <td style="padding:40px 40px 32px">
-            <p style="margin:0 0 8px;font-size:13px;font-weight:600;color:#A31631;text-transform:uppercase;letter-spacing:1.5px">Novo lead · Demonstração</p>
+            <p style="margin:0 0 8px;font-size:13px;font-weight:600;color:#A31631;text-transform:uppercase;letter-spacing:1.5px">Novo lead</p>
             <h1 style="margin:0 0 20px;font-size:24px;font-weight:700;color:#0E0E0F;line-height:1.3">${escapeHtml(p.empresa)}</h1>
-            <p style="margin:0 0 24px;font-size:15px;color:#4B4B4B;line-height:1.6">
-              ${temSlot
-                ? `Pediu demonstração para <strong>${escapeHtml(p.data)}</strong> às <strong>${escapeHtml(p.horario)}</strong>.`
-                : 'Enviou os dados sem escolher data. Entrar em contato para agendar.'}
-            </p>
+            ${temSlot ? '' : `<p style="margin:0 0 24px;font-size:15px;color:#4B4B4B;line-height:1.6">Enviou os dados sem escolher data. Entrar em contato para agendar.</p>`}
             <table width="100%" cellpadding="0" cellspacing="0" style="background:#F7F7F7;border-radius:12px;margin-bottom:24px">
               <tr><td style="padding:20px 24px">
                 <table width="100%" cellpadding="0" cellspacing="0">
@@ -340,7 +336,6 @@ function novoAgendamentoDemoHtml(p: {
                   ${row('E-mail', `<a href="mailto:${escapeHtml(p.email)}" style="color:#A31631;text-decoration:none">${escapeHtml(p.email)}</a>`)}
                   ${row('Data', escapeHtml(p.data || '—'))}
                   ${row('Horário', escapeHtml(p.horario || '—'))}
-                  ${row('Origem', escapeHtml(p.origem))}
                 </table>
               </td></tr>
             </table>
@@ -458,10 +453,7 @@ export default async function handler(req: any, res: any) {
         return res.status(400).json({ error: 'Campos obrigatórios ausentes' })
       }
 
-      const temSlot = data && data !== '-' && horario && horario !== '-'
-      const teamSubject = temSlot
-        ? `Novo lead — Demo · ${empresa} · ${data} ${horario}`
-        : `Novo lead — Demo · ${empresa}`
+      const teamSubject = `Novo lead — ${empresa}`
 
       const team = await resend.emails.send({
         from: FROM,
