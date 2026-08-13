@@ -176,8 +176,9 @@ export const en = {
     usedBy: 'Used by brands like',
   },
   footer: {
-    tagline: 'Complete management for delivery,',
-    taglineAccent: 'with AI end-to-end',
+    tagline: 'Digital as a Service for retail.',
+    taglineMid: 'One operational core, five categories.',
+    taglineAccent: 'Granu on top of everything.',
     productLinks: ['Inventory', 'Production', 'Finance', 'iFood', 'KDS', 'Checklists', 'AI'],
     sections: {
       product: 'Product',
