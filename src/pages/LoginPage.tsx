@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Monitor, Users, ArrowRight, ArrowLeft, Settings } from 'lucide-react'
+import { Monitor, Users, ArrowRight, ArrowLeft } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { GranularLogo } from '../components/GranularLogo'
 import { FadeIn } from '../components/FadeIn'
@@ -80,7 +80,7 @@ export function LoginPage() {
             </p>
           </FadeIn>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid sm:grid-cols-2 gap-6">
             {/* Login Sistema — Cliente */}
             <FadeIn delay={100}>
               <a
@@ -108,28 +108,6 @@ export function LoginPage() {
             {/* Login Consultor — com senha */}
             <FadeIn delay={200}>
               <ConsultorCard />
-            </FadeIn>
-
-            {/* Admin */}
-            <FadeIn delay={300}>
-              <Link
-                to="/admin"
-                className="group flex flex-col rounded-2xl border border-[#9C958A]/20 bg-white p-8 hover:border-[#A31631]/30 hover:shadow-lg hover:shadow-[#A31631]/5 transition-all h-full"
-              >
-                <div className="w-14 h-14 rounded-xl bg-[#9C958A]/10 flex items-center justify-center mb-5">
-                  <Settings size={28} className="text-[#9C958A]" />
-                </div>
-                <h2 className="text-lg font-bold text-[#0E0E0F] mb-2">{t.login.admin}</h2>
-                <p className="text-sm text-[#9C958A] leading-relaxed">
-                  {t.login.adminDesc}
-                </p>
-                <div className="mt-auto pt-6">
-                  <span className="flex items-center justify-center gap-2 w-full px-5 py-3 rounded-xl bg-[#9C958A] text-white text-sm font-semibold group-hover:bg-[#857f75] transition-colors">
-                    {t.login.accessAdmin}
-                    <ArrowRight size={16} />
-                  </span>
-                </div>
-              </Link>
             </FadeIn>
           </div>
         </div>
