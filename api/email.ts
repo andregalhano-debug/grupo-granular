@@ -313,18 +313,20 @@ function row(label: string, value: string) {
 function novoAgendamentoDemoHtml(p: {
   nome: string; email: string; whatsapp: string; empresa: string
   segmento: string; faturamento: string; data: string; horario: string; origem: string
+  notas?: string
 }) {
   const wa = waMe(p.whatsapp)
   const whatsappCell = wa
     ? `<a href="${wa}" style="color:#A31631;font-weight:600;text-decoration:none">${escapeHtml(p.whatsapp)}</a>`
     : escapeHtml(p.whatsapp)
   const temSlot = p.data && p.data !== '-' && p.horario && p.horario !== '-'
+  const doChat = p.origem === 'chat'
   return emailShell(`
         <tr>
           <td style="padding:40px 40px 32px">
             <p style="margin:0 0 8px;font-size:13px;font-weight:600;color:#A31631;text-transform:uppercase;letter-spacing:1.5px">Novo lead</p>
             <h1 style="margin:0 0 20px;font-size:24px;font-weight:700;color:#0E0E0F;line-height:1.3">${escapeHtml(p.empresa)}</h1>
-            ${temSlot ? '' : `<p style="margin:0 0 24px;font-size:15px;color:#4B4B4B;line-height:1.6">Enviou os dados sem escolher data. Entrar em contato para agendar.</p>`}
+            ${!temSlot && !doChat ? `<p style="margin:0 0 24px;font-size:15px;color:#4B4B4B;line-height:1.6">Enviou os dados sem escolher data. Entrar em contato para agendar.</p>` : ''}
             <table width="100%" cellpadding="0" cellspacing="0" style="background:#F7F7F7;border-radius:12px;margin-bottom:24px">
               <tr><td style="padding:20px 24px">
                 <table width="100%" cellpadding="0" cellspacing="0">
@@ -333,9 +335,11 @@ function novoAgendamentoDemoHtml(p: {
                   ${row('Segmento', escapeHtml(p.segmento))}
                   ${row('Faturamento', escapeHtml(p.faturamento || '—'))}
                   ${row('WhatsApp', whatsappCell)}
-                  ${row('E-mail', `<a href="mailto:${escapeHtml(p.email)}" style="color:#A31631;text-decoration:none">${escapeHtml(p.email)}</a>`)}
-                  ${row('Data', escapeHtml(p.data || '—'))}
-                  ${row('Horário', escapeHtml(p.horario || '—'))}
+                  ${p.email ? row('E-mail', `<a href="mailto:${escapeHtml(p.email)}" style="color:#A31631;text-decoration:none">${escapeHtml(p.email)}</a>`) : ''}
+                  ${doChat ? row('Canal', 'Chat do site') : ''}
+                  ${p.notas ? row('Conversa', escapeHtml(p.notas)) : ''}
+                  ${doChat ? '' : row('Data', escapeHtml(p.data || '—'))}
+                  ${doChat ? '' : row('Horário', escapeHtml(p.horario || '—'))}
                 </table>
               </td></tr>
             </table>
@@ -448,8 +452,11 @@ export default async function handler(req: any, res: any) {
       })
 
     } else if (template === 'novo-agendamento-demo') {
-      const { nome, email, whatsapp, empresa, segmento, faturamento, data, horario, origem } = payload
-      if (!nome || !email || !whatsapp || !empresa) {
+      const { nome, email, whatsapp, empresa, segmento, faturamento, data, horario, origem, notas } = payload
+      if (!nome || !whatsapp || !empresa) {
+        return res.status(400).json({ error: 'Campos obrigatórios ausentes' })
+      }
+      if (origem !== 'chat' && !email) {
         return res.status(400).json({ error: 'Campos obrigatórios ausentes' })
       }
 
@@ -461,12 +468,13 @@ export default async function handler(req: any, res: any) {
         replyTo: email,
         subject: teamSubject,
         html: novoAgendamentoDemoHtml({
-          nome, email, whatsapp, empresa,
+          nome, email: email || '', whatsapp, empresa,
           segmento: segmento || '—',
           faturamento: faturamento || '—',
           data: data || '—',
           horario: horario || '—',
           origem: origem || 'agendar-demo',
+          notas,
         }),
       })
       if (team.error) {
@@ -474,15 +482,17 @@ export default async function handler(req: any, res: any) {
         return res.status(500).json({ error: 'Falha ao avisar a equipe' })
       }
 
-      try {
-        await resend.emails.send({
-          from: FROM,
-          to: email,
-          subject: 'Recebemos seu pedido de demonstração — Granular',
-          html: confirmacaoAgendamentoDemoHtml(nome, data || '-', horario || '-'),
-        })
-      } catch (err) {
-        console.error('[email] Confirmação ao lead falhou:', err)
+      if (email) {
+        try {
+          await resend.emails.send({
+            from: FROM,
+            to: email,
+            subject: 'Recebemos seu pedido de demonstração — Granular',
+            html: confirmacaoAgendamentoDemoHtml(nome, data || '-', horario || '-'),
+          })
+        } catch (err) {
+          console.error('[email] Confirmação ao lead falhou:', err)
+        }
       }
 
       try {
