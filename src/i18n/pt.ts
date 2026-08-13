@@ -27,7 +27,7 @@ export const pt = {
     startNow: 'Agendar demonstração',
     seePlans: 'Ver planos',
     seeModules: 'Ver Módulos',
-    categoriesLead: 'Para',
+    categoriesLead: 'Cinco categorias',
     categoriesEnd: '.',
     categories: {
       restaurantes: { label: 'Restaurantes', description: 'Bares, lanchonetes, fast food e delivery' },
