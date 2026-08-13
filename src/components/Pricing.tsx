@@ -6,6 +6,7 @@ import type { Category } from './Modules'
 import { useCategoryAccent } from '../stores/CategoryContext'
 import { useT } from '../i18n/useT'
 import { modulesDataMercadosCFTV } from '../data/modulesData'
+import { SecuritySection } from './home/SecuritySection'
 
 type BillingCycle = 'monthly' | 'annual'
 
@@ -399,9 +400,10 @@ function DesktopTable({
 
 interface Props {
   category?: Category
+  showSecurity?: boolean
 }
 
-export function Pricing({ category = 'restaurantes' }: Props) {
+export function Pricing({ category = 'restaurantes', showSecurity = false }: Props) {
   useCategoryAccent() // CSS vars on root drive styling
   const t = useT()
   // Preços dos módulos estão sob consulta — ciclo fixo (o toggle Mensal/Anual foi ocultado).
@@ -528,6 +530,12 @@ export function Pricing({ category = 'restaurantes' }: Props) {
             <DesktopTable plans={translatedSaasPlans} capacity={saasCapacity} addonFeatures={saasAddonFeatures} billingCycle={billingCycle} category={category} />
             <MobileCards plans={translatedSaasPlans} capacity={saasCapacity} addonFeatures={saasAddonFeatures} billingCycle={billingCycle} category={category} />
           </FadeIn>
+        )}
+
+        {showSecurity && (
+          <div className="max-w-6xl mx-auto mt-2 pt-8 border-t border-[#e4ddd2]">
+            <SecuritySection />
+          </div>
         )}
       </div>
       <style>{`
