@@ -10,6 +10,28 @@ async function post(template: string, payload: Record<string, string>) {
   }
 }
 
+export async function sendResultadoAssessment(payload: {
+  nome: string
+  email: string
+  whatsapp: string
+  linkedin: string
+  perfil: string
+  perfilDesc: string
+  matchClientes: string
+  top: string
+  especialidades: string
+}) {
+  const res = await fetch('/api/email', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ template: 'resultado-assessment', ...payload }),
+  })
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}))
+    console.error('[EMAIL] Falha assessment:', err)
+  }
+}
+
 export async function sendConfirmacaoCadastro(payload: { to: string; nome: string }) {
   await post('confirmacao-cadastro', payload)
 }
