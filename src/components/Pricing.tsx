@@ -427,11 +427,17 @@ export function Pricing({ category = 'restaurantes', showSecurity = false }: Pro
   return (
     <section id="precos" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-[#F7F7F7]">
       <div className="max-w-7xl mx-auto">
-        <FadeIn className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#0E0E0F] mb-4">
+        <FadeIn className="mb-12 sm:mb-16">
+          <p
+            className="text-[11.5px] tracking-[.24em] uppercase text-[#7c2d3e]"
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          >
+            {t.pricing.sectionTitle}
+          </p>
+          <h2 className="mt-4 text-[clamp(32px,4.4vw,60px)] leading-none tracking-[-.032em] font-semibold text-[#2c241f] text-balance">
             {t.pricing.sectionHeading}
           </h2>
-          <p className="text-[#9C958A] text-base sm:text-lg max-w-2xl mx-auto">
+          <p className="mt-5 text-[clamp(16px,1.5vw,19px)] leading-relaxed text-[#5f5248] max-w-[46ch] text-pretty">
             {t.pricing.sectionDesc}
           </p>
         </FadeIn>

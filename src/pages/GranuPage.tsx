@@ -15,7 +15,7 @@ const FAZ = [
 ]
 
 const METRICAS = [
-  { v: '4', l: 'Frentes' },
+  { v: '4', l: 'Frentes', accent: true },
   { v: '14+', l: 'Módulos' },
   { v: '~140', l: 'Ferramentas' },
   { v: '1', l: 'Resposta' },
@@ -30,7 +30,7 @@ export function GranuPage() {
 
       <section className="pt-10 sm:pt-14 pb-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-8 items-center">
-          <FadeIn className="relative h-[300px] sm:h-[420px] lg:h-[520px] -mx-4 sm:mx-0 order-first lg:order-last">
+          <FadeIn className="relative h-[300px] sm:h-[420px] lg:h-[520px] -mx-4 sm:mx-0 overflow-hidden order-first lg:order-last">
             <GranuGrain className="absolute inset-0 w-full h-full" zoom={1.4} />
           </FadeIn>
           <FadeIn>
@@ -74,7 +74,7 @@ export function GranuPage() {
               Pergunte como quem pergunta a um sócio.
             </h2>
             <p className="text-[#5D5148] text-[15px] leading-relaxed mb-3">
-              À esquerda, eu te chamo no WhatsApp — resumo do dia e um botão para resolver. Ao lado, a mesma conversa dentro da plataforma, com a conta aberta e a evidência do cubo.
+              No WhatsApp, eu te chamo — resumo do dia e um botão para resolver. Na plataforma, a mesma conversa, com a conta aberta e a evidência do cubo.
             </p>
             <p className="text-[#6B3F1F] italic text-[16px] leading-snug mb-8">
               “Você não abre dashboard às 8 da manhã. Eu te mando o dia — e você resolve com um toque.”
@@ -100,11 +100,19 @@ export function GranuPage() {
         </div>
 
           <FadeIn>
-            <div className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div className="mt-[clamp(28px,4vw,52px)] pt-[26px] border-t border-[#e4ddd2] grid grid-cols-2 sm:grid-cols-4 gap-5">
               {METRICAS.map((m) => (
-                <div key={m.l} className="rounded-2xl bg-[#7c2d3e]/[0.05] border border-[#7c2d3e]/10 px-5 py-4">
-                  <p className="text-3xl font-semibold text-[#7c2d3e] tracking-tight">{m.v}</p>
-                  <p className="text-[11px] tracking-[0.14em] uppercase text-[#8a7a6e] mt-1" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>{m.l}</p>
+                <div
+                  key={m.l}
+                  className={`flex flex-col gap-1.5 pl-4 border-l-2 ${m.accent ? 'border-[#7c2d3e]' : 'border-[#e4ddd2]'}`}
+                >
+                  <span
+                    className="text-[clamp(24px,2.6vw,32px)] leading-none text-[#2c241f] tabular-nums"
+                    style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                  >
+                    {m.v}
+                  </span>
+                  <span className="text-[13px] text-[#8a7a6e]">{m.l}</span>
                 </div>
               ))}
             </div>
@@ -129,7 +137,7 @@ export function GranuPage() {
             </p>
             <Link
               to="/agendar-demo"
-              className="inline-flex items-center justify-center bg-[#f0ede8] hover:bg-white text-[#241d1a] font-medium px-8 min-h-[52px] rounded-full text-[15px] transition-colors"
+              className="inline-flex items-center justify-center w-full sm:w-auto bg-[#f0ede8] hover:bg-white text-[#241d1a] font-medium px-8 min-h-[52px] rounded-full text-[15px] transition-colors"
             >
               Agendar demonstração
             </Link>

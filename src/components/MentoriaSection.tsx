@@ -38,10 +38,10 @@ export function MentoriaSection() {
           <p className="mt-5 text-[clamp(16px,1.5vw,19px)] leading-relaxed text-[#5f5248] max-w-[56ch]">
             {t.pricingExtended.whatAreMentorsDesc}
           </p>
-          <div className="mt-8 flex flex-wrap items-center gap-3">
+          <div className="mt-8 flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-3">
             <Link
               to="/seja-consultor"
-              className="inline-flex items-center min-h-[52px] px-8 rounded-full bg-[#7c2d3e] hover:bg-[#5f2130] text-[#f7f2ee] font-medium text-base transition-colors"
+              className="inline-flex items-center justify-center w-full sm:w-auto min-h-[52px] px-8 rounded-full bg-[#7c2d3e] hover:bg-[#5f2130] text-[#f7f2ee] font-medium text-base transition-colors"
             >
               {t.pricingExtended.beMentorCta}
               <ChevronRight size={18} className="ml-1" />
@@ -126,7 +126,7 @@ export function MentoriaSection() {
             </p>
             <Link
               to="/seja-consultor"
-              className="mt-8 inline-flex items-center justify-center min-h-[56px] px-10 rounded-full bg-[#f0ede8] hover:bg-white text-[#7c2d3e] font-semibold text-base transition-colors"
+              className="mt-8 inline-flex items-center justify-center w-full sm:w-auto min-h-[56px] px-10 rounded-full bg-[#f0ede8] hover:bg-white text-[#7c2d3e] font-semibold text-base transition-colors"
             >
               {t.pricingExtended.beMentorCta}
               <ChevronRight size={18} className="ml-1" />

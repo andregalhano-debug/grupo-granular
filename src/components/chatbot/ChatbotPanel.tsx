@@ -43,7 +43,7 @@ export function ChatbotPanel({ messages, isTyping, onSend, agentName }: ChatbotP
   }
 
   return (
-    <div className="fixed bottom-24 right-6 z-50 w-[360px] max-sm:w-[calc(100vw-48px)] max-h-[500px] rounded-2xl border border-[#0E0E0F]/10 bg-white shadow-2xl flex flex-col overflow-hidden">
+    <div className="fixed z-50 bottom-24 left-3 right-3 sm:left-auto sm:right-6 sm:w-[360px] max-h-[min(500px,calc(100dvh-8rem))] rounded-2xl border border-[#0E0E0F]/10 bg-white shadow-2xl flex flex-col overflow-hidden">
       {/* Header */}
       <div className="bg-[var(--accent)] px-4 py-3 flex items-center gap-3">
         <div className="relative">
@@ -102,12 +102,12 @@ export function ChatbotPanel({ messages, isTyping, onSend, agentName }: ChatbotP
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Mensagem"
-          className="flex-1 text-sm px-3 py-2 rounded-lg border border-[#0E0E0F]/10 outline-none focus:border-[var(--accent)] transition-colors"
+          className="flex-1 min-h-11 text-base px-3 py-2 rounded-lg border border-[#0E0E0F]/10 outline-none focus:border-[var(--accent)] transition-colors"
         />
         <button
           type="submit"
           disabled={!input.trim()}
-          className="p-2 rounded-lg bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+          className="inline-flex items-center justify-center min-h-11 min-w-11 p-2 rounded-lg bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
         >
           <Send size={16} />
         </button>

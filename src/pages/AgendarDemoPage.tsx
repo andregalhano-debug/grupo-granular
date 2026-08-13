@@ -22,7 +22,7 @@ const WEEKDAYS_LABEL = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']
 const MONTH_NAMES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro']
 
 const inputClass = (hasError: boolean) =>
-  `w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border text-sm outline-none transition-colors ${
+  `w-full min-h-11 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border text-base outline-none transition-colors ${
     hasError ? 'border-red-400' : 'border-[#9C958A]/20 focus:border-[#A31631]'
   }`
 

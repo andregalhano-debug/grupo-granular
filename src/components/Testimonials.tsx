@@ -18,7 +18,7 @@ export function Testimonials() {
           </p>
         </FadeIn>
 
-        <div className="grid sm:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-3 gap-6">
           {testimonials.map((item, i) => (
             <FadeIn key={item.name} delay={i * 120}>
               <div className="rounded-2xl border border-[#9C958A]/20 bg-[#F7F7F7] p-5 sm:p-8 h-full flex flex-col">

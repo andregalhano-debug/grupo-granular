@@ -47,16 +47,16 @@ export function Hero(_props: Props) {
             <strong className="text-[#2c241f] font-semibold">{t.hero.granuName}</strong>
             {t.hero.subtitleAfter}
           </p>
-          <div className="flex flex-wrap gap-3 mt-8">
+          <div className="flex flex-col sm:flex-row flex-wrap gap-3 mt-8">
             <Link
               to="/agendar-demo"
-              className="inline-flex items-center min-h-[52px] px-[30px] rounded-full bg-[#7c2d3e] hover:bg-[#5f2130] text-[#f7f2ee] font-medium text-base transition-colors"
+              className="inline-flex items-center justify-center w-full sm:w-auto min-h-[52px] px-[30px] rounded-full bg-[#7c2d3e] hover:bg-[#5f2130] text-[#f7f2ee] font-medium text-base transition-colors"
             >
               {t.hero.startNow}
             </Link>
             <a
               href="#precos"
-              className="inline-flex items-center min-h-[52px] px-[30px] rounded-full border border-[#d5cbbd] hover:border-[#7c2d3e] text-[#2c241f] hover:text-[#7c2d3e] font-medium text-base transition-colors"
+              className="inline-flex items-center justify-center w-full sm:w-auto min-h-[52px] px-[30px] rounded-full border border-[#d5cbbd] hover:border-[#7c2d3e] text-[#2c241f] hover:text-[#7c2d3e] font-medium text-base transition-colors"
             >
               {t.hero.seePlans}
             </a>

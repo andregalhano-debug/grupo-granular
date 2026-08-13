@@ -54,20 +54,20 @@ export function Integrations() {
   return (
     <section ref={sectionRef} id="integracoes" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-[#e9e4da] border-y border-[#e4ddd2]">
       <div className="max-w-7xl mx-auto">
-        <FadeIn className="text-center mb-16">
+        <FadeIn className="mb-12 sm:mb-16">
           <p
-            className="text-xs font-medium text-[var(--accent)] uppercase tracking-widest mb-4"
-            style={{ fontFamily: "'JetBrains Mono', monospace" }}
+            className="text-[11.5px] tracking-[.24em] uppercase text-[#7c2d3e]"
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
             {t.integrations.eyebrow}
           </p>
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#0E0E0F] mb-4">
+          <h2 className="mt-4 text-[clamp(32px,4.4vw,60px)] leading-none tracking-[-.032em] font-semibold text-[#2c241f] text-balance">
             {t.integrations.sectionTitle}
           </h2>
-          <p className="text-[#9C958A] text-base sm:text-lg max-w-2xl mx-auto mb-6">
+          <p className="mt-5 text-[clamp(16px,1.5vw,19px)] leading-relaxed text-[#5f5248] max-w-[46ch] text-pretty">
             {t.integrations.sectionSubtitle}
           </p>
-          <div className="inline-flex items-center gap-2 sm:gap-3 bg-white border border-[var(--accent)]/15 rounded-xl px-3 sm:px-5 py-2.5 sm:py-3 shadow-sm">
+          <div className="mt-6 inline-flex items-center gap-2 sm:gap-3 bg-white border border-[var(--accent)]/15 rounded-xl px-3 sm:px-5 py-2.5 sm:py-3 shadow-sm">
             <div className="w-9 h-9 rounded-xl bg-[#F2F2F2] flex items-center justify-center p-1.5 flex-shrink-0">
               <img src="/logos/ifood.png" alt="iFood" className="w-full h-full object-contain" />
             </div>
