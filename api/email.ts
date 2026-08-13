@@ -451,9 +451,11 @@ function novoAgendamentoDemoHtml(p: {
     ? 'Especialista sob demanda'
     : doChat
       ? 'Chat do site'
-      : p.origem === 'checkout'
-        ? 'Checkout'
-        : 'Demonstração do sistema'
+      : p.origem === 'home-contato'
+        ? 'Home — Veja rodando'
+        : p.origem === 'checkout'
+          ? 'Checkout'
+          : 'Demonstração do sistema'
   return emailShell(`
         <tr>
           <td style="padding:40px 40px 32px">
@@ -843,7 +845,9 @@ export default async function handler(req: any, res: any) {
 
       const teamSubject = origem === 'especialista-sob-demanda'
         ? `Novo lead — Especialista sob demanda — ${empresa}`
-        : `Novo lead — ${empresa}`
+        : origem === 'home-contato'
+          ? `Novo lead — Home — ${empresa}`
+          : `Novo lead — ${empresa}`
 
       const team = await resend.emails.send({
         from: FROM,

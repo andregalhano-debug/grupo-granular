@@ -154,24 +154,6 @@ export function CategoryLanding({ config }: { config: CategoryPageConfig }) {
         <Pricing category={config.category} />
         <Testimonials />
         <Faq category={config.category} />
-
-        <section className="py-20 px-[clamp(18px,4vw,44px)] bg-[#241d1a]">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-[clamp(28px,3.6vw,44px)] font-semibold tracking-[-.03em] text-[#f0ede8] mb-6">
-              {config.ctaTitle}
-            </h2>
-            <p className="text-[#bdb0a4] text-base mb-8">{config.ctaSubtitle}</p>
-            <Link
-              to="/agendar-demo"
-              className="inline-flex items-center gap-2 bg-[#f0ede8] hover:bg-white font-medium px-8 min-h-[52px] rounded-full text-base transition-colors"
-              style={{ color: accent }}
-            >
-              Falar com a gente
-              <ArrowRight size={18} />
-            </Link>
-          </div>
-        </section>
-
         <ContactSection />
         <Footer />
       </div>
