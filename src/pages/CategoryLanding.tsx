@@ -1,6 +1,6 @@
 import { useEffect, type ComponentType } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowRight, CheckCircle2 } from 'lucide-react'
+import { CheckCircle2 } from 'lucide-react'
 import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
 import { Testimonials } from '../components/Testimonials'
@@ -72,17 +72,16 @@ export function CategoryLanding({ config }: { config: CategoryPageConfig }) {
             <p className="text-[clamp(16px,1.6vw,20px)] text-[#bdb0a4] max-w-2xl mx-auto leading-relaxed mb-10">
               {config.subtitle}
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 w-full sm:w-auto">
               <Link
                 to="/agendar-demo"
-                className="inline-flex items-center gap-2 bg-[#f0ede8] hover:bg-white text-[#241d1a] font-medium px-8 min-h-[52px] rounded-full text-base transition-colors"
+                className="inline-flex items-center justify-center w-full sm:w-auto bg-[#f0ede8] hover:bg-white text-[#241d1a] font-medium px-8 min-h-[52px] rounded-full text-base transition-colors"
               >
                 Falar com a gente
-                <ArrowRight size={18} />
               </Link>
               <a
                 href="#modulos"
-                className="inline-flex items-center gap-2 border border-white/20 hover:border-white/40 text-[#f0ede8] font-medium px-8 min-h-[52px] rounded-full text-base transition-colors"
+                className="inline-flex items-center justify-center w-full sm:w-auto border border-white/20 hover:border-white/40 text-[#f0ede8] font-medium px-8 min-h-[52px] rounded-full text-base transition-colors"
               >
                 Ver funcionalidades
               </a>
@@ -131,11 +130,10 @@ export function CategoryLanding({ config }: { config: CategoryPageConfig }) {
                 <p className="text-[#5f5248] text-base mb-6 leading-relaxed">{config.benefitsLead}</p>
                 <Link
                   to="/agendar-demo"
-                  className="inline-flex items-center gap-2 text-[#f7f2ee] font-medium px-6 min-h-12 rounded-full text-sm transition-colors"
+                  className="inline-flex items-center justify-center w-full sm:w-auto text-[#f7f2ee] font-medium px-6 min-h-12 rounded-full text-sm transition-colors"
                   style={{ backgroundColor: accent }}
                 >
                   Falar com a gente
-                  <ArrowRight size={16} />
                 </Link>
               </div>
               <ul className="space-y-3">

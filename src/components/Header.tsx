@@ -34,7 +34,7 @@ function NavAnchor({
   onClick?: () => void
   className?: string
 }) {
-  const cls = `text-[14.5px] text-[#5f5248] hover:text-[#7c2d3e] transition-colors ${className}`
+  const cls = `inline-flex items-center leading-none text-[14.5px] text-[#5f5248] hover:text-[#7c2d3e] transition-colors ${className}`
   if (href.startsWith('/') && !href.includes('#')) {
     return (
       <Link to={href} onClick={onClick} className={cls}>
@@ -94,6 +94,11 @@ export function Header({ category }: Props) {
     setMobileCats(false)
   }, [pathname])
 
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [menuOpen])
+
   return (
     <header className="sticky top-0 z-50 bg-[rgba(253,251,248,.92)] backdrop-blur-xl border-b border-[#ece6dc] shadow-[0_1px_0_rgba(44,36,31,0.04)]">
       <div className="max-w-[1240px] mx-auto px-[clamp(18px,4vw,44px)] min-h-[68px] flex items-center gap-4 lg:gap-5 flex-nowrap">
@@ -112,18 +117,18 @@ export function Header({ category }: Props) {
         <nav className="hidden lg:flex items-center gap-[clamp(12px,1.6vw,22px)] shrink-0">
           <NavAnchor href="/granu">{t.nav.granu}</NavAnchor>
 
-          <div ref={catsRef} className="relative">
+          <div ref={catsRef} className="relative inline-flex items-center">
             <button
               type="button"
               onClick={() => setCatsOpen((v) => !v)}
-              className={`inline-flex items-center gap-1 text-[14.5px] transition-colors ${
+              className={`inline-flex items-center gap-0.5 leading-none text-[14.5px] p-0 m-0 bg-transparent transition-colors ${
                 catsOpen || category ? 'text-[#7c2d3e]' : 'text-[#5f5248] hover:text-[#7c2d3e]'
               }`}
               aria-expanded={catsOpen}
               aria-haspopup="true"
             >
               {t.nav.categories}
-              <ChevronDown size={14} className={`transition-transform ${catsOpen ? 'rotate-180' : ''}`} />
+              <ChevronDown size={14} strokeWidth={2} className={`shrink-0 transition-transform ${catsOpen ? 'rotate-180' : ''}`} />
             </button>
             {catsOpen && (
               <div className="absolute top-[calc(100%+12px)] left-1/2 -translate-x-1/2 w-[320px] bg-[#faf9f7] border border-[#e4ddd2] rounded-2xl shadow-[0_18px_40px_-22px_rgba(44,36,31,.45)] p-2 z-50">
@@ -196,21 +201,26 @@ export function Header({ category }: Props) {
               </span>
             </Link>
           )}
-          <button className="p-2 text-[#2c241f]" onClick={() => setMenuOpen(!menuOpen)} aria-label="Menu">
+          <button
+            className="inline-flex items-center justify-center min-h-11 min-w-11 p-2 text-[#2c241f]"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Menu"
+            aria-expanded={menuOpen}
+          >
             {menuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </div>
 
       {menuOpen && (
-        <div className="lg:hidden bg-[#f0ede8] border-t border-[#e4ddd2] px-4 py-4 space-y-1">
-          <NavAnchor href="/granu" onClick={() => setMenuOpen(false)} className="block py-2.5">
+        <div className="lg:hidden bg-[#f0ede8] border-t border-[#e4ddd2] px-4 py-4 space-y-1 max-h-[calc(100dvh-68px)] overflow-y-auto">
+          <NavAnchor href="/granu" onClick={() => setMenuOpen(false)} className="min-h-11 w-full">
             {t.nav.granu}
           </NavAnchor>
           <button
             type="button"
             onClick={() => setMobileCats((v) => !v)}
-            className="flex w-full items-center justify-between py-2.5 text-[14.5px] text-[#5f5248]"
+            className="flex w-full items-center justify-between min-h-11 text-[14.5px] text-[#5f5248]"
           >
             {t.nav.categories}
             <ChevronDown size={16} className={mobileCats ? 'rotate-180' : ''} />
@@ -222,7 +232,7 @@ export function Header({ category }: Props) {
                   key={c.id}
                   to={c.href}
                   onClick={() => setMenuOpen(false)}
-                  className="block py-2 text-sm text-[#2c241f]"
+                  className="flex flex-col justify-center min-h-11 py-2 text-sm text-[#2c241f]"
                 >
                   {c.label}
                   <span className="block text-[12px] text-[#8a7a6e]">{c.desc}</span>
@@ -231,21 +241,21 @@ export function Header({ category }: Props) {
             </div>
           )}
           {navLinks.slice(1).map((link) => (
-            <NavAnchor key={link.href} href={link.href} onClick={() => setMenuOpen(false)} className="block py-2.5">
+            <NavAnchor key={link.href} href={link.href} onClick={() => setMenuOpen(false)} className="min-h-11 w-full">
               {link.label}
             </NavAnchor>
           ))}
           <div className="pt-3 mt-1 border-t border-[#e4ddd2] space-y-1">
-            <Link to="/comunidade-mentores" className="block text-sm text-[#7c2d3e] font-medium py-2" onClick={() => setMenuOpen(false)}>
+            <Link to="/comunidade-mentores" className="flex items-center min-h-11 text-sm text-[#7c2d3e] font-medium" onClick={() => setMenuOpen(false)}>
               {t.nav.beMentor}
             </Link>
-            <a href="/login" className="block text-sm text-[#5f5248] py-2">{t.nav.login}</a>
+            <a href="/login" className="flex items-center min-h-11 text-sm text-[#5f5248]">{t.nav.login}</a>
             <div className="py-2">
               <SitePrefs tone="light" />
             </div>
             <Link
               to="/agendar-demo"
-              className="block text-center text-sm font-medium text-[#f7f2ee] bg-[#7c2d3e] px-5 py-2.5 rounded-full"
+              className="flex items-center justify-center min-h-11 text-center text-sm font-medium text-[#f7f2ee] bg-[#7c2d3e] px-5 rounded-full"
               onClick={() => setMenuOpen(false)}
             >
               {t.nav.startNow}

@@ -32,7 +32,7 @@ function dateKey(date: Date) {
 }
 
 const field =
-  'w-full min-h-11 px-3.5 border border-[#e4ddd2] rounded-xl bg-white text-[15px] text-[#2c241f] outline-none focus:border-[#7c2d3e]'
+  'w-full min-h-11 px-3.5 border border-[#e4ddd2] rounded-xl bg-white text-base text-[#2c241f] outline-none focus:border-[#7c2d3e]'
 
 export function DemoBookingForm({
   source = 'home-contato',

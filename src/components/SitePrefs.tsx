@@ -27,7 +27,7 @@ export function SitePrefs({ tone = 'light' }: { tone?: Tone }) {
         onClick={toggle}
         title={theme === 'dark' ? 'Modo claro' : 'Modo escuro'}
         aria-label={theme === 'dark' ? 'Ativar modo claro' : 'Ativar modo escuro'}
-        className={`p-2 rounded-lg transition-colors ${c.btn}`}
+        className={`inline-flex items-center justify-center min-h-11 min-w-11 p-2 rounded-lg transition-colors ${c.btn}`}
       >
         {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
       </button>
@@ -36,7 +36,7 @@ export function SitePrefs({ tone = 'light' }: { tone?: Tone }) {
         onClick={toggleLang}
         title={lang === 'pt' ? 'Switch to English' : 'Mudar para português'}
         aria-label={lang === 'pt' ? 'Mudar idioma para inglês' : 'Mudar idioma para português'}
-        className={`min-w-9 px-2 py-1.5 rounded-lg text-[11px] font-semibold tracking-wide transition-colors ${c.btn} ${c.active}`}
+        className={`inline-flex items-center justify-center min-h-11 min-w-11 px-2 rounded-lg text-[11px] font-semibold tracking-wide transition-colors ${c.btn} ${c.active}`}
       >
         {lang === 'pt' ? 'EN' : 'PT'}
       </button>

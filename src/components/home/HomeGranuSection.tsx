@@ -31,7 +31,7 @@ export function HomeGranuSection() {
             Você pergunta e eu respondo com número e evidência. E quando algo importa, eu te chamo primeiro — no WhatsApp.
           </p>
           <p className="mt-3 text-[15px] leading-relaxed text-[#5f5248] max-w-[52ch]">
-            À esquerda, eu te chamo no WhatsApp. Ao lado, a mesma conversa dentro da plataforma — com a conta aberta e a evidência do cubo.
+            No WhatsApp, eu te chamo. Na plataforma, a mesma conversa — com a conta aberta e a evidência do cubo.
           </p>
           <div className="flex flex-col gap-3 mt-[26px] text-[15.5px] leading-relaxed text-[#5f5248]">
             {BULLETS.map((b) => (
@@ -44,14 +44,14 @@ export function HomeGranuSection() {
               </div>
             ))}
           </div>
-          <div className="flex flex-wrap items-center gap-4 mt-8">
+          <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-4 mt-8">
             <Link
               to="/agendar-demo"
-              className="inline-flex items-center min-h-[52px] px-[30px] rounded-full bg-[#7c2d3e] hover:bg-[#5f2130] text-[#f7f2ee] font-medium text-base transition-colors"
+              className="inline-flex items-center justify-center w-full sm:w-auto min-h-[52px] px-[30px] rounded-full bg-[#7c2d3e] hover:bg-[#5f2130] text-[#f7f2ee] font-medium text-base transition-colors"
             >
               Quero a Granu na minha operação
             </Link>
-            <Link to="/granu" className="text-sm font-medium text-[#7c2d3e] hover:text-[#5f2130]">
+            <Link to="/granu" className="inline-flex items-center justify-center min-h-11 text-sm font-medium text-[#7c2d3e] hover:text-[#5f2130]">
               Conhecer a Granu →
             </Link>
           </div>

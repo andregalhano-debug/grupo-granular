@@ -24,25 +24,25 @@ export function CookieBanner() {
             </p>
           </div>
 
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-col sm:flex-row flex-wrap gap-2">
             <button
               type="button"
               onClick={rejectAll}
-              className="text-xs font-medium px-4 py-2 rounded-xl border border-white/20 text-white/80 hover:bg-white/10 transition-colors"
+              className="min-h-11 text-sm font-medium px-4 rounded-xl border border-white/20 text-white/80 hover:bg-white/10 transition-colors"
             >
               Recusar opcionais
             </button>
             <button
               type="button"
               onClick={() => setModalOpen(true)}
-              className="text-xs font-medium px-4 py-2 rounded-xl border border-white/20 text-white/80 hover:bg-white/10 transition-colors"
+              className="min-h-11 text-sm font-medium px-4 rounded-xl border border-white/20 text-white/80 hover:bg-white/10 transition-colors"
             >
               Gerenciar preferências
             </button>
             <button
               type="button"
               onClick={acceptAll}
-              className="text-xs font-semibold px-4 py-2 rounded-xl bg-[#A31631] hover:bg-[#7A1025] text-white transition-colors"
+              className="min-h-11 text-sm font-semibold px-4 rounded-xl bg-[#A31631] hover:bg-[#7A1025] text-white transition-colors"
             >
               Aceitar todos
             </button>

@@ -294,14 +294,20 @@ export function Modules({ category = 'restaurantes' }: Props) {
   return (
     <section ref={sectionRef} id="modulos" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-white">
       <div className="max-w-7xl mx-auto">
-        <FadeIn className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#0E0E0F] mb-4">
+        <FadeIn className="mb-12 sm:mb-16">
+          <p
+            className="text-[11.5px] tracking-[.24em] uppercase text-[#7c2d3e]"
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          >
+            {t.nav.modules}
+          </p>
+          <h2 className="mt-4 text-[clamp(32px,4.4vw,60px)] leading-none tracking-[-.032em] font-semibold text-[#2c241f] text-balance">
             {t.modules.sectionTitle}
           </h2>
-          <p className="text-[#9C958A] text-base sm:text-lg max-w-2xl mx-auto mb-6">
+          <p className="mt-5 text-[clamp(16px,1.5vw,19px)] leading-relaxed text-[#5f5248] max-w-[46ch] text-pretty">
             {t.modules.sectionSubtitle}
           </p>
-          <span className="inline-flex items-center gap-2 bg-[#faf9f7] border border-[#e4ddd2] px-4 py-2 rounded-full text-xs text-[#8a7a6e]">
+          <span className="mt-6 inline-flex items-center gap-2 bg-[#faf9f7] border border-[#e4ddd2] px-4 py-2 rounded-full text-xs text-[#8a7a6e]">
             <span>{categoryLabels[category].emoji}</span>
             <span className="font-medium text-[#2c241f]">{categoryLabels[category].label}</span>
           </span>

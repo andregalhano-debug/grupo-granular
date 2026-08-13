@@ -94,7 +94,7 @@ export function Footer() {
             </h4>
             <ul className="space-y-2.5 text-[14.5px] text-[#dcb9ad]">
               <li>
-                <a href="mailto:contato@grupogranular.com.br" className="hover:text-[#f7f2ee] transition-colors">
+                <a href="mailto:contato@grupogranular.com.br" className="hover:text-[#f7f2ee] transition-colors break-all">
                   contato@grupogranular.com.br
                 </a>
               </li>
