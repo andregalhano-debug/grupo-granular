@@ -98,10 +98,6 @@ export function Footer() {
                   contato@grupogranular.com.br
                 </a>
               </li>
-              <li>{t.footer.city}</li>
-              <li className="text-[12.5px] text-[#c48d7e]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-                Escritórios em São Paulo e Belo Horizonte
-              </li>
               <li className="pt-1">
                 <a
                   href="https://wa.me/5531984355542"
