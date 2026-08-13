@@ -1,5 +1,6 @@
 export const en = {
   nav: {
+    granu: 'Granu',
     modules: 'Modules',
     integrations: 'Integrations',
     differentials: 'Differentials',

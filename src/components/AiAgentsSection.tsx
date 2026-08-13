@@ -1,61 +1,48 @@
+import { Link } from 'react-router-dom'
+import { ArrowRight } from 'lucide-react'
 import { FadeIn } from './FadeIn'
-
-const skills = [
-  { icon: '🧠', name: 'Gestão Operacional', output: 'Alertas de KPIs, plano de ação e prioridades do dia' },
-  { icon: '💰', name: 'Análise Financeira', output: 'DRE automático, margem por produto e alertas de custo' },
-  { icon: '🔮', name: 'Previsão de Demanda', output: 'Previsão de vendas por produto, canal e período' },
-  { icon: '📊', name: 'Inteligência de Vendas', output: 'Simulações de preço, markup e mix de produtos' },
-  { icon: '⚖️', name: 'Anti-canibalização', output: 'Relatório de sobreposição e recomendação de mix' },
-  { icon: '📦', name: 'Gestão de Estoque', output: 'Sugestão de compra baseada no consumo histórico' },
-  { icon: '🏷️', name: 'Precificação Dinâmica', output: 'Ajuste de preços com simulações de margem em tempo real' },
-  { icon: '✅', name: 'Conformidade Operacional', output: 'Score de conformidade e alertas de não-execução' },
-  { icon: '👥', name: 'CRM e Retenção', output: 'Segmentação automática e campanhas de recompra' },
-  { icon: '🛵', name: 'Performance iFood', output: 'Diagnóstico de avaliações e ações para recuperação' },
-  { icon: '🍽️', name: 'Otimização de Cardápio', output: 'Recomendação de cortes e destaques por rentabilidade' },
-  { icon: '👷', name: 'Gestão de RH', output: 'Análise de produtividade e custo real por função' },
-  { icon: '⏱️', name: 'Nível de Serviço (SLA)', output: 'Painel de SLA por canal e ação recomendada' },
-  { icon: '🛒', name: 'Compras Automatizadas', output: 'Cotação automática e seleção do melhor fornecedor' },
-  { icon: '📋', name: 'Relatórios Automáticos', output: 'Relatório semanal completo gerado e enviado automaticamente' },
-]
+import { GranuGrain } from './granu/GranuGrain'
 
 export function AiAgentsSection() {
   return (
-    <section className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-[#0E0E0F]">
-      <div className="max-w-4xl mx-auto">
-        <FadeIn className="text-center mb-14">
-          <p
-            className="text-xs font-semibold uppercase tracking-widest text-[var(--accent)] mb-3"
-            style={{ fontFamily: "'JetBrains Mono', monospace" }}
-          >
-            Inteligência Artificial
-          </p>
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white mb-4">
-            Agente Granular — mais de 15 habilidades operando 24/7 pelo seu negócio
-          </h2>
+    <section id="granu" className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8 bg-[#F7F3EB]">
+      <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-10 lg:gap-6 items-center">
+        <FadeIn className="relative h-[280px] sm:h-[360px] lg:h-[420px] -mx-4 sm:mx-0">
+          <GranuGrain className="absolute inset-0 w-full h-full" zoom={1.55} />
         </FadeIn>
 
-        <FadeIn delay={100}>
-          <div className="bg-white/5 border border-white/10 rounded-3xl p-8 sm:p-10">
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {skills.map((skill) => (
-                <div
-                  key={skill.name}
-                  className="flex items-start gap-3 p-4 rounded-2xl bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.07] transition-colors"
-                >
-                  <span className="text-xl flex-shrink-0 mt-0.5">{skill.icon}</span>
-                  <div>
-                    <p className="text-sm font-semibold text-white leading-snug">{skill.name}</p>
-                    <p className="text-xs text-white/40 mt-0.5 leading-relaxed">{skill.output}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-8 pt-6 border-t border-white/10 text-center">
-              <p className="text-white/30 text-xs">
-                Opera 24/7, aprende com os dados da sua operação e nunca falta ao trabalho.
-              </p>
-            </div>
+        <FadeIn delay={80} className="lg:pl-4">
+          <p
+            className="text-xs font-semibold uppercase tracking-[0.22em] text-[#A31631] mb-3"
+            style={{ fontFamily: "'JetBrains Mono', monospace" }}
+          >
+            A Granu
+          </p>
+          <h2
+            className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold tracking-tight text-[#0E0E0F] leading-[1.08] mb-4"
+            style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+          >
+            Eu sou a Granu.
+          </h2>
+          <p className="text-base sm:text-lg text-[#5D5148] leading-relaxed max-w-[44ch] mb-4">
+            A IA do sistema inteiro. Conectada a cada venda, cada item de estoque, cada centavo de repasse — em tempo real. Este grão sou eu.
+          </p>
+          <p className="text-[#6B3F1F] italic text-[17px] leading-snug max-w-[42ch] mb-8">
+            “Você não abre dashboard às 8 da manhã. Eu te mando o dia — e você resolve com um toque.”
+          </p>
+          <div className="flex flex-wrap items-center gap-3">
+            <Link
+              to="/granu"
+              className="inline-flex items-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-5 py-3 rounded-xl text-sm transition-colors"
+            >
+              Conhecer a Granu <ArrowRight size={16} />
+            </Link>
+            <Link
+              to="/agendar-demo"
+              className="inline-flex items-center gap-2 text-sm font-medium text-[#0E0E0F] hover:text-[#A31631] transition-colors"
+            >
+              Quero ela na minha operação
+            </Link>
           </div>
         </FadeIn>
       </div>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<script>
+/* Detecta embed ANTES do paint — evita flash de fundo #f0ede8 sobre o slide */
+(function () {
+  try {
+    if (/[?&]embed(=|&|$)/.test(location.search)) {
+      document.documentElement.classList.add('embed');
+    }
+  } catch (e) {}
+})();
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Granu — Nuvem de grãos (3D)</title>
+<script type="importmap">
+{
+  "imports": {
+    "three": "./vendor/three/three.module.js",
+    "three/addons/controls/OrbitControls.js": "./vendor/three/addons/OrbitControls.js",
+    "three/addons/exporters/OBJExporter.js": "https://unpkg.com/three@0.184.0/examples/jsm/exporters/OBJExporter.js",
+    "three/addons/exporters/GLTFExporter.js": "https://unpkg.com/three@0.184.0/examples/jsm/exporters/GLTFExporter.js"
+  },
+  "integrity": {
+    "https://unpkg.com/three@0.184.0/build/three.module.js": "sha384-8FCZ1eVO6it4+pbec2aDtnTrwjWXZLJRC+MAGCIPDgsYnUrl/E0A2YlF8ioMKI/J",
+    "https://unpkg.com/three@0.184.0/build/three.core.js": "sha384-dw2ooPewaEIrAgl6oFDBmmBWCE9oW9LxRGcfwZ0hLvEprzo202wXl7vCYHRlSnOT",
+    "https://unpkg.com/three@0.184.0/examples/jsm/controls/OrbitControls.js": "sha384-4rziNxOBZKQ69i+w+f89KJ55TCYquwchVbByQwmaOeIOXdOU2PLDn3kOfXHwIJC9",
+    "https://unpkg.com/three@0.184.0/examples/jsm/exporters/OBJExporter.js": "sha384-nbwtoZENJD3Vq+ACK0CuGQdPMuDWHkamC2KJD70EV5nfg6jQjfppKOea07YJN+N3",
+    "https://unpkg.com/three@0.184.0/examples/jsm/exporters/GLTFExporter.js": "sha384-VofkvpG6HERhFCYbsUOHeNXBCqID2nfqkQqnVzE1jc/oPcz+qJ13ADdXH08hE+cQ"
+  }
+}
+</script>
+<style>
+  html,body{margin:0;height:100%;background:#f0ede8;font-family:system-ui,sans-serif}
+  /* embed: transparente desde o 1º paint; 100% do iframe (não 100vw — corta no mobile) */
+  html.embed,html.embed body{width:100%;background:transparent!important;overflow:hidden}
+  html.embed .hd,html.embed .ctl,html.embed .st{display:none!important}
+  three-d-stage:not(:defined){visibility:hidden}
+  three-d-stage{width:100vw;height:100vh;display:block}
+  .hd{position:fixed;top:22px;left:26px;z-index:5;color:#2c241f;pointer-events:none}
+  .hd b{color:#7c2d3e;font-size:19px;font-weight:600;letter-spacing:-.02em;display:block}
+  .hd span{font-size:12px;color:#8a7a6e;letter-spacing:.06em;text-transform:uppercase}
+  .ctl{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:5;display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+  .ctl button{font-family:inherit;font-size:12.5px;font-weight:500;padding:8px 15px;border-radius:999px;cursor:pointer;background:#faf9f7;color:#5a4a42;border:1px solid #d8d0c4;transition:all .25s}
+  .ctl button.on{background:#7c2d3e;color:#faf9f7;border-color:#7c2d3e}
+  .ctl button.cy{background:transparent;border-style:dashed;border-color:#b39a7e;color:#6b3f1f}
+  .st{position:fixed;bottom:66px;left:50%;transform:translateX(-50%);z-index:5;font-size:12.5px;color:#8a7a6e}
+</style>
+</head>
+<body>
+<div class="hd"><b>granu</b><span>grão que decompõe · objeto 3D</span></div>
+<div class="st" id="st">pairando — sempre viva</div>
+<div class="ctl" id="ctl">
+  <button data-s="idle" class="on">Idle</button>
+  <button data-s="seek">Pesquisa</button>
+  <button data-s="settle">Achado</button>
+  <button data-s="ready">Pronta</button>
+  <button class="cy" id="cy">▸ ciclo completo</button>
+</div>
+<three-d-stage name="granu-nuvem-de-graos" background="#f0ede8" autorotate></three-d-stage>
+<script src="three-d-stage.js"></script>
+<script type="module">
+const stage = document.querySelector('three-d-stage');
+const { THREE } = await stage.ready;
+
+const rng = (seed => () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; })(42);
+
+const mats = {
+  wine:   new THREE.MeshStandardMaterial({ color: 0x7c2d3e, roughness: .55, metalness: .05 }),
+  bronze: new THREE.MeshStandardMaterial({ color: 0x6b3f1f, roughness: .5,  metalness: .15 }),
+  ink:    new THREE.MeshStandardMaterial({ color: 0x332824, roughness: .6,  metalness: .05 })
+};
+mats.wine.name = 'wine'; mats.bronze.name = 'bronze'; mats.ink.name = 'ink';
+
+// grão mãe (idle) → 6 grãos-sistema (pesquisa, 1ª onda) → cada um vira 3 mini grãos (2ª onda: granularidade)
+const group = new THREE.Group();
+group.name = 'granu_grao_que_decompoe';
+group.position.y = .3;
+const geo = new THREE.CapsuleGeometry(.65, .08, 8, 24); // grãos quase esféricos
+const geoMae = new THREE.SphereGeometry(.66, 48, 32); // grão mãe: esfera
+const CL = [[-.13, .04, -.07], [.14, -.02, .09], [-.06, .13, .1], [.09, .11, -.12]];
+const grains = [];
+const rand3 = () => { const a = rng() * Math.PI * 2, c = rng() * 2 - 1, s = Math.sqrt(1 - c * c); return new THREE.Vector3(Math.cos(a) * s, c * .85, Math.sin(a) * s).normalize(); };
+const mkMesh = (rad, mat, nome) => { const m = new THREE.Mesh(geo, mat); m.name = nome; m.scale.setScalar(rad); m.rotation.set(rng() * Math.PI, rng() * Math.PI, rng() * Math.PI); group.add(m); return m; };
+for (let i = 0; i < 6; i++) {
+  const rad = .028 + rng() * .01;
+  const mat = i % 2 ? mats.bronze : mats.wine;
+  const dir = rand3();
+  const seekPos = dir.clone().multiplyScalar(.14 + rng() * .08);
+  const cc = CL[i % 4];
+  grains.push({ m: mkMesh(rad, mat, 'grao_sistema_' + (i + 1) + '_' + mat.name), rad, dir, tgt: {
+    idle: dir.clone().multiplyScalar(.004 + .028 * Math.sqrt(rng())),
+    seek: seekPos,
+    settle: new THREE.Vector3(cc[0], cc[1], cc[2]).addScaledVector(dir, .015)
+  }, ph: rng() * 6.283, w1: .5 + rng() * .6, w2: .35 + rng() * .5 });
+  for (let j = 0; j < 3; j++) { // mini grãos da parte i
+    const radF = .011 + rng() * .008;
+    const roll = rng();
+    const matF = roll < .55 ? mats.wine : roll < .85 ? mats.bronze : mats.ink;
+    const dirF = rand3();
+    const cf = CL[(i + j) % 4];
+    grains.push({ m: mkMesh(radF, matF, 'grao_mini_' + (i + 1) + String.fromCharCode(97 + j) + '_' + matF.name), rad: radF, dir: dirF, paiSeek: seekPos, tgt: {
+      idle: dirF.clone().multiplyScalar(.004 + .028 * Math.sqrt(rng())),
+      seek: seekPos.clone().addScaledVector(dirF, .05 + rng() * .035),
+      settle: new THREE.Vector3(cf[0], cf[1], cf[2]).addScaledVector(dirF, .01 + rng() * .035)
+    }, ph: rng() * 6.283, w1: .5 + rng() * .6, w2: .35 + rng() * .5 });
+  }
+}
+for (const g of grains) g.m.position.copy(g.tgt.seek); // enquadra a câmera pelo estado disperso
+// grão mãe: único no idle; decompõe na pesquisa
+const MAE_R = .085;
+const mae = new THREE.Mesh(geoMae, mats.wine);
+mae.name = 'grao_mae_wine';
+mae.scale.setScalar(MAE_R);
+mae.rotation.set(.4, .7, 1.1);
+group.add(mae);
+stage.setObject(group);
+for (const g of grains) g.m.position.copy(g.tgt.idle);
+
+// ciclo idle → pesquisa → achado → pronta (denso e longo)
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const AMP = { idle: .007, seek: .016, settle: .002, ready: .007 };
+const TAU = { idle: 1.1, seek: 1.6, settle: 1.2, ready: 1.1 };
+const DESC = { idle: 'grão mãe — inteiro, pairando', seek: 'decompondo: cada parte do sistema vira vários grãos', settle: 'assentou: 4 amostras localizadas', ready: 'pronta — recompõe o grão mãe' };
+let state = 'idle', timers = [], stateSince = performance.now();
+const btns = [...document.querySelectorAll('#ctl button[data-s]')];
+function setSt(s) {
+  state = s;
+  stateSince = performance.now();
+  document.getElementById('st').textContent = DESC[s];
+  btns.forEach(b => b.classList.toggle('on', b.dataset.s === s));
+}
+btns.forEach(b => b.onclick = () => { timers.forEach(clearTimeout); timers = []; setSt(b.dataset.s); });
+document.getElementById('cy').onclick = () => {
+  timers.forEach(clearTimeout); timers = [];
+  setSt('seek');
+  timers.push(setTimeout(() => setSt('settle'), 7000));
+  timers.push(setTimeout(() => setSt('ready'), 9800));
+};
+
+const tmp = new THREE.Vector3();
+let last = performance.now(), out = 0;
+function tick(now) {
+  const dt = Math.min(.1, (now - last) / 1000); last = now;
+  const t = now / 1000;
+  const age = (now - stateSince) / 1000;
+  const seekSplit = state === 'seek' && age > 3.4; // 2ª onda: cada parte vira vários
+  const idleLike = state === 'idle' || state === 'ready';
+  // micro explosões no idle: a cada ~6s um terço dos grãos salta e é reabsorvido
+  const P = 6, u = (t % P) / P;
+  const env = (idleLike && !reduced && age > 1.6 && u < .6) ? Math.sin(u / .6 * Math.PI) : 0;
+  const grpAct = Math.floor(t / P) % 3;
+  const k = reduced ? 1 : 1 - Math.exp(-dt / TAU[state]);
+  const kPop = reduced ? 1 : 1 - Math.exp(-dt / .55);
+  const amp = reduced ? 0 : AMP[state];
+  let gi2 = 0;
+  for (const g of grains) {
+    let base = g.tgt[state === 'ready' ? 'idle' : state];
+    if (state === 'seek' && g.paiSeek && !seekSplit) base = g.paiSeek; // mini ainda dentro da parte
+    const popping = idleLike && (gi2++ % 3 === grpAct);
+    const pop = popping ? env * (.075 + g.w1 * .05) : 0;
+    tmp.set(
+      base.x + g.dir.x * pop + Math.sin(t * g.w1 + g.ph) * amp,
+      base.y + g.dir.y * pop + Math.sin(t * g.w2 + g.ph * 2.1) * amp,
+      base.z + g.dir.z * pop + Math.cos(t * g.w1 * .8 + g.ph) * amp
+    );
+    g.m.position.lerp(tmp, popping || (seekSplit && g.paiSeek) ? kPop : k);
+    if (!reduced) { g.m.rotation.y += dt * (.25 + g.w1 * .5); g.m.rotation.x += dt * g.w2 * .3; }
+    const sTgt = idleLike ? g.rad * (.25 + (popping ? env * .65 : 0)) : (state === 'seek' && g.paiSeek && !seekSplit ? g.rad * .35 : g.rad);
+    g.m.scale.setScalar(g.m.scale.x + (sTgt - g.m.scale.x) * (popping ? kPop : k));
+  }
+  // grão mãe: encolhe à medida que os grãos saem, cresce quando voltam
+  const outTgt = idleLike ? env * .28 : 1;
+  out += (outTgt - out) * (reduced ? 1 : 1 - Math.exp(-dt / (idleLike ? .9 : 1.4)));
+  if (reduced) out = outTgt;
+  const ms = MAE_R * Math.max(1 - out, .005);
+  // pulso orgânico anisotrópico: estica num eixo, comprime nos outros — legível mesmo em cor única
+  const p = reduced ? 0 : Math.sin(t * 1.1) * .8 + Math.sin(t * 2.3 + .8) * .35 + env * 1.4;
+  mae.scale.set(ms * (1 - p * .05), ms * (1 + p * .09), ms * (1 - p * .05));
+  mae.visible = ms > MAE_R * .01;
+  if (!reduced) {
+    mae.rotation.y += dt * .5;
+    mae.rotation.x = .4 + Math.sin(t * .3) * .25;
+    mae.rotation.z = 1.1 + Math.cos(t * .22) * .2;
+    mae.position.y = Math.sin(t * .5) * .014;
+  }
+  requestAnimationFrame(tick);
+}
+requestAnimationFrame(tick);
+
+// modo embed (?embed=1): só a Granu viva, sem chrome — usado pela apresentação
+if (new URLSearchParams(location.search).has('embed')) {
+  const q = new URLSearchParams(location.search);
+  const zoom = parseFloat(q.get('zoom') || '1');
+  if (zoom !== 1 && stage._camera) { stage._camera.position.multiplyScalar(1 / zoom); }
+  const shift = parseFloat(q.get('shift') || '0');
+  if (shift && stage._camera) {
+    const applyShift = () => { const w = innerWidth, h = innerHeight; stage._camera.setViewOffset(w, h, -w * shift, 0, w, h); };
+    applyShift();
+    window.addEventListener('resize', applyShift);
+  }
+  document.querySelectorAll('.hd,.ctl,.st').forEach(e => e.style.display = 'none');
+  document.documentElement.style.background = 'transparent';
+  document.body.style.background = 'transparent';
+  stage.style.setProperty('--stage-bg', 'transparent');
+  const note = stage.shadowRoot && stage.shadowRoot.querySelector('.note');
+  if (note) note.style.display = 'none';
+  if (stage._toolbar) stage._toolbar.style.display = 'none';
+  if (stage._controls) { stage._controls.enableZoom = false; stage._controls.enablePan = false; }
+  let controlled = false;
+  window.addEventListener('message', e => { const s = e.data && e.data.granuState; if (s && DESC[s]) { controlled = true; if (state !== s) setSt(s); } });
+  const loop = () => { if (!controlled) document.getElementById('cy').click(); };
+  setTimeout(loop, 9000);
+  setInterval(loop, 26000);
+}
+</script>
+</body>
+</html>
