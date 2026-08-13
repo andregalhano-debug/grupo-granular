@@ -115,6 +115,7 @@ export const en = {
     integrationFeatures: 'Integration features',
   },
   testimonials: {
+    eyebrow: 'Testimonials',
     sectionTitle: 'Those who use it, recommend it',
     sectionSubtitle: 'See what people say about Granular.',
     items: [
@@ -154,6 +155,7 @@ export const en = {
     },
   },
   faq: {
+    eyebrow: 'FAQ',
     sectionTitle: 'Frequently asked questions',
     subtitles: {
       restaurantes: 'Get answers about the system, on-demand specialist and modules.',
@@ -176,8 +178,8 @@ export const en = {
     usedBy: 'Used by brands like',
   },
   footer: {
-    tagline: 'Digital as a Service for retail.',
-    taglineMid: 'One operational core, five categories.',
+    tagline: 'Digital as a Service for retail —',
+    taglineMid: 'one operational core across five categories.',
     taglineAccent: 'Granu on top of everything.',
     productLinks: ['Inventory', 'Production', 'Finance', 'iFood', 'KDS', 'Checklists', 'AI'],
     sections: {

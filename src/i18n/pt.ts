@@ -115,6 +115,7 @@ export const pt = {
     integrationFeatures: 'Recursos da integração',
   },
   testimonials: {
+    eyebrow: 'Depoimentos',
     sectionTitle: 'Quem usa, recomenda',
     sectionSubtitle: 'Veja o que dizem sobre a Granular.',
     items: [
@@ -154,6 +155,7 @@ export const pt = {
     },
   },
   faq: {
+    eyebrow: 'FAQ',
     sectionTitle: 'Perguntas frequentes',
     subtitles: {
       restaurantes: 'Tire suas dúvidas sobre sistema, especialista sob demanda e módulos.',
@@ -176,8 +178,8 @@ export const pt = {
     usedBy: 'Usado por marcas como',
   },
   footer: {
-    tagline: 'Digital as a Service para o varejo.',
-    taglineMid: 'Um núcleo operacional, cinco categorias.',
+    tagline: 'Digital as a Service para o varejo —',
+    taglineMid: 'um núcleo operacional em cinco categorias.',
     taglineAccent: 'A Granu em cima de tudo.',
     productLinks: ['Estoque', 'Produção', 'Financeiro', 'iFood', 'KDS', 'Checklists', 'IA'],
     sections: {
