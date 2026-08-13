@@ -310,10 +310,49 @@ function row(label: string, value: string) {
   </tr>`
 }
 
+function conversaExpandivel(raw?: string) {
+  if (!raw?.trim()) return ''
+  let items: { role?: string; text?: string }[] = []
+  try {
+    const parsed = JSON.parse(raw)
+    if (Array.isArray(parsed)) items = parsed
+  } catch {
+    items = [{ role: 'user', text: raw }]
+  }
+  items = items.filter((m) => typeof m.text === 'string' && m.text.trim())
+  if (items.length === 0) return ''
+
+  const count = items.length
+  const bubbles = items.map((m) => {
+    const lead = m.role === 'user'
+    return `<tr>
+      <td align="${lead ? 'right' : 'left'}" style="padding:4px 0">
+        <p style="margin:0 0 2px;font-size:10px;font-weight:700;color:#9C958A;text-transform:uppercase;letter-spacing:0.5px">${lead ? 'Lead' : 'Granular'}</p>
+        <div style="display:inline-block;max-width:92%;text-align:left;background:${lead ? '#F3E6E8' : '#F7F7F7'};border-radius:12px;padding:10px 12px;font-size:13px;color:#0E0E0F;line-height:1.5;white-space:pre-wrap">${escapeHtml(m.text || '')}</div>
+      </td>
+    </tr>`
+  }).join('')
+
+  return `
+            <table width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 24px;border:1px solid #E5E5E5;border-radius:12px;overflow:hidden">
+              <tr><td style="padding:16px 20px">
+                <details>
+                  <summary style="cursor:pointer;list-style:none;font-size:13px;font-weight:700;color:#A31631">
+                    Ver conversa completa · ${count} ${count === 1 ? 'mensagem' : 'mensagens'}
+                  </summary>
+                  <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:14px">
+                    ${bubbles}
+                  </table>
+                </details>
+              </td></tr>
+            </table>`
+}
+
 function novoAgendamentoDemoHtml(p: {
   nome: string; email: string; whatsapp: string; empresa: string
   segmento: string; faturamento: string; data: string; horario: string; origem: string
   notas?: string
+  conversa?: string
 }) {
   const wa = waMe(p.whatsapp)
   const whatsappCell = wa
@@ -337,12 +376,12 @@ function novoAgendamentoDemoHtml(p: {
                   ${row('WhatsApp', whatsappCell)}
                   ${p.email ? row('E-mail', `<a href="mailto:${escapeHtml(p.email)}" style="color:#A31631;text-decoration:none">${escapeHtml(p.email)}</a>`) : ''}
                   ${doChat ? row('Canal', 'Chat do site') : ''}
-                  ${p.notas ? row('Conversa', escapeHtml(p.notas)) : ''}
                   ${doChat ? '' : row('Data', escapeHtml(p.data || '—'))}
                   ${doChat ? '' : row('Horário', escapeHtml(p.horario || '—'))}
                 </table>
               </td></tr>
             </table>
+            ${conversaExpandivel(p.conversa || p.notas)}
             ${wa ? `
             <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:8px">
               <tr><td align="center">
@@ -452,7 +491,7 @@ export default async function handler(req: any, res: any) {
       })
 
     } else if (template === 'novo-agendamento-demo') {
-      const { nome, email, whatsapp, empresa, segmento, faturamento, data, horario, origem, notas } = payload
+      const { nome, email, whatsapp, empresa, segmento, faturamento, data, horario, origem, notas, conversa } = payload
       if (!nome || !whatsapp || !empresa) {
         return res.status(400).json({ error: 'Campos obrigatórios ausentes' })
       }
@@ -475,6 +514,7 @@ export default async function handler(req: any, res: any) {
           horario: horario || '—',
           origem: origem || 'agendar-demo',
           notas,
+          conversa,
         }),
       })
       if (team.error) {
