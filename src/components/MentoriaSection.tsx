@@ -1,4 +1,4 @@
-import { GraduationCap, Users, Star, ChevronRight } from 'lucide-react'
+import { Star, ChevronRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
 import { useT } from '../i18n/useT'
@@ -38,6 +38,16 @@ export function MentoriaSection() {
           <p className="mt-5 text-[clamp(16px,1.5vw,19px)] leading-relaxed text-[#5f5248] max-w-[56ch]">
             {t.pricingExtended.whatAreMentorsDesc}
           </p>
+          <div className="mt-8 flex flex-wrap items-center gap-3">
+            <Link
+              to="/seja-consultor"
+              className="inline-flex items-center min-h-[52px] px-8 rounded-full bg-[#7c2d3e] hover:bg-[#5f2130] text-[#f7f2ee] font-medium text-base transition-colors"
+            >
+              {t.pricingExtended.beMentorCta}
+              <ChevronRight size={18} className="ml-1" />
+            </Link>
+            <span className="text-sm text-[#8a7a6e]">{t.pricingExtended.joinNetwork}</span>
+          </div>
         </FadeIn>
 
         <FadeIn delay={60}>
@@ -101,24 +111,25 @@ export function MentoriaSection() {
         </FadeIn>
 
         <FadeIn delay={120}>
-          <div className="mt-12 rounded-2xl border border-[#7c2d3e]/15 bg-[#faf9f7] p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center gap-6">
-            <div className="w-12 h-12 rounded-xl bg-[#7c2d3e] flex items-center justify-center flex-shrink-0">
-              <GraduationCap size={22} className="text-[#f7f2ee]" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2 mb-1">
-                <Users size={16} className="text-[#7c2d3e]" />
-                <p className="text-xs font-semibold text-[#7c2d3e]">{t.pricingExtended.youAreMentor}</p>
-              </div>
-              <p className="text-base font-semibold text-[#2c241f] mb-1">{t.pricingExtended.beMentorTitle}</p>
-              <p className="text-sm text-[#5f5248] leading-relaxed">{t.pricingExtended.beMentorDesc}</p>
-            </div>
+          <div className="mt-14 rounded-[22px] bg-[#7c2d3e] text-[#f7f2ee] p-8 sm:p-12 text-center">
+            <p
+              className="text-[11.5px] tracking-[.24em] uppercase text-[#ecd9cd]"
+              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            >
+              {t.pricingExtended.youAreMentor}
+            </p>
+            <h2 className="mt-3 text-[clamp(28px,3.8vw,44px)] leading-[1.05] tracking-[-.03em] font-semibold text-balance">
+              {t.pricingExtended.beMentorTitle}
+            </h2>
+            <p className="mt-4 text-[clamp(16px,1.5vw,19px)] leading-relaxed text-[#ecd9cd] max-w-[48ch] mx-auto">
+              {t.pricingExtended.beMentorDesc}
+            </p>
             <Link
               to="/seja-consultor"
-              className="inline-flex items-center gap-2 bg-[#7c2d3e] hover:bg-[#5f2130] text-[#f7f2ee] font-medium px-6 py-3 rounded-full text-sm transition-colors whitespace-nowrap flex-shrink-0"
+              className="mt-8 inline-flex items-center justify-center min-h-[56px] px-10 rounded-full bg-[#f0ede8] hover:bg-white text-[#7c2d3e] font-semibold text-base transition-colors"
             >
               {t.pricingExtended.beMentorCta}
-              <ChevronRight size={14} />
+              <ChevronRight size={18} className="ml-1" />
             </Link>
           </div>
         </FadeIn>
