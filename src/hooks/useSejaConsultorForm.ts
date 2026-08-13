@@ -1,8 +1,9 @@
 import { useState, useCallback } from 'react'
 import { validateNome, validateEmail, validateWhatsApp } from '../utils/validators'
 import { formatWhatsApp } from '../utils/formatters'
+import { segmentOptions, specialtyOptions } from '../data/consultants'
 import { createMentorLead } from '../services/mentorService'
-import { sendConfirmacaoCadastro } from '../services/emailService'
+import { sendConfirmacaoCadastro, sendNovaCandidaturaConsultor } from '../services/emailService'
 
 interface FormState {
   nome: string
@@ -25,6 +26,7 @@ export function useSejaConsultorForm() {
   const [errors, setErrors] = useState<FormErrors>({})
   const [submitted, setSubmitted] = useState(false)
   const [isProcessing, setIsProcessing] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
 
   const updateField = useCallback((
     field: 'nome' | 'email' | 'whatsapp' | 'cargoAtual' | 'segmentoOutro' | 'especialidadeOutra',
@@ -74,10 +76,40 @@ export function useSejaConsultorForm() {
     return Object.keys(e).length === 0
   }, [form])
 
+  const labelOf = (opts: { id: string; label: string }[], id: string) =>
+    opts.find((o) => o.id === id)?.label || id
+
   const submit = useCallback(async () => {
     if (!validate()) return
+    setSubmitError(null)
     setIsProcessing(true)
     try {
+      const segmentos = form.segmentos
+        .map((id) => {
+          const label = labelOf(segmentOptions, id)
+          return id === 'outros' && form.segmentoOutro.trim()
+            ? `${label} (${form.segmentoOutro.trim()})`
+            : label
+        })
+        .join(', ')
+      const especialidades = form.especialidades
+        .map((id) => {
+          const label = labelOf(specialtyOptions, id)
+          return id === 'outros' && form.especialidadeOutra.trim()
+            ? `${label} (${form.especialidadeOutra.trim()})`
+            : label
+        })
+        .join(', ')
+
+      await sendNovaCandidaturaConsultor({
+        nome: form.nome.trim(),
+        email: form.email.trim(),
+        whatsapp: form.whatsapp.trim(),
+        cargo: form.cargoAtual.trim(),
+        segmentos,
+        especialidades,
+      })
+
       createMentorLead({
         nome: form.nome,
         email: form.email,
@@ -96,10 +128,12 @@ export function useSejaConsultorForm() {
       })
       await sendConfirmacaoCadastro({ to: form.email, nome: form.nome })
       setSubmitted(true)
+    } catch {
+      setSubmitError('Não foi possível enviar agora. Tente novamente em instantes.')
     } finally {
       setIsProcessing(false)
     }
   }, [validate, form])
 
-  return { form, errors, submitted, isProcessing, updateField, toggleSegment, toggleSpecialty, submit }
+  return { form, errors, submitted, isProcessing, submitError, updateField, toggleSegment, toggleSpecialty, submit }
 }

@@ -452,6 +452,43 @@ async function persistDemoBooking(payload: Record<string, string>) {
   }
 }
 
+function novaCandidaturaConsultorHtml(p: {
+  nome: string; email: string; whatsapp: string; cargo: string
+  segmentos: string; especialidades: string
+}) {
+  const wa = waMe(p.whatsapp)
+  const whatsappCell = wa
+    ? `<a href="${wa}" style="color:#A31631;font-weight:600;text-decoration:none">${escapeHtml(p.whatsapp)}</a>`
+    : escapeHtml(p.whatsapp)
+  return emailShell(`
+        <tr>
+          <td style="padding:40px 40px 32px">
+            <p style="margin:0 0 8px;font-size:13px;font-weight:600;color:#A31631;text-transform:uppercase;letter-spacing:1.5px">Novo consultor</p>
+            <h1 style="margin:0 0 20px;font-size:24px;font-weight:700;color:#0E0E0F;line-height:1.3">${escapeHtml(p.nome)}</h1>
+            <table width="100%" cellpadding="0" cellspacing="0" style="background:#F7F7F7;border-radius:12px;margin-bottom:24px">
+              <tr><td style="padding:20px 24px">
+                <table width="100%" cellpadding="0" cellspacing="0">
+                  ${row('Nome', escapeHtml(p.nome))}
+                  ${row('Cargo', escapeHtml(p.cargo || '—'))}
+                  ${row('WhatsApp', whatsappCell)}
+                  ${row('E-mail', `<a href="mailto:${escapeHtml(p.email)}" style="color:#A31631;text-decoration:none">${escapeHtml(p.email)}</a>`)}
+                  ${row('Segmentos', escapeHtml(p.segmentos || '—'))}
+                  ${row('Especialidades', escapeHtml(p.especialidades || '—'))}
+                </table>
+              </td></tr>
+            </table>
+            ${wa ? `
+            <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:8px">
+              <tr><td align="center">
+                <a href="${wa}" style="display:inline-block;background:#25D366;color:#ffffff;font-size:15px;font-weight:700;text-decoration:none;padding:14px 32px;border-radius:12px">
+                  Abrir WhatsApp
+                </a>
+              </td></tr>
+            </table>` : ''}
+          </td>
+        </tr>`)
+}
+
 /* ── Handler ────────────────────────────────────────────────────── */
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -463,7 +500,29 @@ export default async function handler(req: any, res: any) {
   const { template, ...payload } = req.body as Record<string, string>
 
   try {
-    if (template === 'confirmacao-cadastro') {
+    if (template === 'nova-candidatura-consultor') {
+      const { nome, email, whatsapp, cargo, segmentos, especialidades } = payload
+      if (!nome || !email || !whatsapp) {
+        return res.status(400).json({ error: 'Campos obrigatórios ausentes' })
+      }
+      const team = await resend.emails.send({
+        from: FROM,
+        to: TEAM_INBOX,
+        replyTo: email,
+        subject: `Novo consultor — ${nome}`,
+        html: novaCandidaturaConsultorHtml({
+          nome, email, whatsapp,
+          cargo: cargo || '—',
+          segmentos: segmentos || '—',
+          especialidades: especialidades || '—',
+        }),
+      })
+      if (team.error) {
+        console.error('[email] Falha ao avisar a equipe (consultor):', team.error)
+        return res.status(500).json({ error: 'Falha ao avisar a equipe' })
+      }
+
+    } else if (template === 'confirmacao-cadastro') {
       const { to, nome } = payload
       await resend.emails.send({
         from: FROM,

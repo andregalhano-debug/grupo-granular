@@ -9,7 +9,7 @@ import { useT } from '../i18n/useT'
 
 export function SejaConsultorPage() {
   const t = useT()
-  const { form, errors, submitted, isProcessing, updateField, toggleSegment, toggleSpecialty, submit } = useSejaConsultorForm()
+  const { form, errors, submitted, isProcessing, submitError, updateField, toggleSegment, toggleSpecialty, submit } = useSejaConsultorForm()
 
   useEffect(() => { window.scrollTo(0, 0) }, [])
   useEffect(() => { if (submitted) window.scrollTo({ top: 0, behavior: 'smooth' }) }, [submitted])
@@ -40,6 +40,7 @@ export function SejaConsultorPage() {
                   form={form}
                   errors={errors}
                   isProcessing={isProcessing}
+                  submitError={submitError}
                   onUpdate={updateField}
                   onToggleSegment={toggleSegment}
                   onToggleSpecialty={toggleSpecialty}
