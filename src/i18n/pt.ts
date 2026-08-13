@@ -137,7 +137,7 @@ export const pt = {
   },
   pricing: {
     sectionTitle: 'Planos',
-    sectionHeading: 'Da loja para a rede inteira',
+    sectionHeading: 'Da primeira loja à rede inteira.',
     sectionDesc: 'Do Módulo 1 ao Módulo 3 — sob consulta, no tamanho da sua operação.',
     checkoutBack: 'Voltar ao site',
     seeConsultancy: 'Ver Especialista sob demanda',

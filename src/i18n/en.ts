@@ -137,7 +137,7 @@ export const en = {
   },
   pricing: {
     sectionTitle: 'Plans and pricing',
-    sectionHeading: 'Plans that fit your operation',
+    sectionHeading: 'From the first store to the whole network.',
     sectionDesc: 'Start transforming your business management today. Invest in our most complete module for less than the cost of 1 employee.',
     checkoutBack: 'Back to site',
     seeConsultancy: 'See On-demand Specialist',
