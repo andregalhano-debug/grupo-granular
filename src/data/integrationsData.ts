@@ -8,6 +8,8 @@ export interface IntegrationDetail {
   detailPoints?: string[]
   tags: string[]
   partner?: boolean
+  highlight?: boolean
+  logoFit?: 'cover' | 'contain'
 }
 
 export const integrationsData: IntegrationDetail[] = [
@@ -25,6 +27,7 @@ export const integrationsData: IntegrationDetail[] = [
       'Ativação simples diretamente via Portal do Parceiro iFood',
     ],
     tags: ['Pedidos automáticos', 'Rastreamento', 'Métricas de delivery', 'Avaliações'],
+    highlight: true,
   },
   {
     name: 'Anota AI',
@@ -57,8 +60,9 @@ export const integrationsData: IntegrationDetail[] = [
   {
     name: 'Open Delivery',
     logo: '/logos/opendelivery.png',
-    iconBg: '#111111',
+    iconBg: '#FFFFFF',
     logoFilter: 'none',
+    logoFit: 'contain',
     desc: 'Padrão aberto para conectar múltiplas plataformas de delivery.',
     detailPoints: [
       'Padrão aberto do mercado brasileiro de food service para integração entre plataformas',
@@ -73,6 +77,7 @@ export const integrationsData: IntegrationDetail[] = [
     logo: '/logos/omie.png',
     iconBg: '#FFFFFF',
     logoFilter: 'none',
+    logoFit: 'contain',
     desc: 'Integração financeira completa com o ERP Omie.',
     detailPoints: [
       'Sincronização automática de contas a pagar e receber entre Granular e Omie',

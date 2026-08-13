@@ -67,15 +67,6 @@ export function Integrations() {
           <p className="mt-5 text-[clamp(16px,1.5vw,19px)] leading-relaxed text-[#5f5248] max-w-[46ch] text-pretty">
             {t.integrations.sectionSubtitle}
           </p>
-          <div className="mt-6 inline-flex items-center gap-2 sm:gap-3 bg-white border border-[var(--accent)]/15 rounded-xl px-3 sm:px-5 py-2.5 sm:py-3 shadow-sm">
-            <div className="w-9 h-9 rounded-xl overflow-hidden flex-shrink-0">
-              <img src="/logos/ifood.png" alt="iFood" className="w-full h-full object-cover" />
-            </div>
-            <p className="text-sm text-[#0E0E0F]">
-              {t.integrations.oneClick} <strong>{t.integrations.oneClickBold}</strong> {t.integrations.oneClickSuffix}{' '}
-              <span className="text-[var(--accent)] font-semibold">{t.integrations.ifoodPartner}</span>
-            </p>
-          </div>
         </FadeIn>
 
         <div className="flex flex-wrap items-stretch justify-center gap-3 sm:gap-4">
@@ -93,14 +84,16 @@ export function Integrations() {
               >
                 {/* Ícone em quadrado pequeno com bordas arredondadas */}
                 <div
-                  className="w-14 h-14 rounded-2xl overflow-hidden flex items-center justify-center transition-all"
+                  className={`w-14 h-14 rounded-2xl overflow-hidden flex items-center justify-center transition-all ${
+                    item.iconBg === '#FFFFFF' ? 'border border-[#e4ddd2]' : ''
+                  }`}
                   style={{ backgroundColor: item.iconBg }}
                 >
                   <img
                     src={item.logo}
                     alt={item.name}
                     loading="lazy"
-                    className="w-full h-full object-cover"
+                    className={`w-full h-full ${item.logoFit === 'contain' ? 'object-contain p-1.5' : 'object-cover'}`}
                     style={{ filter: item.logoFilter }}
                   />
                 </div>
@@ -129,8 +122,18 @@ export function Integrations() {
               {/* Header */}
               <div className="flex items-start justify-between px-4 sm:px-8 py-4 sm:py-5 border-b border-[#0E0E0F]/5 gap-3">
                 <div className="flex items-start gap-3 sm:gap-4 min-w-0">
-                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden flex items-center justify-center flex-shrink-0" style={{ backgroundColor: openIntegration.iconBg }}>
-                    <img src={openIntegration.logo} alt={openIntegration.name} className="w-full h-full object-cover" style={{ filter: openIntegration.logoFilter }} />
+                  <div
+                    className={`w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden flex items-center justify-center flex-shrink-0 ${
+                      openIntegration.iconBg === '#FFFFFF' ? 'border border-[#e4ddd2]' : ''
+                    }`}
+                    style={{ backgroundColor: openIntegration.iconBg }}
+                  >
+                    <img
+                      src={openIntegration.logo}
+                      alt={openIntegration.name}
+                      className={`w-full h-full ${openIntegration.logoFit === 'contain' ? 'object-contain p-1.5' : 'object-cover'}`}
+                      style={{ filter: openIntegration.logoFilter }}
+                    />
                   </div>
                   <div className="min-w-0">
                     <div className="flex flex-wrap items-center gap-2">
@@ -155,6 +158,17 @@ export function Integrations() {
 
               {/* Conteúdo */}
               <div className="p-6 sm:p-8">
+                {openIntegration.highlight && (
+                  <div className="mb-6 flex items-center gap-3 rounded-xl border border-[#EA1D2C]/15 bg-[#EA1D2C]/[0.04] px-3.5 py-3 sm:px-4">
+                    <div className="w-9 h-9 rounded-lg overflow-hidden flex-shrink-0">
+                      <img src="/logos/ifood.png" alt="" className="w-full h-full object-cover" />
+                    </div>
+                    <p className="text-sm text-[#2c241f] leading-snug">
+                      {t.integrations.oneClick} <strong>{t.integrations.oneClickBold}</strong> {t.integrations.oneClickSuffix}{' '}
+                      <span className="text-[#EA1D2C] font-semibold">{t.integrations.ifoodPartner}</span>
+                    </p>
+                  </div>
+                )}
                 {openIntegration.detailPoints ? (
                   <ul className="space-y-2 mb-6">
                     {openIntegration.detailPoints.map((point, i) => (
