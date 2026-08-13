@@ -20,7 +20,8 @@ import { OrderSummary } from '../components/checkout/OrderSummary'
 import { SecurityBadge } from '../components/checkout/SecurityBadge'
 import { StripeCardForm } from '../components/checkout/StripeCardForm'
 import { MiniCalendar } from '../components/MiniCalendar'
-import { generateDemoSlots, saveDemoBooking } from '../data/demoSlots'
+import { generateDemoSlots } from '../data/demoSlots'
+import { submitDemoBooking } from '../services/demoBookingService'
 import { categoryAccent, withAlpha } from '../data/categoryColors'
 import type { Category } from '../components/Modules'
 
@@ -86,6 +87,8 @@ export function CheckoutPage() {
   const [faturamento, setFaturamento] = useState('')
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null)
   const [demoSubmitted, setDemoSubmitted] = useState(false)
+  const [demoSubmitting, setDemoSubmitting] = useState(false)
+  const [demoSubmitError, setDemoSubmitError] = useState<string | null>(null)
   const [showPayment, setShowPayment] = useState(false)
   const [showCalendar, setShowCalendar] = useState(false)
   const [showSummary, setShowSummary] = useState(false)
@@ -189,9 +192,9 @@ export function CheckoutPage() {
     return Object.keys(e).length === 0
   }
 
-  const handleDemoSubmit = (e: React.FormEvent) => {
+  const handleDemoSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!validateDemo()) return
+    if (!validateDemo() || demoSubmitting) return
 
     let slotDate = '', slotTime = ''
     if (selectedSlot) {
@@ -200,22 +203,27 @@ export function CheckoutPage() {
       slotTime = selectedSlot.substring(lastDash + 1)
     }
 
-    saveDemoBooking({
-      id: `demo-${Date.now()}`,
-      name: form.nome.trim(),
-      email: form.email.trim(),
-      whatsapp: form.whatsapp.trim(),
-      company: form.empresa.trim(),
-      segmento,
-      segmentoOutro: segmento === 'Outros' ? segmentoOutro.trim() : undefined,
-      units: faturamento || '-',
-      date: slotDate,
-      time: slotTime,
-      status: 'pendente',
-      createdAt: new Date().toISOString(),
-    })
-
-    setDemoSubmitted(true)
+    setDemoSubmitError(null)
+    setDemoSubmitting(true)
+    try {
+      await submitDemoBooking({
+        name: form.nome.trim(),
+        email: form.email.trim(),
+        whatsapp: form.whatsapp.trim(),
+        company: form.empresa.trim(),
+        segmento,
+        segmentoOutro: segmento === 'Outros' ? segmentoOutro.trim() : undefined,
+        faturamento: faturamento || '-',
+        date: slotDate || '-',
+        time: slotTime || '-',
+        source: 'checkout',
+      })
+      setDemoSubmitted(true)
+    } catch {
+      setDemoSubmitError('Não foi possível enviar agora. Tente novamente em instantes ou fale com a gente pelo WhatsApp.')
+    } finally {
+      setDemoSubmitting(false)
+    }
   }
 
   const navigateToConfirmation = (orderId: string) => {
@@ -512,13 +520,24 @@ export function CheckoutPage() {
               <div className="space-y-3">
                 <button
                   type="submit"
-                  className="w-full flex items-center justify-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-semibold py-4 px-8 rounded-xl text-base transition-colors cursor-pointer"
+                  disabled={demoSubmitting}
+                  className="w-full flex items-center justify-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold py-4 px-8 rounded-xl text-base transition-colors cursor-pointer"
                 >
-                  {selectedSlot
-                    ? <><CalendarDays size={18} /> Confirmar agendamento</>
-                    : <><Send size={18} /> Enviar — Entraremos em contato</>
+                  {demoSubmitting
+                    ? <><Loader2 size={18} className="animate-spin" /> Enviando...</>
+                    : selectedSlot
+                      ? <><CalendarDays size={18} /> Confirmar agendamento</>
+                      : <><Send size={18} /> Enviar — Entraremos em contato</>
                   }
                 </button>
+                {demoSubmitError && (
+                  <p className="text-xs text-red-500 text-center">
+                    {demoSubmitError}{' '}
+                    <a href="https://wa.me/5531984355542" target="_blank" rel="noopener noreferrer" className="underline font-medium">
+                      Abrir WhatsApp
+                    </a>
+                  </p>
+                )}
                 <p className="text-[11px] text-[#9C958A] text-center">
                   {selectedSlot
                     ? 'Confirmaremos a data pelo WhatsApp informado.'
