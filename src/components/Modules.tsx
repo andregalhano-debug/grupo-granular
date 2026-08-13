@@ -6,6 +6,7 @@ import { modulesDataRestaurantes, modulesDataMercados, modulesDataMercadosCFTV, 
 import { modulesDataRestaurantesEn, modulesDataMercadosEn } from '../data/modulesDataEn'
 import { useCategoryAccent } from '../stores/CategoryContext'
 import { useT } from '../i18n/useT'
+import { CTA_ORIGEM, demoHref } from '../data/ctaOrigem'
 import { useLanguage } from '../stores/useLanguageStore'
 
 export type Category = 'restaurantes' | 'mercados' | 'farmacias' | 'petshop' | 'shopping'
@@ -222,7 +223,7 @@ export function Modules({ category = 'restaurantes' }: Props) {
                           </p>
                         </div>
                         <Link
-                          to="/agendar-demo"
+                          to={demoHref(CTA_ORIGEM.televendas)}
                           className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors whitespace-nowrap flex-shrink-0"
                         >
                           <CalendarDays size={15} />
@@ -242,7 +243,7 @@ export function Modules({ category = 'restaurantes' }: Props) {
                           </p>
                         </div>
                         <Link
-                          to="/agendar-demo"
+                          to={demoHref(CTA_ORIGEM.pessoas)}
                           className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors whitespace-nowrap flex-shrink-0"
                         >
                           {t.modules.startNow}
@@ -250,7 +251,7 @@ export function Modules({ category = 'restaurantes' }: Props) {
                         </Link>
                       </div>
                       <Link
-                        to="/agendar-demo"
+                        to={demoHref(CTA_ORIGEM.plano3)}
                         className="inline-flex items-center gap-2 text-[var(--accent)] hover:text-[var(--accent-dark)] font-medium text-xs transition-colors self-start"
                       >
                         Ou veja o Módulo 3 completo (RH + Produção) →

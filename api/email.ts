@@ -446,16 +446,19 @@ function novoAgendamentoDemoHtml(p: {
     : escapeHtml(p.whatsapp)
   const temSlot = p.data && p.data !== '-' && p.horario && p.horario !== '-'
   const doChat = p.origem === 'chat'
-  const doEspecialista = p.origem === 'especialista-sob-demanda'
-  const origemLabel = doEspecialista
-    ? 'Especialista sob demanda'
-    : doChat
-      ? 'Chat do site'
-      : p.origem === 'home-contato'
-        ? 'Home — Veja rodando'
-        : p.origem === 'checkout'
-          ? 'Checkout'
-          : 'Demonstração do sistema'
+  const origemLabelMap: Record<string, string> = {
+    'especialista-sob-demanda': 'Especialista sob demanda',
+    chat: 'Chat do site',
+    'home-contato': 'Home — Veja rodando',
+    checkout: 'Checkout',
+    'modulo-televendas': 'Módulo Televendas',
+    'modulo-pessoas': 'Módulo Pessoas (RH)',
+    'plano-modulo-1': 'Planos — Módulo 1',
+    'plano-modulo-2': 'Planos — Módulo 2',
+    'plano-modulo-3': 'Planos — Módulo 3',
+    'agendar-demo': 'Demonstração do sistema',
+  }
+  const origemLabel = origemLabelMap[p.origem] || p.origem || 'Demonstração do sistema'
   return emailShell(`
         <tr>
           <td style="padding:40px 40px 32px">
@@ -843,11 +846,18 @@ export default async function handler(req: any, res: any) {
         return res.status(400).json({ error: 'Campos obrigatórios ausentes' })
       }
 
-      const teamSubject = origem === 'especialista-sob-demanda'
-        ? `Novo lead — Especialista sob demanda — ${empresa}`
-        : origem === 'home-contato'
-          ? `Novo lead — Home — ${empresa}`
-          : `Novo lead — ${empresa}`
+      const origemAssunto: Record<string, string> = {
+        'especialista-sob-demanda': 'Especialista sob demanda',
+        'home-contato': 'Home',
+        'modulo-televendas': 'Televendas',
+        'modulo-pessoas': 'Pessoas (RH)',
+        'plano-modulo-1': 'Módulo 1',
+        'plano-modulo-2': 'Módulo 2',
+        'plano-modulo-3': 'Módulo 3',
+      }
+      const teamSubject = origemAssunto[origem]
+        ? `Novo lead — ${origemAssunto[origem]} — ${empresa}`
+        : `Novo lead — ${empresa}`
 
       const team = await resend.emails.send({
         from: FROM,
