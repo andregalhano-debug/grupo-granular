@@ -151,31 +151,40 @@ export function Header({ category }: Props) {
           ))}
         </nav>
 
-        <div className="hidden lg:flex items-center gap-2.5 ml-1 shrink-0">
-          <Link
-            to="/comunidade-mentores"
-            className="flex flex-col items-center justify-center leading-tight text-center px-1.5 py-0.5 text-[#7c2d3e] hover:text-[#5f2130]"
-          >
-            <span className="text-[11px] font-medium">Comunidade</span>
-            <span className="text-[11px] font-medium">Mentores</span>
-          </Link>
-          <a href="/login" className="text-[14.5px] text-[#5f5248] hover:text-[#7c2d3e] transition-colors">
-            {t.nav.login}
-          </a>
-          {cart.itemCount > 0 && (
-            <Link to="/agendar-demo" className="relative p-2 text-[#8a7a6e] hover:text-[#2c241f] transition-colors">
-              <Briefcase size={20} />
-              <span className="absolute -top-0.5 -right-0.5 w-4.5 h-4.5 bg-[#7c2d3e] text-white text-[10px] font-bold rounded-full flex items-center justify-center leading-none">
-                {cart.itemCount}
-              </span>
+        <div className="hidden lg:flex items-center shrink-0">
+          <span className="mx-4 h-5 w-px bg-[#e4ddd2]" aria-hidden="true" />
+
+          <div className="flex items-center gap-4">
+            <Link
+              to="/comunidade-mentores"
+              className="flex flex-col items-center justify-center leading-[1.15] text-center text-[#7c2d3e] hover:text-[#5f2130]"
+            >
+              <span className="text-[11px] font-medium">Comunidade</span>
+              <span className="text-[11px] font-medium">Mentores</span>
             </Link>
-          )}
-          <Link
-            to="/agendar-demo"
-            className="inline-flex items-center min-h-10 px-5 rounded-full bg-[#7c2d3e] hover:bg-[#5f2130] text-[#f7f2ee] font-medium text-[14.5px] whitespace-nowrap transition-colors"
-          >
-            {t.nav.startNow}
-          </Link>
+            <a href="/login" className="text-[14.5px] text-[#5f5248] hover:text-[#7c2d3e] transition-colors">
+              {t.nav.login}
+            </a>
+          </div>
+
+          <span className="mx-4 h-5 w-px bg-[#e4ddd2]" aria-hidden="true" />
+
+          <div className="flex items-center gap-3">
+            {cart.itemCount > 0 && (
+              <Link to="/agendar-demo" className="relative p-2 text-[#8a7a6e] hover:text-[#2c241f] transition-colors">
+                <Briefcase size={20} />
+                <span className="absolute -top-0.5 -right-0.5 w-4.5 h-4.5 bg-[#7c2d3e] text-white text-[10px] font-bold rounded-full flex items-center justify-center leading-none">
+                  {cart.itemCount}
+                </span>
+              </Link>
+            )}
+            <Link
+              to="/agendar-demo"
+              className="inline-flex items-center min-h-10 px-5 rounded-full bg-[#7c2d3e] hover:bg-[#5f2130] text-[#f7f2ee] font-medium text-[14.5px] whitespace-nowrap transition-colors"
+            >
+              {t.nav.startNow}
+            </Link>
+          </div>
         </div>
 
         <div className="lg:hidden flex items-center gap-2">
@@ -226,7 +235,7 @@ export function Header({ category }: Props) {
               {link.label}
             </NavAnchor>
           ))}
-          <div className="pt-3 border-t border-[#e4ddd2] space-y-2">
+          <div className="pt-3 mt-1 border-t border-[#e4ddd2] space-y-1">
             <Link to="/comunidade-mentores" className="block text-sm text-[#7c2d3e] font-medium py-2" onClick={() => setMenuOpen(false)}>
               {t.nav.beMentor}
             </Link>
