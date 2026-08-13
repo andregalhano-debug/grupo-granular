@@ -58,51 +58,48 @@ export function GranuPage() {
 
       <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 border-t border-[#E4DDD2]">
         <div className="max-w-6xl mx-auto">
-          <FadeIn className="mb-10">
+        <div className="grid lg:grid-cols-[auto_1fr] gap-10 lg:gap-14 items-center">
+          <FadeIn className="justify-self-center lg:justify-self-start">
+            <GranuDualPhones />
+          </FadeIn>
+          <FadeIn delay={80} className="max-w-md lg:pt-2">
             <p
               className="text-xs font-semibold uppercase tracking-[0.22em] text-[#A31631] mb-3"
               style={{ fontFamily: "'JetBrains Mono', monospace" }}
             >
-              04 · A Granu
+              No seu bolso · e no sistema
             </p>
             <h2
-              className="text-3xl sm:text-4xl lg:text-[2.6rem] font-bold tracking-tight text-[#0E0E0F] leading-[1.08] max-w-[18ch]"
+              className="text-3xl sm:text-[2.15rem] font-bold tracking-tight text-[#0E0E0F] leading-[1.08] mb-4"
               style={{ fontFamily: "'Space Grotesk', sans-serif" }}
             >
               Pergunte como quem pergunta a um sócio.
             </h2>
-          </FadeIn>
-
-          <div className="grid lg:grid-cols-[1fr_minmax(240px,300px)] gap-10 lg:gap-12 items-start">
-            <FadeIn>
-              <GranuDualPhones />
-            </FadeIn>
-            <FadeIn delay={80}>
-              <h3
-                className="text-2xl sm:text-3xl font-bold tracking-tight text-[#0E0E0F] leading-[1.1] mb-6"
-                style={{ fontFamily: "'Space Grotesk', sans-serif" }}
-              >
-                Portal do iFood?<br />Nunca mais.
-              </h3>
-              <p
-                className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#A2968A] mb-2"
-                style={{ fontFamily: "'JetBrains Mono', monospace" }}
-              >
-                A Granu faz
-              </p>
-              <div className="divide-y divide-[#DDD4C8]">
-                {FAZ.map((item) => (
-                  <div key={item.n} className="grid grid-cols-[28px_1fr] gap-3 py-4">
-                    <span className="text-[12px] text-[#A2968A] pt-0.5" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{item.n}</span>
-                    <div>
-                      <p className="text-[15px] font-semibold text-[#241D1A] tracking-tight">{item.t}</p>
-                      <p className="text-sm text-[#5F544C] mt-0.5 leading-snug">{item.d}</p>
-                    </div>
+            <p className="text-[#5D5148] text-[15px] leading-relaxed mb-3">
+              À esquerda, eu te chamo no WhatsApp — resumo do dia e um botão para resolver. Ao lado, a mesma conversa dentro da plataforma, com a conta aberta e a evidência do cubo.
+            </p>
+            <p className="text-[#6B3F1F] italic text-[16px] leading-snug mb-8">
+              “Você não abre dashboard às 8 da manhã. Eu te mando o dia — e você resolve com um toque.”
+            </p>
+            <p
+              className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#A2968A] mb-1"
+              style={{ fontFamily: "'JetBrains Mono', monospace" }}
+            >
+              A Granu faz
+            </p>
+            <div className="divide-y divide-[#DDD4C8]">
+              {FAZ.map((item) => (
+                <div key={item.n} className="grid grid-cols-[28px_1fr] gap-3 py-3">
+                  <span className="text-[12px] text-[#A2968A] pt-0.5" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{item.n}</span>
+                  <div>
+                    <p className="text-[15px] font-semibold text-[#241D1A] tracking-tight">{item.t}</p>
+                    <p className="text-sm text-[#5F544C] mt-0.5 leading-snug">{item.d}</p>
                   </div>
-                ))}
-              </div>
-            </FadeIn>
-          </div>
+                </div>
+              ))}
+            </div>
+          </FadeIn>
+        </div>
 
           <FadeIn>
             <div className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-0 sm:divide-x sm:divide-[#DDD4C8] border-t border-[#DDD4C8] pt-8">
