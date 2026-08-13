@@ -12,7 +12,7 @@ export function ShoppingPage() {
         headlineAccent: 'com IA de ponta a ponta',
         subtitle: 'Brinquedos, floricultura, presenteáveis e utilidades domésticas — estoque, vendas, delivery e financeiro em um só sistema.',
         modulesTitle: 'Os módulos que fazem diferença para o shopping',
-        modulesSubtitle: 'Granular Shopping replica a estrutura do PET e fala a língua da loja: mix longo, validade curta e datas comemorativas.',
+        modulesSubtitle: 'Granular Shopping fala a língua da loja: mix longo, validade curta e datas comemorativas.',
         highlights: [
           { icon: Gift, title: 'Brinquedos', desc: 'Mix de brinquedos com curva ABC, ruptura de gôndola e giro por faixa etária. Saiba o que para na prateleira e o que falta no fim de semana.' },
           { icon: Flower2, title: 'Floricultura', desc: 'Validade curta, perda e reposição sob controle. Alertas antes da flor murchar e do pedido de casamento ficar sem estoque.' },
