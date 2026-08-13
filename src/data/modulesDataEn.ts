@@ -159,7 +159,7 @@ export const modulesDataRestaurantesEn: ModuleDetail[] = [
     icon: Plug,
     title: 'Integrations',
     desc: 'Connect your ecosystem with iFood, Anota AI, 99Food, Omie, Open Delivery and more.',
-    features: ['iFood', 'Anota AI', '99Food', 'Omie', 'Open Delivery', 'Foozi'],
+    features: ['iFood', 'Anota AI', '99Food', 'Omie', 'Open Delivery'],
     detailPoints: [
       'iFood: orders received automatically, no manual management',
       'Anota AI: digital menu orders centralized in Granular',
