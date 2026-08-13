@@ -153,7 +153,7 @@ export function Header({ category }: Props) {
         </nav>
 
         <div className="hidden md:flex items-center gap-3 ml-2">
-          <Link to="/seja-consultor" className="text-xs font-medium text-[#7c2d3e] hover:text-[#5f2130] px-2 py-1.5">
+          <Link to="/comunidade-mentores" className="text-xs font-medium text-[#7c2d3e] hover:text-[#5f2130] px-2 py-1.5">
             {t.nav.beMentor}
           </Link>
           <a href="/login" className="text-[14.5px] text-[#5f5248] hover:text-[#7c2d3e] transition-colors">
@@ -244,7 +244,7 @@ export function Header({ category }: Props) {
             </NavAnchor>
           ))}
           <div className="pt-3 border-t border-[#e4ddd2] space-y-2">
-            <Link to="/seja-consultor" className="block text-sm text-[#7c2d3e] font-medium py-2" onClick={() => setMenuOpen(false)}>
+            <Link to="/comunidade-mentores" className="block text-sm text-[#7c2d3e] font-medium py-2" onClick={() => setMenuOpen(false)}>
               {t.nav.beMentor}
             </Link>
             <a href="/login" className="block text-sm text-[#5f5248] py-2">{t.nav.login}</a>

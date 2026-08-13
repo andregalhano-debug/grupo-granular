@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { ChevronDown, ChevronUp, GraduationCap } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { ChevronDown, ChevronUp } from 'lucide-react'
 import { FadeIn } from './FadeIn'
 import { useT } from '../i18n/useT'
 import type { Category } from './Modules'
@@ -179,25 +178,6 @@ export function Faq({ category = 'restaurantes' }: Props) {
           </FadeIn>
         )}
 
-        {/* CTA Seja Consultor */}
-        <FadeIn delay={200}>
-          <div className="mt-12 rounded-2xl border border-[var(--accent-15)] bg-[var(--accent-05)] p-6 sm:p-8 flex flex-col sm:flex-row items-center gap-5 text-center sm:text-left">
-            <div className="w-14 h-14 rounded-xl bg-[var(--accent-10)] flex items-center justify-center flex-shrink-0">
-              <GraduationCap size={28} className="text-[var(--accent)]" />
-            </div>
-            <div className="flex-1">
-              <h3 className="text-base font-bold text-[#0E0E0F] mb-1">{t.faq.joinTeam.title}</h3>
-              <p className="text-sm text-[#9C958A]">{t.faq.joinTeam.desc}</p>
-            </div>
-            <Link
-              to="/seja-consultor"
-              className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors whitespace-nowrap flex-shrink-0"
-            >
-              {t.faq.joinTeam.cta}
-              <ChevronDown size={14} className="rotate-[-90deg]" />
-            </Link>
-          </div>
-        </FadeIn>
       </div>
     </section>
   )

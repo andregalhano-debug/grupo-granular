@@ -7,7 +7,7 @@ export const pt = {
     differentials: 'Diferenciais',
     pricing: 'Planos',
     faq: 'FAQ',
-    beMentor: 'Seja um Mentor',
+    beMentor: 'Comunidade Mentores',
     login: 'Login',
     startNow: 'Agendar demonstração',
     changeSegment: '↑ Trocar segmento',

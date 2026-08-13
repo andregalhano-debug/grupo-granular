@@ -7,7 +7,7 @@ export const en = {
     differentials: 'Differentials',
     pricing: 'Plans',
     faq: 'FAQ',
-    beMentor: 'Become a Mentor',
+    beMentor: 'Mentors Community',
     login: 'Login',
     startNow: 'Book a demo',
     changeSegment: '↑ Change segment',
