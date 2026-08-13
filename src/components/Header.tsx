@@ -97,20 +97,20 @@ export function Header({ category }: Props) {
 
   return (
     <header className="sticky top-0 z-50 bg-[rgba(240,237,232,.88)] backdrop-blur-xl border-b border-[#e4ddd2]">
-      <div className="max-w-[1240px] mx-auto px-[clamp(18px,4vw,44px)] h-[68px] flex items-center gap-5">
-        <Link to="/" className="flex items-center gap-2.5 font-semibold text-[19px] tracking-tight text-[#2c241f]">
+      <div className="max-w-[1240px] mx-auto px-[clamp(18px,4vw,44px)] min-h-[68px] flex items-center gap-4 lg:gap-5 flex-nowrap">
+        <Link to="/" className="flex items-center gap-2.5 font-semibold text-[19px] tracking-tight text-[#2c241f] shrink-0">
           <GranularLogo size={36} color={logoColor} />
           <span>
             Granular
-            {scrolled && suffix && (
+            {scrolled && suffix && pathname !== '/' && (
               <span className="ml-1 text-[#7c2d3e] font-medium">{suffix}</span>
             )}
           </span>
         </Link>
 
-        <div className="flex-1" />
+        <div className="flex-1 min-w-2" />
 
-        <nav className="hidden md:flex items-center gap-[clamp(14px,2vw,28px)]">
+        <nav className="hidden lg:flex items-center gap-[clamp(12px,1.6vw,22px)] shrink-0">
           <NavAnchor href="/granu">{t.nav.granu}</NavAnchor>
 
           <div ref={catsRef} className="relative">
@@ -152,9 +152,13 @@ export function Header({ category }: Props) {
           ))}
         </nav>
 
-        <div className="hidden md:flex items-center gap-3 ml-2">
-          <Link to="/comunidade-mentores" className="text-xs font-medium text-[#7c2d3e] hover:text-[#5f2130] px-2 py-1.5">
-            {t.nav.beMentor}
+        <div className="hidden lg:flex items-center gap-2.5 ml-1 shrink-0">
+          <Link
+            to="/comunidade-mentores"
+            className="flex flex-col items-center justify-center leading-tight text-center px-1.5 py-0.5 text-[#7c2d3e] hover:text-[#5f2130]"
+          >
+            <span className="text-[11px] font-medium">Comunidade</span>
+            <span className="text-[11px] font-medium">Mentores</span>
           </Link>
           <a href="/login" className="text-[14.5px] text-[#5f5248] hover:text-[#7c2d3e] transition-colors">
             {t.nav.login}
@@ -188,7 +192,7 @@ export function Header({ category }: Props) {
           </Link>
         </div>
 
-        <div className="md:hidden flex items-center gap-2">
+        <div className="lg:hidden flex items-center gap-2">
           <button
             onClick={toggle}
             title={theme === 'dark' ? 'Modo claro' : 'Modo escuro'}
@@ -211,7 +215,7 @@ export function Header({ category }: Props) {
       </div>
 
       {menuOpen && (
-        <div className="md:hidden bg-[#f0ede8] border-t border-[#e4ddd2] px-4 py-4 space-y-1">
+        <div className="lg:hidden bg-[#f0ede8] border-t border-[#e4ddd2] px-4 py-4 space-y-1">
           <NavAnchor href="/granu" onClick={() => setMenuOpen(false)} className="block py-2.5">
             {t.nav.granu}
           </NavAnchor>
