@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowLeft, CalendarDays, CheckCircle2, Send, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react'
 import { GranularLogo } from '../components/GranularLogo'
+import { AddToCalendar } from '../components/AddToCalendar'
 import { getDemoBookings } from '../data/demoSlots'
 import { submitDemoBooking } from '../services/demoBookingService'
 
@@ -184,6 +185,24 @@ export function AgendarDemoPage() {
                 ? <>Agendamos para <strong className="text-[#0E0E0F] capitalize">{dateLabel}</strong> às <strong className="text-[#0E0E0F]">{selectedTime}</strong>. Nossa equipe confirmará pelo WhatsApp.</>
                 : 'Recebemos seus dados. Nossa equipe entrará em contato pelo WhatsApp em breve para agendar a melhor data.'}
             </p>
+            {selectedDate && selectedTime && (
+              <AddToCalendar
+                event={{
+                  title: company.trim()
+                    ? `Demonstração Granular — ${company.trim()}`
+                    : 'Demonstração Granular',
+                  description:
+                    'Demonstração da plataforma Granular. Nossa equipe confirma pelo WhatsApp e envia o link da reunião.\n\nhttps://www.grupogranular.com.br',
+                  location: 'Online — link no WhatsApp',
+                  start: (() => {
+                    const [hh, mm] = selectedTime.split(':').map(Number)
+                    const start = new Date(selectedDate)
+                    start.setHours(hh || 0, mm || 0, 0, 0)
+                    return start
+                  })(),
+                }}
+              />
+            )}
             <Link to="/" className="inline-flex items-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors">
               Voltar ao site
             </Link>
