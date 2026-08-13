@@ -95,7 +95,7 @@ export function Header({ category }: Props) {
   }, [pathname])
 
   return (
-    <header className="sticky top-0 z-50 bg-[rgba(240,237,232,.88)] backdrop-blur-xl border-b border-[#e4ddd2]">
+    <header className="sticky top-0 z-50 bg-[rgba(253,251,248,.92)] backdrop-blur-xl border-b border-[#ece6dc] shadow-[0_1px_0_rgba(44,36,31,0.04)]">
       <div className="max-w-[1240px] mx-auto px-[clamp(18px,4vw,44px)] min-h-[68px] flex items-center gap-4 lg:gap-5 flex-nowrap">
         <Link to="/" className="flex items-center gap-2.5 font-semibold text-[19px] tracking-tight text-[#2c241f] shrink-0">
           <GranularLogo size={36} color={logoColor} />
