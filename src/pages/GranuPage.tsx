@@ -28,7 +28,7 @@ export function GranuPage() {
     <div className="min-h-screen bg-[#f0ede8]">
       <Header />
 
-      <section className="pt-28 sm:pt-36 pb-8 px-4 sm:px-6 lg:px-8">
+      <section className="pt-10 sm:pt-14 pb-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-8 items-center">
           <FadeIn className="relative h-[300px] sm:h-[420px] lg:h-[520px] -mx-4 sm:mx-0 order-first lg:order-last">
             <GranuGrain className="absolute inset-0 w-full h-full" zoom={1.4} />
