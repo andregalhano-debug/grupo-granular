@@ -7,6 +7,7 @@ import { useCategoryAccent } from '../stores/CategoryContext'
 import { useT } from '../i18n/useT'
 import { modulesDataMercadosCFTV } from '../data/modulesData'
 import { SecuritySection } from './home/SecuritySection'
+import { CTA_ORIGEM, demoHref, planoOrigem } from '../data/ctaOrigem'
 
 type BillingCycle = 'monthly' | 'annual'
 
@@ -68,7 +69,7 @@ function MobileCards({
   const featureAvulso: Record<string, { label: string; ctas: { text: string; link: string }[] }> = category === 'mercados' ? {} : {
     [t.plansData.addonPessoas]: {
       label: 'Avulso',
-      ctas: [{ text: 'Sob consulta', link: '/agendar-demo' }],
+      ctas: [{ text: 'Sob consulta', link: demoHref(CTA_ORIGEM.pessoas) }],
     },
   }
 
@@ -192,7 +193,7 @@ function MobileCards({
           {/* CTA */}
           <div className="px-4 pb-5">
             <Link
-              to={isSobConsulta(plan) ? '/agendar-demo' : `/checkout?plano=${plan.id}&segmento=${category}`}
+              to={isSobConsulta(plan) ? demoHref(planoOrigem(plan.id)) : `/checkout?plano=${plan.id}&segmento=${category}`}
               className="flex items-center justify-center w-full h-11 font-medium px-4 rounded-xl text-sm transition-colors border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white whitespace-nowrap"
             >
               {isSobConsulta(plan) ? t.pricingExtended.scheduleDemo : plan.cta}
@@ -225,7 +226,7 @@ function DesktopTable({
   const featureAvulso: Record<string, { label: string; ctas: { text: string; link: string }[] }> = category === 'mercados' ? {} : {
     [t.plansData.addonPessoas]: {
       label: 'Avulso',
-      ctas: [{ text: 'Sob consulta', link: '/agendar-demo' }],
+      ctas: [{ text: 'Sob consulta', link: demoHref(CTA_ORIGEM.pessoas) }],
     },
   }
 
@@ -386,7 +387,7 @@ function DesktopTable({
             className="p-6 text-center rounded-b-2xl bg-white border-b border-x border-[#9C958A]/20"
           >
             <Link
-              to={isSobConsulta(plan) ? '/agendar-demo' : `/checkout?plano=${plan.id}&segmento=${category}`}
+              to={isSobConsulta(plan) ? demoHref(planoOrigem(plan.id)) : `/checkout?plano=${plan.id}&segmento=${category}`}
               className="flex items-center justify-center w-full h-11 font-medium px-4 rounded-xl text-sm transition-colors border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white whitespace-nowrap"
             >
               {isSobConsulta(plan) ? t.pricingExtended.scheduleDemo : plan.cta}
@@ -484,7 +485,7 @@ export function Pricing({ category = 'restaurantes', showSecurity = false }: Pro
                       <p className="text-sm font-semibold text-[#0E0E0F]">Sob consulta</p>
                     </div>
                     <Link
-                      to="/agendar-demo"
+                      to={demoHref(CTA_ORIGEM.pessoas)}
                       className="inline-flex items-center gap-1.5 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white text-xs font-medium px-4 py-2 rounded-xl transition-colors whitespace-nowrap"
                     >
                       Falar com a gente
@@ -507,7 +508,7 @@ export function Pricing({ category = 'restaurantes', showSecurity = false }: Pro
                       <p className="text-sm font-semibold text-[#0E0E0F]">Sob consulta</p>
                     </div>
                     <Link
-                      to="/agendar-demo"
+                      to={demoHref(CTA_ORIGEM.televendas)}
                       className="inline-flex items-center gap-1.5 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white text-xs font-medium px-4 py-2 rounded-xl transition-colors whitespace-nowrap"
                     >
                       Falar com a gente

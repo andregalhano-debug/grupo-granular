@@ -10,8 +10,8 @@ const PRODUCT_ITEMS = [
   { label: 'Granular Farma',    href: '/farmacias',     badge: null },
   { label: 'Granular Pet',      href: '/petshop',       badge: null },
   { label: 'Granular Shopping', href: '/shopping',      badge: null },
-  { label: 'Módulo Televendas', href: '/#precos',       badge: 'avulso' },
-  { label: 'Módulo Pessoas',    href: '/#pessoas',      badge: 'avulso' },
+  { label: 'Módulo Televendas', href: '/agendar-demo?origem=modulo-televendas', badge: 'avulso' },
+  { label: 'Módulo Pessoas',    href: '/agendar-demo?origem=modulo-pessoas',    badge: 'avulso' },
 ]
 
 export function Footer() {

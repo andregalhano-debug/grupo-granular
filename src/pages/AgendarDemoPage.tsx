@@ -6,6 +6,7 @@ import { AddToCalendar } from '../components/AddToCalendar'
 import { getDemoBookings } from '../data/demoSlots'
 import { submitDemoBooking } from '../services/demoBookingService'
 import { formatWhatsApp } from '../utils/formatters'
+import { parseCtaOrigem, ctaOrigemLabel, CTA_ORIGEM } from '../data/ctaOrigem'
 
 const SEGMENTOS = [
   'Restaurante', 'Mercado', 'Atacado', 'Atacarejo', 'Farmácia', 'Pet Shop', 'Shopping', 'Outros',
@@ -48,7 +49,8 @@ function slotKey(date: Date, time: string) {
 
 export function AgendarDemoPage() {
   const [searchParams] = useSearchParams()
-  const origemEspecialista = searchParams.get('origem') === 'especialista-sob-demanda'
+  const origem = parseCtaOrigem(searchParams.get('origem'))
+  const origemLabel = ctaOrigemLabel(origem)
   const [company, setCompany] = useState('')
   const [segmento, setSegmento] = useState('')
   const [segmentoOutro, setSegmentoOutro] = useState('')
@@ -153,7 +155,7 @@ export function AgendarDemoPage() {
           : '-',
         time: selectedTime || '-',
         dateIso: selectedDate ? dateKey(selectedDate) : '',
-        source: origemEspecialista ? 'especialista-sob-demanda' : 'agendar-demo',
+        source: origem,
       })
       setSubmitted(true)
     } catch {
@@ -232,11 +234,11 @@ export function AgendarDemoPage() {
       <main className="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
         <div className="mb-6 sm:mb-8">
           <h1 className="text-xl sm:text-2xl font-bold text-[#0E0E0F] mb-1">
-            {origemEspecialista ? 'Especialista sob demanda' : 'Agendar demonstração'}
+            {origem !== CTA_ORIGEM.demo ? origemLabel : 'Agendar demonstração'}
           </h1>
           <p className="text-xs sm:text-sm text-[#9C958A]">
-            {origemEspecialista
-              ? 'Preencha seus dados para falar sobre o Especialista sob demanda. Se quiser, escolha também um dia e horário.'
+            {origem !== CTA_ORIGEM.demo
+              ? `Preencha seus dados para falar sobre ${origemLabel}. Se quiser, escolha também um dia e horário.`
               : 'Preencha seus dados e escolha o melhor dia e horário para você.'}
           </p>
         </div>
