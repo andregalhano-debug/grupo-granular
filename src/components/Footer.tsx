@@ -30,16 +30,11 @@ export function Footer() {
               </span>
             </a>
             <p className="text-[14.5px] leading-relaxed max-w-[34ch]">
-              {t.footer.tagline}
-              {t.footer.taglineAccent ? (
-                <>
-                  {' '}
-                  <span className="text-[#f7f2ee] font-semibold whitespace-nowrap">
-                    {t.footer.taglineAccent}
-                  </span>
-                  .
-                </>
-              ) : null}
+              <span className="block">{t.footer.tagline}</span>
+              <span className="block">{t.footer.taglineMid}</span>
+              <span className="block mt-1.5 text-[#f7f2ee] font-semibold">
+                {t.footer.taglineAccent}
+              </span>
             </p>
           </div>
 

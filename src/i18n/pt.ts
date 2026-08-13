@@ -176,8 +176,9 @@ export const pt = {
     usedBy: 'Usado por marcas como',
   },
   footer: {
-    tagline: 'Digital as a Service para o varejo. Um núcleo operacional, cinco categorias, a Granu em cima de tudo.',
-    taglineAccent: '',
+    tagline: 'Digital as a Service para o varejo.',
+    taglineMid: 'Um núcleo operacional, cinco categorias.',
+    taglineAccent: 'A Granu em cima de tudo.',
     productLinks: ['Estoque', 'Produção', 'Financeiro', 'iFood', 'KDS', 'Checklists', 'IA'],
     sections: {
       product: 'Produto',
