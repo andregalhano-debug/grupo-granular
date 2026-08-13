@@ -72,7 +72,7 @@
       width: 100%;
       height: 100vh;
       background: var(--stage-bg, #f0eee6);
-      overflow: hidden;
+      overflow: visible;
     }
     canvas { display: block; outline: none; }
     .toolbar {
@@ -245,8 +245,10 @@
       key.castShadow = true;
       key.shadow.mapSize.set(2048, 2048);
       key.shadow.bias = -0.0002;
+      key.shadow.radius = 8;
       this._key = key;
       scene.add(key);
+      scene.add(key.target);
       const fill = new THREE.DirectionalLight(0xfff4e6, 0.5);
       fill.position.set(-5, 3, -4);
       scene.add(fill);
@@ -319,7 +321,7 @@
         this._ground.position.y = box.min.y;
         const sphere = box.getBoundingSphere(new THREE.Sphere());
         const dist =
-          (sphere.radius / Math.tan((this._camera.fov * Math.PI) / 360)) * 1.35;
+          (sphere.radius / Math.tan((this._camera.fov * Math.PI) / 360)) * 1.7;
         const dir = new THREE.Vector3(1, 0.55, 1.25).normalize();
         this._camera.position
           .copy(sphere.center)
@@ -329,11 +331,16 @@
         this._camera.updateProjectionMatrix();
         this._controls.target.copy(sphere.center);
         this._controls.update();
-        const span = sphere.radius * 3;
+        this._key.target.position.copy(sphere.center);
+        this._key.target.updateMatrixWorld();
+        const span = sphere.radius * 16;
+        this._key.shadow.radius = 8;
         this._key.shadow.camera.left = -span;
         this._key.shadow.camera.right = span;
         this._key.shadow.camera.top = span;
         this._key.shadow.camera.bottom = -span;
+        this._key.shadow.camera.near = 0.2;
+        this._key.shadow.camera.far = Math.max(span * 4, 40);
         this._key.shadow.camera.updateProjectionMatrix();
       }
       this._scene.add(object);
