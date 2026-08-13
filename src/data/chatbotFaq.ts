@@ -124,6 +124,6 @@ export function getAgentInfo() {
   const name = getAgentName()
   return {
     name,
-    welcomeMessage: `Oi! 😊 Só um instante que já te conecto com um dos nossos consultores...`,
+    welcomeMessage: `Oi, tudo bem? Aqui é a ${name}. O que está mais apertado na operação hoje?`,
   }
 }
