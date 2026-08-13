@@ -79,6 +79,7 @@ export function Footer() {
               {t.footer.sections.company}
             </h4>
             <ul className="space-y-2.5">
+              <li><Link to="/especialista" className="text-[14.5px] text-[#dcb9ad] hover:text-[#f7f2ee] transition-colors">Especialista sob demanda</Link></li>
               <li><Link to="/seja-consultor" className="text-[14.5px] text-[#dcb9ad] hover:text-[#f7f2ee] transition-colors">{t.footer.links.beMentor}</Link></li>
               <li><a href="/#integracoes" className="text-[14.5px] text-[#dcb9ad] hover:text-[#f7f2ee] transition-colors">Integrações</a></li>
               <li><a href="/#faq" className="text-[14.5px] text-[#dcb9ad] hover:text-[#f7f2ee] transition-colors">Perguntas frequentes</a></li>

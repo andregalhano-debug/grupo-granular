@@ -446,6 +446,14 @@ function novoAgendamentoDemoHtml(p: {
     : escapeHtml(p.whatsapp)
   const temSlot = p.data && p.data !== '-' && p.horario && p.horario !== '-'
   const doChat = p.origem === 'chat'
+  const doEspecialista = p.origem === 'especialista-sob-demanda'
+  const origemLabel = doEspecialista
+    ? 'Especialista sob demanda'
+    : doChat
+      ? 'Chat do site'
+      : p.origem === 'checkout'
+        ? 'Checkout'
+        : 'Demonstração do sistema'
   return emailShell(`
         <tr>
           <td style="padding:40px 40px 32px">
@@ -455,6 +463,7 @@ function novoAgendamentoDemoHtml(p: {
             <table width="100%" cellpadding="0" cellspacing="0" style="background:#F7F7F7;border-radius:12px;margin-bottom:24px">
               <tr><td style="padding:20px 24px">
                 <table width="100%" cellpadding="0" cellspacing="0">
+                  ${row('Frente', escapeHtml(origemLabel))}
                   ${row('Nome', escapeHtml(p.nome))}
                   ${row('Empresa', escapeHtml(p.empresa))}
                   ${row('Segmento', escapeHtml(p.segmento))}
@@ -832,7 +841,9 @@ export default async function handler(req: any, res: any) {
         return res.status(400).json({ error: 'Campos obrigatórios ausentes' })
       }
 
-      const teamSubject = `Novo lead — ${empresa}`
+      const teamSubject = origem === 'especialista-sob-demanda'
+        ? `Novo lead — Especialista sob demanda — ${empresa}`
+        : `Novo lead — ${empresa}`
 
       const team = await resend.emails.send({
         from: FROM,
