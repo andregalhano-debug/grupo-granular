@@ -93,12 +93,12 @@ export function GranuPage() {
               Um sistema. Um grão.
             </h2>
           </FadeIn>
-          <div className="grid sm:grid-cols-2 gap-4">
+          <div className="grid sm:grid-cols-2 gap-4 items-stretch">
             {FAZ.map((item) => (
-              <FadeIn key={item.t}>
-                <div className="rounded-2xl bg-white/70 border border-[#E4DDD2] p-5 sm:p-6">
+              <FadeIn key={item.t} className="h-full">
+                <div className="h-full min-h-[148px] rounded-2xl bg-white/70 border border-[#E4DDD2] p-5 sm:p-6 flex flex-col">
                   <p className="text-base font-semibold text-[#0E0E0F] mb-1.5">{item.t}</p>
-                  <p className="text-sm text-[#5D5148] leading-relaxed">{item.d}</p>
+                  <p className="text-sm text-[#5D5148] leading-relaxed flex-1">{item.d}</p>
                 </div>
               </FadeIn>
             ))}
