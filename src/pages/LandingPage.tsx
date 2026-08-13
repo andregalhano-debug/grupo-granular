@@ -5,7 +5,6 @@ import { Hero } from '../components/Hero'
 import { SocialProof } from '../components/SocialProof'
 import { Modules } from '../components/Modules'
 import { Integrations } from '../components/Integrations'
-import { Differentials } from '../components/Differentials'
 import { Pricing } from '../components/Pricing'
 import { Testimonials } from '../components/Testimonials'
 import { Faq } from '../components/Faq'
@@ -57,7 +56,6 @@ export function LandingPage() {
         <PessoasSection />
         <Modules category="restaurantes" />
         <Integrations />
-        <Differentials />
         <Pricing category="restaurantes" />
         <div className="max-w-[1240px] mx-auto px-[clamp(18px,4vw,44px)] pb-4">
           <SecuritySection />
