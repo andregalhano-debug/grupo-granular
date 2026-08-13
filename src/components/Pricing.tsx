@@ -410,7 +410,7 @@ export function Pricing({ category = 'restaurantes' }: Props) {
   const sampleMentors = t.pricingExtended.sampleMentors
   const translatedSaasPlans = saasPlans.map((plan, i) => {
     const features = (t.plansData.saas[i]?.features ?? plan.features).map((f: string) =>
-      (category === 'farmacias' || category === 'petshop')
+      (category === 'farmacias' || category === 'petshop' || category === 'shopping')
         ? f.replace('KDS para cozinha e expedição', 'Monitor de Pedidos')
         : f
     )
@@ -518,7 +518,7 @@ export function Pricing({ category = 'restaurantes' }: Props) {
 
             </div>
           </FadeIn>
-        ) : (category === 'farmacias' || category === 'petshop') ? (
+        ) : (category === 'farmacias' || category === 'petshop' || category === 'shopping') ? (
           /* Farmácias / Pet Shop: mesma tabela do Food */
           <FadeIn delay={100} className="mb-8">
             <DesktopTable plans={translatedSaasPlans} capacity={saasCapacity} addonFeatures={saasAddonFeatures} billingCycle={billingCycle} category={category} />

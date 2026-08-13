@@ -10,20 +10,22 @@ interface Props {
 export function CtaSection({}: Props) {
   const t = useT()
   return (
-    <section className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-[#0E0E0F]">
-      <FadeIn className="text-center max-w-3xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#FAF7F0] mb-6">
+    <section className="py-[clamp(56px,6vw,96px)] px-[clamp(18px,4vw,44px)] bg-[#241d1a]">
+      <FadeIn className="text-center max-w-[1240px] mx-auto">
+        <h2 className="text-[clamp(30px,4vw,52px)] font-semibold tracking-[-.032em] leading-[1.02] text-[#f0ede8] text-balance">
           {t.cta.title}
         </h2>
-        <p className="text-[#FAF7F0]/50 text-base sm:text-lg mb-10">
+        <p className="mt-4 text-[clamp(16px,1.5vw,19px)] leading-relaxed text-[#bdb0a4] max-w-[60ch] mx-auto text-pretty">
           {t.cta.joinUs}
         </p>
-        <Link
-          to="/agendar-demo"
-          className="inline-flex items-center gap-2 bg-white hover:bg-[#F7F7F7] text-[var(--accent)] font-medium px-8 py-4 rounded-xl text-base transition-colors"
-        >
-          {t.cta.startNow}
-        </Link>
+        <div className="flex justify-center mt-[30px]">
+          <Link
+            to="/agendar-demo"
+            className="inline-flex items-center min-h-[52px] px-8 rounded-full bg-[#f0ede8] hover:bg-white text-[#241d1a] font-medium text-base transition-colors"
+          >
+            {t.cta.startNow}
+          </Link>
+        </div>
       </FadeIn>
     </section>
   )

@@ -41,6 +41,12 @@ const categories: {
     label: 'Pet Shops',
     description: 'Clínicas veterinárias e pet shops',
   },
+  {
+    id: 'shopping',
+    emoji: '🛍️',
+    label: 'Shopping',
+    description: 'Brinquedos, floricultura, presenteáveis e utilidades',
+  },
 ]
 
 const mercadoSubs: { id: MercadoSub; label: string }[] = [
@@ -74,7 +80,7 @@ export function CategorySelector({ category, setCategory, mercadoSub, setMercado
         </FadeIn>
 
         <FadeIn delay={80}>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 max-w-4xl mx-auto">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 max-w-5xl mx-auto">
             {categories.map((cat) => {
               const isActive = category === cat.id
               return (

@@ -22,6 +22,9 @@ const PrivacidadePage      = lazy(() => import('./pages/PrivacidadePage').then(m
 const CookiesPage          = lazy(() => import('./pages/CookiesPage').then(m => ({ default: m.CookiesPage })))
 const RestaurantesPage     = lazy(() => import('./pages/RestaurantesPage').then(m => ({ default: m.RestaurantesPage })))
 const MercadosPage         = lazy(() => import('./pages/MercadosPage').then(m => ({ default: m.MercadosPage })))
+const FarmaciasPage        = lazy(() => import('./pages/FarmaciasPage').then(m => ({ default: m.FarmaciasPage })))
+const PetshopPage          = lazy(() => import('./pages/PetshopPage').then(m => ({ default: m.PetshopPage })))
+const ShoppingPage         = lazy(() => import('./pages/ShoppingPage').then(m => ({ default: m.ShoppingPage })))
 const ComparativoPage      = lazy(() => import('./pages/ComparativoPage').then(m => ({ default: m.ComparativoPage })))
 const GranuPage            = lazy(() => import('./pages/GranuPage').then(m => ({ default: m.GranuPage })))
 const ChatbotWidget        = lazy(() => import('./components/chatbot/ChatbotWidget').then(m => ({ default: m.ChatbotWidget })))
@@ -79,6 +82,9 @@ function AppContent() {
           <Route path="/cookies" element={<CookiesPage />} />
           <Route path="/restaurantes" element={<RestaurantesPage />} />
           <Route path="/mercados" element={<MercadosPage />} />
+          <Route path="/farmacias" element={<FarmaciasPage />} />
+          <Route path="/petshop" element={<PetshopPage />} />
+          <Route path="/shopping" element={<ShoppingPage />} />
           <Route path="/comparativo" element={<ComparativoPage />} />
           <Route path="/granu" element={<GranuPage />} />
         </Routes>

@@ -8,7 +8,7 @@ import { submitDemoBooking } from '../services/demoBookingService'
 import { formatWhatsApp } from '../utils/formatters'
 
 const SEGMENTOS = [
-  'Restaurante', 'Mercado', 'Atacado', 'Atacarejo', 'Farmácia', 'Pet Shop', 'Outros',
+  'Restaurante', 'Mercado', 'Atacado', 'Atacarejo', 'Farmácia', 'Pet Shop', 'Shopping', 'Outros',
 ]
 
 const FAIXAS_FATURAMENTO = [

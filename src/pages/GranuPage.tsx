@@ -25,7 +25,7 @@ export function GranuPage() {
   useEffect(() => { window.scrollTo(0, 0) }, [])
 
   return (
-    <div className="min-h-screen bg-[#F7F3EB]">
+    <div className="min-h-screen bg-[#f0ede8]">
       <Header />
 
       <section className="pt-28 sm:pt-36 pb-8 px-4 sm:px-6 lg:px-8">
@@ -35,14 +35,13 @@ export function GranuPage() {
           </FadeIn>
           <FadeIn>
             <p
-              className="text-xs font-semibold uppercase tracking-[0.22em] text-[#A31631] mb-3"
-              style={{ fontFamily: "'JetBrains Mono', monospace" }}
+              className="text-[11.5px] font-medium uppercase tracking-[0.24em] text-[#7c2d3e] mb-3"
+              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
               A Granu
             </p>
             <h1
-              className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#0E0E0F] leading-[1.02] mb-5"
-              style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+              className="text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-[-.035em] text-[#2c241f] leading-[1.02] mb-5"
             >
               Eu sou<br />a Granu.
             </h1>
@@ -64,14 +63,13 @@ export function GranuPage() {
           </FadeIn>
           <FadeIn delay={80} className="max-w-md lg:pt-2">
             <p
-              className="text-xs font-semibold uppercase tracking-[0.22em] text-[#A31631] mb-3"
-              style={{ fontFamily: "'JetBrains Mono', monospace" }}
+              className="text-[11.5px] font-medium uppercase tracking-[0.24em] text-[#7c2d3e] mb-3"
+              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
               No seu bolso · e no sistema
             </p>
             <h2
-              className="text-3xl sm:text-[2.15rem] font-bold tracking-tight text-[#0E0E0F] leading-[1.08] mb-4"
-              style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+              className="text-3xl sm:text-[2.15rem] font-semibold tracking-[-.03em] text-[#2c241f] leading-[1.08] mb-4"
             >
               Pergunte como quem pergunta a um sócio.
             </h2>
@@ -104,9 +102,9 @@ export function GranuPage() {
           <FadeIn>
             <div className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-3">
               {METRICAS.map((m) => (
-                <div key={m.l} className="rounded-2xl bg-[#A31631]/[0.05] border border-[#A31631]/10 px-5 py-4">
-                  <p className="text-3xl font-semibold text-[#A31631] tracking-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{m.v}</p>
-                  <p className="text-[11px] tracking-[0.14em] uppercase text-[#9C958A] mt-1" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{m.l}</p>
+                <div key={m.l} className="rounded-2xl bg-[#7c2d3e]/[0.05] border border-[#7c2d3e]/10 px-5 py-4">
+                  <p className="text-3xl font-semibold text-[#7c2d3e] tracking-tight">{m.v}</p>
+                  <p className="text-[11px] tracking-[0.14em] uppercase text-[#8a7a6e] mt-1" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>{m.l}</p>
                 </div>
               ))}
             </div>
@@ -128,7 +126,7 @@ export function GranuPage() {
             </p>
             <Link
               to="/agendar-demo"
-              className="inline-flex items-center justify-center bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-6 py-3.5 rounded-xl text-sm transition-colors"
+              className="inline-flex items-center justify-center bg-[#7c2d3e] hover:bg-[#5f2130] text-[#f7f2ee] font-medium px-6 py-3.5 rounded-full text-sm transition-colors"
             >
               Agendar demonstração
             </Link>

@@ -1,20 +1,21 @@
 import { useState, useRef, useEffect } from 'react'
-import { Smartphone, Shield, BarChart3, X, ChevronRight, CalendarDays, ShoppingCart, UtensilsCrossed, Pill, PawPrint, ZoomIn } from 'lucide-react'
+import { Smartphone, Shield, BarChart3, X, ChevronRight, CalendarDays, ShoppingCart, UtensilsCrossed, Pill, PawPrint, Store } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
-import { modulesDataRestaurantes, modulesDataMercados, modulesDataMercadosCFTV, modulesDataFarmacias, modulesDataPetshop } from '../data/modulesData'
+import { modulesDataRestaurantes, modulesDataMercados, modulesDataMercadosCFTV, modulesDataFarmacias, modulesDataPetshop, modulesDataShopping } from '../data/modulesData'
 import { modulesDataRestaurantesEn, modulesDataMercadosEn } from '../data/modulesDataEn'
 import { useCategoryAccent } from '../stores/CategoryContext'
 import { useT } from '../i18n/useT'
 import { useLanguage } from '../stores/useLanguageStore'
 
-export type Category = 'restaurantes' | 'mercados' | 'farmacias' | 'petshop'
+export type Category = 'restaurantes' | 'mercados' | 'farmacias' | 'petshop' | 'shopping'
 
 const categoryLabels: Record<Category, { emoji: string; label: string; icon: typeof UtensilsCrossed }> = {
   restaurantes: { emoji: '🍽️', label: 'Restaurantes', icon: UtensilsCrossed },
   mercados: { emoji: '🛒', label: 'Mercados', icon: ShoppingCart },
   farmacias: { emoji: '💊', label: 'Farmácias', icon: Pill },
   petshop: { emoji: '🐾', label: 'Pet Shops', icon: PawPrint },
+  shopping: { emoji: '🛍️', label: 'Shopping', icon: Store },
 }
 
 interface Props {
@@ -34,7 +35,6 @@ export function Modules({ category = 'restaurantes' }: Props) {
   const t = useT()
   const { lang } = useLanguage()
   const [openIndex, setOpenIndex] = useState<number | null>(null)
-  const [lightbox, setLightbox] = useState<string | null>(null)
   const detailRef = useRef<HTMLDivElement>(null)
   const sectionRef = useRef<HTMLElement>(null)
   const [cols, setCols] = useState(4)
@@ -44,6 +44,7 @@ export function Modules({ category = 'restaurantes' }: Props) {
     : category === 'mercados' ? [...modulesDataMercados, ...modulesDataMercadosCFTV]
     : category === 'farmacias' ? modulesDataFarmacias
     : category === 'petshop' ? modulesDataPetshop
+    : category === 'shopping' ? modulesDataShopping
     : modulesDataRestaurantes
 
   /* Reset open panel when category changes */
@@ -171,7 +172,7 @@ export function Modules({ category = 'restaurantes' }: Props) {
               </div>
 
               {/* Conteúdo */}
-              <div className={openModule.screenshot ? "grid lg:grid-cols-2 gap-0" : "grid gap-0"}>
+              <div className="grid gap-0">
                 {/* Lado esquerdo — texto e funcionalidades */}
                 <div className="p-4 sm:p-6 lg:p-8 flex flex-col justify-center">
                   {openModule.detailPoints ? (
@@ -278,34 +279,7 @@ export function Modules({ category = 'restaurantes' }: Props) {
                   )}
                 </div>
 
-                {/* Lado direito — screenshot */}
-                {openModule.screenshot && (
-                  <div className="bg-[#F7F7F7] p-6 sm:p-8 flex items-center justify-center border-t lg:border-t-0 lg:border-l border-[#0E0E0F]/5">
-                    <div
-                      className="relative group w-full max-w-lg cursor-pointer"
-                      onClick={() => setLightbox(openModule.screenshot)}
-                    >
-                      <img
-                        src={openModule.screenshot}
-                        alt={`Tela do módulo ${openModule.title}`}
-                        className="rounded-xl shadow-lg w-full object-cover transition-all duration-300 group-hover:brightness-75"
-                        loading="lazy"
-                      />
-                      {/* Overlay de zoom */}
-                      <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <div className="bg-white/90 backdrop-blur-sm rounded-xl px-4 py-2.5 flex items-center gap-2 shadow-lg">
-                          <ZoomIn size={16} className="text-[var(--accent)]" />
-                          <span className="text-sm font-medium text-[#0E0E0F]">Clique para ampliar</span>
-                        </div>
-                      </div>
-                      {/* Badge estático sempre visível */}
-                      <div className="absolute bottom-3 right-3 bg-black/50 backdrop-blur-sm rounded-lg px-2.5 py-1 flex items-center gap-1.5">
-                        <ZoomIn size={12} className="text-white" />
-                        <span className="text-[10px] text-white font-medium">Ampliar</span>
-                      </div>
-                    </div>
-                  </div>
-                )}
+
               </div>
             </div>
           </div>
@@ -326,16 +300,10 @@ export function Modules({ category = 'restaurantes' }: Props) {
           <p className="text-[#9C958A] text-base sm:text-lg max-w-2xl mx-auto mb-6">
             {t.modules.sectionSubtitle}
           </p>
-          {/* Indicador de segmento ativo + trocar */}
-          <a
-            href="#hero"
-            className="inline-flex items-center gap-2 bg-[#F7F7F7] border border-[#9C958A]/20 hover:border-[var(--accent-30)] px-4 py-2 rounded-full text-xs text-[#9C958A] transition-colors group"
-          >
+          <span className="inline-flex items-center gap-2 bg-[#faf9f7] border border-[#e4ddd2] px-4 py-2 rounded-full text-xs text-[#8a7a6e]">
             <span>{categoryLabels[category].emoji}</span>
-            <span className="font-medium text-[#0E0E0F]">{categoryLabels[category].label}</span>
-            <span className="text-[#9C958A]/60">·</span>
-            <span className="text-[var(--accent)] group-hover:underline">{t.modules.changeSegment}</span>
-          </a>
+            <span className="font-medium text-[#2c241f]">{categoryLabels[category].label}</span>
+          </span>
         </FadeIn>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -370,28 +338,6 @@ export function Modules({ category = 'restaurantes' }: Props) {
           </Link>
         </FadeIn>
       </div>
-
-      {/* Lightbox — ampliar screenshot */}
-      {lightbox && (
-        <div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm cursor-pointer"
-          onClick={() => setLightbox(null)}
-          style={{ animation: 'fadeIn 0.2s ease' }}
-        >
-          <button
-            onClick={() => setLightbox(null)}
-            className="absolute top-6 right-6 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
-          >
-            <X size={24} />
-          </button>
-          <img
-            src={lightbox}
-            alt="Screenshot ampliado"
-            className="max-w-[90vw] max-h-[90vh] rounded-2xl shadow-2xl object-contain cursor-default"
-            onClick={(e) => e.stopPropagation()}
-          />
-        </div>
-      )}
 
       <style>{`
         @keyframes slideDown {

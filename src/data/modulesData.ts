@@ -449,5 +449,63 @@ export const modulesDataPetshop: ModuleDetail[] = modulesDataRestaurantes
   .filter((m) => !farmaciaPetshopExclude.has(m.title))
   .map(adaptModuleForFarmaciaPetshop)
 
+const adaptModuleForShopping = (m: ModuleDetail): ModuleDetail => {
+  if (m.title === 'Produção & Fichas Técnicas') {
+    return {
+      ...m,
+      title: 'Kits & Presenteáveis',
+      desc: 'Cestas, kits e sazonal com custo automático e margem por item — do Dia das Mães ao Natal.',
+      detailPoints: [
+        'Montagem de cestas e kits com custo calculado sozinho',
+        'Campanhas sazonais com margem por item, não por feeling',
+        'Validade curta da floricultura entra no custo do presente',
+        'Perdas e quebras registradas na origem, sem planilha',
+      ],
+    }
+  }
+  if (m.title === 'Estoque Inteligente') {
+    return {
+      ...m,
+      desc: 'Mix longo de brinquedos, flores, presenteáveis e utilidades — ruptura, validade e giro no mesmo painel.',
+      detailPoints: [
+        'Entradas e saídas com saldo em tempo real por categoria da loja',
+        'Alerta antes da flor murchar e do brinquedo sumir no fim de semana',
+        'Inventário guiado com divergências apontadas',
+        'Compra sugerida pela previsão de consumo, não pelo susto',
+      ],
+    }
+  }
+  if (m.title === 'CRM & Clientes') {
+    return {
+      ...m,
+      desc: 'Base de quem compra presente o ano inteiro — aniversário, datas comemorativas e recorrência.',
+      detailPoints: [
+        'Base unificada de clientes da loja e do delivery',
+        'Segmentação por ocasião: aniversário, Dia das Mães, Natal',
+        'Recuperação de quem parou de comprar presente',
+        'Campanha com ROI medido, sem disparo zumbi',
+      ],
+    }
+  }
+  if (m.title === 'Monitor de Pedidos') {
+    return {
+      ...m,
+      desc: 'Painel digital para delivery da loja com tempos, prioridades e status em tempo real.',
+      detailPoints: [
+        'Fila de pedidos de delivery organizada por canal',
+        'Priorização automática com tempo visível em tempo real',
+        'Alertas para pedidos em atraso antes do SLA estourar',
+        'Visão de todos os pedidos ativos por status de entrega',
+      ],
+    }
+  }
+  return m
+}
+
+export const modulesDataShopping: ModuleDetail[] = modulesDataRestaurantes
+  .filter((m) => !farmaciaPetshopExclude.has(m.title))
+  .map(adaptModuleForFarmaciaPetshop)
+  .map(adaptModuleForShopping)
+
 // Alias para compatibilidade com código existente
 export const modulesData = modulesDataRestaurantes

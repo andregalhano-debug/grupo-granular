@@ -9,6 +9,7 @@ export const SEGMENTS: Record<string, PlanSegment> = {
   mercados:     { label: 'Mercados',     color: '#15803d', bg: '#f0fdf4' },
   farmacias:    { label: 'Farmácias',    color: '#1d4ed8', bg: '#eff6ff' },
   petshop:      { label: 'Pet Shops',    color: '#7c3aed', bg: '#f5f3ff' },
+  shopping:     { label: 'Shopping',     color: '#6B3F1F', bg: '#f7efe6' },
   universal:    { label: 'Todos os segmentos', color: '#6b7280', bg: '#f9fafb' },
 }
 
