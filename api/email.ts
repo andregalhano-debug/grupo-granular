@@ -261,6 +261,91 @@ function waMe(whatsapp: string) {
   return digits.startsWith('55') ? `https://wa.me/${digits}` : `https://wa.me/55${digits}`
 }
 
+const CAL_TZ = 'America/Sao_Paulo'
+const CAL_MINUTES = 60
+
+function pad2(n: number) {
+  return String(n).padStart(2, '0')
+}
+
+function parseSlot(dateIso: string, horario: string): { startStamp: string; endStamp: string; startIso: string; endIso: string } | null {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(dateIso || '')) return null
+  const tm = (horario || '').match(/^(\d{1,2}):(\d{2})$/)
+  if (!tm) return null
+  const [y, mo, d] = dateIso.split('-').map(Number)
+  const hh = Number(tm[1])
+  const mm = Number(tm[2])
+  const start = new Date(y, mo - 1, d, hh, mm, 0, 0)
+  if (Number.isNaN(start.getTime())) return null
+  const end = new Date(start.getTime() + CAL_MINUTES * 60 * 1000)
+  const stamp = (dt: Date) =>
+    `${dt.getFullYear()}${pad2(dt.getMonth() + 1)}${pad2(dt.getDate())}T${pad2(dt.getHours())}${pad2(dt.getMinutes())}00`
+  const iso = (dt: Date) =>
+    `${dt.getFullYear()}-${pad2(dt.getMonth() + 1)}-${pad2(dt.getDate())}T${pad2(dt.getHours())}:${pad2(dt.getMinutes())}:00`
+  return { startStamp: stamp(start), endStamp: stamp(end), startIso: iso(start), endIso: iso(end) }
+}
+
+function calendarLinks(dateIso: string, horario: string, empresa: string) {
+  const slot = parseSlot(dateIso, horario)
+  if (!slot) return null
+  const title = empresa ? `Demonstração Granular — ${empresa}` : 'Demonstração Granular'
+  const details = 'Demonstração da plataforma Granular. Nossa equipe confirma pelo WhatsApp e envia o link da reunião.\n\nhttps://www.grupogranular.com.br'
+  const location = 'Online — link no WhatsApp'
+  const google = new URLSearchParams({
+    action: 'TEMPLATE',
+    text: title,
+    dates: `${slot.startStamp}/${slot.endStamp}`,
+    ctz: CAL_TZ,
+    details,
+    location,
+  })
+  const outlook = new URLSearchParams({
+    rru: 'addevent',
+    subject: title,
+    startdt: slot.startIso,
+    enddt: slot.endIso,
+    body: details,
+    location,
+    path: '/calendar/action/compose',
+  })
+  const icsQs = new URLSearchParams({ ics: '1', date: dateIso, time: horario, empresa })
+  return {
+    title,
+    details,
+    location,
+    slot,
+    google: `https://calendar.google.com/calendar/render?${google.toString()}`,
+    outlook: `https://outlook.live.com/calendar/0/deeplink/compose?${outlook.toString()}`,
+    ics: `https://www.grupogranular.com.br/api/email?${icsQs.toString()}`,
+  }
+}
+
+function buildIcsFile(dateIso: string, horario: string, empresa: string) {
+  const links = calendarLinks(dateIso, horario, empresa)
+  if (!links) return null
+  const icsEscape = (v: string) => v.replace(/\\/g, '\\\\').replace(/\n/g, '\\n').replace(/,/g, '\\,').replace(/;/g, '\\;')
+  const now = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d{3}Z$/, 'Z')
+  return [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//Granular//Demo//PT',
+    'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH',
+    'BEGIN:VEVENT',
+    `UID:demo-${links.slot.startStamp}@grupogranular.com.br`,
+    `DTSTAMP:${now}`,
+    `DTSTART;TZID=${CAL_TZ}:${links.slot.startStamp}`,
+    `DTEND;TZID=${CAL_TZ}:${links.slot.endStamp}`,
+    `SUMMARY:${icsEscape(links.title)}`,
+    `DESCRIPTION:${icsEscape(links.details)}`,
+    `LOCATION:${icsEscape(links.location)}`,
+    'STATUS:CONFIRMED',
+    'END:VEVENT',
+    'END:VCALENDAR',
+    '',
+  ].join('\r\n')
+}
+
 function emailShell(inner: string) {
   return `<!DOCTYPE html>
 <html lang="pt-BR">
@@ -394,19 +479,47 @@ function novoAgendamentoDemoHtml(p: {
         </tr>`)
 }
 
-function confirmacaoAgendamentoDemoHtml(nome: string, data: string, horario: string) {
+function confirmacaoAgendamentoDemoHtml(
+  nome: string,
+  data: string,
+  horario: string,
+  empresa: string,
+  dateIso: string,
+) {
   const primeiro = nome.split(' ')[0] || nome
   const temSlot = data && data !== '-' && horario && horario !== '-'
+  const cal = temSlot ? calendarLinks(dateIso, horario, empresa) : null
+  const calBlock = cal
+    ? `
+            <table width="100%" cellpadding="0" cellspacing="0" style="background:#F7F7F7;border-radius:12px;margin:0 0 24px">
+              <tr><td style="padding:20px 24px">
+                <p style="margin:0 0 4px;font-size:12px;font-weight:700;color:#0E0E0F">Salvar na agenda</p>
+                <p style="margin:0 0 14px;font-size:12px;color:#9C958A;line-height:1.5">1 hora · horário de Brasília. O link da reunião chega no WhatsApp.</p>
+                <table width="100%" cellpadding="0" cellspacing="0">
+                  <tr><td style="padding:0 0 8px">
+                    <a href="${cal.google}" style="display:block;text-align:center;background:#A31631;color:#ffffff;font-size:13px;font-weight:700;text-decoration:none;padding:12px 16px;border-radius:10px">Google Agenda</a>
+                  </td></tr>
+                  <tr><td style="padding:0 0 8px">
+                    <a href="${cal.outlook}" style="display:block;text-align:center;background:#0E0E0F;color:#ffffff;font-size:13px;font-weight:700;text-decoration:none;padding:12px 16px;border-radius:10px">Outlook</a>
+                  </td></tr>
+                  <tr><td>
+                    <a href="${cal.ics}" style="display:block;text-align:center;border:1px solid #D9D4CC;color:#0E0E0F;font-size:13px;font-weight:700;text-decoration:none;padding:12px 16px;border-radius:10px">Apple Calendar e outros (.ics)</a>
+                  </td></tr>
+                </table>
+              </td></tr>
+            </table>`
+    : ''
   return emailShell(`
         <tr>
           <td style="padding:40px 40px 32px">
             <p style="margin:0 0 8px;font-size:13px;font-weight:600;color:#A31631;text-transform:uppercase;letter-spacing:1.5px">Pedido recebido</p>
             <h1 style="margin:0 0 20px;font-size:24px;font-weight:700;color:#0E0E0F;line-height:1.3">Olá, ${escapeHtml(primeiro)}!</h1>
-            <p style="margin:0 0 16px;font-size:15px;color:#4B4B4B;line-height:1.6">
+            <p style="margin:0 0 20px;font-size:15px;color:#4B4B4B;line-height:1.6">
               ${temSlot
                 ? `Recebemos seu pedido de demonstração para <strong>${escapeHtml(data)}</strong> às <strong>${escapeHtml(horario)}</strong>. Nossa equipe confirma pelo WhatsApp em breve.`
                 : 'Recebemos seus dados. Nossa equipe entra em contato pelo WhatsApp em até 1 dia útil para agendar a melhor data.'}
             </p>
+            ${calBlock}
             <p style="margin:0;font-size:14px;color:#4B4B4B;line-height:1.6">
               Dúvidas? Responda este e-mail ou fale no
               <a href="https://wa.me/5531984355542" style="color:#A31631;text-decoration:none;font-weight:600">WhatsApp</a>.
@@ -493,6 +606,18 @@ function novaCandidaturaConsultorHtml(p: {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default async function handler(req: any, res: any) {
+  if (req.method === 'GET') {
+    const q = req.query || {}
+    if (q.ics === '1' || q.ics === 1) {
+      const ics = buildIcsFile(String(q.date || ''), String(q.time || ''), String(q.empresa || ''))
+      if (!ics) return res.status(400).send('Agendamento inválido')
+      res.setHeader('Content-Type', 'text/calendar; charset=utf-8')
+      res.setHeader('Content-Disposition', 'attachment; filename="demonstracao-granular.ics"')
+      return res.status(200).send(ics)
+    }
+    return res.status(404).json({ error: 'Not found' })
+  }
+
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' })
   }
@@ -550,7 +675,7 @@ export default async function handler(req: any, res: any) {
       })
 
     } else if (template === 'novo-agendamento-demo') {
-      const { nome, email, whatsapp, empresa, segmento, faturamento, data, horario, origem, notas, conversa } = payload
+      const { nome, email, whatsapp, empresa, segmento, faturamento, data, horario, origem, notas, conversa, dateIso } = payload
       if (!nome || !whatsapp || !empresa) {
         return res.status(400).json({ error: 'Campos obrigatórios ausentes' })
       }
@@ -583,11 +708,15 @@ export default async function handler(req: any, res: any) {
 
       if (email) {
         try {
+          const ics = buildIcsFile(dateIso || '', horario || '', empresa)
           await resend.emails.send({
             from: FROM,
             to: email,
             subject: 'Recebemos seu pedido de demonstração — Granular',
-            html: confirmacaoAgendamentoDemoHtml(nome, data || '-', horario || '-'),
+            html: confirmacaoAgendamentoDemoHtml(nome, data || '-', horario || '-', empresa, dateIso || ''),
+            attachments: ics
+              ? [{ filename: 'demonstracao-granular.ics', content: Buffer.from(ics).toString('base64') }]
+              : undefined,
           })
         } catch (err) {
           console.error('[email] Confirmação ao lead falhou:', err)
