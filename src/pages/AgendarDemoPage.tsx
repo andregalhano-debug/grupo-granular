@@ -1,8 +1,9 @@
 import { useState, useEffect, useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowLeft, CalendarDays, CheckCircle2, Send, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ArrowLeft, CalendarDays, CheckCircle2, Send, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react'
 import { GranularLogo } from '../components/GranularLogo'
-import { saveDemoBooking, getDemoBookings } from '../data/demoSlots'
+import { getDemoBookings } from '../data/demoSlots'
+import { submitDemoBooking } from '../services/demoBookingService'
 
 const SEGMENTOS = [
   'Restaurante', 'Mercado', 'Atacado', 'Atacarejo', 'Farmácia', 'Pet Shop', 'Outros',
@@ -56,6 +57,8 @@ export function AgendarDemoPage() {
   const [viewYear, setViewYear] = useState(() => new Date().getFullYear())
   const [viewMonth, setViewMonth] = useState(() => new Date().getMonth())
   const [submitted, setSubmitted] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
   const [errors, setErrors] = useState<Record<string, string>>({})
 
   useEffect(() => { window.scrollTo(0, 0) }, [])
@@ -127,24 +130,33 @@ export function AgendarDemoPage() {
     return Object.keys(e).length === 0
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!validate()) return
-    saveDemoBooking({
-      id: `demo-${Date.now()}`,
-      name: name.trim(),
-      email: email.trim(),
-      whatsapp: whatsapp.trim(),
-      company: company.trim(),
-      segmento,
-      segmentoOutro: segmento === 'Outros' ? segmentoOutro.trim() : undefined,
-      units: faturamento || '-',
-      date: selectedDate ? selectedDate.toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit', month: '2-digit' }) : '-',
-      time: selectedTime || '-',
-      status: 'pendente',
-      createdAt: new Date().toISOString(),
-    })
-    setSubmitted(true)
+    if (!validate() || isSubmitting) return
+    setSubmitError(null)
+    setIsSubmitting(true)
+    try {
+      await submitDemoBooking({
+        name: name.trim(),
+        email: email.trim(),
+        whatsapp: whatsapp.trim(),
+        company: company.trim(),
+        segmento,
+        segmentoOutro: segmento === 'Outros' ? segmentoOutro.trim() : undefined,
+        faturamento: faturamento || '-',
+        date: selectedDate
+          ? selectedDate.toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit', month: '2-digit' })
+          : '-',
+        time: selectedTime || '-',
+        dateIso: selectedDate ? dateKey(selectedDate) : '',
+        source: 'agendar-demo',
+      })
+      setSubmitted(true)
+    } catch {
+      setSubmitError('Não foi possível enviar agora. Tente novamente em instantes ou fale com a gente pelo WhatsApp.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   if (submitted) {
@@ -374,13 +386,25 @@ export function AgendarDemoPage() {
 
             <button
               type="submit"
-              className="w-full flex items-center justify-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium py-3.5 sm:py-4 px-6 rounded-xl text-sm transition-colors cursor-pointer"
+              disabled={isSubmitting}
+              className="w-full flex items-center justify-center gap-2 bg-[#A31631] hover:bg-[#7A1025] disabled:opacity-60 disabled:cursor-not-allowed text-white font-medium py-3.5 sm:py-4 px-6 rounded-xl text-sm transition-colors cursor-pointer"
             >
-              {selectedDate && selectedTime
-                ? <><CalendarDays size={16} /> Confirmar agendamento</>
-                : <><Send size={16} /> Enviar — Entraremos em contato</>
+              {isSubmitting
+                ? <><Loader2 size={16} className="animate-spin" /> Enviando...</>
+                : selectedDate && selectedTime
+                  ? <><CalendarDays size={16} /> Confirmar agendamento</>
+                  : <><Send size={16} /> Enviar — Entraremos em contato</>
               }
             </button>
+
+            {submitError && (
+              <p className="text-xs text-red-500 text-center">
+                {submitError}{' '}
+                <a href="https://wa.me/5531984355542" target="_blank" rel="noopener noreferrer" className="underline font-medium">
+                  Abrir WhatsApp
+                </a>
+              </p>
+            )}
 
             <p className="text-[11px] text-[#9C958A] text-center">
               {selectedDate && selectedTime

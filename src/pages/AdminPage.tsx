@@ -70,6 +70,13 @@ function BookingsView() {
         <h2 className="text-lg font-bold text-[#0E0E0F]">Demos agendadas</h2>
         <button type="button" onClick={refresh} className="text-xs text-[#A31631] font-medium cursor-pointer">Atualizar</button>
       </div>
+      <div className="rounded-xl bg-[#A31631]/5 border border-[#A31631]/15 px-4 py-3 text-xs text-[#0E0E0F] leading-relaxed">
+        Os leads reais do site chegam em{' '}
+        <a href="mailto:contato@grupogranular.com.br" className="font-semibold text-[#A31631] hover:underline">
+          contato@grupogranular.com.br
+        </a>
+        {' '}(com Reply-To do lead e botão direto para o WhatsApp). Esta lista só mostra testes feitos neste navegador.
+      </div>
       {bookings.length === 0 ? (
         <div className="rounded-xl bg-white border border-[#0E0E0F]/5 p-8 text-center">
           <CalendarDays size={32} className="text-[#9C958A]/30 mx-auto mb-3" />
