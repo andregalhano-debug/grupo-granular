@@ -5,6 +5,7 @@ import { GranularLogo } from '../components/GranularLogo'
 import { AddToCalendar } from '../components/AddToCalendar'
 import { getDemoBookings } from '../data/demoSlots'
 import { submitDemoBooking } from '../services/demoBookingService'
+import { formatWhatsApp } from '../utils/formatters'
 
 const SEGMENTOS = [
   'Restaurante', 'Mercado', 'Atacado', 'Atacarejo', 'Farmácia', 'Pet Shop', 'Outros',
@@ -272,7 +273,7 @@ export function AgendarDemoPage() {
 
             <div>
               <label className="block text-xs font-medium text-[#0E0E0F] mb-1.5">WhatsApp</label>
-              <input type="tel" value={whatsapp} onChange={(e) => setWhatsapp(e.target.value)}
+              <input type="tel" inputMode="numeric" autoComplete="tel" value={whatsapp} onChange={(e) => setWhatsapp(formatWhatsApp(e.target.value))}
                 className={inputClass(!!errors.whatsapp)} placeholder="(31) 99999-9999" />
               {errors.whatsapp && <p className="text-xs text-red-500 mt-1">{errors.whatsapp}</p>}
             </div>
