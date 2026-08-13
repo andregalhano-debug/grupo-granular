@@ -52,11 +52,8 @@ export function SejaConsultorSuccess({ nome, email }: Props) {
         Pode fazer depois — o link também foi enviado por e-mail.
       </p>
 
-      <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
-        <Link to="/consultores" className="inline-flex items-center gap-2 border border-[#0E0E0F]/15 text-[#0E0E0F] font-medium px-6 py-3 rounded-xl text-sm transition-colors hover:bg-[#F7F7F7]">
-          Ver consultores
-        </Link>
-        <Link to="/" className="inline-flex items-center gap-2 text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors">
+      <div className="flex items-center justify-center pt-2">
+        <Link to="/" className="inline-flex items-center gap-2 bg-[#A31631] hover:bg-[#7A1025] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors">
           Voltar ao site
         </Link>
       </div>
