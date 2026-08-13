@@ -14,6 +14,26 @@ export async function sendConfirmacaoCadastro(payload: { to: string; nome: strin
   await post('confirmacao-cadastro', payload)
 }
 
+export async function sendNovaCandidaturaConsultor(payload: {
+  nome: string
+  email: string
+  whatsapp: string
+  cargo: string
+  segmentos: string
+  especialidades: string
+}) {
+  const res = await fetch('/api/email', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ template: 'nova-candidatura-consultor', ...payload }),
+  })
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}))
+    console.error('[EMAIL] Falha candidatura consultor:', err)
+    throw new Error('Falha ao enviar candidatura')
+  }
+}
+
 export async function sendConviteMentor(payload: { to: string; nome: string; loginUrl: string }) {
   await post('convite-mentor', payload)
 }

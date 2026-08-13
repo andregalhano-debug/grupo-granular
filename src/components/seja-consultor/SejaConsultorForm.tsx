@@ -11,6 +11,7 @@ interface FormProps {
   }
   errors: { [key: string]: string | undefined }
   isProcessing: boolean
+  submitError?: string | null
   onUpdate: (field: 'nome' | 'email' | 'whatsapp' | 'cargoAtual' | 'segmentoOutro' | 'especialidadeOutra', value: string) => void
   onToggleSegment: (seg: string) => void
   onToggleSpecialty: (spec: string) => void
@@ -60,7 +61,7 @@ function CollapsibleField({ icon, label, hint, count, error, open, onToggle, chi
 }
 
 
-export function SejaConsultorForm({ form, errors, isProcessing, onUpdate, onToggleSegment, onToggleSpecialty, onSubmit }: FormProps) {
+export function SejaConsultorForm({ form, errors, isProcessing, submitError, onUpdate, onToggleSegment, onToggleSpecialty, onSubmit }: FormProps) {
   const { sejaConsultor: { form: tf } } = useT()
   const [openField, setOpenField] = useState<'seg' | 'spec' | 'termos' | null>(null)
   const segOpen = openField === 'seg'
@@ -215,6 +216,7 @@ export function SejaConsultorForm({ form, errors, isProcessing, onUpdate, onTogg
       >
         {isProcessing ? <><Loader2 size={20} className="animate-spin" /> {tf.submitting}</> : tf.submitButton}
       </button>
+      {submitError && <p className="text-xs text-red-500 text-center">{submitError}</p>}
 
       <p className="text-xs text-center text-[#9C958A]">{tf.reviewNote}</p>
     </form>
