@@ -98,6 +98,7 @@ export function Footer() {
                   contato@grupogranular.com.br
                 </a>
               </li>
+              <li>{t.footer.city}</li>
               <li className="pt-1">
                 <a
                   href="https://wa.me/5531984355542"
