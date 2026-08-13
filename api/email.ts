@@ -566,6 +566,52 @@ async function persistDemoBooking(payload: Record<string, string>) {
   }
 }
 
+function confirmacaoAssessmentHtml(nome: string) {
+  const primeiro = nome.split(' ')[0] || nome
+  const portalUrl = 'https://www.grupogranular.com.br/painel-consultor'
+  const trilhaUrl = 'https://www.grupogranular.com.br/trilha'
+  return emailShell(`
+        <tr>
+          <td style="padding:40px 40px 32px">
+            <p style="margin:0 0 8px;font-size:13px;font-weight:600;color:#A31631;text-transform:uppercase;letter-spacing:1.5px">Avaliação concluída</p>
+            <h1 style="margin:0 0 20px;font-size:24px;font-weight:700;color:#0E0E0F;line-height:1.3">Obrigado, ${escapeHtml(primeiro)}!</h1>
+            <p style="margin:0 0 16px;font-size:15px;color:#4B4B4B;line-height:1.6">
+              Recebemos sua avaliação. Isso nos ajuda a entender seu encaixe na Rede de Mentores Granular e a te apresentar para os parceiros certos.
+            </p>
+            <p style="margin:0 0 24px;font-size:15px;color:#4B4B4B;line-height:1.6">
+              Nossa equipe analisa o perfil e fala com você pelo WhatsApp em até 48 horas.
+            </p>
+            <table width="100%" cellpadding="0" cellspacing="0" style="background:#F7F7F7;border-radius:12px;margin-bottom:28px">
+              <tr><td style="padding:24px 28px">
+                <p style="margin:0 0 12px;font-size:12px;font-weight:700;color:#9C958A;text-transform:uppercase;letter-spacing:1px">Próximos passos</p>
+                <table width="100%" cellpadding="0" cellspacing="0">
+                  ${[
+                    ['1', 'Análise do perfil', 'O time revisa sua avaliação e o cadastro.'],
+                    ['2', 'Contato no WhatsApp', 'Alguém da Granular te chama em até 48 horas.'],
+                    ['3', 'Complete o portal', 'Bio, LinkedIn, foto e disponibilidade deixam o anúncio pronto.'],
+                  ].map(([n, title, desc]) => `
+                  <tr>
+                    <td width="28" style="padding:6px 0;vertical-align:top;font-size:13px;font-weight:700;color:#A31631">${n}</td>
+                    <td style="padding:6px 0 6px 4px;vertical-align:top">
+                      <p style="margin:0;font-size:13px;font-weight:600;color:#0E0E0F">${title}</p>
+                      <p style="margin:2px 0 0;font-size:12px;color:#9C958A;line-height:1.5">${desc}</p>
+                    </td>
+                  </tr>`).join('')}
+                </table>
+              </td></tr>
+            </table>
+            <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:16px">
+              <tr><td align="center">
+                <a href="${portalUrl}" style="display:inline-block;background:#A31631;color:#ffffff;font-size:15px;font-weight:700;text-decoration:none;padding:14px 32px;border-radius:12px">Abrir o portal do mentor</a>
+              </td></tr>
+            </table>
+            <p style="margin:0;font-size:13px;color:#9C958A;line-height:1.6;text-align:center">
+              Quer ir adiante na trilha? <a href="${trilhaUrl}" style="color:#A31631;text-decoration:none;font-weight:600">grupogranular.com.br/trilha</a>
+            </p>
+          </td>
+        </tr>`)
+}
+
 function resultadoAssessmentHtml(p: {
   nome: string; email: string; whatsapp: string; linkedin: string
   perfil: string; perfilDesc: string; matchClientes: string; top: string
@@ -714,6 +760,18 @@ export default async function handler(req: any, res: any) {
       if (team.error) {
         console.error('[email] Falha ao enviar assessment:', team.error)
         return res.status(500).json({ error: 'Falha ao avisar a equipe' })
+      }
+      if (email) {
+        try {
+          await resend.emails.send({
+            from: FROM,
+            to: email,
+            subject: 'Recebemos sua avaliação — Granular',
+            html: confirmacaoAssessmentHtml(nome),
+          })
+        } catch (err) {
+          console.error('[email] Confirmação da avaliação ao consultor falhou:', err)
+        }
       }
 
     } else if (template === 'nova-candidatura-consultor') {
