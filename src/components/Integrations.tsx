@@ -52,7 +52,7 @@ export function Integrations() {
   const openIntegration = openIndex !== null ? integrationsData[openIndex] : null
 
   return (
-    <section ref={sectionRef} id="integracoes" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-[#F7F7F7]">
+    <section ref={sectionRef} id="integracoes" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-[#e9e4da] border-y border-[#e4ddd2]">
       <div className="max-w-7xl mx-auto">
         <FadeIn className="text-center mb-16">
           <p
