@@ -59,15 +59,6 @@ export function ContactSection() {
               </div>
             ))}
           </div>
-
-          <div className="mt-auto pt-7">
-            <p
-              className="text-[11px] tracking-[.16em] uppercase text-[#ecd9cd]"
-              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-            >
-              Escritórios em São Paulo e Belo Horizonte
-            </p>
-          </div>
         </div>
 
         <div className="bg-[#faf9f7] rounded-[18px] p-[clamp(22px,2.6vw,34px)]">
