@@ -7,10 +7,18 @@ import { GranuGrain } from '../components/granu/GranuGrain'
 import { GranuDualPhones } from '../components/granu/GranuWhatsApp'
 
 const FAZ = [
-  { t: 'Eu vejo o caixa', d: 'DRE, margem e CMV em tempo real — não no fechamento do mês.' },
-  { t: 'Eu aviso antes', d: 'Ruptura, anomalia, queda de faturamento. Do jeito que você configurar.' },
-  { t: 'Eu executo com o seu ok', d: 'Lista de compras, checklist, aprovar ou rejeitar — direto na conversa.' },
-  { t: 'Eu não decido sozinha', d: 'Proponho com evidência. Ação sensível passa por você.' },
+  { n: '01', t: 'Conciliação automática', d: 'Pedido a pedido, batendo no banco.' },
+  { n: '02', t: 'Vitrine por turno', d: 'Sobe ou desce posição, com evidência.' },
+  { n: '03', t: 'Avaliações e SLA vigiados', d: 'Alerta antes do dano na nota.' },
+  { n: '04', t: 'Promo com ROI medido', d: 'Campanhas zumbis detectadas.' },
+  { n: '05', t: 'Cardápio inteligente', d: 'Atualização massiva e reordenação de itens.' },
+]
+
+const METRICAS = [
+  { v: '4', l: 'Frentes' },
+  { v: '14+', l: 'Módulos' },
+  { v: '~140', l: 'Ferramentas' },
+  { v: '1', l: 'Resposta' },
 ]
 
 export function GranuPage() {
@@ -48,61 +56,64 @@ export function GranuPage() {
         </div>
       </section>
 
-      <section className="bg-[#A31631] text-[#FAF7F0] py-16 sm:py-24 px-4 sm:px-6 lg:px-8">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 border-t border-[#E4DDD2]">
         <div className="max-w-6xl mx-auto">
-          <FadeIn className="max-w-2xl mb-10">
-            <p
-              className="text-xs font-semibold uppercase tracking-[0.22em] text-[#F7F3EB]/70 mb-3"
-              style={{ fontFamily: "'JetBrains Mono', monospace" }}
-            >
-              No seu bolso · e no sistema
-            </p>
-            <h2
-              className="text-3xl sm:text-4xl font-bold tracking-tight leading-[1.08] mb-4"
-              style={{ fontFamily: "'Space Grotesk', sans-serif" }}
-            >
-              Eu te chamo no WhatsApp.<br />E respondo dentro da plataforma.
-            </h2>
-            <p className="italic text-[#F7F3EB]/85 text-lg leading-snug max-w-[46ch] mb-6">
-              “Você não abre dashboard às 8 da manhã. Eu te mando o dia — e você resolve com um toque.”
-            </p>
-            <ul className="space-y-3 text-sm leading-relaxed text-[#F7F3EB]/80 max-w-[48ch]">
-              <li><strong className="text-white font-medium">WhatsApp</strong> — resumo, alerta e botão de aprovar, no celular.</li>
-              <li><strong className="text-white font-medium">Plataforma</strong> — a mesma Granu, com tabela e evidência do cubo.</li>
-            </ul>
-          </FadeIn>
-          <FadeIn delay={80}>
-            <GranuDualPhones />
-          </FadeIn>
-        </div>
-      </section>
-
-      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-5xl mx-auto">
           <FadeIn className="mb-10">
             <p
               className="text-xs font-semibold uppercase tracking-[0.22em] text-[#A31631] mb-3"
               style={{ fontFamily: "'JetBrains Mono', monospace" }}
             >
-              O que eu faço
+              04 · A Granu
             </p>
             <h2
-              className="text-3xl sm:text-4xl font-bold tracking-tight text-[#0E0E0F]"
+              className="text-3xl sm:text-4xl lg:text-[2.6rem] font-bold tracking-tight text-[#0E0E0F] leading-[1.08] max-w-[18ch]"
               style={{ fontFamily: "'Space Grotesk', sans-serif" }}
             >
-              Um sistema. Um grão.
+              Pergunte como quem pergunta a um sócio.
             </h2>
           </FadeIn>
-          <div className="grid sm:grid-cols-2 gap-4 items-stretch">
-            {FAZ.map((item) => (
-              <FadeIn key={item.t} className="h-full">
-                <div className="h-full min-h-[148px] rounded-2xl bg-white/70 border border-[#E4DDD2] p-5 sm:p-6 flex flex-col">
-                  <p className="text-base font-semibold text-[#0E0E0F] mb-1.5">{item.t}</p>
-                  <p className="text-sm text-[#5D5148] leading-relaxed flex-1">{item.d}</p>
-                </div>
-              </FadeIn>
-            ))}
+
+          <div className="grid lg:grid-cols-[1fr_minmax(240px,300px)] gap-10 lg:gap-12 items-start">
+            <FadeIn>
+              <GranuDualPhones />
+            </FadeIn>
+            <FadeIn delay={80}>
+              <h3
+                className="text-2xl sm:text-3xl font-bold tracking-tight text-[#0E0E0F] leading-[1.1] mb-6"
+                style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+              >
+                Portal do iFood?<br />Nunca mais.
+              </h3>
+              <p
+                className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#A2968A] mb-2"
+                style={{ fontFamily: "'JetBrains Mono', monospace" }}
+              >
+                A Granu faz
+              </p>
+              <div className="divide-y divide-[#DDD4C8]">
+                {FAZ.map((item) => (
+                  <div key={item.n} className="grid grid-cols-[28px_1fr] gap-3 py-4">
+                    <span className="text-[12px] text-[#A2968A] pt-0.5" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{item.n}</span>
+                    <div>
+                      <p className="text-[15px] font-semibold text-[#241D1A] tracking-tight">{item.t}</p>
+                      <p className="text-sm text-[#5F544C] mt-0.5 leading-snug">{item.d}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </FadeIn>
           </div>
+
+          <FadeIn>
+            <div className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-0 sm:divide-x sm:divide-[#DDD4C8] border-t border-[#DDD4C8] pt-8">
+              {METRICAS.map((m) => (
+                <div key={m.l} className="sm:px-6 first:sm:pl-0">
+                  <p className="text-3xl font-semibold text-[#A31631] tracking-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{m.v}</p>
+                  <p className="text-[11px] tracking-[0.14em] uppercase text-[#A2968A] mt-1" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{m.l}</p>
+                </div>
+              ))}
+            </div>
+          </FadeIn>
         </div>
       </section>
 
