@@ -30,6 +30,7 @@ export function Header({ category }: Props) {
   const logoColor = theme === 'dark' ? '#F0EFED' : '#0E0E0F'
 
   const navLinks = [
+    { label: t.nav.granu, href: '/granu' },
     { label: t.nav.modules, href: '/#modulos' },
     { label: t.nav.integrations, href: '/#integracoes' },
     { label: t.nav.differentials, href: '/#diferenciais' },
@@ -61,13 +62,23 @@ export function Header({ category }: Props) {
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors"
-            >
-              {link.label}
-            </a>
+            link.href.startsWith('/') && !link.href.includes('#') ? (
+              <Link
+                key={link.href}
+                to={link.href}
+                className="text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors"
+              >
+                {link.label}
+              </Link>
+            ) : (
+              <a
+                key={link.href}
+                href={link.href}
+                className="text-sm text-[#9C958A] hover:text-[#0E0E0F] transition-colors"
+              >
+                {link.label}
+              </a>
+            )
           ))}
         </nav>
 
@@ -147,15 +158,27 @@ export function Header({ category }: Props) {
             {t.nav.changeSegment}
           </a>
           {navLinks.map((link, i) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="block text-sm text-[#9C958A] hover:text-[#0E0E0F] py-2 transition-colors"
-              onClick={() => setMenuOpen(false)}
-              style={{ animation: `menuSlideIn 0.25s cubic-bezier(0.16,1,0.3,1) ${(i + 1) * 50}ms both` }}
-            >
-              {link.label}
-            </a>
+            link.href.startsWith('/') && !link.href.includes('#') ? (
+              <Link
+                key={link.href}
+                to={link.href}
+                className="block text-sm text-[#9C958A] hover:text-[#0E0E0F] py-2 transition-colors"
+                onClick={() => setMenuOpen(false)}
+                style={{ animation: `menuSlideIn 0.25s cubic-bezier(0.16,1,0.3,1) ${(i + 1) * 50}ms both` }}
+              >
+                {link.label}
+              </Link>
+            ) : (
+              <a
+                key={link.href}
+                href={link.href}
+                className="block text-sm text-[#9C958A] hover:text-[#0E0E0F] py-2 transition-colors"
+                onClick={() => setMenuOpen(false)}
+                style={{ animation: `menuSlideIn 0.25s cubic-bezier(0.16,1,0.3,1) ${(i + 1) * 50}ms both` }}
+              >
+                {link.label}
+              </a>
+            )
           ))}
           <div
             className="pt-3 border-t border-[#9C958A]/20 space-y-2"

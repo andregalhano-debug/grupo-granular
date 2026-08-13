@@ -23,6 +23,7 @@ const CookiesPage          = lazy(() => import('./pages/CookiesPage').then(m => 
 const RestaurantesPage     = lazy(() => import('./pages/RestaurantesPage').then(m => ({ default: m.RestaurantesPage })))
 const MercadosPage         = lazy(() => import('./pages/MercadosPage').then(m => ({ default: m.MercadosPage })))
 const ComparativoPage      = lazy(() => import('./pages/ComparativoPage').then(m => ({ default: m.ComparativoPage })))
+const GranuPage            = lazy(() => import('./pages/GranuPage').then(m => ({ default: m.GranuPage })))
 const ChatbotWidget        = lazy(() => import('./components/chatbot/ChatbotWidget').then(m => ({ default: m.ChatbotWidget })))
 const CookieBanner         = lazy(() => import('./components/CookieBanner').then(m => ({ default: m.CookieBanner })))
 
@@ -79,6 +80,7 @@ function AppContent() {
           <Route path="/restaurantes" element={<RestaurantesPage />} />
           <Route path="/mercados" element={<MercadosPage />} />
           <Route path="/comparativo" element={<ComparativoPage />} />
+          <Route path="/granu" element={<GranuPage />} />
         </Routes>
         {showChat && <ChatbotWidget />}
         <CookieBanner />

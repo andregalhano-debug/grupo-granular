@@ -1,5 +1,6 @@
 export const pt = {
   nav: {
+    granu: 'A Granu',
     modules: 'Módulos',
     integrations: 'Integrações',
     differentials: 'Diferenciais',

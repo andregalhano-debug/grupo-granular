@@ -4,6 +4,7 @@ import { useTheme } from '../stores/useThemeStore'
 import { useT } from '../i18n/useT'
 
 const PRODUCT_ITEMS = [
+  { label: 'A Granu',          href: '/granu',                  badge: null },
   { label: 'Granular Food',    href: '/?segmento=restaurantes', badge: null },
   { label: 'Granular Market',  href: '/?segmento=mercados',     badge: null },
   { label: 'Granular Farma',   href: '/?segmento=farmacias',    badge: null },
