@@ -1,4 +1,4 @@
-import { Check, Minus, Monitor, ChevronRight, GraduationCap, Star, Users, PhoneCall } from 'lucide-react'
+import { Check, Minus, Monitor, Star, Users, PhoneCall } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
 import { saasPlans, saasAddonFeatures, type Plan } from '../data/plans'
@@ -406,7 +406,6 @@ export function Pricing({ category = 'restaurantes' }: Props) {
   const t = useT()
   // Preços dos módulos estão sob consulta — ciclo fixo (o toggle Mensal/Anual foi ocultado).
   const billingCycle: BillingCycle = 'annual'
-  const sampleMentors = t.pricingExtended.sampleMentors
   const translatedSaasPlans = saasPlans.map((plan, i) => {
     const features = (t.plansData.saas[i]?.features ?? plan.features).map((f: string) =>
       (category === 'farmacias' || category === 'petshop' || category === 'shopping')
@@ -530,131 +529,6 @@ export function Pricing({ category = 'restaurantes' }: Props) {
             <MobileCards plans={translatedSaasPlans} capacity={saasCapacity} addonFeatures={saasAddonFeatures} billingCycle={billingCycle} category={category} />
           </FadeIn>
         )}
-
-        <div className="mb-24" />
-
-        {/* MENTORIA */}
-        <FadeIn>
-          <div className="max-w-6xl mx-auto mb-6">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-[var(--accent)] flex items-center justify-center">
-                <GraduationCap size={22} className="text-[#F7F7F7]" />
-              </div>
-              <div>
-                <h3 className="text-2xl font-bold text-[#0E0E0F]">{t.pricingExtended.mentoriaTitle}</h3>
-                <p className="text-sm text-[#9C958A]">
-                  {t.pricingExtended.mentoriaSubtitles[category]}
-                </p>
-              </div>
-              <div className="hidden sm:block flex-1 h-px bg-[#9C958A]/30 ml-4" />
-            </div>
-          </div>
-        </FadeIn>
-
-        <FadeIn delay={50}>
-          <div className="max-w-6xl mx-auto mb-8 rounded-xl bg-[#0E0E0F]/[0.03] border border-[#9C958A]/15 p-5 sm:p-6">
-            <div className="flex flex-col sm:flex-row items-start gap-4">
-              <div className="flex-1">
-                <p className="text-sm font-semibold text-[#0E0E0F] mb-2">{t.pricingExtended.whatAreMentors}</p>
-                <p className="text-sm text-[#0E0E0F]/80 leading-relaxed">
-                  {t.pricingExtended.whatAreMentorsDesc}
-                </p>
-              </div>
-              <div className="flex items-center gap-2 bg-[var(--accent)]/5 border border-[var(--accent)]/15 rounded-xl px-4 py-3 flex-shrink-0">
-                <Users size={18} className="text-[var(--accent)]" />
-                <div>
-                  <p className="text-xs font-bold text-[#0E0E0F]">{t.pricingExtended.youAreMentor}</p>
-                  <p className="text-xs text-[#9C958A]">{t.pricingExtended.joinNetwork}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </FadeIn>
-
-        {/* Cards de mentores (exemplo) */}
-        <FadeIn delay={80}>
-          <div className="max-w-6xl mx-auto mb-8">
-            <div className="flex items-center gap-3 mb-6">
-              <p
-                className="text-xs font-semibold text-[var(--accent)] uppercase tracking-widest whitespace-nowrap"
-                style={{ fontFamily: "'JetBrains Mono', monospace" }}
-              >
-                {t.pricingExtended.exampleMentors}
-              </p>
-              <div className="flex-1 h-px bg-[#9C958A]/25" />
-            </div>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {sampleMentors.map((mentor) => (
-                <div
-                  key={mentor.name}
-                  className="rounded-2xl border border-[#9C958A]/20 bg-white p-5 hover:border-[var(--accent)]/30 hover:shadow-md transition-all"
-                >
-                  {/* Avatar + nome */}
-                  <div className="flex items-start gap-3 mb-4">
-                    <div className="w-11 h-11 rounded-full bg-[var(--accent)]/10 flex items-center justify-center flex-shrink-0">
-                      <span className="text-sm font-bold text-[var(--accent)]">{mentor.initials}</span>
-                    </div>
-                    <div className="min-w-0">
-                      <p className="text-sm font-bold text-[#0E0E0F] truncate">{mentor.name}</p>
-                      <p className="text-xs text-[#9C958A] truncate">{mentor.specialty}</p>
-                    </div>
-                  </div>
-                  {/* Rating */}
-                  <div className="flex items-center gap-1.5 mb-3">
-                    <Star size={13} className="text-amber-400 fill-amber-400" />
-                    <span className="text-xs font-semibold text-[#0E0E0F]">{mentor.rating}</span>
-                    <span className="text-xs text-[#9C958A]">({mentor.reviews} {t.pricingExtended.reviews})</span>
-                  </div>
-                  {/* Tags */}
-                  <div className="flex flex-wrap gap-1.5 mb-4">
-                    {mentor.tags.map((tag) => (
-                      <span key={tag} className="text-[10px] bg-[#F7F7F7] text-[#9C958A] px-2.5 py-1 rounded-full border border-[#9C958A]/20">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  {/* Footer */}
-                  <div className="flex items-center justify-between pt-3 border-t border-[#9C958A]/10">
-                    <div>
-                      <span
-                        className="text-lg font-bold text-[#0E0E0F]"
-                        style={{ fontFamily: "'Space Grotesk', sans-serif" }}
-                      >
-                        R$ {mentor.rate}
-                      </span>
-                      <span className="text-xs text-[#9C958A]">{t.pricingExtended.perHour}</span>
-                    </div>
-                    <span className="text-xs text-[#9C958A]">{mentor.years} {t.pricingExtended.yearsExp}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </FadeIn>
-
-        {/* CTA Seja um especialista */}
-        <FadeIn delay={120}>
-          <div className="max-w-6xl mx-auto">
-            <div className="rounded-2xl border border-[var(--accent)]/15 bg-white p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center gap-6">
-              <div className="w-12 h-12 rounded-xl bg-[var(--accent)]/10 flex items-center justify-center flex-shrink-0">
-                <GraduationCap size={24} className="text-[var(--accent)]" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-base font-bold text-[#0E0E0F] mb-1">{t.pricingExtended.beMentorTitle}</p>
-                <p className="text-sm text-[#9C958A] leading-relaxed">
-                  {t.pricingExtended.beMentorDesc}
-                </p>
-              </div>
-              <Link
-                to="/seja-consultor"
-                className="inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors whitespace-nowrap flex-shrink-0"
-              >
-                {t.pricingExtended.beMentorCta}
-                <ChevronRight size={14} />
-              </Link>
-            </div>
-          </div>
-        </FadeIn>
       </div>
       <style>{`
         @keyframes badgePulse {
