@@ -60,9 +60,8 @@ export const integrationsData: IntegrationDetail[] = [
   {
     name: 'Open Delivery',
     logo: '/logos/opendelivery.png',
-    iconBg: '#FFFFFF',
+    iconBg: '#2A5657',
     logoFilter: 'none',
-    logoFit: 'contain',
     desc: 'Padrão aberto para conectar múltiplas plataformas de delivery.',
     detailPoints: [
       'Padrão aberto do mercado brasileiro de food service para integração entre plataformas',
@@ -75,9 +74,8 @@ export const integrationsData: IntegrationDetail[] = [
   {
     name: 'Omie',
     logo: '/logos/omie.png',
-    iconBg: '#FFFFFF',
+    iconBg: '#01E2F4',
     logoFilter: 'none',
-    logoFit: 'contain',
     desc: 'Integração financeira completa com o ERP Omie.',
     detailPoints: [
       'Sincronização automática de contas a pagar e receber entre Granular e Omie',

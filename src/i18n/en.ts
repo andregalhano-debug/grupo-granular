@@ -27,6 +27,8 @@ export const en = {
     startNow: 'Book a demo',
     seePlans: 'See plans',
     seeModules: 'See Modules',
+    categoriesLead: 'For',
+    categoriesEnd: '.',
     categories: {
       restaurantes: { label: 'Restaurants', description: 'Bars, snack bars, fast food and delivery' },
       mercados: { label: 'Markets', description: 'Supermarkets, wholesale clubs and distributors' },
