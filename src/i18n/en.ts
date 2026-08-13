@@ -482,7 +482,7 @@ export const en = {
       { q: 'Do you serve both veterinary clinics and pet shops?', a: 'Yes. Granular PET will serve both formats, with adaptations for each operation\'s specificities — from a full veterinary clinic to a pet shop focused on grooming and trimming services.' },
     ],
     shopping: [
-      { q: 'Is Granular Shopping available now?', a: 'Yes. Granular Shopping is available now. It mirrors the PET structure, with copy and modules adjusted for mall stores: toys, florist, gifts and housewares. Schedule a demo and see what is ready for your store.' },
+      { q: 'Is Granular Shopping available now?', a: 'Yes. Granular Shopping is available now, with modules adjusted for mall stores: toys, florist, gifts and housewares. Schedule a demo and see what is ready for your store.' },
       { q: 'How does the system help florist and gift operations?', a: 'Florist items get short-shelf-life alerts, loss and replenishment. Gift baskets, kits and seasonal campaigns get cost and margin per item — from Mother\'s Day to Christmas — without a spreadsheet in the middle.' },
       { q: 'Can I manage toys and housewares in the same dashboard?', a: 'Yes. Inventory is by store category: toys with ABC curve and turnover by age range, housewares with a long mix and margin by product family. Replenishment comes from forecast, not from panic.' },
       { q: 'Which modules are included?', a: 'Granular Shopping includes: iFood & Orders, Order Monitor, Smart Inventory, Finance & P&L, Kits & Gifts, CRM & Customers, Operational Checklists, Reports, Granular Agent (AI), Integrations and People (HR). All in one dashboard adapted to mall-store routines.' },
