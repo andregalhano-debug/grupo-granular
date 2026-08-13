@@ -16,6 +16,7 @@ const CATEGORY_LABELS: Record<Category, string> = {
   mercados: 'Mercados',
   farmacias: 'Farmácias',
   petshop: 'Pet Shops',
+  shopping: 'Shopping',
 }
 
 interface OrderSummaryProps {

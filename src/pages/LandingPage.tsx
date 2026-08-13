@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Header } from '../components/Header'
 import { Hero } from '../components/Hero'
 import { SocialProof } from '../components/SocialProof'
 import { Modules } from '../components/Modules'
-import type { Category } from '../components/Modules'
 import { Integrations } from '../components/Integrations'
 import { Differentials } from '../components/Differentials'
 import { Pricing } from '../components/Pricing'
@@ -11,15 +11,28 @@ import { Testimonials } from '../components/Testimonials'
 import { Faq } from '../components/Faq'
 import { CtaSection } from '../components/CtaSection'
 import { Footer } from '../components/Footer'
-import { AiAgentsSection } from '../components/AiAgentsSection'
+import { MondaySection } from '../components/home/MondaySection'
+import { HomeGranuSection } from '../components/home/HomeGranuSection'
+import { GanhosSection } from '../components/home/GanhosSection'
+import { PessoasSection } from '../components/home/PessoasSection'
+import { ContactSection } from '../components/home/ContactSection'
+import { SecuritySection } from '../components/home/SecuritySection'
 import { CategoryContext } from '../stores/CategoryContext'
 import { categoryAccent, withAlpha } from '../data/categoryColors'
+import { SEGMENTO_TO_PATH } from '../data/categories'
 
 export function LandingPage() {
-  const [category, setCategory] = useState<Category>('restaurantes')
-  const { primary: accent, dark: accentDark } = categoryAccent[category]
+  const navigate = useNavigate()
+  const [params] = useSearchParams()
+  const { primary: accent, dark: accentDark } = categoryAccent.restaurantes
 
-  // Propaga CSS vars para o root do documento — necessário para componentes fora do LandingPage (chatbot, etc.)
+  useEffect(() => {
+    const s = (params.get('segmento') || '').toLowerCase()
+    if (s && SEGMENTO_TO_PATH[s]) {
+      navigate(SEGMENTO_TO_PATH[s], { replace: true })
+    }
+  }, [params, navigate])
+
   useEffect(() => {
     const root = document.documentElement
     root.style.setProperty('--accent', accent)
@@ -35,31 +48,25 @@ export function LandingPage() {
 
   return (
     <CategoryContext.Provider value={{ accent, accentDark }}>
-      <div
-        className={`min-h-screen transition-colors duration-500 ${category === 'restaurantes' ? 'bg-white' : 'bg-[var(--accent-05)]'}`}
-        style={{
-          '--accent': accent,
-          '--accent-dark': accentDark,
-          '--accent-05': withAlpha(accent, 5),
-          '--accent-08': withAlpha(accent, 8),
-          '--accent-10': withAlpha(accent, 10),
-          '--accent-15': withAlpha(accent, 15),
-          '--accent-20': withAlpha(accent, 20),
-          '--accent-30': withAlpha(accent, 30),
-          '--accent-40': withAlpha(accent, 40),
-        } as React.CSSProperties}
-      >
-        <Header category={category} />
-        <Hero category={category} setCategory={setCategory} />
-        <SocialProof category={category} />
-        <Modules category={category} />
-        <AiAgentsSection />
+      <div className="min-h-screen bg-[#f0ede8] text-[#2c241f]">
+        <Header category="restaurantes" />
+        <Hero />
+        <MondaySection />
+        <HomeGranuSection />
+        <GanhosSection />
+        <PessoasSection />
+        <Modules category="restaurantes" />
         <Integrations />
         <Differentials />
-        <Pricing category={category} />
+        <Pricing category="restaurantes" />
+        <div className="max-w-[1240px] mx-auto px-[clamp(18px,4vw,44px)] pb-4">
+          <SecuritySection />
+        </div>
+        <SocialProof category="restaurantes" />
         <Testimonials />
-        <Faq category={category} />
-        <CtaSection category={category} />
+        <Faq category="restaurantes" />
+        <CtaSection category="restaurantes" />
+        <ContactSection />
         <Footer />
       </div>
     </CategoryContext.Provider>

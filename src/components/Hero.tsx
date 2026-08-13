@@ -1,243 +1,89 @@
-import { useState } from 'react'
-import { UtensilsCrossed, ShoppingCart, Pill, PawPrint, X, Clock, ChevronRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
-import telaSistema from '../assets/Tela Maestro.jpg'
-import telaMarket from '../assets/tela-granular-market.png'
+import { GranuGrain } from './granu/GranuGrain'
 import { useT } from '../i18n/useT'
 import type { Category } from './Modules'
 
 interface Props {
-  category: Category
-  setCategory: (c: Category) => void
+  category?: Category
+  setCategory?: (c: Category) => void
 }
 
-// Cor de acento por categoria — usada no card ativo e no restante do site via Header
 export const categoryAccent: Record<Category, { primary: string; light: string; border: string }> = {
-  restaurantes: { primary: '#A31631', light: '#A31631/10', border: '#A31631/20' },
+  restaurantes: { primary: '#7c2d3e', light: '#7c2d3e/10', border: '#7c2d3e/20' },
   mercados:     { primary: '#0A4D68', light: '#0A4D68/10', border: '#0A4D68/20' },
   farmacias:    { primary: '#1B6B3A', light: '#1B6B3A/10', border: '#1B6B3A/20' },
   petshop:      { primary: '#8B4513', light: '#8B4513/10', border: '#8B4513/20' },
+  shopping:     { primary: '#6B3F1F', light: '#6B3F1F/10', border: '#6B3F1F/20' },
 }
 
-const categoryIcons: Record<Category, typeof UtensilsCrossed> = {
-  restaurantes: UtensilsCrossed,
-  mercados: ShoppingCart,
-  farmacias: Pill,
-  petshop: PawPrint,
-}
+const METRICS = [
+  { v: '+80', l: 'IDs em produção', accent: true },
+  { v: '14+', l: 'módulos integrados' },
+  { v: '~140', l: 'ferramentas de IA' },
+  { v: '24/7', l: 'monitores vigiando' },
+]
 
-const categoryComingSoon: Record<Category, boolean> = {
-  restaurantes: false,
-  mercados: false,
-  farmacias: false,
-  petshop: false,
-}
-
-export function Hero({ category, setCategory }: Props) {
-  const [lightbox, setLightbox] = useState(false)
+export function Hero(_props: Props) {
   const t = useT()
 
-  const isComingSoon = categoryComingSoon[category]
-  const showContent = !isComingSoon
-
   return (
-    <section id="hero" className="pt-32 sm:pt-40 pb-20 sm:pb-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      <FadeIn className="text-center">
-        {/* Headline */}
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1] text-[#0E0E0F] max-w-4xl mx-auto mb-8">
-          {t.hero.headline}{' '}
-          <span className="text-[var(--accent)]">
+    <section id="hero" className="px-[clamp(18px,4vw,44px)] pt-[clamp(48px,7vw,96px)] pb-[clamp(28px,4vw,52px)]">
+      <div className="max-w-[1240px] mx-auto grid lg:grid-cols-2 gap-[clamp(24px,4vw,56px)] items-center">
+        <FadeIn>
+          <p
+            className="text-[11.5px] tracking-[.24em] uppercase text-[#7c2d3e]"
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          >
+            Granular · Digital as a Service
+          </p>
+          <h1 className="mt-[18px] text-[clamp(42px,6.6vw,86px)] leading-[.98] tracking-[-.035em] font-semibold text-[#2c241f] text-balance">
+            {t.hero.headline}
+            <br />
             {t.hero.headlineAccent}
-          </span>
-        </h1>
-
-        {/* Subtext */}
-        <p className="text-base sm:text-lg text-[#9C958A] max-w-2xl mx-auto mb-10 leading-relaxed">
-          {t.hero.subtitle} <span className="text-[var(--accent)] font-semibold whitespace-nowrap">{t.hero.subtitleAccent}</span>.
-        </p>
-
-        {/* ── Seleção de categoria — foco principal ── */}
-        <div className="mb-12">
-          {/* Prompt proeminente */}
-          <div className="mb-8">
-            <h2 className="text-xl sm:text-2xl font-bold text-[#0E0E0F] mb-2">
-              {t.hero.segmentPrompt}
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-5 max-w-3xl mx-auto">
-            {(Object.keys(t.hero.categories) as Array<keyof typeof t.hero.categories>).map((catId) => {
-              const cat = t.hero.categories[catId]
-              const isActive = category === catId
-              const accent = categoryAccent[catId]
-              const isComingSoonCat = categoryComingSoon[catId]
-              const IconComponent = categoryIcons[catId]
-              return (
-                <button
-                  key={catId}
-                  onClick={() => setCategory(catId)}
-                  className={`relative group rounded-2xl border-2 p-5 sm:p-6 text-left transition-all duration-200 cursor-pointer ${
-                    isActive
-                      ? 'shadow-xl scale-[1.03]'
-                      : isComingSoonCat
-                        ? 'border-[#9C958A]/15 bg-[#F7F7F7] opacity-60 hover:opacity-75'
-                        : 'border-[#9C958A]/20 bg-white hover:shadow-lg hover:scale-[1.01]'
-                  }`}
-                  style={isActive ? {
-                    borderColor: accent.primary,
-                    backgroundColor: `${accent.primary}0d`,
-                    boxShadow: `0 8px 30px ${accent.primary}20`,
-                  } : {}}
-                >
-                  {isComingSoonCat && (
-                    <span className="absolute -top-2.5 right-3 text-[9px] font-bold uppercase tracking-wider bg-[#9C958A] text-white px-2 py-0.5 rounded-full">
-                      {t.hero.comingSoon}
-                    </span>
-                  )}
-                  {isActive && (
-                    <span
-                      className="absolute -top-2.5 left-3 text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full text-white"
-                      style={{ backgroundColor: accent.primary }}
-                    >
-                      {t.hero.selected}
-                    </span>
-                  )}
-                  <div
-                    className={`w-10 h-10 rounded-xl flex items-center justify-center mb-4 transition-colors`}
-                    style={isActive
-                      ? { backgroundColor: accent.primary }
-                      : { backgroundColor: '#9C958A20' }
-                    }
-                  >
-                    <IconComponent size={20} className={isActive ? 'text-white' : 'text-[#9C958A]'} />
-                  </div>
-                  <p
-                    className="text-sm font-bold mb-1"
-                    style={isActive ? { color: accent.primary } : { color: '#0E0E0F' }}
-                  >
-                    {cat.label}
-                  </p>
-                  <p className="text-[11px] text-[#9C958A] leading-snug">{cat.description}</p>
-                  {isActive && (
-                    <div className="flex items-center gap-1 mt-3 text-[10px] font-semibold" style={{ color: accent.primary }}>
-                      <ChevronRight size={10} /> {t.hero.seeSolution}
-                    </div>
-                  )}
-                </button>
-              )
-            })}
-          </div>
-
-          {/* Mercados: subcategorias informativas (sem CTAs) */}
-          {category === 'mercados' && (
-            <div className="flex flex-wrap items-center justify-center gap-2 mt-5">
-              <span className="text-xs text-[#9C958A]">{t.hero.comprises}</span>
-              {t.hero.mercadoSubs.map((s) => (
-                <span
-                  key={s}
-                  className="text-xs bg-[var(--accent-08)] text-[var(--accent)] px-3 py-1 rounded-full border border-[var(--accent-15)] font-medium"
-                >
-                  {s}
-                </span>
-              ))}
-            </div>
-          )}
-
-          {/* Em breve: mensagem inline */}
-          {isComingSoon && (
-            <div className="mt-5 inline-flex items-center gap-2 bg-[#F7F7F7] border border-[#9C958A]/20 px-4 py-2.5 rounded-xl text-sm text-[#9C958A]">
-              <Clock size={14} />
-              {t.hero.segmentComingSoon}
-            </div>
-          )}
-        </div>
-
-        {/* CTAs — visíveis apenas para categorias ativas */}
-        {showContent && (
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-4">
+          </h1>
+          <p className="mt-[22px] text-[clamp(17px,1.6vw,21px)] leading-relaxed text-[#5f5248] max-w-[46ch] text-pretty">
+            {t.hero.subtitle}{' '}
+            <strong className="text-[#2c241f] font-semibold">{t.hero.granuName}</strong>
+            {t.hero.subtitleAfter}
+          </p>
+          <div className="flex flex-wrap gap-3 mt-8">
             <Link
               to="/agendar-demo"
-              className="bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-medium px-8 py-4 rounded-xl text-base transition-colors"
+              className="inline-flex items-center min-h-[52px] px-[30px] rounded-full bg-[#7c2d3e] hover:bg-[#5f2130] text-[#f7f2ee] font-medium text-base transition-colors"
             >
               {t.hero.startNow}
             </Link>
             <a
-              href="#modulos"
-              className="inline-flex items-center gap-2 border border-[#9C958A]/30 hover:border-[var(--accent-30)] text-[#0E0E0F] font-medium px-8 py-4 rounded-xl text-base transition-colors"
+              href="#precos"
+              className="inline-flex items-center min-h-[52px] px-[30px] rounded-full border border-[#d5cbbd] hover:border-[#7c2d3e] text-[#2c241f] hover:text-[#7c2d3e] font-medium text-base transition-colors"
             >
-              {t.hero.seeModules}
+              {t.hero.seePlans}
             </a>
           </div>
-        )}
-      </FadeIn>
-
-      {/* Screenshot do sistema — apenas para categorias ativas */}
-      {showContent && (
-        <FadeIn delay={200} className="mt-20 sm:mt-28">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#0E0E0F] mb-4">
-              {t.hero.systemNames[category]}
-            </h2>
-            <p className="text-[#9C958A] text-base sm:text-lg max-w-2xl mx-auto">
-              {t.hero.systemDescs[category]}
-            </p>
-          </div>
-
-          <div className="max-w-5xl mx-auto rounded-2xl border border-[#9C958A]/20 overflow-hidden shadow-2xl shadow-black/10">
-            {/* Browser Chrome */}
-            <div className="bg-[#0E0E0F] px-4 py-3 flex items-center gap-3">
-              <div className="flex gap-2">
-                <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
-                <div className="w-3 h-3 rounded-full bg-[#febc2e]" />
-                <div className="w-3 h-3 rounded-full bg-[#28c840]" />
-              </div>
-              <div className="flex-1 bg-[#2A2622] rounded-lg px-4 py-1.5 text-xs text-[#9C958A]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
-                app.granular.com.br/dashboard
-              </div>
-            </div>
-
-            {/* Imagem por segmento */}
-            <img
-              src={category === 'mercados' ? telaMarket : telaSistema}
-              alt={`Dashboard ${t.hero.systemNames[category]} — Visão geral da operação`}
-              className="w-full block cursor-pointer hover:opacity-90 transition-opacity"
-              fetchPriority="high"
-              onClick={() => setLightbox(true)}
-              title="Clique para ampliar"
-            />
-          </div>
         </FadeIn>
-      )}
 
-      {/* Lightbox */}
-      {lightbox && (
-        <div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm cursor-pointer"
-          onClick={() => setLightbox(false)}
-          style={{ animation: 'fadeInHero 0.2s ease' }}
-        >
-          <button
-            onClick={() => setLightbox(false)}
-            className="absolute top-6 right-6 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+        <FadeIn delay={80} className="relative min-h-[clamp(280px,40vw,520px)]">
+          <GranuGrain className="absolute inset-0 w-full h-full" zoom={1.45} />
+        </FadeIn>
+      </div>
+
+      <div className="max-w-[1240px] mx-auto mt-[clamp(28px,4vw,52px)] pt-[26px] border-t border-[#e4ddd2] grid grid-cols-2 sm:grid-cols-4 gap-5">
+        {METRICS.map((m) => (
+          <div
+            key={m.l}
+            className={`flex flex-col gap-1.5 pl-4 border-l-2 ${m.accent ? 'border-[#7c2d3e]' : 'border-[#e4ddd2]'}`}
           >
-            <X size={24} />
-          </button>
-          <img
-            src={category === 'mercados' ? telaMarket : telaSistema}
-            alt="Dashboard Granular ampliado"
-            className="max-w-[90vw] max-h-[90vh] rounded-2xl shadow-2xl object-contain cursor-default"
-            onClick={(e) => e.stopPropagation()}
-          />
-        </div>
-      )}
-
-      <style>{`
-        @keyframes fadeInHero {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-      `}</style>
+            <span
+              className="text-[clamp(24px,2.6vw,32px)] leading-none text-[#2c241f] tabular-nums"
+              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            >
+              {m.v}
+            </span>
+            <span className="text-[13px] text-[#8a7a6e]">{m.l}</span>
+          </div>
+        ))}
+      </div>
     </section>
   )
 }

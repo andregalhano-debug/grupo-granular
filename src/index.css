@@ -1,8 +1,28 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@300..700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 @import "tailwindcss";
+
+:root {
+  --cream: #f0ede8;
+  --cream-2: #e9e4da;
+  --paper: #faf9f7;
+  --ink: #2c241f;
+  --muted: #5f5248;
+  --muted-2: #8a7a6e;
+  --wine: #7c2d3e;
+  --wine-dark: #5f2130;
+  --line: #e4ddd2;
+  --line-2: #d5cbbd;
+  --dark: #241d1a;
+  --accent: #7c2d3e;
+  --accent-dark: #5f2130;
+}
 
 html {
   scroll-behavior: smooth;
+}
+
+[id] {
+  scroll-margin-top: 84px;
 }
 
 .seo-hidden {
@@ -15,12 +35,21 @@ html {
 }
 
 body {
-  font-family: 'Space Grotesk', sans-serif;
-  color: #0E0E0F;
-  background-color: #FFFFFF;
+  font-family: 'Instrument Sans', system-ui, sans-serif;
+  color: #2c241f;
+  background-color: #f0ede8;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.font-mono-kicker {
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+@keyframes logoScroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
 
 /* ── Dark Mode ── */

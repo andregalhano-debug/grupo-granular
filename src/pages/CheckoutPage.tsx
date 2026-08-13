@@ -30,9 +30,10 @@ const CHECKOUT_CATEGORIES: { id: Category; label: string; icon: typeof UtensilsC
   { id: 'mercados', label: 'Mercado', icon: ShoppingCart },
   { id: 'farmacias', label: 'Farmácia', icon: Pill },
   { id: 'petshop', label: 'Pet Shop', icon: PawPrint },
-]
+  { id: 'shopping', label: 'Shopping', icon: Store },
+}
 
-const SEGMENTOS = ['Restaurante', 'Mercado', 'Atacado', 'Atacarejo', 'Farmácia', 'Pet Shop', 'Outros']
+const SEGMENTOS = ['Restaurante', 'Mercado', 'Atacado', 'Atacarejo', 'Farmácia', 'Pet Shop', 'Shopping', 'Outros']
 const FAIXAS_FATURAMENTO = [
   'Iniciando no Delivery', 'Até 50k', '50k a 150k',
   '150k a 300k', '300k a 500k', '500k a 1M', 'Acima de 1M',
@@ -48,6 +49,7 @@ const SEGMENTO_TO_CATEGORY: Record<string, Category> = {
   mercado: 'mercados',         mercados: 'mercados',
   farmacia: 'farmacias',       farmacias: 'farmacias',
   petshop: 'petshop',
+  shopping: 'shopping',
 }
 
 export function CheckoutPage() {

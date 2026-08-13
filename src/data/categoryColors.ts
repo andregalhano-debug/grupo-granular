@@ -5,6 +5,7 @@ export const categoryAccent: Record<Category, { primary: string; dark: string }>
   mercados:     { primary: '#0A4D68', dark: '#083A4F' },
   farmacias:    { primary: '#1B6B3A', dark: '#14502C' },
   petshop:      { primary: '#8B4513', dark: '#6B340F' },
+  shopping:     { primary: '#6B3F1F', dark: '#4A2C15' },
 }
 
 /** Appends hex alpha to a hex color (alphaPercent: 0-100) */
