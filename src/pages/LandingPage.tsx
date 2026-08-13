@@ -8,7 +8,6 @@ import { Integrations } from '../components/Integrations'
 import { Pricing } from '../components/Pricing'
 import { Testimonials } from '../components/Testimonials'
 import { Faq } from '../components/Faq'
-import { CtaSection } from '../components/CtaSection'
 import { Footer } from '../components/Footer'
 import { MondaySection } from '../components/home/MondaySection'
 import { HomeGranuSection } from '../components/home/HomeGranuSection'
@@ -63,7 +62,6 @@ export function LandingPage() {
         <SocialProof category="restaurantes" />
         <Testimonials />
         <Faq category="restaurantes" />
-        <CtaSection category="restaurantes" />
         <ContactSection />
         <Footer />
       </div>

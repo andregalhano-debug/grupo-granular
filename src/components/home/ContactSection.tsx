@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { DemoBookingForm } from './DemoBookingForm'
 
 const STEPS = [
   {
@@ -70,25 +70,8 @@ export function ContactSection() {
           </div>
         </div>
 
-        <div className="bg-[#faf9f7] rounded-[18px] p-[clamp(22px,2.6vw,34px)] flex flex-col justify-center text-[#2c241f]">
-          <p
-            className="text-[11px] tracking-[.2em] uppercase text-[#7c2d3e]"
-            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-          >
-            Agendar demonstração
-          </p>
-          <h3 className="mt-3 text-[28px] leading-tight font-semibold tracking-[-.03em]">
-            Preencha seus dados e escolha o melhor dia e horário.
-          </h3>
-          <p className="mt-3 text-[15.5px] leading-relaxed text-[#5f5248]">
-            Empresa, segmento, nome, WhatsApp, e-mail e, se quiser, o calendário. Você recebe a confirmação; a equipe é avisada no mesmo fluxo de sempre.
-          </p>
-          <Link
-            to="/agendar-demo"
-            className="mt-7 inline-flex items-center justify-center min-h-[52px] rounded-full bg-[#7c2d3e] hover:bg-[#5f2130] text-[#f7f2ee] text-base font-medium transition-colors"
-          >
-            Ir para o formulário
-          </Link>
+        <div className="bg-[#faf9f7] rounded-[18px] p-[clamp(22px,2.6vw,34px)]">
+          <DemoBookingForm source="home-contato" />
         </div>
       </div>
     </section>
