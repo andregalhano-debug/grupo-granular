@@ -14,7 +14,6 @@ import { HomeGranuSection } from '../components/home/HomeGranuSection'
 import { GanhosSection } from '../components/home/GanhosSection'
 import { PessoasSection } from '../components/home/PessoasSection'
 import { ContactSection } from '../components/home/ContactSection'
-import { SecuritySection } from '../components/home/SecuritySection'
 import { CategoryContext } from '../stores/CategoryContext'
 import { categoryAccent, withAlpha } from '../data/categoryColors'
 import { SEGMENTO_TO_PATH } from '../data/categories'
@@ -55,10 +54,7 @@ export function LandingPage() {
         <PessoasSection />
         <Modules category="restaurantes" />
         <Integrations />
-        <Pricing category="restaurantes" />
-        <div className="max-w-[1240px] mx-auto px-[clamp(18px,4vw,44px)] pb-4">
-          <SecuritySection />
-        </div>
+        <Pricing category="restaurantes" showSecurity />
         <SocialProof category="restaurantes" />
         <Testimonials />
         <Faq category="restaurantes" />
