@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { GranularLogo } from './GranularLogo'
 import { useT } from '../i18n/useT'
+import { SitePrefs } from './SitePrefs'
 
 const PRODUCT_ITEMS = [
   { label: 'A Granu',           href: '/granu',         badge: null },
@@ -130,11 +131,12 @@ export function Footer() {
           <p className="text-[11.5px] tracking-[.16em] uppercase text-[#c48d7e]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
             {t.footer.copyright}
           </p>
-          <div className="flex flex-wrap justify-center gap-5">
+          <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-3">
             <Link to="/termos" className="text-[11.5px] tracking-[.08em] uppercase text-[#c48d7e] hover:text-[#f7f2ee] transition-colors" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>{t.footer.links.terms}</Link>
             <Link to="/privacidade" className="text-[11.5px] tracking-[.08em] uppercase text-[#c48d7e] hover:text-[#f7f2ee] transition-colors" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>{t.footer.links.privacy}</Link>
             <Link to="/cookies" className="text-[11.5px] tracking-[.08em] uppercase text-[#c48d7e] hover:text-[#f7f2ee] transition-colors" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>{t.footer.links.cookies}</Link>
             <Link to="/aceite" className="text-[11.5px] tracking-[.08em] uppercase text-[#c48d7e] hover:text-[#f7f2ee] transition-colors" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>Aceite</Link>
+            <SitePrefs tone="footer" />
           </div>
         </div>
       </div>

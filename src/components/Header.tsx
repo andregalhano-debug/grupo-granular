@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Menu, X, Briefcase, Sun, Moon, ChevronDown } from 'lucide-react'
+import { Menu, X, Briefcase, ChevronDown } from 'lucide-react'
 import { GranularLogo } from './GranularLogo'
 import { useCart } from '../stores/useCartStore'
 import { useTheme } from '../stores/useThemeStore'
-import { useLanguage } from '../stores/useLanguageStore'
 import { useT } from '../i18n/useT'
+import { SitePrefs } from './SitePrefs'
 import { CATEGORY_LINKS } from '../data/categories'
 import type { Category } from './Modules'
 
@@ -56,8 +56,7 @@ export function Header({ category }: Props) {
   const [scrolled, setScrolled] = useState(false)
   const catsRef = useRef<HTMLDivElement>(null)
   const cart = useCart()
-  const { theme, toggle } = useTheme()
-  const { lang, toggle: toggleLang } = useLanguage()
+  const { theme } = useTheme()
   const t = useT()
   const { pathname } = useLocation()
   const suffix = category ? categoryName[category] : ''
@@ -163,19 +162,6 @@ export function Header({ category }: Props) {
           <a href="/login" className="text-[14.5px] text-[#5f5248] hover:text-[#7c2d3e] transition-colors">
             {t.nav.login}
           </a>
-          <button
-            onClick={toggle}
-            title={theme === 'dark' ? 'Modo claro' : 'Modo escuro'}
-            className="p-2 rounded-lg text-[#8a7a6e] hover:text-[#2c241f] hover:bg-[#e4ddd2]/60 transition-colors"
-          >
-            {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
-          </button>
-          <button
-            onClick={toggleLang}
-            className="text-xs font-semibold text-[#8a7a6e] hover:text-[#2c241f] px-2 py-1 rounded-lg hover:bg-[#e4ddd2]/60 transition-colors"
-          >
-            {lang === 'pt' ? 'EN' : 'PT'}
-          </button>
           {cart.itemCount > 0 && (
             <Link to="/agendar-demo" className="relative p-2 text-[#8a7a6e] hover:text-[#2c241f] transition-colors">
               <Briefcase size={20} />
@@ -193,13 +179,6 @@ export function Header({ category }: Props) {
         </div>
 
         <div className="lg:hidden flex items-center gap-2">
-          <button
-            onClick={toggle}
-            title={theme === 'dark' ? 'Modo claro' : 'Modo escuro'}
-            className="p-2 text-[#8a7a6e] hover:text-[#2c241f] transition-colors"
-          >
-            {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
-          </button>
           {cart.itemCount > 0 && (
             <Link to="/agendar-demo" className="relative p-2 text-[#8a7a6e] hover:text-[#2c241f] transition-colors">
               <Briefcase size={20} />
@@ -252,9 +231,9 @@ export function Header({ category }: Props) {
               {t.nav.beMentor}
             </Link>
             <a href="/login" className="block text-sm text-[#5f5248] py-2">{t.nav.login}</a>
-            <button onClick={toggleLang} className="block text-sm text-[#5f5248] py-2 text-left">
-              {lang === 'pt' ? 'EN' : 'PT'}
-            </button>
+            <div className="py-2">
+              <SitePrefs tone="light" />
+            </div>
             <Link
               to="/agendar-demo"
               className="block text-center text-sm font-medium text-[#f7f2ee] bg-[#7c2d3e] px-5 py-2.5 rounded-full"
