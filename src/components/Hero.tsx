@@ -48,26 +48,25 @@ export function Hero(_props: Props) {
             <strong className="text-[#2c241f] font-semibold">{t.hero.granuName}</strong>
             {t.hero.subtitleAfter}
           </p>
-          <p className="mt-4 text-[15px] sm:text-base leading-relaxed text-[#8a7a6e] max-w-[46ch]">
-            {t.hero.categoriesLead}{' '}
-            {CATEGORY_LINKS.map((c, i) => {
-              const label = t.hero.categories[c.id].label.toLowerCase()
-              const last = i === CATEGORY_LINKS.length - 1
-              const mid = i > 0 && !last
-              return (
-                <span key={c.id}>
-                  {i === 0 ? '' : last ? ' e ' : mid ? ', ' : ''}
-                  <Link
-                    to={c.href}
-                    className="text-[#2c241f] font-medium underline-offset-4 hover:text-[#7c2d3e] hover:underline"
-                  >
-                    {label}
-                  </Link>
-                </span>
-              )
-            })}
-            {t.hero.categoriesEnd}
-          </p>
+          <div className="mt-6">
+            <p
+              className="text-[11.5px] tracking-[.24em] uppercase text-[#8a7a6e] mb-3"
+              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            >
+              {t.hero.categoriesLead}
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {CATEGORY_LINKS.map((c) => (
+                <Link
+                  key={c.id}
+                  to={c.href}
+                  className="inline-flex items-center min-h-11 px-4 rounded-full border border-[#e4ddd2] bg-[#faf9f7] text-[13.5px] font-medium text-[#2c241f] hover:border-[#7c2d3e] hover:text-[#7c2d3e] hover:bg-[#f7f2ee] transition-colors"
+                >
+                  {t.hero.categories[c.id].label}
+                </Link>
+              ))}
+            </div>
+          </div>
           <div className="flex flex-col sm:flex-row flex-wrap gap-3 mt-8">
             <Link
               to="/agendar-demo"

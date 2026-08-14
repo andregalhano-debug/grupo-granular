@@ -27,7 +27,7 @@ export const en = {
     startNow: 'Book a demo',
     seePlans: 'See plans',
     seeModules: 'See Modules',
-    categoriesLead: 'For',
+    categoriesLead: 'Five categories',
     categoriesEnd: '.',
     categories: {
       restaurantes: { label: 'Restaurants', description: 'Bars, snack bars, fast food and delivery' },
