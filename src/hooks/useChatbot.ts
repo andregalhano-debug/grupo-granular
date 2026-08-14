@@ -9,6 +9,7 @@ import {
   type ChatLead,
   type ChatSdrState,
 } from '../lib/chatSdr'
+import { trackGenerateLead } from '../lib/analytics'
 
 export interface ChatMessage {
   id: string
@@ -66,7 +67,7 @@ async function tryFoodSdr(
 
 async function persistChatLead(lead: ChatLead, transcript: ChatMessage[]) {
   try {
-    await fetch('/api/email', {
+    const res = await fetch('/api/email', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -86,6 +87,7 @@ async function persistChatLead(lead: ChatLead, transcript: ChatMessage[]) {
         ),
       }),
     })
+    if (res.ok) trackGenerateLead('chat')
   } catch (err) {
     console.error('[chat] falha ao enviar lead:', err)
   }
