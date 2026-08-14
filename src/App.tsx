@@ -1,7 +1,8 @@
-import { lazy, Suspense, useEffect } from 'react'
+import { lazy, Suspense, useEffect, useRef } from 'react'
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { CartProvider } from './stores/CartProvider'
 import { useMentorAuth } from './hooks/useMentorAuth'
+import { bindCtaClickTracking, trackSpaPageView } from './lib/analytics'
 
 const LandingPage          = lazy(() => import('./pages/LandingPage').then(m => ({ default: m.LandingPage })))
 const ConfirmacaoPage      = lazy(() => import('./pages/ConfirmacaoPage').then(m => ({ default: m.ConfirmacaoPage })))
@@ -52,6 +53,24 @@ function ScrollToTop() {
   return null
 }
 
+function Analytics() {
+  const location = useLocation()
+  const firstLoad = useRef(true)
+
+  useEffect(() => bindCtaClickTracking(), [])
+
+  useEffect(() => {
+    const path = `${location.pathname}${location.search}`
+    if (firstLoad.current) {
+      firstLoad.current = false
+      return
+    }
+    trackSpaPageView(path)
+  }, [location.pathname, location.search])
+
+  return null
+}
+
 function AppContent() {
   const location = useLocation()
   const hideChatOn = ['/checkout', '/confirmacao']
@@ -60,6 +79,7 @@ function AppContent() {
   return (
     <>
       <ScrollToTop />
+      <Analytics />
       <Suspense fallback={<PageLoader />}>
         <Routes>
           <Route path="/" element={<LandingPage />} />

@@ -1,4 +1,5 @@
 import { saveDemoBooking, type DemoBooking } from '../data/demoSlots'
+import { trackGenerateLead } from '../lib/analytics'
 
 export interface DemoBookingInput {
   name: string
@@ -64,5 +65,6 @@ export async function submitDemoBooking(input: DemoBookingInput): Promise<DemoBo
   // Cache local: o admin neste navegador continua vendo o teste.
   // A fonte de verdade do lead é o e-mail da equipe (+ Supabase, quando a tabela existir).
   saveDemoBooking(booking)
+  trackGenerateLead(input.source)
   return booking
 }

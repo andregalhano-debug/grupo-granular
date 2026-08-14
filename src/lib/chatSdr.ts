@@ -177,7 +177,7 @@ export function nextChatTurn(state: ChatSdrState, userText: string): { state: Ch
             : 'Anotei. Alguém do time te chama nesse número.',
         ],
         lead,
-        ctaUrl: '/agendar-demo',
+        ctaUrl: '/agendar-demo?origem=chat',
         ctaLabel: 'Se quiser, já escolhe um horário',
       },
     }
@@ -188,7 +188,7 @@ export function nextChatTurn(state: ChatSdrState, userText: string): { state: Ch
       state: next,
       turn: {
         replies: ['Pode deixar que o time te chama. Se preferir, já marca o horário aqui.'],
-        ctaUrl: '/agendar-demo',
+        ctaUrl: '/agendar-demo?origem=chat',
         ctaLabel: 'Escolher um horário',
       },
     }
@@ -200,7 +200,7 @@ export function nextChatTurn(state: ChatSdrState, userText: string): { state: Ch
       state: next,
       turn: {
         replies: ['Perfeito. Me passa o WhatsApp com DDD — e se quiser já escolhe o horário.'],
-        ctaUrl: '/agendar-demo',
+        ctaUrl: '/agendar-demo?origem=chat',
         ctaLabel: 'Abrir agenda',
       },
     }
