@@ -79,7 +79,7 @@ export function PrivacidadePage() {
             Privacidade
           </p>
           <h1 className="text-3xl font-bold text-[#0E0E0F] mb-3">Política de Privacidade</h1>
-          <p className={p}>Última atualização: 15 de julho de 2026. Em conformidade com a LGPD (Lei nº 13.709/2018).</p>
+          <p className={p}>Última atualização: 14 de agosto de 2026. Em conformidade com a LGPD (Lei nº 13.709/2018).</p>
           <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 text-sm text-blue-800 leading-relaxed">
             O Grupo Granular está comprometido com a proteção de seus dados pessoais. Esta Política descreve como coletamos, usamos, armazenamos e compartilhamos informações de todos os perfis que interagem com nossa plataforma.
           </div>
@@ -96,9 +96,10 @@ export function PrivacidadePage() {
 
           <SubSection title="1.1 Encarregado de Proteção de Dados (DPO)">
             <div className="bg-white rounded-xl border border-[#0E0E0F]/10 p-4 text-sm text-[#0E0E0F] space-y-1 mb-3">
-              <p><strong>Canal dedicado:</strong> <a href="mailto:privacidade@grupogranular.com.br" className="text-[#A31631] hover:underline">privacidade@grupogranular.com.br</a></p>
+              <p><strong>Canal:</strong> <a href="mailto:contato@grupogranular.com.br?subject=Privacidade" className="text-[#A31631] hover:underline">contato@grupogranular.com.br</a></p>
+              <p><strong>Assunto:</strong> Privacidade</p>
             </div>
-            <p className={p}>Para dúvidas, solicitações ou exercício dos seus direitos previstos na LGPD, entre em contato pelo canal dedicado do Encarregado acima. Solicitações são respondidas em até 15 (quinze) dias.</p>
+            <p className={p}>Para dúvidas, solicitações ou exercício dos seus direitos previstos na LGPD, entre em contato pelo canal e assunto acima. Solicitações são respondidas em até 15 (quinze) dias.</p>
           </SubSection>
 
           <SubSection title="1.2 Controlador e Operador">
@@ -250,7 +251,7 @@ export function PrivacidadePage() {
             ))}
           </div>
           <div className="bg-[#A31631]/5 border border-[#A31631]/20 rounded-xl p-4 text-sm text-[#0E0E0F] mb-3">
-            Para exercer qualquer um desses direitos, envie sua solicitação para <a href="mailto:privacidade@grupogranular.com.br" className="text-[#A31631] hover:underline font-medium">privacidade@grupogranular.com.br</a>. Responderemos em até 15 dias úteis.
+            Para exercer qualquer um desses direitos, envie sua solicitação para <a href="mailto:contato@grupogranular.com.br?subject=Privacidade" className="text-[#A31631] hover:underline font-medium">contato@grupogranular.com.br</a> com o assunto Privacidade. Responderemos em até 15 dias úteis.
           </div>
           <p className="text-xs text-[#9C958A] leading-relaxed">A exclusão de determinados dados pode impedir a continuidade do uso da plataforma, quando esses dados forem necessários à prestação do serviço contratado.</p>
         </Section>
