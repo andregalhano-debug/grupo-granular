@@ -153,7 +153,7 @@ export const en = {
     onDemandCta: 'I want to be a mentor',
     beMentor: {
       title: 'Become a Granular Mentor',
-      desc: 'Share your expertise with food service operators, set your availability and hourly rate, and join a growing network of mentors.',
+      desc: 'Share your expertise with operators in restaurants, grocery, pharmacies, pet shops and shopping, set your availability and hourly rate, and join a growing network of mentors.',
     },
   },
   faq: {
@@ -392,7 +392,7 @@ export const en = {
     pricingOnRequestDesc: 'Plans are customized according to your operation\'s reality.',
     scheduleDemo2: 'Schedule a Demo',
     whatAreMentors: 'What are Granular Mentors?',
-    whatAreMentorsDesc: 'Granular Mentors connect food service operators with professionals who have already solved the same challenges. These are on-demand sessions in areas like menu, iFood, finance, HR and operations — no time commitment, focused on specific strategic decisions.',
+    whatAreMentorsDesc: 'Granular Mentors connect operators in restaurants, grocery, pharmacies, pet shops and shopping with professionals who have already solved the same challenges. These are on-demand sessions in operations, finance, inventory, people and sales, with no time commitment, focused on specific strategic decisions.',
     youAreMentor: 'Are you a mentor?',
     joinNetwork: 'Join the Granular network',
     exampleMentors: 'Example Mentors',
@@ -400,7 +400,7 @@ export const en = {
     yearsExp: 'yrs exp.',
     perHour: '/hour',
     beMentorTitle: 'Become a Granular Mentor',
-    beMentorDesc: 'Share your expertise with food service operators, set your availability and hourly rate, and join a growing network of mentors.',
+    beMentorDesc: 'Share your expertise with operators in restaurants, grocery, pharmacies, pet shops and shopping, set your availability and hourly rate, and join a growing network of mentors.',
     beMentorCta: 'I want to be a mentor',
     consultoriaInfo: 'After the initial diagnosis, the specialist and client together define which areas will be prioritized — according to the business needs and the contracted period.',
     consultoriaTags: ['Operation diagnosis', 'Action plan', 'Weekly report', 'Module 1 included', 'Continuous support', 'On-site visit'],
