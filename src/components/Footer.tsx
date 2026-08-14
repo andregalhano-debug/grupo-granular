@@ -81,7 +81,6 @@ export function Footer() {
               <li><a href="/#faq" className="text-[14.5px] text-[#dcb9ad] hover:text-[#f7f2ee] transition-colors">Perguntas frequentes</a></li>
               <li><a href="/#seguranca" className="text-[14.5px] text-[#dcb9ad] hover:text-[#f7f2ee] transition-colors">Segurança</a></li>
               <li><a href="/#contato" className="text-[14.5px] text-[#dcb9ad] hover:text-[#f7f2ee] transition-colors">{t.footer.links.contact}</a></li>
-              <li><Link to="/aceite" className="text-[14.5px] text-[#dcb9ad] hover:text-[#f7f2ee] transition-colors">Aceite de termos</Link></li>
             </ul>
           </div>
 
@@ -127,7 +126,6 @@ export function Footer() {
             <Link to="/termos" className="text-[11.5px] tracking-[.08em] uppercase text-[#c48d7e] hover:text-[#f7f2ee] transition-colors" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>{t.footer.links.terms}</Link>
             <Link to="/privacidade" className="text-[11.5px] tracking-[.08em] uppercase text-[#c48d7e] hover:text-[#f7f2ee] transition-colors" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>{t.footer.links.privacy}</Link>
             <Link to="/cookies" className="text-[11.5px] tracking-[.08em] uppercase text-[#c48d7e] hover:text-[#f7f2ee] transition-colors" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>{t.footer.links.cookies}</Link>
-            <Link to="/aceite" className="text-[11.5px] tracking-[.08em] uppercase text-[#c48d7e] hover:text-[#f7f2ee] transition-colors" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>Aceite</Link>
             <SitePrefs tone="footer" />
           </div>
         </div>
