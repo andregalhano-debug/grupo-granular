@@ -153,7 +153,7 @@ export const pt = {
     onDemandCta: 'Quero ser mentor',
     beMentor: {
       title: 'Seja um Mentor Granular',
-      desc: 'Compartilhe sua experiência com operadores do food service, defina sua disponibilidade e valor por hora, e faça parte de uma rede de mentores em crescimento.',
+      desc: 'Compartilhe sua experiência com operadores de restaurantes, mercados, farmácias, pet shops e shopping, defina sua disponibilidade e valor por hora, e faça parte de uma rede de mentores em crescimento.',
     },
   },
   faq: {
@@ -392,7 +392,7 @@ export const pt = {
     pricingOnRequestDesc: 'Os planos são personalizados de acordo com a realidade da sua operação.',
     scheduleDemo2: 'Agendar Demonstração',
     whatAreMentors: 'O que são os Mentores Granular?',
-    whatAreMentorsDesc: 'Os Mentores Granular conectam operadores do food service com profissionais que já resolveram os mesmos desafios. São sessões sob demanda em áreas como cardápio, iFood, financeiro, RH e operação — sem vínculo de prazo, com foco em decisões estratégicas pontuais.',
+    whatAreMentorsDesc: 'Os Mentores Granular conectam operadores de restaurantes, mercados, farmácias, pet shops e shopping com profissionais que já resolveram os mesmos desafios. São sessões sob demanda em operação, financeiro, estoque, pessoas e vendas, sem vínculo de prazo, com foco em decisões estratégicas pontuais.',
     youAreMentor: 'Você é mentor?',
     joinNetwork: 'Faça parte da rede Granular',
     exampleMentors: 'Exemplo de Mentores',
@@ -400,7 +400,7 @@ export const pt = {
     yearsExp: 'anos exp.',
     perHour: '/hora',
     beMentorTitle: 'Seja um Mentor Granular',
-    beMentorDesc: 'Compartilhe sua experiência com operadores do food service, defina sua disponibilidade e valor por hora, e faça parte de uma rede de mentores em crescimento.',
+    beMentorDesc: 'Compartilhe sua experiência com operadores de restaurantes, mercados, farmácias, pet shops e shopping, defina sua disponibilidade e valor por hora, e faça parte de uma rede de mentores em crescimento.',
     beMentorCta: 'Quero ser mentor',
     consultoriaInfo: 'Após o diagnóstico inicial, especialista e cliente definem juntos quais blocos serão priorizados — de acordo com as necessidades do negócio e o tempo contratado.',
     consultoriaTags: ['Diagnóstico da operação', 'Plano de ação', 'Relatório semanal', 'Módulo 1 incluso', 'Suporte contínuo', 'Visita in loco'],

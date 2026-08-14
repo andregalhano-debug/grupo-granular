@@ -6,11 +6,11 @@ import { useT } from '../i18n/useT'
 const PONTOS = [
   {
     t: 'Sessões pontuais',
-    d: 'Cardápio, iFood, financeiro, RH e operação — sem vínculo de prazo, com foco em uma decisão estratégica.',
+    d: 'Operação, financeiro, estoque, pessoas e vendas, sem vínculo de prazo, com foco em uma decisão estratégica.',
   },
   {
     t: 'Quem já resolveu o mesmo problema',
-    d: 'Mentores com experiência real em food service, varejo e delivery. Você escolhe a especialidade.',
+    d: 'Mentores com experiência real em restaurantes, mercados, farmácias, pet shops e shopping. Você escolhe a especialidade.',
   },
   {
     t: 'Rede em crescimento',
