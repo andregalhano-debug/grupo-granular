@@ -23,7 +23,7 @@ export function MentoriaSection() {
   const sampleMentors = t.pricingExtended.sampleMentors
 
   return (
-    <section id="mentores" className="py-20 sm:py-28 px-[clamp(18px,4vw,44px)] bg-[#f0ede8]">
+    <section id="mentores" className="pt-10 sm:pt-12 pb-20 sm:pb-28 px-[clamp(18px,4vw,44px)] bg-[#f0ede8]">
       <div className="max-w-6xl mx-auto">
         <FadeIn>
           <p
