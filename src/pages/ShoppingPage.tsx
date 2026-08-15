@@ -29,7 +29,7 @@ export function ShoppingPage() {
           'DRE automático — sem planilha no fechamento',
           'Checklists de abertura e fechamento da loja',
           'CRM de clientes recorrentes (aniversário e datas comemorativas)',
-          '15 agentes de IA trabalhando 24/7',
+          'Granu | A sua IA no sistema inteiro',
         ],
         ctaTitle: 'Pronto para transformar sua loja?',
         ctaSubtitle: 'Fale com a gente e veja o sistema rodando com os seus números — brinquedos, flores, presentes e utilidades no mesmo painel.',

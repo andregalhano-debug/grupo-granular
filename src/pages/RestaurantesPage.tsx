@@ -28,7 +28,7 @@ export function RestaurantesPage() {
           'Fichas técnicas com custo por prato atualizado',
           'KDS para cozinha — tempos e status em tempo real',
           'Checklists operacionais digitais com foto',
-          '15 agentes de IA trabalhando 24/7',
+          'Granu | A sua IA no sistema inteiro',
           'Relatórios gerenciais gerados automaticamente',
         ],
         ctaTitle: 'Pronto para transformar sua operação?',
