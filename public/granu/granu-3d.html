@@ -63,6 +63,7 @@
 <script type="module">
 const stage = document.querySelector('three-d-stage');
 const { THREE } = await stage.ready;
+const embed = new URLSearchParams(location.search).has('embed');
 
 const rng = (seed => () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; })(42);
 
@@ -116,7 +117,10 @@ mae.scale.setScalar(MAE_R);
 mae.rotation.set(.4, .7, 1.1);
 group.add(mae);
 stage.setObject(group);
-for (const g of grains) g.m.position.copy(g.tgt.idle);
+for (const g of grains) {
+  g.m.position.copy(g.tgt.idle);
+  if (embed) g.m.visible = false;
+}
 
 // ciclo idle → pesquisa → achado → pronta (denso e longo)
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -140,16 +144,35 @@ document.getElementById('cy').onclick = () => {
 };
 
 const tmp = new THREE.Vector3();
-let last = performance.now(), out = 0;
+let last = performance.now(), out = 0, raf = 0;
+
+function snapIdle() {
+  timers.forEach(clearTimeout);
+  timers = [];
+  setSt('idle');
+  out = 0;
+  for (const g of grains) {
+    g.m.position.copy(g.tgt.idle);
+    g.m.scale.setScalar(g.rad * .25);
+  }
+  mae.scale.setScalar(MAE_R);
+  mae.position.y = 0;
+  mae.visible = true;
+}
+
 function tick(now) {
-  const dt = Math.min(.1, (now - last) / 1000); last = now;
+  if (document.hidden) {
+    raf = 0;
+    return;
+  }
+  const dt = Math.min(.05, (now - last) / 1000); last = now;
   const t = now / 1000;
   const age = (now - stateSince) / 1000;
   const seekSplit = state === 'seek' && age > 3.4; // 2ª onda: cada parte vira vários
   const idleLike = state === 'idle' || state === 'ready';
   // micro explosões no idle: a cada ~6s um terço dos grãos salta e é reabsorvido
   const P = 6, u = (t % P) / P;
-  const env = (idleLike && !reduced && age > 1.6 && u < .6) ? Math.sin(u / .6 * Math.PI) : 0;
+  const env = (idleLike && !reduced && !embed && age > 1.6 && u < .6) ? Math.sin(u / .6 * Math.PI) : 0;
   const grpAct = Math.floor(t / P) % 3;
   const k = reduced ? 1 : 1 - Math.exp(-dt / TAU[state]);
   const kPop = reduced ? 1 : 1 - Math.exp(-dt / .55);
@@ -166,6 +189,7 @@ function tick(now) {
       base.z + g.dir.z * pop + Math.cos(t * g.w1 * .8 + g.ph) * amp
     );
     g.m.position.lerp(tmp, popping || (seekSplit && g.paiSeek) ? kPop : k);
+    g.m.visible = !embed || !idleLike;
     if (!reduced) { g.m.rotation.y += dt * (.25 + g.w1 * .5); g.m.rotation.x += dt * g.w2 * .3; }
     const sTgt = idleLike ? g.rad * (.25 + (popping ? env * .65 : 0)) : (state === 'seek' && g.paiSeek && !seekSplit ? g.rad * .35 : g.rad);
     g.m.scale.setScalar(g.m.scale.x + (sTgt - g.m.scale.x) * (popping ? kPop : k));
@@ -185,12 +209,21 @@ function tick(now) {
     mae.rotation.z = 1.1 + Math.cos(t * .22) * .2;
     mae.position.y = Math.sin(t * .5) * .014;
   }
-  requestAnimationFrame(tick);
+  raf = requestAnimationFrame(tick);
 }
-requestAnimationFrame(tick);
 
-// modo embed (?embed=1): só a Granu viva, sem chrome — usado pela apresentação
-if (new URLSearchParams(location.search).has('embed')) {
+function resumeTick() {
+  last = performance.now();
+  if (embed && state !== 'idle') snapIdle();
+  if (!raf && !document.hidden) raf = requestAnimationFrame(tick);
+}
+
+document.addEventListener('visibilitychange', resumeTick);
+window.addEventListener('pageshow', resumeTick);
+raf = requestAnimationFrame(tick);
+
+// modo embed (?embed=1): só o grão mãe pairando — sem ciclo automático (parece erro no site)
+if (embed) {
   const q = new URLSearchParams(location.search);
   const zoom = parseFloat(q.get('zoom') || '1');
   if (zoom !== 1 && stage._camera) { stage._camera.position.multiplyScalar(1 / zoom); }
@@ -208,11 +241,10 @@ if (new URLSearchParams(location.search).has('embed')) {
   if (note) note.style.display = 'none';
   if (stage._toolbar) stage._toolbar.style.display = 'none';
   if (stage._controls) { stage._controls.enableZoom = false; stage._controls.enablePan = false; }
-  let controlled = false;
-  window.addEventListener('message', e => { const s = e.data && e.data.granuState; if (s && DESC[s]) { controlled = true; if (state !== s) setSt(s); } });
-  const loop = () => { if (!controlled) document.getElementById('cy').click(); };
-  setTimeout(loop, 9000);
-  setInterval(loop, 26000);
+  window.addEventListener('message', e => {
+    const s = e.data && e.data.granuState;
+    if (s && DESC[s] && state !== s) setSt(s);
+  });
 }
 </script>
 </body>
