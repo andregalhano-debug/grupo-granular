@@ -23,7 +23,7 @@ export function MondaySection() {
     <section className="bg-[#241d1a] text-[#f0ede8] px-[clamp(18px,4vw,44px)] py-[clamp(48px,5.5vw,80px)]">
       <div className="max-w-[1240px] mx-auto">
         <p
-          className="text-[11.5px] tracking-[.24em] uppercase text-[#c9a27a]"
+          className="section-head text-[11.5px] tracking-[.24em] uppercase text-[#c9a27a]"
           style={{ fontFamily: "'IBM Plex Mono', monospace" }}
         >
           O que muda na segunda-feira

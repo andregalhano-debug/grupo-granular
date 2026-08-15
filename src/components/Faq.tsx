@@ -118,7 +118,7 @@ export function Faq({ category = 'restaurantes' }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
       <div className="max-w-3xl mx-auto">
-        <FadeIn className="mb-10 sm:mb-12">
+        <FadeIn className="section-head mb-10 sm:mb-12">
           <p
             className="text-[11.5px] tracking-[.24em] uppercase text-[#7c2d3e]"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}

@@ -30,8 +30,8 @@ export function Hero(_props: Props) {
 
   return (
     <section id="hero" className="px-[clamp(18px,4vw,44px)] pt-[clamp(48px,7vw,96px)] pb-[clamp(28px,4vw,52px)]">
-      <div className="max-w-[1240px] mx-auto grid lg:grid-cols-2 gap-[clamp(24px,4vw,56px)] items-center">
-        <FadeIn>
+      <div className="max-w-[1240px] mx-auto grid lg:grid-cols-2 gap-[clamp(28px,4vw,72px)] items-center">
+        <FadeIn className="lg:max-w-none">
           <p
             className="text-[11.5px] tracking-[.24em] uppercase text-[#7c2d3e]"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}

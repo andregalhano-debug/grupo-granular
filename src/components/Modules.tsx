@@ -294,7 +294,7 @@ export function Modules({ category = 'restaurantes' }: Props) {
   return (
     <section ref={sectionRef} id="modulos" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-white">
       <div className="max-w-7xl mx-auto">
-        <FadeIn className="mb-12 sm:mb-16">
+        <FadeIn className="section-head mb-12 sm:mb-16">
           <p
             className="text-[11.5px] tracking-[.24em] uppercase text-[#7c2d3e]"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
