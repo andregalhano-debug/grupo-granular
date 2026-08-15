@@ -1,7 +1,10 @@
 import { useMemo, useState } from 'react'
-import { Loader2, CheckCircle2 } from 'lucide-react'
+import { Loader2, CheckCircle2, ChevronLeft, ChevronRight } from 'lucide-react'
 import { submitDemoBooking, type DemoBookingInput } from '../../services/demoBookingService'
 import { formatWhatsApp } from '../../utils/formatters'
+
+const WEEKDAYS_LABEL = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']
+const MONTH_NAMES = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
 
 const SEGMENTOS = [
   'Restaurante', 'Mercado', 'Atacado', 'Atacarejo', 'Farmácia', 'Pet Shop', 'Shopping', 'Outros',
@@ -48,18 +51,61 @@ export function DemoBookingForm({
   const [faturamento, setFaturamento] = useState('')
   const [dateIso, setDateIso] = useState('')
   const [time, setTime] = useState('')
+  const [viewYear, setViewYear] = useState(() => new Date().getFullYear())
+  const [viewMonth, setViewMonth] = useState(() => new Date().getMonth())
   const [submitted, setSubmitted] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
   const [errors, setErrors] = useState<Record<string, string>>({})
 
   const availableDays = useMemo(() => getAvailableDays(), [])
+  const availableDayKeys = useMemo(() => new Set(availableDays.map(dateKey)), [availableDays])
 
   const selectedDate = useMemo(() => {
     if (!dateIso) return null
     const d = availableDays.find((day) => dateKey(day) === dateIso)
     return d ?? null
   }, [dateIso, availableDays])
+
+  const calendarDays = useMemo(() => {
+    const firstDay = new Date(viewYear, viewMonth, 1).getDay()
+    const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate()
+    const grid: (number | null)[] = []
+    for (let i = 0; i < firstDay; i++) grid.push(null)
+    for (let d = 1; d <= daysInMonth; d++) grid.push(d)
+    return grid
+  }, [viewYear, viewMonth])
+
+  const isAvailable = (day: number) => availableDayKeys.has(dateKey(new Date(viewYear, viewMonth, day)))
+
+  const isSelected = (day: number) => {
+    if (!selectedDate) return false
+    return selectedDate.getFullYear() === viewYear
+      && selectedDate.getMonth() === viewMonth
+      && selectedDate.getDate() === day
+  }
+
+  const prevMonth = () => {
+    if (viewMonth === 0) { setViewMonth(11); setViewYear((y) => y - 1) }
+    else setViewMonth((m) => m - 1)
+  }
+
+  const nextMonth = () => {
+    if (viewMonth === 11) { setViewMonth(0); setViewYear((y) => y + 1) }
+    else setViewMonth((m) => m + 1)
+  }
+
+  const handleDayClick = (day: number) => {
+    if (!isAvailable(day)) return
+    const key = dateKey(new Date(viewYear, viewMonth, day))
+    if (dateIso === key) {
+      setDateIso('')
+      setTime('')
+      return
+    }
+    setDateIso(key)
+    setTime('')
+  }
 
   const validate = () => {
     const e: Record<string, string> = {}
@@ -188,21 +234,64 @@ export function DemoBookingForm({
         </select>
       </label>
 
-      <label className="flex flex-col gap-1 text-[13px] text-[#6b5d52]">
-        Dia <span className="font-normal text-[#8a7a6e]">(opcional)</span>
-        <select
-          value={dateIso}
-          onChange={(e) => { setDateIso(e.target.value); setTime('') }}
-          className={`${field} cursor-pointer ${!dateIso ? 'text-[#8a7a6e]' : ''}`}
-        >
-          <option value="">A combinar</option>
-          {availableDays.slice(0, 15).map((d) => (
-            <option key={dateKey(d)} value={dateKey(d)}>
-              {d.toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit', month: 'short' })}
-            </option>
-          ))}
-        </select>
-      </label>
+      <div>
+        <p className="text-[13px] text-[#6b5d52] mb-1.5">
+          Dia <span className="font-normal text-[#8a7a6e]">(opcional)</span>
+        </p>
+        <div className="rounded-xl border border-[#e4ddd2] bg-white p-3">
+          <div className="flex items-center justify-between mb-2">
+            <button type="button" onClick={prevMonth} className="p-1.5 rounded-lg hover:bg-[#f0ede8] text-[#8a7a6e] transition-colors" aria-label="Mês anterior">
+              <ChevronLeft size={16} />
+            </button>
+            <span className="text-[13px] font-semibold text-[#2c241f] capitalize">
+              {MONTH_NAMES[viewMonth]} {viewYear}
+            </span>
+            <button type="button" onClick={nextMonth} className="p-1.5 rounded-lg hover:bg-[#f0ede8] text-[#8a7a6e] transition-colors" aria-label="Próximo mês">
+              <ChevronRight size={16} />
+            </button>
+          </div>
+          <div className="grid grid-cols-7 mb-0.5">
+            {WEEKDAYS_LABEL.map((wd) => (
+              <div key={wd} className="text-center text-[10px] font-medium text-[#8a7a6e] py-1">{wd}</div>
+            ))}
+          </div>
+          <div className="grid grid-cols-7 gap-0.5">
+            {calendarDays.map((day, i) => {
+              if (day === null) return <div key={`pad-${i}`} />
+              const available = isAvailable(day)
+              const selected = isSelected(day)
+              return (
+                <button
+                  key={day}
+                  type="button"
+                  disabled={!available}
+                  onClick={() => handleDayClick(day)}
+                  className={`h-8 w-full rounded-lg text-[13px] font-medium transition-colors ${
+                    selected
+                      ? 'bg-[#7c2d3e] text-[#f7f2ee]'
+                      : available
+                        ? 'text-[#7c2d3e] font-semibold hover:bg-[#7c2d3e]/10 cursor-pointer'
+                        : 'text-[#8a7a6e]/35 cursor-default'
+                  }`}
+                >
+                  {day}
+                </button>
+              )
+            })}
+          </div>
+        </div>
+        {dateIso ? (
+          <button
+            type="button"
+            onClick={() => { setDateIso(''); setTime('') }}
+            className="mt-1.5 text-[12px] text-[#8a7a6e] hover:text-[#7c2d3e] transition-colors"
+          >
+            Limpar dia — a combinar
+          </button>
+        ) : (
+          <p className="mt-1.5 text-[12px] text-[#8a7a6e]">Dias úteis em vinho. Sem escolha, combinamos depois.</p>
+        )}
+      </div>
 
       {dateIso && (
         <div>
