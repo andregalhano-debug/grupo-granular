@@ -420,9 +420,9 @@ export const en = {
       { months: '6 months', label: 'Complete evolution at best cost', points: ['4 monthly hours with specialist', 'Full transformation cycle', 'On-site visit (negotiated separately)', 'Module 1 included'] },
     ],
     sampleMentors: [
-      { initials: 'CM', name: 'Carlos Mendes', specialty: 'Menu & Pricing', rating: 4.9, reviews: 47, years: 12, rate: 280, tags: ['Menu', 'COGS', 'Pricing'] },
-      { initials: 'AP', name: 'Ana Paula Costa', specialty: 'Finance & P&L', rating: 4.8, reviews: 62, years: 9, rate: 320, tags: ['P&L', 'Cash flow', 'Costs'] },
-      { initials: 'RL', name: 'Rodrigo Lima', specialty: 'iFood & Digital Marketing', rating: 4.9, reviews: 38, years: 7, rate: 250, tags: ['iFood', 'Marketing', 'Delivery'] },
+      { initials: 'RL', name: 'Rodrigo Lima', specialty: 'iFood and delivery operations', rating: 4.8, reviews: 31, years: 6, rate: 190, tags: ['iFood', 'Ads', 'Operations'] },
+      { initials: 'AP', name: 'Ana Paula Costa', specialty: 'Finance, P&L and COGS', rating: 4.9, reviews: 54, years: 11, rate: 420, tags: ['P&L', 'COGS', 'Costs'] },
+      { initials: 'CM', name: 'Carlos Mendes', specialty: 'Chain expansion · industry reference', rating: 5.0, reviews: 28, years: 20, rate: 1250, tags: ['Chains', 'Expansion', 'Reference'] },
     ],
     mentoriaSubtitles: {
       mercados: 'Connect with retail and wholesale mentors',

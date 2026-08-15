@@ -100,7 +100,7 @@ export function MentoriaSection() {
                 </div>
                 <div className="flex items-center justify-between pt-3 border-t border-[#e4ddd2]">
                   <div>
-                    <span className="text-lg font-semibold text-[#2c241f]">R$ {mentor.rate}</span>
+                    <span className="text-lg font-semibold text-[#2c241f]">R$ {mentor.rate.toLocaleString('pt-BR')}</span>
                     <span className="text-xs text-[#8a7a6e]">{t.pricingExtended.perHour}</span>
                   </div>
                   <span className="text-xs text-[#8a7a6e]">{mentor.years} {t.pricingExtended.yearsExp}</span>
