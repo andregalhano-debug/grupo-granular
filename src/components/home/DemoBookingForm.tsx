@@ -1,5 +1,5 @@
-import { useMemo, useState } from 'react'
-import { Loader2, CheckCircle2, ChevronLeft, ChevronRight } from 'lucide-react'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { Loader2, CheckCircle2, ChevronLeft, ChevronRight, CalendarDays, ChevronDown } from 'lucide-react'
 import { submitDemoBooking, type DemoBookingInput } from '../../services/demoBookingService'
 import { formatWhatsApp } from '../../utils/formatters'
 
@@ -53,6 +53,8 @@ export function DemoBookingForm({
   const [time, setTime] = useState('')
   const [viewYear, setViewYear] = useState(() => new Date().getFullYear())
   const [viewMonth, setViewMonth] = useState(() => new Date().getMonth())
+  const [calendarOpen, setCalendarOpen] = useState(false)
+  const calendarRef = useRef<HTMLDivElement>(null)
   const [submitted, setSubmitted] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
@@ -95,16 +97,36 @@ export function DemoBookingForm({
     else setViewMonth((m) => m + 1)
   }
 
+  useEffect(() => {
+    if (!calendarOpen) return
+    const onDoc = (e: MouseEvent) => {
+      if (calendarRef.current && !calendarRef.current.contains(e.target as Node)) {
+        setCalendarOpen(false)
+      }
+    }
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setCalendarOpen(false)
+    }
+    document.addEventListener('mousedown', onDoc)
+    document.addEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('mousedown', onDoc)
+      document.removeEventListener('keydown', onKey)
+    }
+  }, [calendarOpen])
+
   const handleDayClick = (day: number) => {
     if (!isAvailable(day)) return
     const key = dateKey(new Date(viewYear, viewMonth, day))
     if (dateIso === key) {
       setDateIso('')
       setTime('')
+      setCalendarOpen(false)
       return
     }
     setDateIso(key)
     setTime('')
+    setCalendarOpen(false)
   }
 
   const validate = () => {
@@ -234,52 +256,68 @@ export function DemoBookingForm({
         </select>
       </label>
 
-      <div>
+      <div ref={calendarRef} className="relative">
         <p className="text-[13px] text-[#6b5d52] mb-1.5">
           Dia <span className="font-normal text-[#8a7a6e]">(opcional)</span>
         </p>
-        <div className="rounded-xl border border-[#e4ddd2] bg-white p-3">
-          <div className="flex items-center justify-between mb-2">
-            <button type="button" onClick={prevMonth} className="p-1.5 rounded-lg hover:bg-[#f0ede8] text-[#8a7a6e] transition-colors" aria-label="Mês anterior">
-              <ChevronLeft size={16} />
-            </button>
-            <span className="text-[13px] font-semibold text-[#2c241f] capitalize">
-              {MONTH_NAMES[viewMonth]} {viewYear}
-            </span>
-            <button type="button" onClick={nextMonth} className="p-1.5 rounded-lg hover:bg-[#f0ede8] text-[#8a7a6e] transition-colors" aria-label="Próximo mês">
-              <ChevronRight size={16} />
-            </button>
+        <button
+          type="button"
+          onClick={() => setCalendarOpen((v) => !v)}
+          aria-expanded={calendarOpen}
+          className={`${field} flex items-center gap-2 text-left cursor-pointer ${dateIso ? '' : 'text-[#8a7a6e]'}`}
+        >
+          <CalendarDays size={16} className="shrink-0 text-[#8a7a6e]" />
+          <span className="flex-1 truncate capitalize">
+            {selectedDate
+              ? selectedDate.toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit', month: 'short' })
+              : 'A combinar'}
+          </span>
+          <ChevronDown size={16} className={`shrink-0 text-[#8a7a6e] transition-transform ${calendarOpen ? 'rotate-180' : ''}`} />
+        </button>
+        {calendarOpen && (
+          <div className="absolute z-20 left-0 right-0 mt-1.5 rounded-xl border border-[#e4ddd2] bg-white p-3 shadow-[0_12px_28px_-16px_rgba(44,36,31,.35)]">
+            <div className="flex items-center justify-between mb-2">
+              <button type="button" onClick={prevMonth} className="p-1.5 rounded-lg hover:bg-[#f0ede8] text-[#8a7a6e] transition-colors" aria-label="Mês anterior">
+                <ChevronLeft size={16} />
+              </button>
+              <span className="text-[13px] font-semibold text-[#2c241f] capitalize">
+                {MONTH_NAMES[viewMonth]} {viewYear}
+              </span>
+              <button type="button" onClick={nextMonth} className="p-1.5 rounded-lg hover:bg-[#f0ede8] text-[#8a7a6e] transition-colors" aria-label="Próximo mês">
+                <ChevronRight size={16} />
+              </button>
+            </div>
+            <div className="grid grid-cols-7 mb-0.5">
+              {WEEKDAYS_LABEL.map((wd) => (
+                <div key={wd} className="text-center text-[10px] font-medium text-[#8a7a6e] py-1">{wd}</div>
+              ))}
+            </div>
+            <div className="grid grid-cols-7 gap-0.5">
+              {calendarDays.map((day, i) => {
+                if (day === null) return <div key={`pad-${i}`} />
+                const available = isAvailable(day)
+                const selected = isSelected(day)
+                return (
+                  <button
+                    key={day}
+                    type="button"
+                    disabled={!available}
+                    onClick={() => handleDayClick(day)}
+                    className={`h-8 w-full rounded-lg text-[13px] font-medium transition-colors ${
+                      selected
+                        ? 'bg-[#7c2d3e] text-[#f7f2ee]'
+                        : available
+                          ? 'text-[#7c2d3e] font-semibold hover:bg-[#7c2d3e]/10 cursor-pointer'
+                          : 'text-[#8a7a6e]/35 cursor-default'
+                    }`}
+                  >
+                    {day}
+                  </button>
+                )
+              })}
+            </div>
           </div>
-          <div className="grid grid-cols-7 mb-0.5">
-            {WEEKDAYS_LABEL.map((wd) => (
-              <div key={wd} className="text-center text-[10px] font-medium text-[#8a7a6e] py-1">{wd}</div>
-            ))}
-          </div>
-          <div className="grid grid-cols-7 gap-0.5">
-            {calendarDays.map((day, i) => {
-              if (day === null) return <div key={`pad-${i}`} />
-              const available = isAvailable(day)
-              const selected = isSelected(day)
-              return (
-                <button
-                  key={day}
-                  type="button"
-                  disabled={!available}
-                  onClick={() => handleDayClick(day)}
-                  className={`h-8 w-full rounded-lg text-[13px] font-medium transition-colors ${
-                    selected
-                      ? 'bg-[#7c2d3e] text-[#f7f2ee]'
-                      : available
-                        ? 'text-[#7c2d3e] font-semibold hover:bg-[#7c2d3e]/10 cursor-pointer'
-                        : 'text-[#8a7a6e]/35 cursor-default'
-                  }`}
-                >
-                  {day}
-                </button>
-              )
-            })}
-          </div>
-        </div>
+        )}
         {dateIso ? (
           <button
             type="button"
