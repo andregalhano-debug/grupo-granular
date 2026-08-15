@@ -38,6 +38,7 @@ export function Modules({ category = 'restaurantes' }: Props) {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
   const detailRef = useRef<HTMLDivElement>(null)
   const sectionRef = useRef<HTMLElement>(null)
+  const cardRefs = useRef<(HTMLButtonElement | null)[]>([])
   const [cols, setCols] = useState(4)
 
   const modules = lang === 'en'
@@ -65,11 +66,11 @@ export function Modules({ category = 'restaurantes' }: Props) {
   }, [])
 
   useEffect(() => {
-    if (openIndex !== null && detailRef.current) {
-      setTimeout(() => {
-        detailRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
-      }, 100)
-    }
+    if (openIndex === null) return
+    const timer = window.setTimeout(() => {
+      cardRefs.current[openIndex]?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }, 120)
+    return () => window.clearTimeout(timer)
   }, [openIndex])
 
   // Fechar ao clicar fora do painel de detalhes (e fora de um botão de módulo)
@@ -81,21 +82,14 @@ export function Modules({ category = 'restaurantes' }: Props) {
       if (target.closest('button[data-module]')) return
       // Se clicou dentro do painel de detalhes, não fechar
       if (detailRef.current && detailRef.current.contains(target)) return
-      // Qualquer outro clique fecha e volta ao início dos módulos
       setOpenIndex(null)
-      sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [openIndex])
 
   const handleToggle = (i: number) => {
-    if (openIndex === i) {
-      setOpenIndex(null)
-      sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    } else {
-      setOpenIndex(i)
-    }
+    setOpenIndex(openIndex === i ? null : i)
   }
 
   /* Índice do último item da linha do módulo aberto */
@@ -111,6 +105,7 @@ export function Modules({ category = 'restaurantes' }: Props) {
         <FadeIn key={mod.title} delay={i * 80}>
           <button
             data-module
+            ref={(el) => { cardRefs.current[i] = el }}
             onClick={() => handleToggle(i)}
             className={`group relative rounded-2xl border p-4 sm:p-6 transition-all duration-300 h-full w-full text-left cursor-pointer ${
               openIndex === i
