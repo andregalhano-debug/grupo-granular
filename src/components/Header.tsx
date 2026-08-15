@@ -96,24 +96,20 @@ export function Header({ category }: Props) {
 
   useEffect(() => {
     if (!menuOpen) return
-    const y = window.scrollY
+    const html = document.documentElement
     const { body } = document
-    const prev = {
-      overflow: body.style.overflow,
-      position: body.style.position,
-      top: body.style.top,
-      width: body.style.width,
-    }
+    const prevHtml = html.style.overflow
+    const prevBody = body.style.overflow
+    html.style.overflow = 'hidden'
     body.style.overflow = 'hidden'
-    body.style.position = 'fixed'
-    body.style.top = `-${y}px`
-    body.style.width = '100%'
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMenuOpen(false)
+    }
+    window.addEventListener('keydown', onKey)
     return () => {
-      body.style.overflow = prev.overflow
-      body.style.position = prev.position
-      body.style.top = prev.top
-      body.style.width = prev.width
-      window.scrollTo(0, y)
+      html.style.overflow = prevHtml
+      body.style.overflow = prevBody
+      window.removeEventListener('keydown', onKey)
     }
   }, [menuOpen])
 
@@ -235,7 +231,27 @@ export function Header({ category }: Props) {
     </header>
 
       {menuOpen && (
-        <div className="lg:hidden fixed inset-x-0 top-[68px] bottom-0 z-[60] bg-[#f0ede8] border-t border-[#e4ddd2] px-[clamp(18px,4vw,44px)] py-4 overflow-y-auto">
+        <div
+          className="lg:hidden fixed inset-0 z-[80] bg-[#f0ede8] flex flex-col"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Menu"
+        >
+          <div className="shrink-0 min-h-[68px] px-[clamp(18px,4vw,44px)] flex items-center justify-between border-b border-[#e4ddd2]">
+            <Link to="/" className="flex items-center gap-2.5 font-semibold text-[19px] tracking-tight text-[#2c241f]" onClick={() => setMenuOpen(false)}>
+              <GranularLogo size={36} color={logoColor} />
+              <span>Granular</span>
+            </Link>
+            <button
+              type="button"
+              className="inline-flex items-center justify-center min-h-11 min-w-11 p-2 text-[#2c241f]"
+              onClick={() => setMenuOpen(false)}
+              aria-label="Fechar menu"
+            >
+              <X size={24} />
+            </button>
+          </div>
+          <div className="flex-1 overflow-y-auto overscroll-contain px-[clamp(18px,4vw,44px)] py-4">
         <div className="max-w-[1240px] mx-auto space-y-1">
           <NavAnchor href="/granu" onClick={() => setMenuOpen(false)} className="min-h-11 w-full">
             {t.nav.granu}
@@ -285,6 +301,7 @@ export function Header({ category }: Props) {
             </Link>
           </div>
         </div>
+          </div>
         </div>
       )}
     </>
