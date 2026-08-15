@@ -52,6 +52,13 @@ body {
   font-family: 'IBM Plex Mono', monospace;
 }
 
+/* Grão: some o quadrado do iframe e não invade o texto */
+.granu-well {
+  overflow: hidden;
+  -webkit-mask-image: radial-gradient(ellipse 74% 74% at 50% 48%, #000 52%, transparent 78%);
+  mask-image: radial-gradient(ellipse 74% 74% at 50% 48%, #000 52%, transparent 78%);
+}
+
 @keyframes logoScroll {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
