@@ -141,12 +141,12 @@ export const modulesDataRestaurantes: ModuleDetail[] = [
   {
     icon: Bot,
     title: 'Granu | A sua IA',
-    desc: 'A IA do sistema inteiro. Pergunte em português — ela responde com número, evidência e o que fazer agora.',
+    desc: 'A IA do sistema inteiro. Ela responde com número, evidência e o que fazer agora.',
     features: ['Sistema inteiro', 'Resposta com evidência', 'WhatsApp e plataforma', 'Alertas que chegam sozinhos', 'Plano de ação na conversa'],
     detailPoints: [
       'Não é chatbot em cima de relatório: é o sistema, e conhece cada grão dele',
       'Conectada a cada venda, item de estoque e centavo de repasse — em tempo real',
-      'Responde em português, em segundos, com tabela pronta e plano de ação',
+      'Responde em segundos, com tabela pronta e plano de ação',
       'No WhatsApp ela te chama; na plataforma, a mesma conversa com a evidência do cubo',
       'Quatro frentes, uma conversa: operação e lucro no mesmo lugar',
     ],
@@ -331,12 +331,12 @@ export const modulesDataMercados: ModuleDetail[] = [
   {
     icon: Bot,
     title: 'Granu | A sua IA',
-    desc: 'A IA do sistema inteiro. Pergunte em português — ela responde com número, evidência e o que fazer agora.',
+    desc: 'A IA do sistema inteiro. Ela responde com número, evidência e o que fazer agora.',
     features: ['Sistema inteiro', 'Resposta com evidência', 'WhatsApp e plataforma', 'Alertas que chegam sozinhos', 'Plano de ação na conversa'],
     detailPoints: [
       'Não é chatbot em cima de relatório: é o sistema, e conhece cada grão dele',
       'Conectada a cada venda, item de estoque e centavo de repasse — em tempo real',
-      'Responde em português, em segundos, com tabela pronta e plano de ação',
+      'Responde em segundos, com tabela pronta e plano de ação',
       'No WhatsApp ela te chama; na plataforma, a mesma conversa com a evidência do cubo',
       'Quatro frentes, uma conversa: operação e lucro no mesmo lugar',
     ],

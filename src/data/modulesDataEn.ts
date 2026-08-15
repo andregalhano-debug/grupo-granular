@@ -131,7 +131,7 @@ export const modulesDataRestaurantesEn: ModuleDetail[] = [
   {
     icon: Bot,
     title: 'Granu | Your AI',
-    desc: 'The AI of the whole system. Ask in plain language — she answers with numbers, evidence and what to do next.',
+    desc: 'The AI of the whole system. She answers with numbers, evidence and what to do next.',
     features: ['Whole system', 'Evidence in the answer', 'WhatsApp and platform', 'Alerts that come to you', 'Action plan in the chat'],
     detailPoints: [
       'Not a chatbot on top of reports: she is the system, and she knows every grain of it',
@@ -315,7 +315,7 @@ export const modulesDataMercadosEn: ModuleDetail[] = [
   {
     icon: Bot,
     title: 'Granu | Your AI',
-    desc: 'The AI of the whole system. Ask in plain language — she answers with numbers, evidence and what to do next.',
+    desc: 'The AI of the whole system. She answers with numbers, evidence and what to do next.',
     features: ['Whole system', 'Evidence in the answer', 'WhatsApp and platform', 'Alerts that come to you', 'Action plan in the chat'],
     detailPoints: [
       'Not a chatbot on top of reports: she is the system, and she knows every grain of it',
