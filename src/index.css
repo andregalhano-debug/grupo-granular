@@ -53,42 +53,6 @@ html.site-wide [class*="px-[clamp(18px,4vw,44px)]"] {
   padding-inline: var(--site-gutter);
 }
 
-/* Texto ganha medida; cabeçalho de seção centra e o restante divide a tela. */
-html.site-wide {
-  --copy: 68ch;
-}
-html.site-wide [class*="max-w-[46ch]"],
-html.site-wide [class*="max-w-[44ch]"],
-html.site-wide [class*="max-w-[40ch]"],
-html.site-wide [class*="max-w-[48ch]"],
-html.site-wide [class*="max-w-[52ch]"],
-html.site-wide [class*="max-w-[56ch]"],
-html.site-wide [class*="max-w-[60ch]"],
-html.site-wide .max-w-xl {
-  max-width: var(--copy);
-}
-html.site-wide .max-w-3xl {
-  max-width: min(52rem, 100%);
-}
-html.site-wide .max-w-4xl {
-  max-width: min(72rem, 100%);
-}
-html.site-wide .max-w-2xl {
-  max-width: var(--copy);
-}
-html.site-wide .section-head {
-  text-align: center;
-}
-html.site-wide .section-head h1,
-html.site-wide .section-head h2 {
-  max-width: 22em;
-  margin-inline: auto;
-}
-html.site-wide .section-head [class*="max-w-"],
-html.site-wide .section-head .inline-flex {
-  margin-inline: auto;
-}
-
 body {
   font-family: 'Instrument Sans', system-ui, sans-serif;
   color: #2c241f;
