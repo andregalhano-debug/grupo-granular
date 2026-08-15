@@ -2,9 +2,6 @@
 @import "tailwindcss";
 
 :root {
-  /* Recorte tipo Rise Retail: sem teto de 1240px, só respiro lateral. */
-  --site-max: none;
-  --site-gutter: clamp(16px, 2.2vw, 32px);
   --cream: #f0ede8;
   --cream-2: #e9e4da;
   --paper: #faf9f7;
@@ -40,17 +37,6 @@ body {
   overflow: hidden;
   clip: rect(0 0 0 0);
   white-space: nowrap;
-}
-
-/* Largura do site (Rise-like). Voltar: /?classico=1 ou reverter o PR. */
-html.site-wide [class*="max-w-[1240px]"],
-html.site-wide .max-w-7xl,
-html.site-wide .max-w-6xl,
-html.site-wide .max-w-5xl {
-  max-width: var(--site-max);
-}
-html.site-wide [class*="px-[clamp(18px,4vw,44px)]"] {
-  padding-inline: var(--site-gutter);
 }
 
 body {
