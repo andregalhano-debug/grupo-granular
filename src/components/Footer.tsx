@@ -19,7 +19,8 @@ export function Footer() {
 
   return (
     <footer className="bg-[#5a1e2c] text-[#dcb9ad]">
-      <div className="max-w-[1240px] mx-auto px-[clamp(18px,4vw,44px)] pt-[clamp(44px,5vw,64px)] pb-7">
+      <div className="px-[clamp(18px,4vw,44px)] pt-[clamp(44px,5vw,64px)] pb-7">
+      <div className="max-w-[1240px] mx-auto">
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10">
 
           <div>
@@ -116,9 +117,11 @@ export function Footer() {
 
         </div>
       </div>
+      </div>
 
       <div className="border-t border-[rgba(236,217,205,.22)]">
-        <div className="max-w-[1240px] mx-auto px-[clamp(18px,4vw,44px)] py-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="px-[clamp(18px,4vw,44px)] py-5">
+        <div className="max-w-[1240px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-[11.5px] tracking-[.16em] uppercase text-[#c48d7e]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
             {t.footer.copyright}
           </p>
@@ -128,6 +131,7 @@ export function Footer() {
             <Link to="/cookies" className="text-[11.5px] tracking-[.08em] uppercase text-[#c48d7e] hover:text-[#f7f2ee] transition-colors" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>{t.footer.links.cookies}</Link>
             <SitePrefs tone="footer" />
           </div>
+        </div>
         </div>
       </div>
     </footer>
