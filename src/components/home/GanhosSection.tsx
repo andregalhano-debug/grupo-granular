@@ -23,6 +23,7 @@ export function GanhosSection() {
   return (
     <section id="ganhos" className="bg-[#e9e4da] px-[clamp(18px,4vw,44px)] py-[clamp(64px,7vw,112px)]">
       <div className="max-w-[1240px] mx-auto">
+        <div className="section-head">
         <p
           className="text-[11.5px] tracking-[.24em] uppercase text-[#7c2d3e]"
           style={{ fontFamily: "'IBM Plex Mono', monospace" }}
@@ -34,6 +35,7 @@ export function GanhosSection() {
           <br />
           E ainda, sobra.
         </h2>
+        </div>
         <div className="grid md:grid-cols-3 gap-[clamp(16px,2vw,24px)] mt-[clamp(32px,4vw,52px)]">
           {CARDS.map((c) => (
             <div
