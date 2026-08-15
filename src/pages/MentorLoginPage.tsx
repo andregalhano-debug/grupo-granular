@@ -88,7 +88,7 @@ export function MentorLoginPage() {
 
         <p className="text-xs text-center text-[#9C958A] mt-6">
           Ainda não é mentor?{' '}
-          <a href="/seja-consultor" className="text-[#A31631] hover:underline">Candidate-se aqui</a>
+          <a href="/seja-mentor" className="text-[#A31631] hover:underline">Candidate-se aqui</a>
         </p>
       </div>
     </div>

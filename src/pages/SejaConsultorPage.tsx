@@ -18,7 +18,7 @@ export function SejaConsultorPage() {
     <div className="min-h-screen bg-white">
       <Header />
 
-      <section className="pt-32 sm:pt-40 pb-20 px-4 sm:px-6 lg:px-8">
+      <section className="pt-10 sm:pt-12 pb-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-xl mx-auto">
           <FadeIn>
             {submitted ? (

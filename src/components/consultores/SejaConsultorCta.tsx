@@ -12,7 +12,7 @@ export function SejaConsultorCta() {
           Compartilhe sua experiência e ajude operações de delivery a crescerem. Junte-se à nossa rede de mentores.
         </p>
         <Link
-          to="/seja-consultor"
+          to="/seja-mentor"
           className="inline-flex items-center gap-2 bg-white hover:bg-[#F7F7F7] text-[#A31631] font-medium px-8 py-4 rounded-xl text-base transition-colors"
         >
           Candidatar-se agora

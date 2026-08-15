@@ -88,7 +88,8 @@ function AppContent() {
           <Route path="/checkout" element={<Navigate to="/agendar-demo" replace />} />
           <Route path="/confirmacao" element={<ConfirmacaoPage />} />
           <Route path="/consultores" element={<ConsultoresPage />} />
-          <Route path="/seja-consultor" element={<SejaConsultorPage />} />
+          <Route path="/seja-mentor" element={<SejaConsultorPage />} />
+          <Route path="/seja-consultor" element={<Navigate to="/seja-mentor" replace />} />
           <Route path="/assessment" element={<AssessmentPage />} />
           <Route path="/diagnostico" element={<PartnerAssessmentPage />} />
           <Route path="/login" element={<LoginPage />} />
