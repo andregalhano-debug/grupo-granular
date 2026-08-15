@@ -15,7 +15,7 @@ export function HomeGranuSection() {
       <div className="max-w-[1240px] mx-auto grid lg:grid-cols-[auto_1fr] lg:grid-rows-[auto_1fr_auto] gap-x-[clamp(28px,4vw,64px)] gap-y-0 items-center">
         <FadeIn className="order-1 lg:col-start-2 lg:row-start-1">
           <div className="flex items-center gap-3 sm:gap-4">
-            <div className="lg:hidden relative w-[128px] h-[128px] shrink-0">
+            <div className="granu-well lg:hidden relative w-[128px] h-[128px] shrink-0">
               <GranuGrain className="absolute inset-0 w-full h-full" zoom={2.05} fast />
             </div>
             <div className="min-w-0">
