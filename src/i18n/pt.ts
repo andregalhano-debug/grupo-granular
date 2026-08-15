@@ -420,9 +420,9 @@ export const pt = {
       { months: '6 meses', label: 'Evolução completa com melhor custo', points: ['4 horas mensais com especialista', 'Ciclo completo de transformação', 'Visita in loco (negociada à parte)', 'Módulo 1 do sistema incluso'] },
     ],
     sampleMentors: [
-      { initials: 'CM', name: 'Carlos Mendes', specialty: 'Cardápio & Precificação', rating: 4.9, reviews: 47, years: 12, rate: 280, tags: ['Cardápio', 'CMV', 'Precificação'] },
-      { initials: 'AP', name: 'Ana Paula Costa', specialty: 'Financeiro & DRE', rating: 4.8, reviews: 62, years: 9, rate: 320, tags: ['DRE', 'Fluxo de caixa', 'Custos'] },
-      { initials: 'RL', name: 'Rodrigo Lima', specialty: 'iFood & Marketing Digital', rating: 4.9, reviews: 38, years: 7, rate: 250, tags: ['iFood', 'Marketing', 'Delivery'] },
+      { initials: 'RL', name: 'Rodrigo Lima', specialty: 'iFood e operação de delivery', rating: 4.8, reviews: 31, years: 6, rate: 190, tags: ['iFood', 'Ads', 'Operação'] },
+      { initials: 'AP', name: 'Ana Paula Costa', specialty: 'Financeiro, DRE e CMV', rating: 4.9, reviews: 54, years: 11, rate: 420, tags: ['DRE', 'CMV', 'Custos'] },
+      { initials: 'CM', name: 'Carlos Mendes', specialty: 'Expansão de redes · referência no setor', rating: 5.0, reviews: 28, years: 20, rate: 1250, tags: ['Redes', 'Expansão', 'Referência'] },
     ],
     mentoriaSubtitles: {
       mercados: 'Conecte-se com mentores do varejo e atacarejo',
