@@ -2,9 +2,6 @@
 @import "tailwindcss";
 
 :root {
-  /* Recorte tipo Rise Retail: sem teto de 1240px, só respiro lateral. */
-  --site-max: none;
-  --site-gutter: clamp(16px, 2.2vw, 32px);
   --cream: #f0ede8;
   --cream-2: #e9e4da;
   --paper: #faf9f7;
@@ -40,53 +37,6 @@ body {
   overflow: hidden;
   clip: rect(0 0 0 0);
   white-space: nowrap;
-}
-
-/* Largura do site (Rise-like). Voltar: /?classico=1 ou reverter o PR. */
-html.site-wide [class*="max-w-[1240px]"],
-html.site-wide .max-w-7xl,
-html.site-wide .max-w-6xl,
-html.site-wide .max-w-5xl {
-  max-width: var(--site-max);
-}
-html.site-wide [class*="px-[clamp(18px,4vw,44px)]"] {
-  padding-inline: var(--site-gutter);
-}
-
-/* Texto ganha medida; cabeçalho de seção centra e o restante divide a tela. */
-html.site-wide {
-  --copy: 68ch;
-}
-html.site-wide [class*="max-w-[46ch]"],
-html.site-wide [class*="max-w-[44ch]"],
-html.site-wide [class*="max-w-[40ch]"],
-html.site-wide [class*="max-w-[48ch]"],
-html.site-wide [class*="max-w-[52ch]"],
-html.site-wide [class*="max-w-[56ch]"],
-html.site-wide [class*="max-w-[60ch]"],
-html.site-wide .max-w-xl {
-  max-width: var(--copy);
-}
-html.site-wide .max-w-3xl {
-  max-width: min(52rem, 100%);
-}
-html.site-wide .max-w-4xl {
-  max-width: min(72rem, 100%);
-}
-html.site-wide .max-w-2xl {
-  max-width: var(--copy);
-}
-html.site-wide .section-head {
-  text-align: center;
-}
-html.site-wide .section-head h1,
-html.site-wide .section-head h2 {
-  max-width: 22em;
-  margin-inline: auto;
-}
-html.site-wide .section-head [class*="max-w-"],
-html.site-wide .section-head .inline-flex {
-  margin-inline: auto;
 }
 
 body {

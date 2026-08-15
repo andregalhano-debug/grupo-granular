@@ -11,12 +11,12 @@ const BULLETS = [
 export function HomeGranuSection() {
   return (
     <section id="granu" className="px-[clamp(18px,4vw,44px)] py-[clamp(64px,7vw,112px)] bg-[#f0ede8]">
-      <div className="max-w-[1240px] mx-auto grid lg:grid-cols-2 gap-[clamp(28px,4vw,72px)] items-center">
-        <FadeIn className="justify-self-center">
+      <div className="max-w-[1240px] mx-auto grid lg:grid-cols-[auto_1fr] gap-[clamp(28px,4vw,64px)] items-center">
+        <FadeIn className="justify-self-center lg:justify-self-start">
           <GranuDualPhones />
         </FadeIn>
 
-        <FadeIn delay={80}>
+        <FadeIn delay={80} className="max-w-xl">
           <p
             className="text-[11.5px] tracking-[.24em] uppercase text-[#7c2d3e]"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}

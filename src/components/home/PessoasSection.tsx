@@ -34,7 +34,6 @@ export function PessoasSection() {
   return (
     <section id="pessoas" className="px-[clamp(18px,4vw,44px)] py-[clamp(64px,7vw,112px)]">
       <div className="max-w-[1240px] mx-auto">
-        <div className="section-head">
         <p
           className="text-[11.5px] tracking-[.24em] uppercase text-[#7c2d3e]"
           style={{ fontFamily: "'IBM Plex Mono', monospace" }}
@@ -47,7 +46,6 @@ export function PessoasSection() {
         <p className="mt-5 text-[clamp(16px,1.5vw,19px)] leading-relaxed text-[#5f5248] max-w-[56ch] text-pretty">
           RH inteiro dentro do sistema — sem planilha no meio. A vaga nasce com QR, o agente entrevista no WhatsApp, o ponto fecha sozinho no fim do mês.
         </p>
-        </div>
 
         <div className="grid md:grid-cols-2 gap-[clamp(16px,2vw,24px)] mt-[clamp(28px,3.5vw,44px)]">
           {CARDS.map((c) => (
