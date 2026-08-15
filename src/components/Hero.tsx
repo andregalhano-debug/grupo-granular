@@ -55,12 +55,12 @@ export function Hero(_props: Props) {
             >
               {t.hero.categoriesLead}
             </p>
-            <div className="flex flex-wrap justify-center sm:justify-start gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 items-stretch">
               {CATEGORY_LINKS.map((c) => (
                 <Link
                   key={c.id}
                   to={c.href}
-                  className="inline-flex items-center justify-center w-[calc(50%-4px)] sm:w-auto min-h-11 px-3 sm:px-4 rounded-2xl sm:rounded-full border border-[#e4ddd2] bg-[#faf9f7] text-[13.5px] font-medium text-[#2c241f] text-center hover:border-[#7c2d3e] hover:text-[#7c2d3e] hover:bg-[#f7f2ee] transition-colors"
+                  className="flex items-center justify-center h-full min-h-11 w-full px-2 rounded-2xl border border-[#e4ddd2] bg-[#faf9f7] text-[13px] font-medium text-[#2c241f] text-center leading-tight hover:border-[#7c2d3e] hover:text-[#7c2d3e] hover:bg-[#f7f2ee] transition-colors last:col-span-2 last:max-w-[calc(50%-4px)] last:justify-self-center sm:last:col-span-1 sm:last:max-w-none sm:last:justify-self-auto"
                 >
                   {t.hero.categories[c.id].label}
                 </Link>
