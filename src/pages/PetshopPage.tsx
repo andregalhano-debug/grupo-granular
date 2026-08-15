@@ -29,7 +29,7 @@ export function PetshopPage() {
           'Checklists de abertura, fechamento e higiene',
           'Pessoas (RH) com escalas e documentos',
           'Monitor de pedidos para expedição',
-          '15 agentes de IA trabalhando 24/7',
+          'Granu | A sua IA no sistema inteiro',
         ],
         ctaTitle: 'Pronto para transformar seu pet shop?',
         ctaSubtitle: 'Fale com a gente e veja o sistema rodando com os seus números.',

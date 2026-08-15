@@ -29,7 +29,7 @@ export function MercadosPage() {
           'Televendas: proposta em menos de 2 minutos',
           'CRM com histórico completo de clientes',
           'Financeiro & DRE automático',
-          '15 agentes de IA trabalhando 24/7',
+          'Granu | A sua IA no sistema inteiro',
         ],
         ctaTitle: 'Pronto para transformar seu mercado?',
         ctaSubtitle: 'Sistema precificado sob consulta de acordo com o porte da operação e módulos contratados.',
