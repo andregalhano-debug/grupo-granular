@@ -95,11 +95,30 @@ export function Header({ category }: Props) {
   }, [pathname])
 
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : ''
-    return () => { document.body.style.overflow = '' }
+    if (!menuOpen) return
+    const y = window.scrollY
+    const { body } = document
+    const prev = {
+      overflow: body.style.overflow,
+      position: body.style.position,
+      top: body.style.top,
+      width: body.style.width,
+    }
+    body.style.overflow = 'hidden'
+    body.style.position = 'fixed'
+    body.style.top = `-${y}px`
+    body.style.width = '100%'
+    return () => {
+      body.style.overflow = prev.overflow
+      body.style.position = prev.position
+      body.style.top = prev.top
+      body.style.width = prev.width
+      window.scrollTo(0, y)
+    }
   }, [menuOpen])
 
   return (
+    <>
     <header className="sticky top-0 z-50 bg-[rgba(253,251,248,.92)] backdrop-blur-xl border-b border-[#ece6dc] shadow-[0_1px_0_rgba(44,36,31,0.04)]">
       <div className="px-[clamp(18px,4vw,44px)]">
       <div className="max-w-[1240px] mx-auto min-h-[68px] flex items-center gap-4 lg:gap-5 flex-nowrap">
@@ -213,9 +232,10 @@ export function Header({ category }: Props) {
         </div>
       </div>
       </div>
+    </header>
 
       {menuOpen && (
-        <div className="lg:hidden bg-[#f0ede8] border-t border-[#e4ddd2] px-[clamp(18px,4vw,44px)] py-4 max-h-[calc(100dvh-68px)] overflow-y-auto">
+        <div className="lg:hidden fixed inset-x-0 top-[68px] bottom-0 z-[60] bg-[#f0ede8] border-t border-[#e4ddd2] px-[clamp(18px,4vw,44px)] py-4 overflow-y-auto">
         <div className="max-w-[1240px] mx-auto space-y-1">
           <NavAnchor href="/granu" onClick={() => setMenuOpen(false)} className="min-h-11 w-full">
             {t.nav.granu}
@@ -267,6 +287,6 @@ export function Header({ category }: Props) {
         </div>
         </div>
       )}
-    </header>
+    </>
   )
 }
