@@ -34,7 +34,7 @@
 <style>
   html,body{margin:0;height:100%;background:#f0ede8;font-family:system-ui,sans-serif}
   /* embed: transparente desde o 1º paint; 100% do iframe (não 100vw — corta no mobile) */
-  html.embed,html.embed body{width:100%;background:transparent!important;overflow:visible}
+  html.embed,html.embed body{width:100%;background:transparent!important;overflow:hidden}
   html.embed .hd,html.embed .ctl,html.embed .st{display:none!important}
   three-d-stage:not(:defined){visibility:hidden}
   three-d-stage{width:100vw;height:100vh;display:block}
@@ -63,7 +63,7 @@
 <script type="module">
 const stage = document.querySelector('three-d-stage');
 const { THREE } = await stage.ready;
-const embed = new URLSearchParams(location.search).has('embed');
+const fast = new URLSearchParams(location.search).has('fast');
 
 const rng = (seed => () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; })(42);
 
@@ -117,15 +117,12 @@ mae.scale.setScalar(MAE_R);
 mae.rotation.set(.4, .7, 1.1);
 group.add(mae);
 stage.setObject(group);
-for (const g of grains) {
-  g.m.position.copy(g.tgt.idle);
-  if (embed) g.m.visible = false;
-}
+for (const g of grains) g.m.position.copy(g.tgt.idle);
 
 // ciclo idle → pesquisa → achado → pronta (denso e longo)
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const AMP = { idle: .01, seek: .016, settle: .002, ready: .01 };
-const TAU = { idle: .55, seek: .85, settle: .7, ready: .55 };
+const AMP = { idle: fast ? .01 : .007, seek: .016, settle: .002, ready: fast ? .01 : .007 };
+const TAU = { idle: fast ? .55 : 1.1, seek: fast ? .85 : 1.6, settle: fast ? .7 : 1.2, ready: fast ? .55 : 1.1 };
 const DESC = { idle: 'grão mãe — inteiro, pairando', seek: 'decompondo: cada parte do sistema vira vários grãos', settle: 'assentou: 4 amostras localizadas', ready: 'pronta — recompõe o grão mãe' };
 let state = 'idle', timers = [], stateSince = performance.now();
 const btns = [...document.querySelectorAll('#ctl button[data-s]')];
@@ -139,44 +136,26 @@ btns.forEach(b => b.onclick = () => { timers.forEach(clearTimeout); timers = [];
 document.getElementById('cy').onclick = () => {
   timers.forEach(clearTimeout); timers = [];
   setSt('seek');
-  timers.push(setTimeout(() => setSt('settle'), 3200));
-  timers.push(setTimeout(() => setSt('ready'), 4800));
+  timers.push(setTimeout(() => setSt('settle'), fast ? 3200 : 7000));
+  timers.push(setTimeout(() => setSt('ready'), fast ? 4800 : 9800));
 };
 
 const tmp = new THREE.Vector3();
-let last = performance.now(), out = 0, raf = 0;
-
-function snapIdle() {
-  timers.forEach(clearTimeout);
-  timers = [];
-  setSt('idle');
-  out = 0;
-  for (const g of grains) {
-    g.m.position.copy(g.tgt.idle);
-    g.m.scale.setScalar(g.rad * .25);
-  }
-  mae.scale.setScalar(MAE_R);
-  mae.position.y = 0;
-  mae.visible = true;
-}
-
+let last = performance.now(), out = 0;
 function tick(now) {
-  if (document.hidden) {
-    raf = 0;
-    return;
-  }
-  const dt = Math.min(.05, (now - last) / 1000); last = now;
+  const dt = Math.min(.1, (now - last) / 1000); last = now;
   const t = now / 1000;
   const age = (now - stateSince) / 1000;
-  const seekSplit = state === 'seek' && age > 1.5; // 2ª onda: cada parte vira vários
+  const seekSplit = state === 'seek' && age > (fast ? 1.5 : 3.4); // 2ª onda: cada parte vira vários
   const idleLike = state === 'idle' || state === 'ready';
-  // micro explosões no idle: a cada ~2.4s um terço dos grãos salta e é reabsorvido
-  const P = 2.4, u = (t % P) / P;
-  const env = (idleLike && !reduced && age > .35 && u < .55) ? Math.sin(u / .55 * Math.PI) : 0;
+  // micro explosões no idle: ~6s no desktop (apresentação); ~2.4s no mobile (?fast=1)
+  const P = fast ? 2.4 : 6, u = (t % P) / P;
+  const env = (idleLike && !reduced && age > (fast ? .35 : 1.6) && u < (fast ? .55 : .6)) ? Math.sin(u / (fast ? .55 : .6) * Math.PI) : 0;
   const grpAct = Math.floor(t / P) % 3;
   const k = reduced ? 1 : 1 - Math.exp(-dt / TAU[state]);
-  const kPop = reduced ? 1 : 1 - Math.exp(-dt / .28);
+  const kPop = reduced ? 1 : 1 - Math.exp(-dt / (fast ? .28 : .55));
   const amp = reduced ? 0 : AMP[state];
+  const tw = fast ? 1.8 : 1;
   let gi2 = 0;
   for (const g of grains) {
     let base = g.tgt[state === 'ready' ? 'idle' : state];
@@ -184,46 +163,36 @@ function tick(now) {
     const popping = idleLike && (gi2++ % 3 === grpAct);
     const pop = popping ? env * (.075 + g.w1 * .05) : 0;
     tmp.set(
-      base.x + g.dir.x * pop + Math.sin(t * g.w1 * 1.8 + g.ph) * amp,
-      base.y + g.dir.y * pop + Math.sin(t * g.w2 * 1.8 + g.ph * 2.1) * amp,
-      base.z + g.dir.z * pop + Math.cos(t * g.w1 * 1.45 + g.ph) * amp
+      base.x + g.dir.x * pop + Math.sin(t * g.w1 * tw + g.ph) * amp,
+      base.y + g.dir.y * pop + Math.sin(t * g.w2 * tw + g.ph * 2.1) * amp,
+      base.z + g.dir.z * pop + Math.cos(t * g.w1 * (fast ? 1.45 : .8) + g.ph) * amp
     );
     g.m.position.lerp(tmp, popping || (seekSplit && g.paiSeek) ? kPop : k);
-    g.m.visible = !embed || !idleLike || pop > .002;
     if (!reduced) { g.m.rotation.y += dt * (.25 + g.w1 * .5); g.m.rotation.x += dt * g.w2 * .3; }
     const sTgt = idleLike ? g.rad * (.25 + (popping ? env * .65 : 0)) : (state === 'seek' && g.paiSeek && !seekSplit ? g.rad * .35 : g.rad);
     g.m.scale.setScalar(g.m.scale.x + (sTgt - g.m.scale.x) * (popping ? kPop : k));
   }
   // grão mãe: encolhe à medida que os grãos saem, cresce quando voltam
   const outTgt = idleLike ? env * .28 : 1;
-  out += (outTgt - out) * (reduced ? 1 : 1 - Math.exp(-dt / (idleLike ? .45 : .7)));
+  out += (outTgt - out) * (reduced ? 1 : 1 - Math.exp(-dt / (idleLike ? (fast ? .45 : .9) : (fast ? .7 : 1.4))));
   if (reduced) out = outTgt;
   const ms = MAE_R * Math.max(1 - out, .005);
   // pulso orgânico anisotrópico: estica num eixo, comprime nos outros — legível mesmo em cor única
-  const p = reduced ? 0 : Math.sin(t * 2.2) * .8 + Math.sin(t * 4.4 + .8) * .35 + env * 1.4;
+  const p = reduced ? 0 : Math.sin(t * (fast ? 2.2 : 1.1)) * .8 + Math.sin(t * (fast ? 4.4 : 2.3) + .8) * .35 + env * 1.4;
   mae.scale.set(ms * (1 - p * .05), ms * (1 + p * .09), ms * (1 - p * .05));
   mae.visible = ms > MAE_R * .01;
   if (!reduced) {
-    mae.rotation.y += dt * 1.15;
-    mae.rotation.x = .4 + Math.sin(t * .7) * .25;
-    mae.rotation.z = 1.1 + Math.cos(t * .5) * .2;
-    mae.position.y = Math.sin(t * 1.15) * .014;
+    mae.rotation.y += dt * (fast ? 1.15 : .5);
+    mae.rotation.x = .4 + Math.sin(t * (fast ? .7 : .3)) * .25;
+    mae.rotation.z = 1.1 + Math.cos(t * (fast ? .5 : .22)) * .2;
+    mae.position.y = Math.sin(t * (fast ? 1.15 : .5)) * .014;
   }
-  raf = requestAnimationFrame(tick);
+  requestAnimationFrame(tick);
 }
+requestAnimationFrame(tick);
 
-function resumeTick() {
-  last = performance.now();
-  if (embed && state !== 'idle') snapIdle();
-  if (!raf && !document.hidden) raf = requestAnimationFrame(tick);
-}
-
-document.addEventListener('visibilitychange', resumeTick);
-window.addEventListener('pageshow', resumeTick);
-raf = requestAnimationFrame(tick);
-
-// modo embed (?embed=1): só o grão mãe pairando — sem ciclo automático (parece erro no site)
-if (embed) {
+// modo embed (?embed=1): só a Granu viva, sem chrome — usado pela apresentação
+if (new URLSearchParams(location.search).has('embed')) {
   const q = new URLSearchParams(location.search);
   const zoom = parseFloat(q.get('zoom') || '1');
   if (zoom !== 1 && stage._camera) { stage._camera.position.multiplyScalar(1 / zoom); }
@@ -241,10 +210,13 @@ if (embed) {
   if (note) note.style.display = 'none';
   if (stage._toolbar) stage._toolbar.style.display = 'none';
   if (stage._controls) { stage._controls.enableZoom = false; stage._controls.enablePan = false; }
-  window.addEventListener('message', e => {
-    const s = e.data && e.data.granuState;
-    if (s && DESC[s] && state !== s) setSt(s);
-  });
+  let controlled = false;
+  window.addEventListener('message', e => { const s = e.data && e.data.granuState; if (s && DESC[s]) { controlled = true; if (state !== s) setSt(s); } });
+  const loop = () => { if (!controlled) document.getElementById('cy').click(); };
+  if (!fast) {
+    setTimeout(loop, 9000);
+    setInterval(loop, 26000);
+  }
 }
 </script>
 </body>

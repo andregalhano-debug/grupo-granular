@@ -83,8 +83,8 @@ export function Hero(_props: Props) {
           </div>
         </FadeIn>
 
-        <FadeIn delay={80} className="relative min-h-[clamp(280px,40vw,520px)] hidden lg:block">
-          <GranuGrain className="absolute inset-0 w-full h-full" zoom={1.45} />
+        <FadeIn delay={80} className="relative min-h-[clamp(420px,58vw,760px)] hidden lg:block overflow-visible">
+          <GranuGrain className="absolute inset-0 w-full h-full scale-[1.28] origin-center" zoom={2.35} />
         </FadeIn>
       </div>
 
