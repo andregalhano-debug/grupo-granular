@@ -101,7 +101,8 @@ export function Header({ category }: Props) {
 
   return (
     <header className="sticky top-0 z-50 bg-[rgba(253,251,248,.92)] backdrop-blur-xl border-b border-[#ece6dc] shadow-[0_1px_0_rgba(44,36,31,0.04)]">
-      <div className="max-w-[1240px] mx-auto px-[clamp(18px,4vw,44px)] min-h-[68px] flex items-center gap-4 lg:gap-5 flex-nowrap">
+      <div className="px-[clamp(18px,4vw,44px)]">
+      <div className="max-w-[1240px] mx-auto min-h-[68px] flex items-center gap-4 lg:gap-5 flex-nowrap">
         <Link to="/" className="flex items-center gap-2.5 font-semibold text-[19px] tracking-tight text-[#2c241f] shrink-0">
           <GranularLogo size={36} color={logoColor} />
           <span>
@@ -211,9 +212,11 @@ export function Header({ category }: Props) {
           </button>
         </div>
       </div>
+      </div>
 
       {menuOpen && (
-        <div className="lg:hidden bg-[#f0ede8] border-t border-[#e4ddd2] px-4 py-4 space-y-1 max-h-[calc(100dvh-68px)] overflow-y-auto">
+        <div className="lg:hidden bg-[#f0ede8] border-t border-[#e4ddd2] px-[clamp(18px,4vw,44px)] py-4 max-h-[calc(100dvh-68px)] overflow-y-auto">
+        <div className="max-w-[1240px] mx-auto space-y-1">
           <NavAnchor href="/granu" onClick={() => setMenuOpen(false)} className="min-h-11 w-full">
             {t.nav.granu}
           </NavAnchor>
@@ -261,6 +264,7 @@ export function Header({ category }: Props) {
               {t.nav.startNow}
             </Link>
           </div>
+        </div>
         </div>
       )}
     </header>
