@@ -40,7 +40,7 @@ export function MentoriaSection() {
           </p>
           <div className="mt-8 flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-3">
             <Link
-              to="/seja-consultor"
+              to="/seja-mentor"
               className="inline-flex items-center justify-center w-full sm:w-auto min-h-[52px] px-8 rounded-full bg-[#7c2d3e] hover:bg-[#5f2130] text-[#f7f2ee] font-medium text-base transition-colors"
             >
               {t.pricingExtended.beMentorCta}
@@ -125,7 +125,7 @@ export function MentoriaSection() {
               {t.pricingExtended.beMentorDesc}
             </p>
             <Link
-              to="/seja-consultor"
+              to="/seja-mentor"
               className="mt-8 inline-flex items-center justify-center w-full sm:w-auto min-h-[56px] px-10 rounded-full bg-[#f0ede8] hover:bg-white text-[#7c2d3e] font-semibold text-base transition-colors"
             >
               {t.pricingExtended.beMentorCta}
