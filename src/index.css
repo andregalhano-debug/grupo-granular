@@ -113,7 +113,10 @@ html.dark .text-\[\#8d7d70\],
 html.dark .text-\[\#A2968A\],
 html.dark .text-\[\#A89F94\],
 html.dark .text-\[\#b7a894\],
-html.dark .text-\[\#bdb0a4\] { color: #b8ada1 !important; }
+html.dark .text-\[\#bdb0a4\],
+html.dark .text-\[\#31281F\],
+html.dark .text-\[\#4A413B\],
+html.dark .text-\[\#B0A699\] { color: #b8ada1 !important; }
 html.dark .text-\[\#0E0E0F\]\/30 { color: rgba(240,237,232,0.35) !important; }
 html.dark .text-\[\#0E0E0F\]\/60 { color: rgba(240,237,232,0.65) !important; }
 html.dark .text-\[\#0E0E0F\]\/70 { color: rgba(240,237,232,0.75) !important; }
@@ -153,6 +156,31 @@ html.dark input::placeholder,
 html.dark textarea::placeholder {
   color: #b8ada1 !important;
 }
+
+/* Mock WhatsApp/plataforma: o aparelho fica claro no escuro.
+   Sem isso, .bg-white vira fundo escuro e o texto da bolha (#31281F) some. */
+html.dark .granu-device .bg-white,
+html.dark .granu-device .bg-\[\#FFFFFF\] { background-color: #ffffff !important; }
+html.dark .granu-device .bg-\[\#FAF9F7\] { background-color: #faf9f7 !important; }
+html.dark .granu-device .bg-\[\#FAF7F0\] { background-color: #faf7f0 !important; }
+html.dark .granu-device .bg-\[\#F7F5F1\] { background-color: #f7f5f1 !important; }
+html.dark .granu-device .bg-\[\#EFEAE2\] { background-color: #efeae2 !important; }
+html.dark .granu-device .bg-\[\#E4DDD2\] { background-color: #e4ddd2 !important; }
+html.dark .granu-device .bg-\[\#D9FDD3\] { background-color: #d9fdd3 !important; }
+html.dark .granu-device .text-\[\#241D1A\],
+html.dark .granu-device .text-\[\#241d1a\],
+html.dark .granu-device .text-\[\#31281F\],
+html.dark .granu-device .text-\[\#243328\],
+html.dark .granu-device .text-\[\#4A413B\] { color: #241d1a !important; }
+html.dark .granu-device .text-\[\#6E6259\],
+html.dark .granu-device .text-\[\#8A7A6E\],
+html.dark .granu-device .text-\[\#8D8177\] { color: #6e6259 !important; }
+html.dark .granu-device .text-\[\#A2968A\],
+html.dark .granu-device .text-\[\#A89F94\],
+html.dark .granu-device .text-\[\#B0A699\] { color: #8d8177 !important; }
+html.dark .granu-device .text-\[\#FAF7F0\] { color: #faf7f0 !important; }
+html.dark .granu-device .border-\[\#E4DDD2\],
+html.dark .granu-device .border-\[\#DDD4C8\] { border-color: #e4ddd2 !important; }
 
 /* Shadows */
 html.dark .shadow-xl { box-shadow: 0 20px 40px rgba(0,0,0,0.5) !important; }
