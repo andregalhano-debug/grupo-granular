@@ -1,3 +1,5 @@
+import { legalEn } from './legalEn'
+
 export const en = {
   nav: {
     granu: 'Granu',
@@ -395,6 +397,12 @@ export const en = {
     whatAreMentorsDesc: 'Granular Mentors connect operators in restaurants, grocery, pharmacies, pet shops and shopping with professionals who have already solved the same challenges. These are on-demand sessions in operations, finance, inventory, people and sales, with no time commitment, focused on specific strategic decisions.',
     youAreMentor: 'Are you a mentor?',
     joinNetwork: 'Join the Granular network',
+    mentoriaKicker: 'Mentor community',
+    mentorPoints: [
+      { t: 'One-off sessions', d: 'Operations, finance, inventory, people and sales, with no term lock-in, focused on one strategic decision.' },
+      { t: 'People who already solved the same problem', d: 'Mentors with real experience in restaurants, grocery, pharmacies, pet shops and mall stores. You pick the specialty.' },
+      { t: 'A growing network', d: 'Operators book sessions. Those who have already operated join as mentors — you set availability and hourly rate.' },
+    ],
     exampleMentors: 'Example Mentors',
     reviews: 'reviews',
     yearsExp: 'yrs exp.',
@@ -688,6 +696,7 @@ export const en = {
     placeholder: 'Write your message',
   },
   legalNotice: 'This document is issued in Portuguese.',
+  legal: legalEn,
   categoryPages: {
     restaurantes: {
       title: 'Restaurant Management System | Grupo Granular',

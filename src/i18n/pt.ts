@@ -1,3 +1,5 @@
+import { legalPt } from './legalPt'
+
 export const pt = {
   nav: {
     granu: 'A Granu',
@@ -395,6 +397,12 @@ export const pt = {
     whatAreMentorsDesc: 'Os Mentores Granular conectam operadores de restaurantes, mercados, farmácias, pet shops e shopping com profissionais que já resolveram os mesmos desafios. São sessões sob demanda em operação, financeiro, estoque, pessoas e vendas, sem vínculo de prazo, com foco em decisões estratégicas pontuais.',
     youAreMentor: 'Você é mentor?',
     joinNetwork: 'Faça parte da rede Granular',
+    mentoriaKicker: 'Comunidade Mentores',
+    mentorPoints: [
+      { t: 'Sessões pontuais', d: 'Operação, financeiro, estoque, pessoas e vendas, sem vínculo de prazo, com foco em uma decisão estratégica.' },
+      { t: 'Quem já resolveu o mesmo problema', d: 'Mentores com experiência real em restaurantes, mercados, farmácias, pet shops e shopping. Você escolhe a especialidade.' },
+      { t: 'Rede em crescimento', d: 'Quem opera pede sessão. Quem já operou entra como mentor — disponibilidade e valor por hora definidos por você.' },
+    ],
     exampleMentors: 'Exemplo de Mentores',
     reviews: 'avaliações',
     yearsExp: 'anos exp.',
@@ -688,6 +696,7 @@ export const pt = {
     placeholder: 'Escreva sua mensagem',
   },
   legalNotice: 'Este documento é emitido em português.',
+  legal: legalPt,
   categoryPages: {
     restaurantes: {
       title: 'Sistema de Gestão para Restaurantes | Grupo Granular',

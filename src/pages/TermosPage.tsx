@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import { GranularLogo } from '../components/GranularLogo'
 import { SitePrefs } from '../components/SitePrefs'
-import { useLanguage } from '../stores/useLanguageStore'
 import { useT } from '../i18n/useT'
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
@@ -34,11 +33,12 @@ const p = "text-sm text-[#4B4B4B] leading-relaxed mb-3"
 const li = "text-sm text-[#4B4B4B] leading-relaxed"
 
 export function TermosPage() {
-  const { lang } = useLanguage()
-  const t = useT()
+  const { legal } = useT()
+  const n = legal.nav
+  const t = legal.terms
+
   return (
     <div className="min-h-screen bg-[#F7F7F7]">
-      {/* Header */}
       <header className="bg-white border-b border-[#0E0E0F]/8 sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2.5">
@@ -46,40 +46,30 @@ export function TermosPage() {
             <span className="text-sm font-semibold text-[#0E0E0F]">Granular</span>
           </Link>
           <div className="flex items-center gap-4 text-xs text-[#9C958A]">
-            <Link to="/privacidade" className="hover:text-[#0E0E0F] transition-colors">Privacidade</Link>
-            <Link to="/cookies" className="hover:text-[#0E0E0F] transition-colors">Cookies</Link>
+            <Link to="/privacidade" className="hover:text-[#0E0E0F] transition-colors">{n.privacy}</Link>
+            <Link to="/cookies" className="hover:text-[#0E0E0F] transition-colors">{n.cookies}</Link>
             <SitePrefs />
           </div>
         </div>
       </header>
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Title */}
         <div className="mb-10">
           <p className="text-xs font-semibold text-[#A31631] uppercase tracking-widest mb-2" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
-            Termos de Uso
+            {t.kicker}
           </p>
-          <h1 className="text-3xl font-bold text-[#0E0E0F] mb-3">Termos e Condições de Uso</h1>
-          {lang === 'en' && <p className="text-sm text-[#9C958A] mb-3">{t.legalNotice}</p>}
-          <p className={p}>Última atualização: 15 de julho de 2026. Vigência imediata.</p>
+          <h1 className="text-3xl font-bold text-[#0E0E0F] mb-3">{t.title}</h1>
+          <p className={p}>{t.updated}</p>
           <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 text-sm text-amber-800 leading-relaxed">
-            Ao utilizar qualquer serviço do Grupo Granular — sistema, mentoria ou rede de consultores — você declara ter lido, compreendido e concordado com estes Termos. Caso não concorde, interrompa imediatamente o uso da plataforma.
+            {t.notice}
           </div>
         </div>
 
-        {/* Definições */}
-        <Section title="1. Definições">
-          <p className={p}>Para fins destes Termos, os termos a seguir terão os significados indicados:</p>
+        <Section title={t.s1Title}>
+          <p className={p}>{t.s1Intro}</p>
           <ul className="space-y-2 list-none pl-0">
-            {[
-              ['Granular / Plataforma', 'Granular Consultoria em Gestão Empresarial Ltda, responsável pelo sistema SaaS de gestão operacional e pela rede de mentores e consultores.'],
-              ['Usuário do Sistema', 'Pessoa jurídica ou física que contrata os Módulos 1, 2 e/ou 3 do sistema Granular para gestão operacional de seu estabelecimento.'],
-              ['Mentorado', 'Pessoa jurídica ou física que contrata pacotes de mentoria ou especialista sob demanda para acompanhamento estratégico de sua operação.'],
-              ['Mentor / Consultor', 'Profissional aceito na rede Granular para prestar sessões de orientação especializada a Mentorados.'],
-              ['Parceiro', 'Empresa ou pessoa física que integra o ecossistema Granular por meio de acordo comercial específico, incluindo integrações tecnológicas.'],
-              ['Conta', 'Credencial de acesso individual criada para cada perfil de usuário na plataforma.'],
-            ].map(([term, def]) => (
-              <li key={term as string} className="flex gap-3 text-sm text-[#4B4B4B] leading-relaxed">
+            {t.defs.map(([term, def]) => (
+              <li key={term} className="flex gap-3 text-sm text-[#4B4B4B] leading-relaxed">
                 <span className="font-semibold text-[#0E0E0F] min-w-[180px] flex-shrink-0">{term}</span>
                 <span>{def}</span>
               </li>
@@ -87,189 +77,119 @@ export function TermosPage() {
           </ul>
         </Section>
 
-        {/* Usuários do Sistema */}
-        <Section title="2. Usuários do Sistema">
+        <Section title={t.s2Title}>
           <div className="mb-4">
-            <Audience label="Usuários do Sistema" color="text-blue-700 bg-blue-50 border-blue-200" />
+            <Audience label={t.s2Audience} color="text-blue-700 bg-blue-50 border-blue-200" />
           </div>
-
-          <SubSection title="2.1 Acesso e Contratação">
-            <p className={p}>O acesso ao sistema Granular é condicionado à assinatura de um dos planos disponíveis (Módulo 1, Módulo 2 ou Módulo 3), conforme tabela de preços vigente no site. A contratação é realizada exclusivamente por pessoas com capacidade legal e, quando pessoa jurídica, pelo representante legalmente habilitado.</p>
-          </SubSection>
-
-          <SubSection title="2.2 Obrigações do Usuário">
+          <SubSection title={t.s21Title}><p className={p}>{t.s21}</p></SubSection>
+          <SubSection title={t.s22Title}>
             <ul className="space-y-1.5 list-disc pl-5">
-              {[
-                'Fornecer dados cadastrais verdadeiros, atualizados e completos.',
-                'Manter sigilo sobre suas credenciais de acesso, sendo integralmente responsável por acessos realizados com sua conta.',
-                'Utilizar a plataforma exclusivamente para fins lícitos e legítimos.',
-                'Não realizar engenharia reversa, cópia, reprodução ou redistribuição do software.',
-                'Manter suas obrigações fiscais em dia para emissão de notas fiscais relativas à prestação de serviços.',
-                'Notificar imediatamente a Granular em caso de uso não autorizado de sua conta.',
-              ].map((item) => <li key={item} className={li}>{item}</li>)}
+              {t.s22.map((item) => <li key={item} className={li}>{item}</li>)}
             </ul>
           </SubSection>
-
-          <SubSection title="2.3 Pagamento e Cobrança">
-            <p className={p}>A cobrança é realizada mensalmente via cartão de crédito ou Pix. O não pagamento por mais de 7 (sete) dias corridos implica suspensão automática do acesso. Após 30 (trinta) dias em inadimplência, a conta poderá ser encerrada e os dados excluídos conforme política de retenção.</p>
-            <p className={p}>O atraso no pagamento sujeitará o usuário à cobrança de multa de 2% (dois por cento) sobre o valor devido, acrescida de juros de mora de 1% (um por cento) ao mês, calculados pro rata die, até a data do efetivo pagamento.</p>
-            <p className={p}>Os preços dos planos poderão ser reajustados anualmente com base na variação do IPCA (IBGE), sem prejuízo de reajustes adicionais, sempre com aviso prévio de 30 (trinta) dias. O usuário que não concordar com o reajuste poderá cancelar o plano sem multa durante o período de aviso.</p>
+          <SubSection title={t.s23Title}>
+            <p className={p}>{t.s23a}</p>
+            <p className={p}>{t.s23b}</p>
+            <p className={p}>{t.s23c}</p>
           </SubSection>
-
-          <SubSection title="2.4 Cancelamento">
-            <p className={p}>O cancelamento pode ser solicitado a qualquer momento via e-mail para <strong>contato@grupogranular.com.br</strong>. O acesso permanece ativo até o fim do ciclo de cobrança já pago. Não há reembolso proporcional de valores pagos, exceto em casos de falha técnica grave comprovada imputável à Granular.</p>
-          </SubSection>
-
-          <SubSection title="2.5 Disponibilidade do Sistema">
-            <p className={p}>A Granular se compromete a manter o sistema disponível 99% do tempo mensal, excluídas janelas de manutenção programada comunicadas com antecedência mínima de 24 horas. Eventuais interrupções não programadas não configuram direito a reembolso, mas serão comunicadas e registradas.</p>
-          </SubSection>
-
-          <SubSection title="2.6 Rescisão pela Granular">
-            <p className={p}>A Granular poderá encerrar o acesso do usuário à plataforma, a qualquer momento e sem necessidade de aviso prévio, nas hipóteses de descumprimento destes Termos, uso indevido ou fraudulento da plataforma, ou conduta ofensiva com a equipe ou a rede de mentores da Granular.</p>
-            <p className={p}>Nos demais casos, a Granular poderá encerrar o acesso mediante aviso prévio de 30 (trinta) dias ao e-mail cadastrado, com reembolso proporcional de eventuais valores pagos e não usufruídos.</p>
+          <SubSection title={t.s24Title}><p className={p}>{t.s24}</p></SubSection>
+          <SubSection title={t.s25Title}><p className={p}>{t.s25}</p></SubSection>
+          <SubSection title={t.s26Title}>
+            <p className={p}>{t.s26a}</p>
+            <p className={p}>{t.s26b}</p>
           </SubSection>
         </Section>
 
-        {/* Mentorados */}
-        <Section title="3. Mentorados">
+        <Section title={t.s3Title}>
           <div className="mb-4">
-            <Audience label="Mentorados" color="text-purple-700 bg-purple-50 border-purple-200" />
+            <Audience label={t.s3Audience} color="text-purple-700 bg-purple-50 border-purple-200" />
           </div>
-
-          <SubSection title="3.1 Contratação de Mentoria">
-            <p className={p}>Os pacotes de mentoria (1, 3 ou 6 meses) e o serviço de Especialista sob demanda são contratados individualmente e compreendem um número fixo de horas mensais com profissional designado pela Granular, além de diagnóstico inicial, plano de ação e relatórios periódicos.</p>
-          </SubSection>
-
-          <SubSection title="3.2 Agendamento e Sessões">
+          <SubSection title={t.s31Title}><p className={p}>{t.s31}</p></SubSection>
+          <SubSection title={t.s32Title}>
             <ul className="space-y-1.5 list-disc pl-5">
-              {[
-                'As sessões devem ser agendadas com antecedência mínima de 48 horas pela plataforma.',
-                'Cancelamentos ou reagendamentos devem ser feitos com pelo menos 24 horas de antecedência para não configurar sessão consumida.',
-                'Cancelamentos com menos de 24 horas implicam desconto da sessão da cota mensal, salvo caso fortuito ou força maior devidamente comprovado.',
-                'As horas mensais não utilizadas não são acumuladas para o mês seguinte, exceto mediante autorização expressa do mentor responsável.',
-              ].map((item) => <li key={item} className={li}>{item}</li>)}
+              {t.s32.map((item) => <li key={item} className={li}>{item}</li>)}
             </ul>
           </SubSection>
-
-          <SubSection title="3.3 Confidencialidade">
-            <p className={p}>Toda informação compartilhada pelo Mentorado durante as sessões é tratada como confidencial pela Granular e pelo Mentor. A Granular não compartilha dados operacionais, financeiros ou estratégicos do Mentorado com terceiros, exceto quando exigido por lei ou ordem judicial.</p>
-            <p className={p}>O Mentorado, por sua vez, compromete-se a não reproduzir ou distribuir metodologias, frameworks e materiais produzidos durante a mentoria sem autorização expressa da Granular.</p>
+          <SubSection title={t.s33Title}>
+            <p className={p}>{t.s33a}</p>
+            <p className={p}>{t.s33b}</p>
           </SubSection>
-
-          <SubSection title="3.4 Resultados">
-            <p className={p}>A Granular e seus Mentores não garantem resultados financeiros específicos. O impacto da mentoria depende da implementação das orientações pelo Mentorado, das condições de mercado e de fatores externos não controláveis. Os casos de referência divulgados representam experiências reais, mas não devem ser interpretados como promessa de desempenho futuro.</p>
-          </SubSection>
-
-          <SubSection title="3.5 Cancelamento de Mentoria">
-            <p className={p}>Pacotes de mentoria têm compromisso durante a vigência contratada. O cancelamento antecipado está sujeito à cobrança proporcional das horas e serviços já prestados. Após o encerramento, o sistema incluso no pacote pode ser mantido mediante assinatura individual.</p>
-          </SubSection>
+          <SubSection title={t.s34Title}><p className={p}>{t.s34}</p></SubSection>
+          <SubSection title={t.s35Title}><p className={p}>{t.s35}</p></SubSection>
         </Section>
 
-        {/* Mentores e Parceiros */}
-        <Section title="4. Mentores e Parceiros">
+        <Section title={t.s4Title}>
           <div className="mb-4">
-            <Audience label="Mentores" color="text-emerald-700 bg-emerald-50 border-emerald-200" />
-            <Audience label="Parceiros" color="text-orange-700 bg-orange-50 border-orange-200" />
+            <Audience label={t.s4AudienceMentor} color="text-emerald-700 bg-emerald-50 border-emerald-200" />
+            <Audience label={t.s4AudiencePartner} color="text-orange-700 bg-orange-50 border-orange-200" />
           </div>
-
-          <SubSection title="4.1 Ingresso na Rede">
-            <p className={p}>A participação como Mentor Granular está sujeita a processo seletivo que inclui análise de currículo, histórico profissional, entrevista e avaliação de senioridade. A Granular reserva-se o direito de aceitar ou recusar candidaturas sem obrigação de justificativa.</p>
-            <p className={p}>A aceitação não configura vínculo empregatício. O Mentor atua como prestador de serviços autônomo ou por meio de pessoa jurídica própria, sendo integralmente responsável por suas obrigações fiscais, previdenciárias e trabalhistas.</p>
+          <SubSection title={t.s41Title}>
+            <p className={p}>{t.s41a}</p>
+            <p className={p}>{t.s41b}</p>
           </SubSection>
-
-          <SubSection title="4.2 Conduta e Qualidade">
+          <SubSection title={t.s42Title}>
             <ul className="space-y-1.5 list-disc pl-5">
-              {[
-                'Comparecer às sessões agendadas com pontualidade e preparo adequado.',
-                'Manter confidencialidade sobre os dados e estratégias dos Mentorados.',
-                'Não captar diretamente clientes da Granular para prestação de serviços fora da plataforma durante a vigência e por 12 meses após o desligamento.',
-                'Comunicar qualquer conflito de interesses antes de assumir um Mentorado.',
-                'Manter conduta ética, respeitosa e profissional em todas as interações.',
-                'Cumprir as avaliações mínimas de qualidade exigidas pela Granular.',
-              ].map((item) => <li key={item} className={li}>{item}</li>)}
+              {t.s42.map((item) => <li key={item} className={li}>{item}</li>)}
             </ul>
           </SubSection>
-
-          <SubSection title="4.3 Remuneração">
-            <p className={p}>As condições de remuneração são definidas individualmente no contrato firmado com cada Mentor, observando a tabela de faixas por senioridade vigente. Pagamentos são realizados mensalmente, condicionados à confirmação das sessões pelo Mentorado e emissão de nota fiscal pelo Mentor.</p>
-            <p className={p}>O Mentor é o único responsável pela veracidade e atualização dos dados bancários cadastrados para recebimento. Eventual atraso no repasse decorrente de dados incorretos ou desatualizados não será imputável à Granular.</p>
+          <SubSection title={t.s43Title}>
+            <p className={p}>{t.s43a}</p>
+            <p className={p}>{t.s43b}</p>
           </SubSection>
-
-          <SubSection title="4.4 Propriedade Intelectual">
-            <p className={p}>Metodologias, templates, frameworks e materiais produzidos em colaboração com a Granular durante a vigência do contrato são de propriedade conjunta. O Mentor mantém propriedade sobre seu conhecimento e experiência prévia, não passível de restrição por estes Termos.</p>
-          </SubSection>
-
-          <SubSection title="4.5 Parceiros Tecnológicos">
-            <p className={p}>Empresas parceiras que integram seu sistema ao ecossistema Granular (ex.: Anota AI, 99Food, Omie, Foozi, Open Delivery) devem celebrar acordo de parceria específico. A integração não confere direito de uso da marca Granular sem autorização formal, nem cria solidariedade em obrigações perante usuários finais.</p>
-          </SubSection>
+          <SubSection title={t.s44Title}><p className={p}>{t.s44}</p></SubSection>
+          <SubSection title={t.s45Title}><p className={p}>{t.s45}</p></SubSection>
         </Section>
 
-        {/* Propriedade Intelectual */}
-        <Section title="5. Propriedade Intelectual">
-          <p className={p}>Todo o conteúdo da plataforma Granular — incluindo software, código-fonte, interfaces, textos, logotipos, metodologias, relatórios gerados pela IA e demais elementos — é protegido por direitos autorais e demais direitos de propriedade intelectual titularizados pela Granular ou por terceiros licenciantes.</p>
-          <p className={p}>É vedado ao usuário, mentorado, mentor ou parceiro reproduzir, adaptar, distribuir, sublicenciar ou criar obras derivadas sem autorização prévia e escrita da Granular.</p>
+        <Section title={t.s5Title}>
+          <p className={p}>{t.s5a}</p>
+          <p className={p}>{t.s5b}</p>
         </Section>
 
-        {/* Limitação de Responsabilidade */}
-        <Section title="6. Limitação de Responsabilidade">
-          <p className={p}>A Granular não será responsável por:</p>
+        <Section title={t.s6Title}>
+          <p className={p}>{t.s6Intro}</p>
           <ul className="space-y-1.5 list-disc pl-5 mb-3">
-            {[
-              'Decisões de negócio tomadas com base em informações geradas pelo sistema ou por mentores.',
-              'Danos indiretos, lucros cessantes ou perda de oportunidade resultantes do uso ou impossibilidade de uso da plataforma.',
-              'Falhas em sistemas de terceiros integrados à plataforma (iFood, operadoras de pagamento, etc.).',
-              'Interrupções decorrentes de força maior, ataques cibernéticos ou falhas de infraestrutura de terceiros.',
-              'Dados incorretos inseridos pelo próprio usuário ou por integrações de terceiros.',
-            ].map((item) => <li key={item} className={li}>{item}</li>)}
+            {t.s6.map((item) => <li key={item} className={li}>{item}</li>)}
           </ul>
-          <p className={p}>Em qualquer hipótese, a responsabilidade total da Granular perante um usuário estará limitada ao valor pago nos últimos 3 (três) meses de contratação.</p>
+          <p className={p}>{t.s6Limit}</p>
         </Section>
 
-        {/* Indenização */}
-        <Section title="7. Indenização">
-          <p className={p}>O usuário compromete-se a indenizar e manter a Granular indene de quaisquer perdas, danos ou despesas decorrentes do descumprimento destes Termos ou do uso indevido da plataforma.</p>
-          <p className={p}>Reciprocamente, a Granular indenizará o usuário por perdas efetivamente comprovadas decorrentes de descumprimento destes Termos pela Granular, observado o limite de responsabilidade previsto na Seção 6.</p>
+        <Section title={t.s7Title}>
+          <p className={p}>{t.s7a}</p>
+          <p className={p}>{t.s7b}</p>
         </Section>
 
-        {/* Privacidade */}
-        <Section title="8. Privacidade e Dados Pessoais">
-          <p className={p}>O tratamento de dados pessoais realizado pela Granular obedece à Lei Geral de Proteção de Dados (LGPD — Lei nº 13.709/2018) e está detalhado na nossa <Link to="/privacidade" className="text-[#A31631] hover:underline font-medium">Política de Privacidade</Link>.</p>
+        <Section title={t.s8Title}>
+          <p className={p}>
+            {t.s8Before}
+            <Link to="/privacidade" className="text-[#A31631] hover:underline font-medium">{n.privacyPolicy}</Link>
+            {t.s8After}
+          </p>
         </Section>
 
-        {/* Modificações */}
-        <Section title="9. Modificações dos Termos">
-          <p className={p}>A Granular pode atualizar estes Termos a qualquer momento, comunicando as alterações por e-mail cadastrado e/ou aviso na plataforma com antecedência mínima de 15 (quinze) dias. O uso continuado após o prazo de aviso implica aceitação das novas condições. Caso não concorde, você poderá encerrar sua conta sem ônus adicionais durante o período de aviso.</p>
+        <Section title={t.s9Title}><p className={p}>{t.s9}</p></Section>
+        <Section title={t.s10Title}>
+          <p className={p}>{t.s10a}</p>
+          <p className={p}>{t.s10b}</p>
+          <p className={p}>{t.s10c}</p>
+          <p className={p}>{t.s10d}</p>
         </Section>
+        <Section title={t.s11Title}><p className={p}>{t.s11}</p></Section>
 
-        {/* Disposições Gerais */}
-        <Section title="10. Disposições Gerais">
-          <p className={p}>É vedado ao usuário ceder ou transferir, total ou parcialmente, os direitos e obrigações decorrentes destes Termos, sem autorização prévia e escrita da Granular.</p>
-          <p className={p}>A tolerância de qualquer das partes quanto ao descumprimento de obrigações aqui previstas não constitui novação ou renúncia de direitos.</p>
-          <p className={p}>A eventual nulidade de qualquer cláusula não afetará a validade das demais.</p>
-          <p className={p}>As disposições relativas a propriedade intelectual, confidencialidade, indenização e foro sobreviverão ao término destes Termos, independentemente da forma de encerramento.</p>
-        </Section>
-
-        {/* Legislação */}
-        <Section title="11. Legislação e Foro">
-          <p className={p}>Estes Termos são regidos pelas leis da República Federativa do Brasil. As partes elegem o Foro da Comarca de São Paulo/SP como competente para dirimir quaisquer controvérsias, com renúncia expressa a qualquer outro, por mais privilegiado que seja.</p>
-        </Section>
-
-        {/* Contato */}
-        <Section title="12. Contato">
-          <p className={p}>Dúvidas sobre estes Termos devem ser encaminhadas para:</p>
+        <Section title={t.s12Title}>
+          <p className={p}>{t.s12Intro}</p>
           <div className="bg-white rounded-xl border border-[#0E0E0F]/10 p-4 text-sm text-[#0E0E0F] space-y-1">
-            <p><strong>Granular Tecnologia</strong></p>
-            <p>CNPJ: 67.771.869/0001-00 — Granular Consultoria em Gestão Empresarial Ltda</p>
-            <p>E-mail: <a href="mailto:contato@grupogranular.com.br" className="text-[#A31631] hover:underline">contato@grupogranular.com.br</a></p>
-            <p>Cidades: Belo Horizonte, MG e São Paulo, SP — Brasil</p>
-            <p>Site: <a href="https://www.grupogranular.com.br" className="text-[#A31631] hover:underline">www.grupogranular.com.br</a></p>
+            <p><strong>{t.company}</strong></p>
+            <p>{t.cnpj}</p>
+            <p>{t.emailLabel} <a href="mailto:contato@grupogranular.com.br" className="text-[#A31631] hover:underline">contato@grupogranular.com.br</a></p>
+            <p>{t.cities}</p>
+            <p>{t.siteLabel} <a href="https://www.grupogranular.com.br" className="text-[#A31631] hover:underline">www.grupogranular.com.br</a></p>
           </div>
         </Section>
 
         <div className="border-t border-[#0E0E0F]/8 pt-8 flex flex-wrap gap-4 text-xs text-[#9C958A]">
-          <Link to="/" className="hover:text-[#0E0E0F] transition-colors">← Voltar ao site</Link>
-          <Link to="/privacidade" className="hover:text-[#0E0E0F] transition-colors">Política de Privacidade</Link>
-          <Link to="/cookies" className="hover:text-[#0E0E0F] transition-colors">Política de Cookies</Link>
+          <Link to="/" className="hover:text-[#0E0E0F] transition-colors">{n.back}</Link>
+          <Link to="/privacidade" className="hover:text-[#0E0E0F] transition-colors">{n.privacyPolicy}</Link>
+          <Link to="/cookies" className="hover:text-[#0E0E0F] transition-colors">{n.cookiesPolicy}</Link>
         </div>
       </div>
     </div>
