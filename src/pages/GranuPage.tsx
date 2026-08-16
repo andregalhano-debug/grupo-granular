@@ -17,29 +17,56 @@ export function GranuPage() {
       <Header />
 
       <section className="pt-10 sm:pt-14 pb-8 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-8 items-center">
-          <FadeIn className="granu-well relative h-[300px] sm:h-[420px] lg:h-[490px] order-first lg:order-last">
-            <GranuGrain className="absolute inset-0 w-full h-full" zoom={1.92} />
-          </FadeIn>
-          <FadeIn>
-            <p
-              className="text-[11.5px] font-medium uppercase tracking-[0.24em] text-[#7c2d3e] mb-3"
-              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-            >
-              {g.eyebrow}
-            </p>
-            <h1
-              className="text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-[-.035em] text-[#2c241f] leading-[1.02] mb-5"
-            >
-              {g.title1}<br />{g.title2}
-            </h1>
-            <p className="text-base sm:text-lg text-[#5D5148] leading-relaxed max-w-[44ch] mb-4">
-              {g.lead}
-            </p>
-            <p className="text-[#6B3F1F] italic text-lg sm:text-xl leading-snug max-w-[42ch]">
-              {g.quote}
-            </p>
-          </FadeIn>
+        <div className="max-w-6xl mx-auto">
+          <div className="lg:hidden">
+            <FadeIn>
+              <div className="flex items-center gap-3">
+                <div className="min-w-0 flex-1">
+                  <p
+                    className="text-[11.5px] font-medium uppercase tracking-[0.24em] text-[#7c2d3e] mb-2"
+                    style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                  >
+                    {g.eyebrow}
+                  </p>
+                  <h1 className="text-[clamp(32px,8vw,44px)] font-semibold tracking-[-.035em] text-[#2c241f] leading-[1.02]">
+                    {g.title1}<br />{g.title2}
+                  </h1>
+                </div>
+                <div className="granu-well relative w-[128px] h-[128px] shrink-0">
+                  <GranuGrain className="absolute inset-0 w-full h-full" zoom={2.05} fast />
+                </div>
+              </div>
+              <p className="mt-8 text-base text-[#5D5148] leading-relaxed max-w-[44ch] mb-4">
+                {g.lead}
+              </p>
+              <p className="text-[#6B3F1F] italic text-lg leading-snug max-w-[42ch]">
+                {g.quote}
+              </p>
+            </FadeIn>
+          </div>
+
+          <div className="hidden lg:grid lg:grid-cols-2 gap-8 items-center">
+            <FadeIn>
+              <p
+                className="text-[11.5px] font-medium uppercase tracking-[0.24em] text-[#7c2d3e] mb-3"
+                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+              >
+                {g.eyebrow}
+              </p>
+              <h1 className="text-5xl lg:text-6xl font-semibold tracking-[-.035em] text-[#2c241f] leading-[1.02] mb-5">
+                {g.title1}<br />{g.title2}
+              </h1>
+              <p className="text-lg text-[#5D5148] leading-relaxed max-w-[44ch] mb-4">
+                {g.lead}
+              </p>
+              <p className="text-[#6B3F1F] italic text-xl leading-snug max-w-[42ch]">
+                {g.quote}
+              </p>
+            </FadeIn>
+            <FadeIn className="granu-well relative h-[490px]">
+              <GranuGrain className="absolute inset-0 w-full h-full" zoom={1.92} />
+            </FadeIn>
+          </div>
         </div>
       </section>
 

@@ -3,21 +3,6 @@ import { Link } from 'react-router-dom'
 import { FadeIn } from './FadeIn'
 import { useT } from '../i18n/useT'
 
-const PONTOS = [
-  {
-    t: 'Sessões pontuais',
-    d: 'Operação, financeiro, estoque, pessoas e vendas, sem vínculo de prazo, com foco em uma decisão estratégica.',
-  },
-  {
-    t: 'Quem já resolveu o mesmo problema',
-    d: 'Mentores com experiência real em restaurantes, mercados, farmácias, pet shops e shopping. Você escolhe a especialidade.',
-  },
-  {
-    t: 'Rede em crescimento',
-    d: 'Quem opera pede sessão. Quem já operou entra como mentor — disponibilidade e valor por hora definidos por você.',
-  },
-]
-
 export function MentoriaSection() {
   const t = useT()
   const sampleMentors = t.pricingExtended.sampleMentors
@@ -30,7 +15,7 @@ export function MentoriaSection() {
             className="text-[11.5px] tracking-[.24em] uppercase text-[#7c2d3e] mb-3"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            Comunidade Mentores
+            {t.pricingExtended.mentoriaKicker}
           </p>
           <h1 className="text-[clamp(32px,4.4vw,60px)] leading-none tracking-[-.032em] font-semibold text-[#2c241f] text-balance">
             {t.pricingExtended.mentoriaTitle}
@@ -52,7 +37,7 @@ export function MentoriaSection() {
 
         <FadeIn delay={60}>
           <div className="grid md:grid-cols-3 gap-4 mt-10">
-            {PONTOS.map((p) => (
+            {t.pricingExtended.mentorPoints.map((p) => (
               <div key={p.t} className="rounded-2xl border border-[#e4ddd2] bg-[#faf9f7] p-5">
                 <p className="text-base font-semibold text-[#2c241f] mb-2">{p.t}</p>
                 <p className="text-sm text-[#5f5248] leading-relaxed">{p.d}</p>
