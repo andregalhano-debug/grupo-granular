@@ -2,18 +2,8 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Loader2, CheckCircle2, ChevronLeft, ChevronRight, CalendarDays, ChevronDown } from 'lucide-react'
 import { submitDemoBooking, type DemoBookingInput } from '../../services/demoBookingService'
 import { formatWhatsApp } from '../../utils/formatters'
-
-const WEEKDAYS_LABEL = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']
-const MONTH_NAMES = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
-
-const SEGMENTOS = [
-  'Restaurante', 'Mercado', 'Atacado', 'Atacarejo', 'Farmácia', 'Pet Shop', 'Shopping', 'Outros',
-]
-
-const FAIXAS_FATURAMENTO = [
-  'Iniciando no Delivery', 'Até 50k', '50k a 150k', '150k a 300k',
-  '300k a 500k', '500k a 1M', 'Acima de 1M',
-]
+import { useT } from '../../i18n/useT'
+import { useLanguage } from '../../stores/useLanguageStore'
 
 const TIME_SLOTS = ['09:00', '10:00', '11:00', '14:00', '15:00', '16:00']
 
@@ -42,6 +32,9 @@ export function DemoBookingForm({
 }: {
   source?: DemoBookingInput['source']
 }) {
+  const tf = useT().demoForm
+  const { lang } = useLanguage()
+  const dateLocale = lang === 'en' ? 'en-US' : 'pt-BR'
   const [company, setCompany] = useState('')
   const [segmento, setSegmento] = useState('')
   const [segmentoOutro, setSegmentoOutro] = useState('')
@@ -131,12 +124,12 @@ export function DemoBookingForm({
 
   const validate = () => {
     const e: Record<string, string> = {}
-    if (!company.trim()) e.company = 'Informe o nome da empresa'
-    if (!segmento) e.segmento = 'Selecione o segmento'
-    if (segmento === 'Outros' && !segmentoOutro.trim()) e.segmentoOutro = 'Descreva o segmento'
-    if (!name.trim()) e.name = 'Informe seu nome'
-    if (!whatsapp.trim() || whatsapp.replace(/\D/g, '').length < 10) e.whatsapp = 'Informe um WhatsApp válido'
-    if (!email.trim() || !email.includes('@')) e.email = 'Informe um e-mail válido'
+    if (!company.trim()) e.company = tf.errCompany
+    if (!segmento) e.segmento = tf.errSegment
+    if (segmento === tf.other && !segmentoOutro.trim()) e.segmentoOutro = tf.errSegmentOther
+    if (!name.trim()) e.name = tf.errName
+    if (!whatsapp.trim() || whatsapp.replace(/\D/g, '').length < 10) e.whatsapp = tf.errWhatsapp
+    if (!email.trim() || !email.includes('@')) e.email = tf.errEmail
     setErrors(e)
     return Object.keys(e).length === 0
   }
@@ -153,10 +146,10 @@ export function DemoBookingForm({
         whatsapp: whatsapp.trim(),
         company: company.trim(),
         segmento,
-        segmentoOutro: segmento === 'Outros' ? segmentoOutro.trim() : undefined,
+        segmentoOutro: segmento === tf.other ? segmentoOutro.trim() : undefined,
         faturamento: faturamento || '-',
         date: selectedDate
-          ? selectedDate.toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit', month: '2-digit' })
+          ? selectedDate.toLocaleDateString(dateLocale, { weekday: 'short', day: '2-digit', month: '2-digit' })
           : '-',
         time: time || '-',
         dateIso: dateIso || '',
@@ -164,7 +157,7 @@ export function DemoBookingForm({
       })
       setSubmitted(true)
     } catch {
-      setSubmitError('Não foi possível enviar agora. Tente de novo em instantes.')
+      setSubmitError(tf.errSend)
     } finally {
       setIsSubmitting(false)
     }
@@ -174,9 +167,9 @@ export function DemoBookingForm({
     return (
       <div className="text-[#2c241f]">
         <CheckCircle2 size={28} className="text-[#7c2d3e] mb-3" />
-        <p className="text-[19px] font-semibold">Recebemos seu interesse.</p>
+        <p className="text-[19px] font-semibold">{tf.successTitle}</p>
         <p className="mt-2 text-[15px] leading-relaxed text-[#5f5248]">
-          A equipe retorna por e-mail. Você também recebe a confirmação da demonstração.
+          {tf.successBody}
         </p>
       </div>
     )
@@ -188,44 +181,44 @@ export function DemoBookingForm({
         className="text-[11px] tracking-[.2em] uppercase text-[#7c2d3e]"
         style={{ fontFamily: "'IBM Plex Mono', monospace" }}
       >
-        Agendar demonstração
+        {tf.title}
       </p>
 
       <label className="flex flex-col gap-1 text-[13px] text-[#6b5d52]">
-        Empresa
-        <input value={company} onChange={(e) => setCompany(e.target.value)} className={field} placeholder="Nome do estabelecimento ou rede" />
+        {tf.company}
+        <input value={company} onChange={(e) => setCompany(e.target.value)} className={field} placeholder={tf.companyPh} />
         {errors.company && <span className="text-xs text-[#7c2d3e]">{errors.company}</span>}
       </label>
 
       <label className="flex flex-col gap-1 text-[13px] text-[#6b5d52]">
-        Segmento
+        {tf.segment}
         <select
           value={segmento}
           onChange={(e) => { setSegmento(e.target.value); setSegmentoOutro('') }}
           className={`${field} cursor-pointer ${!segmento ? 'text-[#8a7a6e]' : ''}`}
         >
-          <option value="">Selecione o segmento</option>
-          {SEGMENTOS.map((s) => <option key={s} value={s}>{s}</option>)}
+          <option value="">{tf.segmentPh}</option>
+          {tf.segments.map((s) => <option key={s} value={s}>{s}</option>)}
         </select>
         {errors.segmento && <span className="text-xs text-[#7c2d3e]">{errors.segmento}</span>}
       </label>
-      {segmento === 'Outros' && (
+      {segmento === tf.other && (
         <label className="flex flex-col gap-1 text-[13px] text-[#6b5d52]">
-          Qual segmento?
-          <input value={segmentoOutro} onChange={(e) => setSegmentoOutro(e.target.value)} className={field} placeholder="Descreva o segmento" />
+          {tf.segmentOther}
+          <input value={segmentoOutro} onChange={(e) => setSegmentoOutro(e.target.value)} className={field} placeholder={tf.segmentOtherPh} />
           {errors.segmentoOutro && <span className="text-xs text-[#7c2d3e]">{errors.segmentoOutro}</span>}
         </label>
       )}
 
       <label className="flex flex-col gap-1 text-[13px] text-[#6b5d52]">
-        Nome completo
-        <input value={name} onChange={(e) => setName(e.target.value)} className={field} placeholder="Seu nome e sobrenome" autoComplete="name" />
+        {tf.name}
+        <input value={name} onChange={(e) => setName(e.target.value)} className={field} placeholder={tf.namePh} autoComplete="name" />
         {errors.name && <span className="text-xs text-[#7c2d3e]">{errors.name}</span>}
       </label>
 
       <div className="grid sm:grid-cols-2 gap-3">
         <label className="flex flex-col gap-1 text-[13px] text-[#6b5d52]">
-          WhatsApp
+          {tf.whatsapp}
           <input
             type="tel"
             inputMode="numeric"
@@ -238,27 +231,27 @@ export function DemoBookingForm({
           {errors.whatsapp && <span className="text-xs text-[#7c2d3e]">{errors.whatsapp}</span>}
         </label>
         <label className="flex flex-col gap-1 text-[13px] text-[#6b5d52]">
-          E-mail
+          {tf.email}
           <input type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} className={field} placeholder="seu@email.com" />
           {errors.email && <span className="text-xs text-[#7c2d3e]">{errors.email}</span>}
         </label>
       </div>
 
       <label className="flex flex-col gap-1 text-[13px] text-[#6b5d52]">
-        Faixa de faturamento <span className="font-normal text-[#8a7a6e]">(opcional)</span>
+        {tf.revenue} <span className="font-normal text-[#8a7a6e]">{tf.optional}</span>
         <select
           value={faturamento}
           onChange={(e) => setFaturamento(e.target.value)}
           className={`${field} cursor-pointer ${!faturamento ? 'text-[#8a7a6e]' : ''}`}
         >
-          <option value="">Selecione a faixa</option>
-          {FAIXAS_FATURAMENTO.map((f) => <option key={f} value={f}>{f}</option>)}
+          <option value="">{tf.revenuePh}</option>
+          {tf.revenues.map((f) => <option key={f} value={f}>{f}</option>)}
         </select>
       </label>
 
       <div ref={calendarRef} className="relative">
         <p className="text-[13px] text-[#6b5d52] mb-1.5">
-          Dia <span className="font-normal text-[#8a7a6e]">(opcional)</span>
+          {tf.day} <span className="font-normal text-[#8a7a6e]">{tf.optional}</span>
         </p>
         <button
           type="button"
@@ -269,26 +262,26 @@ export function DemoBookingForm({
           <CalendarDays size={16} className="shrink-0 text-[#8a7a6e]" />
           <span className="flex-1 truncate capitalize">
             {selectedDate
-              ? selectedDate.toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit', month: 'short' })
-              : 'A combinar'}
+              ? selectedDate.toLocaleDateString(dateLocale, { weekday: 'short', day: '2-digit', month: 'short' })
+              : tf.toArrange}
           </span>
           <ChevronDown size={16} className={`shrink-0 text-[#8a7a6e] transition-transform ${calendarOpen ? 'rotate-180' : ''}`} />
         </button>
         {calendarOpen && (
           <div className="absolute z-20 left-0 right-0 mt-1.5 rounded-xl border border-[#e4ddd2] bg-white p-3 shadow-[0_12px_28px_-16px_rgba(44,36,31,.35)]">
             <div className="flex items-center justify-between mb-2">
-              <button type="button" onClick={prevMonth} className="p-1.5 rounded-lg hover:bg-[#f0ede8] text-[#8a7a6e] transition-colors" aria-label="Mês anterior">
+              <button type="button" onClick={prevMonth} className="p-1.5 rounded-lg hover:bg-[#f0ede8] text-[#8a7a6e] transition-colors" aria-label={tf.prevMonth}>
                 <ChevronLeft size={16} />
               </button>
               <span className="text-[13px] font-semibold text-[#2c241f] capitalize">
-                {MONTH_NAMES[viewMonth]} {viewYear}
+                {tf.months[viewMonth]} {viewYear}
               </span>
-              <button type="button" onClick={nextMonth} className="p-1.5 rounded-lg hover:bg-[#f0ede8] text-[#8a7a6e] transition-colors" aria-label="Próximo mês">
+              <button type="button" onClick={nextMonth} className="p-1.5 rounded-lg hover:bg-[#f0ede8] text-[#8a7a6e] transition-colors" aria-label={tf.nextMonth}>
                 <ChevronRight size={16} />
               </button>
             </div>
             <div className="grid grid-cols-7 mb-0.5">
-              {WEEKDAYS_LABEL.map((wd) => (
+              {tf.weekdays.map((wd) => (
                 <div key={wd} className="text-center text-[10px] font-medium text-[#8a7a6e] py-1">{wd}</div>
               ))}
             </div>
@@ -324,16 +317,16 @@ export function DemoBookingForm({
             onClick={() => { setDateIso(''); setTime('') }}
             className="mt-1.5 text-[12px] text-[#8a7a6e] hover:text-[#7c2d3e] transition-colors"
           >
-            Limpar dia — a combinar
+            {tf.clearDay}
           </button>
         ) : (
-          <p className="mt-1.5 text-[12px] text-[#8a7a6e]">Dias úteis em vinho. Sem escolha, combinamos depois.</p>
+          <p className="mt-1.5 text-[12px] text-[#8a7a6e]">{tf.weekdaysHint}</p>
         )}
       </div>
 
       {dateIso && (
         <div>
-          <p className="text-[13px] text-[#6b5d52] mb-1.5">Horário</p>
+          <p className="text-[13px] text-[#6b5d52] mb-1.5">{tf.time}</p>
           <div className="grid grid-cols-3 gap-2">
             {TIME_SLOTS.map((slot) => (
               <button
@@ -361,7 +354,7 @@ export function DemoBookingForm({
         className="mt-1 min-h-[52px] rounded-full bg-[#7c2d3e] hover:bg-[#5f2130] disabled:opacity-60 text-[#f7f2ee] text-base font-medium transition-colors inline-flex items-center justify-center gap-2"
       >
         {isSubmitting ? <Loader2 size={18} className="animate-spin" /> : null}
-        {isSubmitting ? 'Enviando…' : 'Agendar demonstração'}
+        {isSubmitting ? tf.sending : tf.submit}
       </button>
     </form>
   )

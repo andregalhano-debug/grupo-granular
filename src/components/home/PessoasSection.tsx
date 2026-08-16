@@ -1,36 +1,7 @@
-const CARDS = [
-  {
-    k: 'Recrutamento',
-    t: 'O agente contrata com você',
-    items: [
-      'Vaga pública com QR — o candidato entra direto no funil',
-      'Triagem guiada por agente no WhatsApp, pipeline em etapas',
-      'Entrevista agendada sozinha — 3 horários oferecidos, você só comparece',
-      'A decisão é sempre sua: o agente conversa, o sistema organiza',
-    ],
-    chips: ['vaga com QR', 'triagem no WhatsApp', 'entrevista agendada'],
-  },
-  {
-    k: 'Ponto & folha',
-    t: 'O mês fecha sem caçar batida',
-    items: [
-      'Batida com reconhecimento facial no tablet da loja — sem crachá, sem senha',
-      'Apuração automática: hora extra, faltas e banco de horas',
-      'Espelho individual com inconsistências apontadas, pronto para assinar',
-      'Escala, férias, holerites e eSocial na mesma base',
-    ],
-    chips: ['batida facial', 'apuração', 'espelho assinado'],
-  },
-]
-
-const METRICS = [
-  { v: '11', l: 'etapas no funil de vaga', accent: true },
-  { v: '0–100', l: 'score por pessoa' },
-  { v: 'facial', l: 'ponto sem crachá' },
-  { v: 'eSocial', l: 'na mesma base' },
-]
+import { useT } from '../../i18n/useT'
 
 export function PessoasSection() {
+  const t = useT()
   return (
     <section id="pessoas" className="px-[clamp(18px,4vw,44px)] py-[clamp(64px,7vw,112px)]">
       <div className="max-w-[1240px] mx-auto">
@@ -38,17 +9,17 @@ export function PessoasSection() {
           className="text-[11.5px] tracking-[.24em] uppercase text-[#7c2d3e]"
           style={{ fontFamily: "'IBM Plex Mono', monospace" }}
         >
-          Pessoas
+          {t.home.pessoasEyebrow}
         </p>
         <h2 className="mt-4 text-[clamp(32px,4.4vw,60px)] leading-none tracking-[-.032em] font-semibold text-[#2c241f] text-balance">
-          Do recrutamento ao cartão ponto.
+          {t.home.pessoasTitle}
         </h2>
         <p className="mt-5 text-[clamp(16px,1.5vw,19px)] leading-relaxed text-[#5f5248] max-w-[56ch] text-pretty">
-          RH inteiro dentro do sistema — sem planilha no meio. A vaga nasce com QR, o agente entrevista no WhatsApp, o ponto fecha sozinho no fim do mês.
+          {t.home.pessoasLead}
         </p>
 
         <div className="grid md:grid-cols-2 gap-[clamp(16px,2vw,24px)] mt-[clamp(28px,3.5vw,44px)]">
-          {CARDS.map((c) => (
+          {t.home.pessoasCards.map((c) => (
             <div
               key={c.k}
               className="bg-[#faf9f7] border border-[#e4ddd2] rounded-2xl p-[clamp(22px,2.4vw,32px)] flex flex-col gap-3.5"
@@ -87,10 +58,10 @@ export function PessoasSection() {
         </div>
 
         <div className="mt-[clamp(26px,3vw,40px)] pt-6 border-t border-[#e4ddd2] grid grid-cols-2 sm:grid-cols-4 gap-4">
-          {METRICS.map((m) => (
+          {t.home.pessoasMetrics.map((m, i) => (
             <div
               key={m.l}
-              className={`flex flex-col gap-1.5 pl-3.5 border-l-2 ${m.accent ? 'border-[#7c2d3e]' : 'border-[#e4ddd2]'}`}
+              className={`flex flex-col gap-1.5 pl-3.5 border-l-2 ${i === 0 ? 'border-[#7c2d3e]' : 'border-[#e4ddd2]'}`}
             >
               <span
                 className="text-[26px] leading-none text-[#2c241f] tabular-nums"

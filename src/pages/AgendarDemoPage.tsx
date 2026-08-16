@@ -7,19 +7,9 @@ import { getDemoBookings } from '../data/demoSlots'
 import { submitDemoBooking } from '../services/demoBookingService'
 import { formatWhatsApp } from '../utils/formatters'
 import { parseCtaOrigem, ctaOrigemLabel, CTA_ORIGEM } from '../data/ctaOrigem'
-
-const SEGMENTOS = [
-  'Restaurante', 'Mercado', 'Atacado', 'Atacarejo', 'Farmácia', 'Pet Shop', 'Shopping', 'Outros',
-]
-
-const FAIXAS_FATURAMENTO = [
-  'Iniciando no Delivery', 'Até 50k', '50k a 150k', '150k a 300k',
-  '300k a 500k', '500k a 1M', 'Acima de 1M',
-]
+import { useT } from '../i18n/useT'
 
 const TIME_SLOTS = ['09:00', '10:00', '11:00', '14:00', '15:00', '16:00']
-const WEEKDAYS_LABEL = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']
-const MONTH_NAMES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro']
 
 const inputClass = (hasError: boolean) =>
   `w-full min-h-11 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border text-base outline-none transition-colors ${
@@ -48,6 +38,7 @@ function slotKey(date: Date, time: string) {
 }
 
 export function AgendarDemoPage() {
+  const tf = useT().demoForm
   const [searchParams] = useSearchParams()
   const origem = parseCtaOrigem(searchParams.get('origem'))
   const origemLabel = ctaOrigemLabel(origem)
@@ -126,12 +117,12 @@ export function AgendarDemoPage() {
 
   const validate = () => {
     const e: Record<string, string> = {}
-    if (!company.trim()) e.company = 'Informe o nome da empresa'
-    if (!segmento) e.segmento = 'Selecione o segmento'
-    if (segmento === 'Outros' && !segmentoOutro.trim()) e.segmentoOutro = 'Descreva o segmento'
-    if (!name.trim()) e.name = 'Informe seu nome'
-    if (!whatsapp.trim() || whatsapp.replace(/\D/g, '').length < 10) e.whatsapp = 'Informe um WhatsApp válido'
-    if (!email.trim() || !email.includes('@')) e.email = 'Informe um e-mail válido'
+    if (!company.trim()) e.company = tf.errCompany
+    if (!segmento) e.segmento = tf.errSegment
+    if (segmento === tf.other && !segmentoOutro.trim()) e.segmentoOutro = tf.errSegmentOther
+    if (!name.trim()) e.name = tf.errName
+    if (!whatsapp.trim() || whatsapp.replace(/\D/g, '').length < 10) e.whatsapp = tf.errWhatsapp
+    if (!email.trim() || !email.includes('@')) e.email = tf.errEmail
     setErrors(e)
     return Object.keys(e).length === 0
   }
@@ -148,7 +139,7 @@ export function AgendarDemoPage() {
         whatsapp: whatsapp.trim(),
         company: company.trim(),
         segmento,
-        segmentoOutro: segmento === 'Outros' ? segmentoOutro.trim() : undefined,
+        segmentoOutro: segmento === tf.other ? segmentoOutro.trim() : undefined,
         faturamento: faturamento || '-',
         date: selectedDate
           ? selectedDate.toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit', month: '2-digit' })
@@ -159,7 +150,7 @@ export function AgendarDemoPage() {
       })
       setSubmitted(true)
     } catch {
-      setSubmitError('Não foi possível enviar agora. Tente novamente em instantes ou fale com a gente pelo WhatsApp.')
+      setSubmitError(tf.errSend)
     } finally {
       setIsSubmitting(false)
     }
@@ -234,7 +225,7 @@ export function AgendarDemoPage() {
       <main className="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
         <div className="mb-6 sm:mb-8">
           <h1 className="text-xl sm:text-2xl font-bold text-[#0E0E0F] mb-1">
-            {origem !== CTA_ORIGEM.demo ? origemLabel : 'Agendar demonstração'}
+            {origem !== CTA_ORIGEM.demo ? origemLabel : tf.title}
           </h1>
           <p className="text-xs sm:text-sm text-[#9C958A]">
             {origem !== CTA_ORIGEM.demo
@@ -249,45 +240,45 @@ export function AgendarDemoPage() {
             <h2 className="text-sm font-bold text-[#0E0E0F]">Seus dados</h2>
 
             <div>
-              <label className="block text-xs font-medium text-[#0E0E0F] mb-1.5">Empresa</label>
+              <label className="block text-xs font-medium text-[#0E0E0F] mb-1.5">{tf.company}</label>
               <input type="text" value={company} onChange={(e) => setCompany(e.target.value)}
-                className={inputClass(!!errors.company)} placeholder="Nome do estabelecimento ou rede" autoFocus />
+                className={inputClass(!!errors.company)} placeholder={tf.companyPh} autoFocus />
               {errors.company && <p className="text-xs text-red-500 mt-1">{errors.company}</p>}
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-[#0E0E0F] mb-1.5">Segmento</label>
+              <label className="block text-xs font-medium text-[#0E0E0F] mb-1.5">{tf.segment}</label>
               <select value={segmento} onChange={(e) => { setSegmento(e.target.value); setSegmentoOutro('') }}
                 className={`${inputClass(!!errors.segmento)} cursor-pointer ${!segmento ? 'text-[#9C958A]' : 'text-[#0E0E0F]'}`}>
-                <option value="">Selecione o segmento</option>
-                {SEGMENTOS.map((s) => <option key={s} value={s}>{s}</option>)}
+                <option value="">{tf.segmentPh}</option>
+                {tf.segments.map((s) => <option key={s} value={s}>{s}</option>)}
               </select>
               {errors.segmento && <p className="text-xs text-red-500 mt-1">{errors.segmento}</p>}
-              {segmento === 'Outros' && (
+              {segmento === tf.other && (
                 <div className="mt-2">
                   <input type="text" value={segmentoOutro} onChange={(e) => setSegmentoOutro(e.target.value)}
-                    className={inputClass(!!errors.segmentoOutro)} placeholder="Descreva o segmento" />
+                    className={inputClass(!!errors.segmentoOutro)} placeholder={tf.segmentOtherPh} />
                   {errors.segmentoOutro && <p className="text-xs text-red-500 mt-1">{errors.segmentoOutro}</p>}
                 </div>
               )}
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-[#0E0E0F] mb-1.5">Nome completo</label>
+              <label className="block text-xs font-medium text-[#0E0E0F] mb-1.5">{tf.name}</label>
               <input type="text" value={name} onChange={(e) => setName(e.target.value)}
-                className={inputClass(!!errors.name)} placeholder="Seu nome e sobrenome" />
+                className={inputClass(!!errors.name)} placeholder={tf.namePh} />
               {errors.name && <p className="text-xs text-red-500 mt-1">{errors.name}</p>}
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-[#0E0E0F] mb-1.5">WhatsApp</label>
+              <label className="block text-xs font-medium text-[#0E0E0F] mb-1.5">{tf.whatsapp}</label>
               <input type="tel" inputMode="numeric" autoComplete="tel" value={whatsapp} onChange={(e) => setWhatsapp(formatWhatsApp(e.target.value))}
                 className={inputClass(!!errors.whatsapp)} placeholder="(31) 99999-9999" />
               {errors.whatsapp && <p className="text-xs text-red-500 mt-1">{errors.whatsapp}</p>}
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-[#0E0E0F] mb-1.5">E-mail</label>
+              <label className="block text-xs font-medium text-[#0E0E0F] mb-1.5">{tf.email}</label>
               <input type="email" value={email} onChange={(e) => setEmail(e.target.value)}
                 className={inputClass(!!errors.email)} placeholder="seu@email.com" />
               {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email}</p>}
@@ -295,12 +286,12 @@ export function AgendarDemoPage() {
 
             <div>
               <label className="block text-xs font-medium text-[#0E0E0F] mb-1.5">
-                Faixa de faturamento <span className="text-[#9C958A] font-normal">(opcional)</span>
+                {tf.revenue} <span className="text-[#9C958A] font-normal">{tf.optional}</span>
               </label>
               <select value={faturamento} onChange={(e) => setFaturamento(e.target.value)}
                 className={`${inputClass(false)} cursor-pointer ${!faturamento ? 'text-[#9C958A]' : 'text-[#0E0E0F]'}`}>
-                <option value="">Selecione a faixa</option>
-                {FAIXAS_FATURAMENTO.map((f) => <option key={f} value={f}>{f}</option>)}
+                <option value="">{tf.revenuePh}</option>
+                {tf.revenues.map((f) => <option key={f} value={f}>{f}</option>)}
               </select>
             </div>
           </div>
@@ -323,7 +314,7 @@ export function AgendarDemoPage() {
                   <ChevronLeft size={16} />
                 </button>
                 <span className="text-sm font-semibold text-[#0E0E0F] capitalize">
-                  {MONTH_NAMES[viewMonth]} {viewYear}
+                  {tf.months[viewMonth]} {viewYear}
                 </span>
                 <button type="button" onClick={nextMonth}
                   className="p-1.5 rounded-lg hover:bg-[#F7F7F7] text-[#9C958A] transition-colors">
@@ -333,7 +324,7 @@ export function AgendarDemoPage() {
 
               {/* Cabeçalho dias da semana */}
               <div className="grid grid-cols-7 mb-1">
-                {WEEKDAYS_LABEL.map((wd) => (
+                {tf.weekdays.map((wd) => (
                   <div key={wd} className="text-center text-[10px] font-medium text-[#9C958A] py-1">{wd}</div>
                 ))}
               </div>
@@ -418,7 +409,7 @@ export function AgendarDemoPage() {
               className="w-full flex items-center justify-center gap-2 bg-[#A31631] hover:bg-[#7A1025] disabled:opacity-60 disabled:cursor-not-allowed text-white font-medium py-3.5 sm:py-4 px-6 rounded-xl text-sm transition-colors cursor-pointer"
             >
               {isSubmitting
-                ? <><Loader2 size={16} className="animate-spin" /> Enviando...</>
+                ? <><Loader2 size={16} className="animate-spin" /> {tf.sending}</>
                 : selectedDate && selectedTime
                   ? <><CalendarDays size={16} /> Confirmar agendamento</>
                   : <><Send size={16} /> Enviar — Entraremos em contato</>

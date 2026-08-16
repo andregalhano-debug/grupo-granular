@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom'
 import { GranularLogo } from '../components/GranularLogo'
+import { SitePrefs } from '../components/SitePrefs'
 import { useCookieConsent } from '../stores/useCookieConsent'
 import { CookiePreferencesModal } from '../components/CookiePreferencesModal'
+import { useLanguage } from '../stores/useLanguageStore'
+import { useT } from '../i18n/useT'
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -69,6 +72,8 @@ const cookieCategories = [
 
 export function CookiesPage() {
   const { setModalOpen } = useCookieConsent()
+  const { lang } = useLanguage()
+  const t = useT()
 
   return (
     <div className="min-h-screen bg-[#F7F7F7]">
@@ -83,6 +88,7 @@ export function CookiesPage() {
           <div className="flex items-center gap-4 text-xs text-[#9C958A]">
             <Link to="/termos" className="hover:text-[#0E0E0F] transition-colors">Termos de Uso</Link>
             <Link to="/privacidade" className="hover:text-[#0E0E0F] transition-colors">Privacidade</Link>
+            <SitePrefs />
           </div>
         </div>
       </header>
@@ -94,6 +100,7 @@ export function CookiesPage() {
             Cookies
           </p>
           <h1 className="text-3xl font-bold text-[#0E0E0F] mb-3">Política de Cookies</h1>
+          {lang === 'en' && <p className="text-sm text-[#9C958A] mb-3">{t.legalNotice}</p>}
           <p className={p}>Última atualização: 13 de junho de 2026.</p>
           <div className="bg-[#F7F7F7] border border-[#0E0E0F]/10 rounded-xl p-4 text-sm text-[#4B4B4B] leading-relaxed">
             Esta Política explica o que são cookies, quais utilizamos, para que servem e como você pode gerenciá-los. Ao continuar navegando em nosso site ou utilizando a plataforma, você concorda com o uso de cookies conforme descrito abaixo, exceto onde o seu consentimento for expressamente solicitado.

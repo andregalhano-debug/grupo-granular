@@ -2,8 +2,10 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Mail, Lock, Loader2 } from 'lucide-react'
 import { supabase } from '../lib/supabase'
+import { useT } from '../i18n/useT'
 
 export function MentorLoginPage() {
+  const t = useT()
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -40,14 +42,14 @@ export function MentorLoginPage() {
             </svg>
             <span className="text-lg font-bold text-[#0E0E0F]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>granular</span>
           </a>
-          <h1 className="text-xl font-bold text-[#0E0E0F] mb-2">Painel do Mentor</h1>
-          <p className="text-sm text-[#9C958A]">Acesse sua área exclusiva</p>
+          <h1 className="text-xl font-bold text-[#0E0E0F] mb-2">{t.mentorLogin.title}</h1>
+          <p className="text-sm text-[#9C958A]">{t.mentorLogin.subtitle}</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-3">
           <div>
             <label className="flex items-center gap-2 text-sm font-medium text-[#0E0E0F] mb-1.5">
-              <Mail size={14} className="text-[#9C958A]" /> E-mail
+              <Mail size={14} className="text-[#9C958A]" /> {t.mentorLogin.email}
             </label>
             <input
               type="email"
@@ -61,7 +63,7 @@ export function MentorLoginPage() {
 
           <div>
             <label className="flex items-center gap-2 text-sm font-medium text-[#0E0E0F] mb-1.5">
-              <Lock size={14} className="text-[#9C958A]" /> Senha
+              <Lock size={14} className="text-[#9C958A]" /> {t.mentorLogin.password}
             </label>
             <input
               type="password"
@@ -82,13 +84,13 @@ export function MentorLoginPage() {
             disabled={loading}
             className="w-full flex items-center justify-center gap-2 bg-[#A31631] hover:bg-[#7A1025] disabled:opacity-70 text-white font-medium py-3 px-6 rounded-xl text-sm transition-colors"
           >
-            {loading ? <><Loader2 size={16} className="animate-spin" /> Entrando...</> : 'Entrar'}
+            {loading ? <><Loader2 size={16} className="animate-spin" /> {t.mentorLogin.entering}</> : t.mentorLogin.enter}
           </button>
         </form>
 
         <p className="text-xs text-center text-[#9C958A] mt-6">
-          Ainda não é mentor?{' '}
-          <a href="/seja-mentor" className="text-[#A31631] hover:underline">Candidate-se aqui</a>
+          {t.mentorLogin.notYet}{' '}
+          <a href="/seja-mentor" className="text-[#A31631] hover:underline">{t.mentorLogin.apply}</a>
         </p>
       </div>
     </div>

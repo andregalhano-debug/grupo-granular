@@ -1,6 +1,7 @@
 import { Sun, Moon } from 'lucide-react'
 import { useTheme } from '../stores/useThemeStore'
 import { useLanguage } from '../stores/useLanguageStore'
+import { useT } from '../i18n/useT'
 
 type Tone = 'light' | 'footer'
 
@@ -18,15 +19,16 @@ const tones: Record<Tone, { btn: string; active: string }> = {
 export function SitePrefs({ tone = 'light' }: { tone?: Tone }) {
   const { theme, toggle } = useTheme()
   const { lang, toggle: toggleLang } = useLanguage()
+  const { prefs } = useT()
   const c = tones[tone]
 
   return (
-    <div className="inline-flex items-center gap-1" role="group" aria-label="Idioma e aparência">
+    <div className="inline-flex items-center gap-1" role="group" aria-label={prefs.group}>
       <button
         type="button"
         onClick={toggle}
-        title={theme === 'dark' ? 'Modo claro' : 'Modo escuro'}
-        aria-label={theme === 'dark' ? 'Ativar modo claro' : 'Ativar modo escuro'}
+        title={theme === 'dark' ? prefs.darkOn : prefs.darkOff}
+        aria-label={theme === 'dark' ? prefs.darkOn : prefs.darkOff}
         className={`inline-flex items-center justify-center min-h-11 min-w-11 p-2 rounded-lg transition-colors ${c.btn}`}
       >
         {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
@@ -34,8 +36,8 @@ export function SitePrefs({ tone = 'light' }: { tone?: Tone }) {
       <button
         type="button"
         onClick={toggleLang}
-        title={lang === 'pt' ? 'Switch to English' : 'Mudar para português'}
-        aria-label={lang === 'pt' ? 'Mudar idioma para inglês' : 'Mudar idioma para português'}
+        title={lang === 'pt' ? prefs.langToEn : prefs.langToPt}
+        aria-label={lang === 'pt' ? prefs.langToEn : prefs.langToPt}
         className={`inline-flex items-center justify-center min-h-11 min-w-11 px-2 rounded-lg text-[11px] font-semibold tracking-wide transition-colors ${c.btn} ${c.active}`}
       >
         {lang === 'pt' ? 'EN' : 'PT'}

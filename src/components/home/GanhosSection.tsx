@@ -1,25 +1,7 @@
-const CARDS = [
-  {
-    k: 'Economize',
-    t: 'Funções que o sistema absorve',
-    items: ['Analista de relatórios', 'Conciliação manual', 'Planilheiro de compras'],
-    foot: 'horas devolvidas, todo dia',
-  },
-  {
-    k: 'Venda mais',
-    t: 'Receita que o sistema destrava',
-    items: ['Cardápio reposicionado por turno', 'Promoção com ROI medido, sem campanha zumbi', 'Cliente em alerta recuperado antes de sumir'],
-    foot: 'o item certo, na vitrine certa',
-  },
-  {
-    k: 'Compre melhor',
-    t: 'Custo que o sistema corta',
-    items: ['Lista de compras pela previsão, não pelo susto', 'Zero ruptura = zero venda perdida', 'CMV real e capital parado à mostra'],
-    foot: 'margem defendida na compra',
-  },
-]
+import { useT } from '../../i18n/useT'
 
 export function GanhosSection() {
+  const t = useT()
   return (
     <section id="ganhos" className="bg-[#e9e4da] px-[clamp(18px,4vw,44px)] py-[clamp(64px,7vw,112px)]">
       <div className="max-w-[1240px] mx-auto">
@@ -27,15 +9,15 @@ export function GanhosSection() {
           className="text-[11.5px] tracking-[.24em] uppercase text-[#7c2d3e]"
           style={{ fontFamily: "'IBM Plex Mono', monospace" }}
         >
-          O que você ganha
+          {t.home.ganhosEyebrow}
         </p>
         <h2 className="mt-4 text-[clamp(32px,4.4vw,60px)] leading-none tracking-[-.032em] font-semibold text-[#2c241f] text-balance">
-          O sistema que se paga.
+          {t.home.ganhosTitle1}
           <br />
-          E ainda, sobra.
+          {t.home.ganhosTitle2}
         </h2>
         <div className="grid md:grid-cols-3 gap-[clamp(16px,2vw,24px)] mt-[clamp(32px,4vw,52px)]">
-          {CARDS.map((c) => (
+          {t.home.ganhosCards.map((c) => (
             <div
               key={c.k}
               className="bg-[#faf9f7] border border-[#e4ddd2] rounded-2xl p-[clamp(22px,2.4vw,32px)] flex flex-col gap-3.5"

@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import { Send } from 'lucide-react'
 import type { ChatMessage } from '../../hooks/useChatbot'
 import { GranularLogo } from '../GranularLogo'
+import { useT } from '../../i18n/useT'
 
 interface ChatbotPanelProps {
   messages: ChatMessage[]
@@ -23,6 +24,7 @@ function TypingIndicator() {
 }
 
 export function ChatbotPanel({ messages, isTyping, onSend, agentName }: ChatbotPanelProps) {
+  const { chatbotUi } = useT()
   const [input, setInput] = useState('')
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -54,7 +56,7 @@ export function ChatbotPanel({ messages, isTyping, onSend, agentName }: ChatbotP
         <div>
           <span className="text-sm font-semibold text-white block leading-tight">{agentName}</span>
           <span className="text-[10px] text-white/70 leading-tight">
-            {isTyping ? 'digitando…' : 'online'}
+            {isTyping ? chatbotUi.typing : chatbotUi.online}
           </span>
         </div>
       </div>
@@ -101,7 +103,7 @@ export function ChatbotPanel({ messages, isTyping, onSend, agentName }: ChatbotP
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Mensagem"
+          placeholder={chatbotUi.placeholder}
           className="flex-1 min-h-11 text-base px-3 py-2 rounded-lg border border-[#0E0E0F]/10 outline-none focus:border-[var(--accent)] transition-colors"
         />
         <button

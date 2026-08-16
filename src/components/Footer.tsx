@@ -3,19 +3,18 @@ import { GranularLogo } from './GranularLogo'
 import { useT } from '../i18n/useT'
 import { SitePrefs } from './SitePrefs'
 
-const PRODUCT_ITEMS = [
-  { label: 'A Granu',           href: '/granu',         badge: null },
-  { label: 'Granular Food',     href: '/restaurantes',  badge: null },
-  { label: 'Granular Market',   href: '/mercados',      badge: null },
-  { label: 'Granular Farma',    href: '/farmacias',     badge: null },
-  { label: 'Granular Pet',      href: '/petshop',       badge: null },
-  { label: 'Granular Shopping', href: '/shopping',      badge: null },
-  { label: 'Módulo Televendas', href: '/agendar-demo?origem=modulo-televendas', badge: 'avulso' },
-  { label: 'Módulo Pessoas',    href: '/agendar-demo?origem=modulo-pessoas',    badge: 'avulso' },
-]
-
 export function Footer() {
   const t = useT()
+  const productItems = [
+    { label: t.nav.granu, href: '/granu', badge: null as string | null },
+    { label: 'Granular Food', href: '/restaurantes', badge: null },
+    { label: 'Granular Market', href: '/mercados', badge: null },
+    { label: 'Granular Farma', href: '/farmacias', badge: null },
+    { label: 'Granular Pet', href: '/petshop', badge: null },
+    { label: 'Granular Shopping', href: '/shopping', badge: null },
+    { label: t.footerExtra.televendas, href: '/agendar-demo?origem=modulo-televendas', badge: t.footerExtra.addon },
+    { label: t.footerExtra.pessoas, href: '/agendar-demo?origem=modulo-pessoas', badge: t.footerExtra.addon },
+  ]
 
   return (
     <footer className="bg-[#5a1e2c] text-[#dcb9ad]">
@@ -47,7 +46,7 @@ export function Footer() {
               {t.footer.sections.product}
             </h4>
             <ul className="space-y-2.5">
-              {PRODUCT_ITEMS.map((item) => (
+              {productItems.map((item) => (
                 <li key={item.label} className="flex items-center gap-2">
                   {item.href.startsWith('/') && !item.href.includes('#') ? (
                     <Link to={item.href} className="text-[14.5px] text-[#dcb9ad] hover:text-[#f7f2ee] transition-colors">
@@ -76,11 +75,11 @@ export function Footer() {
               {t.footer.sections.company}
             </h4>
             <ul className="space-y-2.5">
-              <li><Link to="/especialista" className="text-[14.5px] text-[#dcb9ad] hover:text-[#f7f2ee] transition-colors">Especialista sob demanda</Link></li>
-              <li><Link to="/comunidade-mentores" className="text-[14.5px] text-[#dcb9ad] hover:text-[#f7f2ee] transition-colors">Comunidade Mentores</Link></li>
-              <li><a href="/#integracoes" className="text-[14.5px] text-[#dcb9ad] hover:text-[#f7f2ee] transition-colors">Integrações</a></li>
-              <li><a href="/#faq" className="text-[14.5px] text-[#dcb9ad] hover:text-[#f7f2ee] transition-colors">Perguntas frequentes</a></li>
-              <li><a href="/#seguranca" className="text-[14.5px] text-[#dcb9ad] hover:text-[#f7f2ee] transition-colors">Segurança</a></li>
+              <li><Link to="/especialista" className="text-[14.5px] text-[#dcb9ad] hover:text-[#f7f2ee] transition-colors">{t.footerExtra.specialist}</Link></li>
+              <li><Link to="/comunidade-mentores" className="text-[14.5px] text-[#dcb9ad] hover:text-[#f7f2ee] transition-colors">{t.footerExtra.community}</Link></li>
+              <li><a href="/#integracoes" className="text-[14.5px] text-[#dcb9ad] hover:text-[#f7f2ee] transition-colors">{t.footerExtra.integrations}</a></li>
+              <li><a href="/#faq" className="text-[14.5px] text-[#dcb9ad] hover:text-[#f7f2ee] transition-colors">{t.footerExtra.faq}</a></li>
+              <li><a href="/#seguranca" className="text-[14.5px] text-[#dcb9ad] hover:text-[#f7f2ee] transition-colors">{t.footerExtra.security}</a></li>
               <li><a href="/#contato" className="text-[14.5px] text-[#dcb9ad] hover:text-[#f7f2ee] transition-colors">{t.footer.links.contact}</a></li>
             </ul>
           </div>

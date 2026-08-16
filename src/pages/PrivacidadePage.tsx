@@ -1,5 +1,8 @@
 import { Link } from 'react-router-dom'
 import { GranularLogo } from '../components/GranularLogo'
+import { SitePrefs } from '../components/SitePrefs'
+import { useLanguage } from '../stores/useLanguageStore'
+import { useT } from '../i18n/useT'
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -56,6 +59,8 @@ const p = "text-sm text-[#4B4B4B] leading-relaxed mb-3"
 const li = "text-sm text-[#4B4B4B] leading-relaxed"
 
 export function PrivacidadePage() {
+  const { lang } = useLanguage()
+  const t = useT()
   return (
     <div className="min-h-screen bg-[#F7F7F7]">
       {/* Header */}
@@ -68,6 +73,7 @@ export function PrivacidadePage() {
           <div className="flex items-center gap-4 text-xs text-[#9C958A]">
             <Link to="/termos" className="hover:text-[#0E0E0F] transition-colors">Termos de Uso</Link>
             <Link to="/cookies" className="hover:text-[#0E0E0F] transition-colors">Cookies</Link>
+            <SitePrefs />
           </div>
         </div>
       </header>
@@ -79,6 +85,7 @@ export function PrivacidadePage() {
             Privacidade
           </p>
           <h1 className="text-3xl font-bold text-[#0E0E0F] mb-3">Política de Privacidade</h1>
+          {lang === 'en' && <p className="text-sm text-[#9C958A] mb-3">{t.legalNotice}</p>}
           <p className={p}>Última atualização: 14 de agosto de 2026. Em conformidade com a LGPD (Lei nº 13.709/2018).</p>
           <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 text-sm text-blue-800 leading-relaxed">
             O Grupo Granular está comprometido com a proteção de seus dados pessoais. Esta Política descreve como coletamos, usamos, armazenamos e compartilhamos informações de todos os perfis que interagem com nossa plataforma.
