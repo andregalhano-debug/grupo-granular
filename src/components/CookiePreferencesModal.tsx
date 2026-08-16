@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { X } from 'lucide-react'
 import { useCookieConsent, type CookiePreferences } from '../stores/useCookieConsent'
+import { useT } from '../i18n/useT'
 
 interface Category {
   key: keyof CookiePreferences
@@ -8,23 +9,13 @@ interface Category {
   desc: string
 }
 
-const CATEGORIES: Category[] = [
-  {
-    key: 'analytics',
-    label: 'Analíticos e de Desempenho',
-    desc: 'Nos ajudam a entender como você usa o site para melhorar a experiência. Dados agregados e anônimos.',
-  },
-  {
-    key: 'functional',
-    label: 'Funcionais e de Preferências',
-    desc: 'Permitem que o site lembre suas preferências, como idioma e segmento selecionado.',
-  },
-  {
-    key: 'marketing',
-    label: 'Marketing e Rastreamento',
-    desc: 'Usados para exibir anúncios relevantes e medir campanhas. Podem ser compartilhados com parceiros.',
-  },
-]
+function cookieCategories(c: ReturnType<typeof useT>['cookiesUi']): Category[] {
+  return [
+    { key: 'analytics', label: c.analytics, desc: c.analyticsDesc },
+    { key: 'functional', label: c.functional, desc: c.functionalDesc },
+    { key: 'marketing', label: c.marketing, desc: c.marketingDesc },
+  ]
+}
 
 function Toggle({ checked, onChange }: { checked: boolean; onChange: (v: boolean) => void }) {
   return (
@@ -48,6 +39,7 @@ function Toggle({ checked, onChange }: { checked: boolean; onChange: (v: boolean
 
 export function CookiePreferencesModal() {
   const { modalOpen, setModalOpen, preferences, acceptAll, rejectAll, savePreferences } = useCookieConsent()
+  const { cookiesUi: c } = useT()
   const [local, setLocal] = useState<CookiePreferences>(preferences)
 
   useEffect(() => {
@@ -74,8 +66,8 @@ export function CookiePreferencesModal() {
         {/* Header */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-[#0E0E0F]/10 shrink-0">
           <div>
-            <p className="text-sm font-bold text-[#0E0E0F]">Preferências de Cookies</p>
-            <p className="text-xs text-[#9C958A] mt-0.5">Personalize quais cookies aceitar</p>
+            <p className="text-sm font-bold text-[#0E0E0F]">{c.modalTitle}</p>
+            <p className="text-xs text-[#9C958A] mt-0.5">{c.modalSubtitle}</p>
           </div>
           <button
             type="button"
@@ -91,17 +83,17 @@ export function CookiePreferencesModal() {
           {/* Always on */}
           <div className="flex items-start justify-between gap-4 p-3 rounded-xl bg-emerald-50 border border-emerald-200">
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-emerald-800">Estritamente Necessários</p>
+              <p className="text-sm font-semibold text-emerald-800">{c.necessary}</p>
               <p className="text-xs text-emerald-700 mt-0.5 leading-relaxed">
-                Essenciais para o funcionamento do site. Não podem ser desativados.
+                {c.necessaryDesc}
               </p>
             </div>
             <span className="shrink-0 text-[10px] font-bold text-emerald-700 bg-emerald-100 border border-emerald-200 px-2 py-1 rounded-full uppercase tracking-wide">
-              Sempre ativo
+              {c.alwaysOn}
             </span>
           </div>
 
-          {CATEGORIES.map((cat) => (
+          {cookieCategories(c).map((cat) => (
             <div key={cat.key} className="flex items-start justify-between gap-4 p-3 rounded-xl border border-[#0E0E0F]/10">
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-semibold text-[#0E0E0F]">{cat.label}</p>
@@ -121,21 +113,21 @@ export function CookiePreferencesModal() {
             onClick={() => { rejectAll() }}
             className="flex-1 text-xs font-medium px-4 py-2.5 rounded-xl border border-[#0E0E0F]/15 text-[#9C958A] hover:bg-[#F7F7F7] transition-colors"
           >
-            Recusar todos
+            {c.rejectAll}
           </button>
           <button
             type="button"
             onClick={() => savePreferences(local)}
             className="flex-1 text-xs font-semibold px-4 py-2.5 rounded-xl border border-[#A31631] text-[#A31631] hover:bg-[#A31631]/5 transition-colors"
           >
-            Salvar preferências
+            {c.save}
           </button>
           <button
             type="button"
             onClick={() => { acceptAll() }}
             className="flex-1 text-xs font-semibold px-4 py-2.5 rounded-xl bg-[#A31631] hover:bg-[#7A1025] text-white transition-colors"
           >
-            Aceitar todos
+            {c.accept}
           </button>
         </div>
       </div>

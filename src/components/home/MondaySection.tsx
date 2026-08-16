@@ -1,24 +1,7 @@
-const ITEMS = [
-  {
-    before: 'Fechar o mês em duas semanas',
-    after: 'DRE com forecast pronto',
-    accent: 'em segundos',
-  },
-  {
-    before: 'Conferir o repasse do iFood na planilha',
-    after: 'Conciliação',
-    accent: 'pedido a pedido',
-    suffix: ', automática.',
-  },
-  {
-    before: 'Descobrir a ruptura quando o cliente pede',
-    after: 'A Granu avisa',
-    accent: 'dias antes',
-    suffix: ' de faltar.',
-  },
-]
+import { useT } from '../../i18n/useT'
 
 export function MondaySection() {
+  const t = useT()
   return (
     <section className="bg-[#241d1a] text-[#f0ede8] px-[clamp(18px,4vw,44px)] py-[clamp(48px,5.5vw,80px)]">
       <div className="max-w-[1240px] mx-auto">
@@ -26,10 +9,10 @@ export function MondaySection() {
           className="text-[11.5px] tracking-[.24em] uppercase text-[#c9a27a]"
           style={{ fontFamily: "'IBM Plex Mono', monospace" }}
         >
-          O que muda na segunda-feira
+          {t.home.mondayEyebrow}
         </p>
         <div className="grid md:grid-cols-3 gap-[clamp(18px,2.5vw,32px)] mt-7">
-          {ITEMS.map((item) => (
+          {t.home.monday.map((item) => (
             <div key={item.before} className="flex flex-col gap-3">
               <span
                 className="text-[12.5px] tracking-[.12em] uppercase text-[#8d7d70] line-through"

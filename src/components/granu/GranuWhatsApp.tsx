@@ -49,7 +49,7 @@ function PhoneShell({
   children: ReactNode
 }) {
   return (
-    <div className="w-full max-w-[248px] sm:w-[248px] sm:max-w-none lg:w-[268px] h-[460px] sm:h-[500px] lg:h-[520px] flex flex-col rounded-[26px] bg-[#E4DDD2] p-[3px] shadow-[0_10px_28px_rgba(36,29,26,.12)]">
+    <div className="granu-device w-full max-w-[248px] sm:w-[248px] sm:max-w-none lg:w-[268px] h-[460px] sm:h-[500px] lg:h-[520px] flex flex-col rounded-[26px] bg-[#E4DDD2] p-[3px] shadow-[0_10px_28px_rgba(36,29,26,.12)]">
       <div className="flex-1 min-h-0 flex flex-col rounded-[23px] overflow-hidden bg-[#FAF9F7]">
         <div className="flex items-center gap-2.5 px-3 py-2.5 bg-[#F7F5F1] border-b border-[#E4DDD2] shrink-0">
           <span className="w-8 h-8 rounded-full bg-[#A31631] text-[#FAF7F0] text-[13px] font-semibold flex items-center justify-center shrink-0" style={{ fontFamily: "'JetBrains Mono', monospace" }}>G</span>

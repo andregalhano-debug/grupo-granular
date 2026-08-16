@@ -18,13 +18,6 @@ export const categoryAccent: Record<Category, { primary: string; light: string; 
   shopping:     { primary: '#6B3F1F', light: '#6B3F1F/10', border: '#6B3F1F/20' },
 }
 
-const METRICS = [
-  { v: '+80', l: 'IDs em produção', accent: true },
-  { v: '14+', l: 'módulos integrados' },
-  { v: '~140', l: 'ferramentas de IA' },
-  { v: '24/7', l: 'monitores vigiando' },
-]
-
 export function Hero(_props: Props) {
   const t = useT()
 
@@ -89,10 +82,10 @@ export function Hero(_props: Props) {
       </div>
 
       <div className="max-w-[1240px] mx-auto mt-[clamp(28px,4vw,52px)] pt-[26px] border-t border-[#e4ddd2] grid grid-cols-2 sm:grid-cols-4 gap-5">
-        {METRICS.map((m) => (
+        {t.heroMetrics.map((m, i) => (
           <div
             key={m.l}
-            className={`flex flex-col gap-1.5 pl-4 border-l-2 ${m.accent ? 'border-[#7c2d3e]' : 'border-[#e4ddd2]'}`}
+            className={`flex flex-col gap-1.5 pl-4 border-l-2 ${i === 0 ? 'border-[#7c2d3e]' : 'border-[#e4ddd2]'}`}
           >
             <span
               className="text-[clamp(24px,2.6vw,32px)] leading-none text-[#2c241f] tabular-nums"
