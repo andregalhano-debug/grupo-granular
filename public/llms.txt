@@ -1,6 +1,6 @@
 # Grupo Granular
 
-> Sistema de gestão completo e mentoria especializada para delivery e food service.
+> Gestão para restaurantes, mercados, farmácias, pet e shopping. A Granu é a IA do sistema inteiro: operação, estoque, financeiro e iFood.
 
 ## Sobre
 
