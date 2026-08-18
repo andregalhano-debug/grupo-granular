@@ -50,6 +50,20 @@
         { "key": "Cache-Control", "value": "public, max-age=604800, immutable" },
         { "key": "Access-Control-Allow-Origin", "value": "*" }
       ]
+    },
+    {
+      "source": "/og/og-share.jpg",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=604800, immutable" },
+        { "key": "Access-Control-Allow-Origin", "value": "*" }
+      ]
+    },
+    {
+      "source": "/og/og-share.png",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=604800, immutable" },
+        { "key": "Access-Control-Allow-Origin", "value": "*" }
+      ]
     }
   ]
 }
