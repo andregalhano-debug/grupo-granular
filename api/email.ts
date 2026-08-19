@@ -596,6 +596,34 @@ async function persistDemoBooking(payload: Record<string, string>) {
   }
 }
 
+async function notifyTelegramLead(payload: Record<string, string>) {
+  const token = process.env.TELEGRAM_LEADS_BOT_TOKEN || ''
+  const chatId = process.env.TELEGRAM_LEADS_CHAT_ID || ''
+  if (!token || !chatId) return
+
+  const bookedTime = payload.horario && payload.horario !== '-' ? payload.horario : null
+  const linhas = [
+    `🆕 Novo lead — ${payload.empresa}`,
+    `👤 ${payload.nome}`,
+    payload.whatsapp ? `📱 ${payload.whatsapp}` : null,
+    payload.email ? `✉️ ${payload.email}` : null,
+    `🏷️ ${payload.segmento || '—'}`,
+    payload.faturamento ? `💰 ${payload.faturamento}` : null,
+    payload.data ? `📅 ${payload.data}${bookedTime ? ` às ${payload.horario}` : ''}` : null,
+    `↳ origem: ${payload.origem || 'agendar-demo'}`,
+  ].filter(Boolean)
+
+  const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ chat_id: chatId, text: linhas.join('\n') }),
+  })
+  if (!res.ok) {
+    const body = await res.text().catch(() => '')
+    console.error('[email] notify telegram falhou:', res.status, body)
+  }
+}
+
 function confirmacaoAssessmentHtml(p: {
   nome: string
   perfil: string
@@ -961,7 +989,13 @@ export default async function handler(req: any, res: any) {
       try {
         await persistDemoBooking(payload)
       } catch (err) {
-        console.error('[email] Persistência demo_bookings falhou:', err)
+        console.error('[email] Persistência ml_leads falhou:', err)
+      }
+
+      try {
+        await notifyTelegramLead(payload)
+      } catch (err) {
+        console.error('[email] Notificação Telegram falhou:', err)
       }
 
     } else {
