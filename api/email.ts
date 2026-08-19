@@ -543,6 +543,14 @@ function confirmacaoAgendamentoDemoHtml(
         </tr>`)
 }
 
+function slugify(s: string) {
+  return s
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+}
+
 async function persistDemoBooking(payload: Record<string, string>) {
   const url = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || ''
   const key = process.env.SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY || ''
@@ -550,8 +558,15 @@ async function persistDemoBooking(payload: Record<string, string>) {
 
   const bookedDate = /^\d{4}-\d{2}-\d{2}$/.test(payload.dateIso || '') ? payload.dateIso : null
   const bookedTime = payload.horario && payload.horario !== '-' ? payload.horario : null
+  const dataAgendada = bookedDate && bookedTime ? `${bookedDate}T${bookedTime}:00-03:00` : null
+  const agendamentoTexto = payload.data
+    ? (bookedTime ? `${payload.data} às ${payload.horario}` : payload.data)
+    : null
 
-  const res = await fetch(`${url.replace(/\/$/, '')}/rest/v1/demo_bookings`, {
+  const segmentoBase = payload.segmento.split(' (')[0]
+  const tags = ['site', 'agendar-demo', slugify(segmentoBase), payload.origem].filter(Boolean)
+
+  const res = await fetch(`${url.replace(/\/$/, '')}/rest/v1/ml_leads`, {
     method: 'POST',
     headers: {
       apikey: key,
@@ -562,21 +577,22 @@ async function persistDemoBooking(payload: Record<string, string>) {
     body: JSON.stringify({
       nome: payload.nome,
       email: payload.email,
-      whatsapp: payload.whatsapp.replace(/\D/g, ''),
-      empresa: payload.empresa,
-      segmento: payload.segmento,
-      faturamento: payload.faturamento || null,
-      booked_date: bookedDate,
-      booked_time: bookedTime,
-      date_label: payload.data || null,
-      time_label: payload.horario || null,
-      origem: payload.origem || 'agendar-demo',
-      status: 'pendente',
+      telefone_whatsapp: payload.whatsapp.replace(/\D/g, ''),
+      restaurante: payload.empresa,
+      tipo_operacao: payload.segmento,
+      faturamento_mensal_ifood: payload.faturamento || null,
+      agendamento_texto: agendamentoTexto,
+      data_agendada: dataAgendada,
+      origem: 'site',
+      status: bookedDate && bookedTime ? 'agendado' : 'novo',
+      tags,
+      notes: `CTA: ${payload.origem || '-'} · Segmento: ${payload.segmento} · Faturamento: ${payload.faturamento || '-'}`,
+      consentimento_em: new Date().toISOString(),
     }),
   })
   if (!res.ok) {
     const body = await res.text().catch(() => '')
-    console.error('[email] persist demo_bookings falhou:', res.status, body)
+    console.error('[email] persist ml_leads falhou:', res.status, body)
   }
 }
 
