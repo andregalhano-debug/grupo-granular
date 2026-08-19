@@ -685,7 +685,7 @@ export const en = {
     pessoas: 'People module',
   },
   heroMetrics: [
-    { v: '+80', l: 'IDs in production' },
+    { v: '5', l: 'categories' },
     { v: '14+', l: 'integrated modules' },
     { v: '~140', l: 'AI tools' },
     { v: '24/7', l: 'monitors watching' },
