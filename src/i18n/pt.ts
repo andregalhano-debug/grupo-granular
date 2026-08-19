@@ -685,7 +685,7 @@ export const pt = {
     pessoas: 'Módulo Pessoas',
   },
   heroMetrics: [
-    { v: '+80', l: 'IDs em produção' },
+    { v: '5', l: 'categorias' },
     { v: '14+', l: 'módulos integrados' },
     { v: '~140', l: 'ferramentas de IA' },
     { v: '24/7', l: 'monitores vigiando' },
