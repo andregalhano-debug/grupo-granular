@@ -551,20 +551,27 @@ function slugify(s: string) {
     .replace(/^-+|-+$/g, '')
 }
 
+function sentinelToNull(value: string | undefined): string | null {
+  if (!value) return null
+  const trimmed = value.trim()
+  return trimmed === '-' || trimmed === '—' ? null : trimmed
+}
+
 async function persistDemoBooking(payload: Record<string, string>) {
   const url = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || ''
   const key = process.env.SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY || ''
   if (!url.includes('supabase.co') || !key || key === 'placeholder') return
 
   const bookedDate = /^\d{4}-\d{2}-\d{2}$/.test(payload.dateIso || '') ? payload.dateIso : null
-  const bookedTime = payload.horario && payload.horario !== '-' ? payload.horario : null
+  const bookedTime = sentinelToNull(payload.horario)
   const dataAgendada = bookedDate && bookedTime ? `${bookedDate}T${bookedTime}:00-03:00` : null
-  const agendamentoTexto = payload.data
-    ? (bookedTime ? `${payload.data} às ${payload.horario}` : payload.data)
-    : null
+  const dataLabel = sentinelToNull(payload.data)
+  const agendamentoTexto = dataLabel ? (bookedTime ? `${dataLabel} às ${bookedTime}` : dataLabel) : null
+  const faturamento = sentinelToNull(payload.faturamento)
+  const origemCta = payload.origem || 'agendar-demo'
 
   const segmentoBase = payload.segmento.split(' (')[0]
-  const tags = ['site', 'agendar-demo', slugify(segmentoBase), payload.origem].filter(Boolean)
+  const tags = ['site', origemCta, slugify(segmentoBase)].filter(Boolean)
 
   const res = await fetch(`${url.replace(/\/$/, '')}/rest/v1/ml_leads`, {
     method: 'POST',
@@ -580,13 +587,14 @@ async function persistDemoBooking(payload: Record<string, string>) {
       telefone_whatsapp: payload.whatsapp.replace(/\D/g, ''),
       restaurante: payload.empresa,
       tipo_operacao: payload.segmento,
-      faturamento_mensal_ifood: payload.faturamento || null,
+      faturamento_mensal_ifood: faturamento,
       agendamento_texto: agendamentoTexto,
       data_agendada: dataAgendada,
       origem: 'site',
+      origem_cta: origemCta,
       status: bookedDate && bookedTime ? 'agendado' : 'novo',
       tags,
-      notes: `CTA: ${payload.origem || '-'} · Segmento: ${payload.segmento} · Faturamento: ${payload.faturamento || '-'}`,
+      notes: `Frente: ${origemCta}`,
       consentimento_em: new Date().toISOString(),
     }),
   })
